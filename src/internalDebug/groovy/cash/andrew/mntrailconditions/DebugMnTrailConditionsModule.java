@@ -1,5 +1,6 @@
 package cash.andrew.mntrailconditions;
 
+import butterknife.ButterKnife;
 import cash.andrew.mntrailconditions.data.DebugDataModule;
 import cash.andrew.mntrailconditions.ui.DebugUiModule;
 import com.facebook.stetho.Stetho;
@@ -28,6 +29,8 @@ public final class DebugMnTrailConditionsModule {
 
   @Provides @Singleton MnTrailConditionsInitializer provideMnTrailConditionsInitializer() {
     return context -> {
+      ButterKnife.setDebug(true);
+
       Stetho.initializeWithDefaults(context);
 
       Timber.plant(new Timber.DebugTree());

@@ -3,7 +3,7 @@ buildscript {
     jcenter()
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.1.2'
+    classpath 'com.android.tools.build:gradle:2.1.3'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     classpath 'me.tatarka:gradle-retrolambda:3.2.3'
     classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
@@ -77,6 +77,8 @@ android {
     minSdkVersion 21
     targetSdkVersion 24
 
+    multiDexEnabled = true
+
     versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
     versionName "${versionMajor}.${versionMinor}.${versionPatch}"
 
@@ -132,6 +134,12 @@ ext {
 }
 
 dependencies {
+  compile "org.codehaus.groovy:groovy:2.4.7:grooid"
+
+  compile 'com.android.support:multidex:1.0.1'
+
+  compile "com.arasthel:swissknife:1.4.0"
+
   compile "com.android.support:support-v4:$supportVersion"
   compile "com.android.support:support-annotations:$supportVersion"
   compile "com.android.support:appcompat-v7:$supportVersion"

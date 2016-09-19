@@ -8,6 +8,7 @@ import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer;
 import com.squareup.leakcanary.LeakCanary;
 import dagger.ObjectGraph;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import timber.log.Timber;
 

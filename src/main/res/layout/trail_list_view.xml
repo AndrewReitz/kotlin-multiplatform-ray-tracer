@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cash.andrew.mntrailconditions.ui.trails.TrailListView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/trail_list_toolbar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="?attr/colorPrimary"
+      android:elevation="4dp"
+      android:minHeight="?attr/actionBarSize"
+      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+      tools:ignore="UnusedAttribute"
+      >
+  </android.support.v7.widget.Toolbar>
+
+  <cash.andrew.mntrailconditions.ui.misc.BetterViewAnimator
+      android:id="@+id/trail_list_animator"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:inAnimation="@android:anim/fade_in"
+      android:outAnimation="@android:anim/fade_out"
+      >
+
+    <ProgressBar
+        android:id="@+id/trail_list_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        />
+
+    <FrameLayout
+        android:id="@+id/trail_list_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/error_loading_trails"
+          />
+    </FrameLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/trail_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+  </cash.andrew.mntrailconditions.ui.misc.BetterViewAnimator>
+
+</cash.andrew.mntrailconditions.ui.trails.TrailListView>

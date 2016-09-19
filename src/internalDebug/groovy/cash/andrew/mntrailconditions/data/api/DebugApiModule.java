@@ -32,7 +32,7 @@ public final class DebugApiModule {
 
   @Provides @Singleton HttpLoggingInterceptor provideLoggingInterceptor() {
     HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Timber.tag("OkHttp").v(message));
-    loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+    loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
     return loggingInterceptor;
   }
 
@@ -40,7 +40,7 @@ public final class DebugApiModule {
       HttpLoggingInterceptor loggingInterceptor) {
     return ApiModule.createApiClient(client)
         .addInterceptor(loggingInterceptor)
-        .addInterceptor(new StethoInterceptor())
+        .addNetworkInterceptor(new StethoInterceptor())
         .build();
   }
 

@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 import dagger.Module;
 import dagger.Provides;
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Singleton;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -56,6 +57,9 @@ public final class DataModule {
     Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
 
     return new OkHttpClient.Builder()
+        .connectTimeout(0, TimeUnit.SECONDS)
+        .readTimeout(0, TimeUnit.SECONDS)
+        .writeTimeout(0, TimeUnit.SECONDS)
         .cache(cache);
   }
 }

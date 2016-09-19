@@ -16,8 +16,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
     library = true
 )
 public final class ApiModule {
-  /** TODO Change me! */
-  public static final HttpUrl PRODUCTION_API_URL = HttpUrl.parse("https://example.com/");
+  public static final HttpUrl PRODUCTION_API_URL = HttpUrl.parse("https://trailinfo-andrewreitz.rhcloud.com/");
 
   @Provides @Singleton HttpUrl provideBaseUrl() {
     return PRODUCTION_API_URL;
@@ -35,6 +34,10 @@ public final class ApiModule {
         .addConverterFactory(MoshiConverterFactory.create(moshi)) //
         .addCallAdapterFactory(RxJavaCallAdapterFactory.create()) //
         .build();
+  }
+
+  @Provides @Singleton TrailConditionsService provideTrailConditionsService(Retrofit retrofit) {
+    return retrofit.create(TrailConditionsService.class);
   }
 
   static OkHttpClient.Builder createApiClient(OkHttpClient client) {

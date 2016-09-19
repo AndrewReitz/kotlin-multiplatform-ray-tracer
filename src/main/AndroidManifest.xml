@@ -10,13 +10,14 @@
       android:allowBackup="true"
       android:icon="@mipmap/app_icon"
       android:label="@string/application_name"
-      android:theme="@style/Theme.MnTrailConditions"
+      android:theme="@style/Theme.MnTrailConditions.App"
       android:name="cash.andrew.mntrailconditions.MnTrailConditionsApp"
       >
     <activity
         android:name="cash.andrew.mntrailconditions.ui.MainActivity"
         android:label="@string/launcher_name"
         android:launchMode="singleTask"
+        android:theme="@style/Theme.MnTrailConditions"
         >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

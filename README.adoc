@@ -1,1 +1,1 @@
-# Super Glue Template Project
+= MORC Trail Conditions Android Application

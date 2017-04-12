@@ -2,6 +2,8 @@ package cash.andrew.mntrailconditions.data;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import cash.andrew.mntrailconditions.data.moshi.adapters.LocalDateTimeJsonAdapter;
+import cash.andrew.mntrailconditions.data.okhttp.ApiVersionHeaderInterceptor;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import cash.andrew.mntrailconditions.data.api.ApiModule;
@@ -37,6 +39,7 @@ public final class DataModule {
 
   @Provides @Singleton Moshi provideMoshi() {
     return new Moshi.Builder()
+        .add(new LocalDateTimeJsonAdapter())
         .build();
   }
 
@@ -57,9 +60,7 @@ public final class DataModule {
     Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
 
     return new OkHttpClient.Builder()
-        .connectTimeout(0, TimeUnit.SECONDS)
-        .readTimeout(0, TimeUnit.SECONDS)
-        .writeTimeout(0, TimeUnit.SECONDS)
-        .cache(cache);
+        .cache(cache)
+        .addInterceptor(new ApiVersionHeaderInterceptor());
   }
 }

@@ -2,6 +2,7 @@ package cash.andrew.mntrailconditions;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.jakewharton.threetenabp.AndroidThreeTen;
 import cash.andrew.mntrailconditions.data.Injector;
 import cash.andrew.mntrailconditions.data.LumberYard;
@@ -20,8 +21,11 @@ public final class MnTrailConditionsApp extends Application {
 
   @Override public void onCreate() {
     super.onCreate();
-    AndroidThreeTen.init(this);
+    if (LeakCanary.isInAnalyzerProcess(this) || ProcessPhoenix.isPhoenixProcess(this)) {
+      return;
+    }
     LeakCanary.install(this);
+    AndroidThreeTen.init(this);
 
     objectGraph = ObjectGraph.create(Modules.list(this));
     objectGraph.inject(this);

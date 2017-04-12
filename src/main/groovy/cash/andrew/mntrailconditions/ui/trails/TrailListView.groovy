@@ -45,7 +45,7 @@ class TrailListView extends LinearLayout {
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow()
 
-    Observable<Result<List<TrailRegion>>> result = trailConditionsService.getTrailRegions()
+    Observable<Result<List<TrailRegion>>> result = trailConditionsService.trailRegions
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .share()

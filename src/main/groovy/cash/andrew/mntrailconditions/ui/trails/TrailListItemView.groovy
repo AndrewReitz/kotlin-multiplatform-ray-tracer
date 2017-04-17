@@ -1,6 +1,7 @@
 package cash.andrew.mntrailconditions.ui.trails
 
 import android.content.Context
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.widget.ImageView
@@ -30,6 +31,7 @@ class TrailListItemView extends CardView {
       conditionsText.text = status
       detailsText.text = description
       lastUpdatedText.text = lastUpdated.toString()
+      conditionsImage.setImageDrawable(ResourcesCompat.getDrawable(resources, resourceId, null))
     }
   }
 

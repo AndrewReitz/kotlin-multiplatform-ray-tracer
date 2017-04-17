@@ -5,4 +5,5 @@
   </string>
   <string name="error_loading_trails">There was an error loading trails.\nTry again later</string>
   <string name="oops">Oops…</string>
+  <string name="last_updated">Last Updated:</string>
 </resources>

@@ -15,13 +15,15 @@
 
     <TextView
         android:id="@+id/trail_list_item_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="0dp"
         android:layout_marginTop="16dp"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/trail_list_item_conditions_image"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Murphy Hanrehan"
         />
@@ -31,21 +33,25 @@
         android:layout_height="100dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
+        android:src="@drawable/closed"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@color/accent"
         />
     <TextView
         android:id="@+id/trail_list_item_condition_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:layout_marginLeft="0dp"
+        android:layout_marginRight="0dp"
         android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@+id/trail_list_item_conditions_image"
+        app:layout_constraintRight_toRightOf="@+id/trail_list_item_conditions_image"
         app:layout_constraintTop_toBottomOf="@+id/trail_list_item_conditions_image"
         tools:text="Wet Do Not Ride"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="16dp"
         />
     <TextView
         android:id="@+id/trail_list_last_updated_text"
@@ -53,11 +59,11 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
+        android:text="@string/last_updated"
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/trail_list_item_title"
-        tools:text="Last Updated:"
         />
     <TextView
         android:id="@+id/trail_list_item_details"

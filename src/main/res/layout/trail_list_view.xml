@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <cash.andrew.mntrailconditions.ui.trails.TrailListView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,6 +18,14 @@
       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
       tools:ignore="UnusedAttribute"
       >
+
+    <TextView
+        android:text="@string/application_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+        />
+
   </android.support.v7.widget.Toolbar>
 
   <cash.andrew.mntrailconditions.ui.misc.BetterViewAnimator
@@ -35,20 +44,49 @@
         android:indeterminate="true"
         />
 
-    <FrameLayout
+    <!-- TODO: Center and make it better! -->
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/trail_list_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="@string/error_loading_trails"
+          android:text="@string/oops"
+          android:textSize="24sp"
+          android:textStyle="bold"
+          app:layout_constraintTop_toTopOf="parent"
+          android:layout_marginTop="0dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          android:layout_marginBottom="0dp"
+          android:layout_marginLeft="0dp"
+          app:layout_constraintLeft_toLeftOf="parent"
+          android:layout_marginRight="0dp"
+          app:layout_constraintRight_toRightOf="parent"
+          android:id="@+id/trail_list_error_title"
+          app:layout_constraintHorizontal_bias="0.501"
+          app:layout_constraintVertical_bias="0.408"
           />
-    </FrameLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/trail_content"
+      <TextView
+          android:id="@+id/error_list_error_message"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="0dp"
+          android:layout_marginRight="0dp"
+          android:layout_marginTop="8dp"
+          android:text="@string/error_loading_trails"
+          android:textSize="18sp"
+          app:layout_constraintLeft_toLeftOf="@+id/trail_list_error_title"
+          app:layout_constraintRight_toRightOf="@+id/trail_list_error_title"
+          app:layout_constraintTop_toBottomOf="@+id/trail_list_error_title"
+          />
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/trail_lis_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

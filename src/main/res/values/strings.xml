@@ -4,4 +4,5 @@
     There are no applications available to handle this action.
   </string>
   <string name="error_loading_trails">There was an error loading trails.\nTry again later</string>
+  <string name="oops">Oops…</string>
 </resources>

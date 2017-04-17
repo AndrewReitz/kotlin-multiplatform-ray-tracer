@@ -45,6 +45,8 @@
 }
 
 
+-keep class com.jakewharton.processphoenix.ProcessPhoenix
+
 -dontwarn com.squareup.okhttp.**
 
 

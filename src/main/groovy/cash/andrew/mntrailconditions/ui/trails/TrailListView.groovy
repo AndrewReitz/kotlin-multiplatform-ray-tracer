@@ -9,11 +9,13 @@ import cash.andrew.mntrailconditions.data.Funcs
 import cash.andrew.mntrailconditions.data.Injector
 import cash.andrew.mntrailconditions.data.api.Results
 import cash.andrew.mntrailconditions.data.api.TrailConditionsService
+import cash.andrew.mntrailconditions.data.model.TrailInfo
 import cash.andrew.mntrailconditions.data.model.TrailRegion
 import cash.andrew.mntrailconditions.ui.misc.BetterViewAnimator
 import com.arasthel.swissknife.SwissKnife
 import com.arasthel.swissknife.annotations.InjectView
 import groovy.transform.CompileStatic
+import rx.functions.Func1
 
 import javax.inject.Inject
 import retrofit2.adapter.rxjava.Result
@@ -52,9 +54,13 @@ class TrailListView extends LinearLayout {
 
     result.filter(Results.isSuccessful())
           .map(Results.resultToBodyData())
-          .subscribe { List<TrailRegion> trailRegions ->
-            Timber.d("$trailRegions")
-            animator.displayedChildId = R.id.trail_content
+          .flatMap {List<TrailRegion> trailRegions -> Observable.from(trailRegions) }
+          .map { TrailRegion trailRegion -> trailRegion.trails }
+          .flatMap { List<TrailInfo> trailInfoList -> Observable.from(trailInfoList) }
+          .filter { TrailInfo ti -> ti.name != 'Afton Alps' }
+          .toList()
+          .subscribe { List<TrailInfo> trailInfo ->
+            animator.displayedChildId = R.id.trail_lis_content
           }
 
     result.filter(Funcs.not(Results.isSuccessful()))

@@ -1,6 +1,8 @@
 package cash.andrew.mntrailconditions.ui.trails
 
 import android.content.Context
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.widget.LinearLayout
@@ -15,22 +17,22 @@ import cash.andrew.mntrailconditions.ui.misc.BetterViewAnimator
 import com.arasthel.swissknife.SwissKnife
 import com.arasthel.swissknife.annotations.InjectView
 import groovy.transform.CompileStatic
-import rx.functions.Func1
 
 import javax.inject.Inject
 import retrofit2.adapter.rxjava.Result
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import timber.log.Timber
 
 @CompileStatic
 class TrailListView extends LinearLayout {
 
   @InjectView(R.id.trail_list_toolbar) Toolbar toolbarView
   @InjectView(R.id.trail_list_animator) BetterViewAnimator animator
+  @InjectView(R.id.trail_list_content) RecyclerView recyclerView
 
   @Inject TrailConditionsService trailConditionsService
+  @Inject TrailListAdapter trailListAdapter
 
   TrailListView(Context context, AttributeSet attrs) {
     super(context, attrs)
@@ -42,6 +44,9 @@ class TrailListView extends LinearLayout {
   @Override protected void onFinishInflate() {
     super.onFinishInflate()
     SwissKnife.inject(this)
+
+    recyclerView.layoutManager = new LinearLayoutManager(context)
+    recyclerView.adapter = trailListAdapter
   }
 
   @Override protected void onAttachedToWindow() {
@@ -57,10 +62,11 @@ class TrailListView extends LinearLayout {
           .flatMap {List<TrailRegion> trailRegions -> Observable.from(trailRegions) }
           .map { TrailRegion trailRegion -> trailRegion.trails }
           .flatMap { List<TrailInfo> trailInfoList -> Observable.from(trailInfoList) }
-          .filter { TrailInfo ti -> ti.name != 'Afton Alps' }
+          .filter { TrailInfo ti -> ti.name != 'Afton Alps' } // remove afton as it's always closed
           .toList()
           .subscribe { List<TrailInfo> trailInfo ->
-            animator.displayedChildId = R.id.trail_lis_content
+            trailListAdapter.trails = trailInfo
+            animator.displayedChildId = R.id.trail_list_content
           }
 
     result.filter(Funcs.not(Results.isSuccessful()))

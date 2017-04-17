@@ -44,7 +44,6 @@
         android:indeterminate="true"
         />
 
-    <!-- TODO: Center and make it better! -->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/trail_list_error"
         android:layout_width="match_parent"
@@ -86,7 +85,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/trail_lis_content"
+        android:id="@+id/trail_list_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

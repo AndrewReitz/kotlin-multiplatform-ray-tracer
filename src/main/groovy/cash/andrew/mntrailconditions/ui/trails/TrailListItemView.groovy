@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.TextView
 import cash.andrew.mntrailconditions.R
-import cash.andrew.mntrailconditions.data.model.TrailInfo
 import com.arasthel.swissknife.SwissKnife
 import com.arasthel.swissknife.annotations.InjectView
 import groovy.transform.CompileStatic
@@ -19,18 +18,18 @@ class TrailListItemView extends CardView {
   @InjectView(R.id.trail_list_item_conditions_image) ImageView conditionsImage
   @InjectView(R.id.trail_list_item_condition_text) TextView conditionsText
   @InjectView(R.id.trail_list_item_details) TextView detailsText
-  @InjectView(R.id.trail_list_last_updated_text) TextView lastUpdatedText
+  @InjectView(R.id.trail_list_last_updated_time) TextView lastUpdatedText
 
   TrailListItemView(Context context, AttributeSet attrs) {
     super(context, attrs)
   }
 
-  void bind(TrailInfo trailInfo) {
-    trailInfo.with {
+  void bind(TrailViewModel trail) {
+    trail.with {
       title.text = name
       conditionsText.text = status
       detailsText.text = description
-      lastUpdatedText.text = lastUpdated.toString()
+      lastUpdatedText.text = lastUpdatedFormated
       conditionsImage.setImageDrawable(ResourcesCompat.getDrawable(resources, resourceId, null))
     }
   }

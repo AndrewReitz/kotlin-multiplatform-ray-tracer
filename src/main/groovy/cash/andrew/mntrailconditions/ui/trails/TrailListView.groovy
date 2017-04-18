@@ -17,6 +17,7 @@ import cash.andrew.mntrailconditions.ui.misc.BetterViewAnimator
 import com.arasthel.swissknife.SwissKnife
 import com.arasthel.swissknife.annotations.InjectView
 import groovy.transform.CompileStatic
+import org.threeten.bp.LocalDateTime
 
 import javax.inject.Inject
 import retrofit2.adapter.rxjava.Result
@@ -26,6 +27,8 @@ import rx.schedulers.Schedulers
 
 @CompileStatic
 class TrailListView extends LinearLayout {
+
+  private static final LocalDateTime THREE_MONTHS_BEFORE_TODAY = LocalDateTime.now().minusMonths(3)
 
   @InjectView(R.id.trail_list_toolbar) Toolbar toolbarView
   @InjectView(R.id.trail_list_animator) BetterViewAnimator animator
@@ -62,7 +65,7 @@ class TrailListView extends LinearLayout {
           .flatMap {List<TrailRegion> trailRegions -> Observable.from(trailRegions) }
           .map { TrailRegion trailRegion -> trailRegion.trails }
           .flatMap { List<TrailInfo> trailInfoList -> Observable.from(trailInfoList) }
-          .filter { TrailInfo ti -> ti.name != 'Afton Alps' } // remove afton as it's always closed
+          .filter { TrailInfo ti -> ti.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
           .toList()
           .subscribe { List<TrailInfo> trailInfo ->
             trailListAdapter.trails = trailInfo

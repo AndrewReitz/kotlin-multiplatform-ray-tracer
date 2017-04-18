@@ -13,26 +13,26 @@ import javax.inject.Singleton
 
 @Singleton
 @CompileStatic
-class TrailListAdapter extends BindableRecyclerAdapter<TrailInfo> {
+class TrailListAdapter extends BindableRecyclerAdapter<TrailViewModel> {
 
-  private List<TrailInfo> trails = []
+  private List<TrailViewModel> trails = []
 
   @Inject TrailListAdapter() { }
 
   void setTrails(List<TrailInfo> trails) {
-    this.trails = trails
+    this.trails = trails.collect { new TrailViewModel(it) }
   }
 
   @Override View newView(LayoutInflater layoutInflater, int position, ViewGroup viewGroup) {
     return layoutInflater.inflate(R.layout.trail_list_item_view, viewGroup, false)
   }
 
-  @Override TrailInfo getItem(int position) {
+  @Override TrailViewModel getItem(int position) {
     return trails[position]
   }
 
-  @Override void bindView(TrailInfo trailInfo, View view, int position) {
-    (view as TrailListItemView).bind(trailInfo)
+  @Override void bindView(TrailViewModel trail, View view, int position) {
+    (view as TrailListItemView).bind(trail)
   }
 
   @Override int getItemCount() {

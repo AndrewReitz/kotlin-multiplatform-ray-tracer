@@ -1,3 +1,13 @@
-ext.keystorePassword = project.hasProperty('keystorePassword') ? project.getProperty('keystorePassword') : System.getenv('KEYSTORE_PASSWORD') ?: ''
-ext.aliasKeyPassword = project.hasProperty('aliasKeyPassword') ? project.getProperty('aliasKeyPassword') : System.getenv('ALIAS_KEY_PASSWORD') ?: ''
-ext.storeKeyAlias = project.hasProperty('storeKeyAlias') ? project.getProperty('storeKeyAlias') : System.getenv('STORE_KEY_ALIAS') ?: ''
+ext.keystorePassword = project.hasProperty('cash.andrew.mntrail.keystorePassword') ?
+    project.getProperty('cash.andrew.mntrail.keystorePassword') : System.getenv('MN_TRAIL_INFO_KEYSTORE_PASSWORD') ?: ''
+
+
+ext.aliasKeyPassword = project.hasProperty('cash.andrew.mntrail.aliasKeyPassword') ?
+    project.getProperty('cash.andrew.mntrail.aliasKeyPassword') : System.getenv('MN_TRAIL_INFO_ALIAS_KEY_PASSWORD') ?: ''
+
+
+ext.storeKeyAlias = project.hasProperty('cash.andrew.mntrail.storeKeyAlias') ?
+    project.getProperty('cash.andrew.mntrail.storeKeyAlias') : System.getenv('MN_TRAIL_INFO_STORE_KEY_ALIAS') ?: ''
+
+ext.keystoreLocation = project.hasProperty('cash.andrew.mntrail.keystoreLocation') ?
+    project.getProperty('cash.andrew.mntrail.keystoreLocation') : System.getenv('MN_TRAIL_INFO_KEYSTORE_LOCATION') ?: ''

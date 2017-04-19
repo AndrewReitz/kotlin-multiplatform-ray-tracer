@@ -71,9 +71,8 @@ android {
       keyAlias 'android'
       keyPassword 'android'
     }
-    // todo replace with path to release key
     release {
-      storeFile file("$rootDir/debug.keystore")
+      storeFile file("$keystoreLocation")
       storePassword keystorePassword
       keyAlias storeKeyAlias
       keyPassword aliasKeyPassword
@@ -101,8 +100,7 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
     }
     release {
-      // todo change to release when release key is added
-      signingConfig signingConfigs.debug
+      signingConfig signingConfigs.release
       minifyEnabled true
       shrinkResources true
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
@@ -138,7 +136,6 @@ android {
   }
 }
 
-// TODO remove eventually: http://b.android.com/162285
 configurations {
   internalDebugCompile
 }

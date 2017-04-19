@@ -84,8 +84,8 @@ android {
     targetSdkVersion 25
     multiDexEnabled true
 
-    versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
-    versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+    versionCode 1
+    versionName '🍎'
 
     buildConfigField 'String', 'GIT_SHA', "\"$gitSha\""
     buildConfigField 'long', 'GIT_TIMESTAMP', "$gitTimestamp"

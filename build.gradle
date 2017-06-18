@@ -1,15 +1,16 @@
 buildscript {
   repositories {
     jcenter()
+    maven { url 'https://maven.google.com' }
     maven { url 'https://maven.fabric.io/public' }
     maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.1'
+    classpath 'com.android.tools.build:gradle:2.3.2'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
     classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.14.0'
-    classpath "org.codehaus.groovy:groovy-android-gradle-plugin:1.2.0-SNAPSHOT"
+    classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
+    classpath "org.codehaus.groovy:groovy-android-gradle-plugin:1.2.0"
     classpath 'net.kaleidos.gradle.plugins:emerger:0.0.2'
     classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4'
 
@@ -27,7 +28,6 @@ def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 
 apply plugin: 'com.android.application'
 apply plugin: 'groovyx.android'
-apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
@@ -61,8 +61,8 @@ repositories {
  }
 
 android {
-  compileSdkVersion 25
-  buildToolsVersion '25.0.2'
+  compileSdkVersion 26
+  buildToolsVersion '25.0.3'
 
   signingConfigs {
     debug {
@@ -81,11 +81,11 @@ android {
 
   defaultConfig {
     minSdkVersion 21
-    targetSdkVersion 25
+    targetSdkVersion 26
     multiDexEnabled true
 
     versionCode 1
-    versionName '🍎'
+    versionName '🍌'
 
     buildConfigField 'String', 'GIT_SHA', "\"$gitSha\""
     buildConfigField 'long', 'GIT_TIMESTAMP', "$gitTimestamp"
@@ -160,7 +160,7 @@ dependencies {
   compile "com.android.support:cardview-v7:$supportVersion"
 
   compile 'com.squareup.dagger:dagger:1.2.5'
-  apt 'com.squareup.dagger:dagger-compiler:1.2.5'
+  annotationProcessor 'com.squareup.dagger:dagger-compiler:1.2.5'
 
   compile 'com.squareup.okhttp3:okhttp:3.6.0'
   compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
@@ -172,7 +172,7 @@ dependencies {
   internalDebugCompile "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
 
   compile 'com.jakewharton:butterknife:8.5.1'
-  apt 'com.jakewharton:butterknife-compiler:8.5.1'
+  annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 
   compile 'com.jakewharton:process-phoenix:2.0.0'
   compile 'com.jakewharton.timber:timber:4.5.1'

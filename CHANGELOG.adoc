@@ -1,0 +1,11 @@
+= Change Log
+
+== 1.1
+
+- updated app colors
+- updated app icon
+- updated app name
+
+== 1.0
+
+- Initial Release

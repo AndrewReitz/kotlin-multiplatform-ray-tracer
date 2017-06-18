@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="accent">#4CAF50</color>
-  <color name="status_bar">#2e7d32</color>
+  <color name="accent">#4fc3f7</color>
+  <color name="status_bar">#29b6f6</color>
   <color name="content_background">#fffafafa</color>
   <color name="text_color_primary">#dd000000</color>
   <color name="text_color_secondary">#89000000</color>

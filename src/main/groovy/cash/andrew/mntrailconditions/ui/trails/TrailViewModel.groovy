@@ -50,7 +50,7 @@ class TrailViewModel {
     }
 
     // don't know what else to do so log it and return closed
-    Timber.d('Unknown status setting status to closed; %s', trailInfo)
+    Timber.w('Unknown status setting status to closed; %s', trailInfo)
     return R.drawable.closed
   }
 }

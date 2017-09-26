@@ -10,7 +10,7 @@ import static cash.andrew.mntrailconditions.util.Preconditions.checkNotNull
 
 class TrailViewModel {
 
-  private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('MM/dd/yyyy HH:mm a')
+  private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern('MM/dd/yyyy h:mm a')
 
   @Delegate private final TrailInfo trailInfo
 

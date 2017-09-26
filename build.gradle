@@ -12,7 +12,6 @@ buildscript {
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
     classpath "org.codehaus.groovy:groovy-android-gradle-plugin:1.2.0"
     classpath 'net.kaleidos.gradle.plugins:emerger:0.0.2'
-    classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.6.4'
 
     // fabric swears that this is okay...
     //noinspection GradleDynamicVersion
@@ -20,18 +19,11 @@ buildscript {
   }
 }
 
-// Manifest version information!
-def versionMajor = 1
-def versionMinor = 0
-def versionPatch = 0
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
-
 apply plugin: 'com.android.application'
 apply plugin: 'groovyx.android'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.getkeepsafe.dexcount'
 apply from: "$rootDir/gradle/signing.gradle"
 
 repositories {
@@ -85,7 +77,7 @@ android {
     multiDexEnabled true
 
     versionCode 1
-    versionName '🍌'
+    versionName '🌶'
 
     buildConfigField 'String', 'GIT_SHA', "\"$gitSha\""
     buildConfigField 'long', 'GIT_TIMESTAMP', "$gitTimestamp"
@@ -193,7 +185,9 @@ dependencies {
 
   compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
 
-  internalCompile "com.facebook.stetho:stetho:$stethoVersion"
+  compile 'io.github.kobakei:ratethisapp:1.2.0'
+
+    internalCompile "com.facebook.stetho:stetho:$stethoVersion"
   internalCompile "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
   internalCompile "com.facebook.stetho:stetho-timber:$stethoVersion@aar"
 

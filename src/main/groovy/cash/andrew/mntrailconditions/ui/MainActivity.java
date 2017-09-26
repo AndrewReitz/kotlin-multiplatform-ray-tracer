@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import com.kobakei.ratethisapp.RateThisApp;
+
+import javax.inject.Inject;
+
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cash.andrew.mntrailconditions.R;
 import cash.andrew.mntrailconditions.data.Injector;
 import dagger.ObjectGraph;
-import javax.inject.Inject;
 
 public final class MainActivity extends Activity {
   @BindView(R.id.main_content) ViewGroup content;
@@ -37,6 +41,9 @@ public final class MainActivity extends Activity {
     ButterKnife.bind(this, container);
 
     inflater.inflate(R.layout.trail_list_view, content);
+
+    RateThisApp.onCreate(this);
+    RateThisApp.showRateDialogIfNeeded(this);
   }
 
   @Override public Object getSystemService(@NonNull String name) {

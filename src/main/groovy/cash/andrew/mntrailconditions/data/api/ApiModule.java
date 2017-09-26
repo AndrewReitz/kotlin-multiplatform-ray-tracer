@@ -1,10 +1,12 @@
 package cash.andrew.mntrailconditions.data.api;
 
 import com.squareup.moshi.Moshi;
-import dagger.Module;
-import dagger.Provides;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -16,7 +18,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
     library = true
 )
 public final class ApiModule {
-  public static final HttpUrl PRODUCTION_API_URL = HttpUrl.parse("https://trailinfo-andrewreitz.rhcloud.com/");
+  public static final HttpUrl PRODUCTION_API_URL = HttpUrl.parse("https://mn-trail-info-service.herokuapp.com");
 
   @Provides @Singleton HttpUrl provideBaseUrl() {
     return PRODUCTION_API_URL;

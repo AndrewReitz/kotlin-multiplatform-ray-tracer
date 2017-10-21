@@ -29,8 +29,8 @@ import cash.andrew.mntrailconditions.R;
 /**
  * A layout that draws something in the insets passed to {@link #fitSystemWindows(Rect)}, i.e. the
  * area above UI chrome (status and navigation bars, overlay action bars).
- * <p>
- * Unlike the {@code ScrimInsetsFrameLayout} in the design support library, this variant does not
+ *
+ * <p>Unlike the {@code ScrimInsetsFrameLayout} in the design support library, this variant does not
  * consume the insets.
  */
 public final class NonConsumingScrimInsetsFrameLayout extends FrameLayout {
@@ -65,14 +65,16 @@ public final class NonConsumingScrimInsetsFrameLayout extends FrameLayout {
     setWillNotDraw(true);
   }
 
-  @Override protected boolean fitSystemWindows(@NonNull Rect insets) {
+  @Override
+  protected boolean fitSystemWindows(@NonNull Rect insets) {
     this.insets = new Rect(insets);
     setWillNotDraw(insetForeground == null);
     ViewCompat.postInvalidateOnAnimation(this);
     return false; // Do not consume insets.
   }
 
-  @Override public void draw(@NonNull Canvas canvas) {
+  @Override
+  public void draw(@NonNull Canvas canvas) {
     super.draw(canvas);
 
     int width = getWidth();
@@ -105,14 +107,16 @@ public final class NonConsumingScrimInsetsFrameLayout extends FrameLayout {
     }
   }
 
-  @Override protected void onAttachedToWindow() {
+  @Override
+  protected void onAttachedToWindow() {
     super.onAttachedToWindow();
     if (insetForeground != null) {
       insetForeground.setCallback(this);
     }
   }
 
-  @Override protected void onDetachedFromWindow() {
+  @Override
+  protected void onDetachedFromWindow() {
     super.onDetachedFromWindow();
     if (insetForeground != null) {
       insetForeground.setCallback(null);

@@ -1,9 +1,9 @@
 package cash.andrew.mntrailconditions.ui;
 
+import static butterknife.ButterKnife.findById;
+
 import android.app.Activity;
 import android.view.ViewGroup;
-
-import static butterknife.ButterKnife.findById;
 
 /** An indirection which allows controlling the root container used for each activity. */
 public interface ViewContainer {

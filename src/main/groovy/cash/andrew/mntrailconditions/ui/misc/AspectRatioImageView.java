@@ -1,13 +1,12 @@
 package cash.andrew.mntrailconditions.ui.misc;
 
+import static android.view.View.MeasureSpec.EXACTLY;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 import cash.andrew.mntrailconditions.R;
-
-import static android.view.View.MeasureSpec.EXACTLY;
 
 public final class AspectRatioImageView extends AppCompatImageView {
   private final int widthRatio;
@@ -22,7 +21,8 @@ public final class AspectRatioImageView extends AppCompatImageView {
     a.recycle();
   }
 
-  @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     int widthMode = MeasureSpec.getMode(widthMeasureSpec);
     int widthSize = MeasureSpec.getSize(widthMeasureSpec);
     int heightMode = MeasureSpec.getMode(heightMeasureSpec);

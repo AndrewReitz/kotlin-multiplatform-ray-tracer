@@ -7,7 +7,8 @@ import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
 class ProductionInitalizer implements MnTrailConditionsInitializer {
-  @Override public void init(Context context) {
+  @Override
+  public void init(Context context) {
     Fabric.with(context, new Crashlytics());
     Timber.plant(new CrashlyticsTree());
   }

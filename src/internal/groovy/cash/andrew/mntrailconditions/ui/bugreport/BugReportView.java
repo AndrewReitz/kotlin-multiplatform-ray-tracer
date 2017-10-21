@@ -13,10 +13,17 @@ import cash.andrew.mntrailconditions.ui.misc.EmptyTextWatcher;
 import cash.andrew.mntrailconditions.util.Strings;
 
 public final class BugReportView extends LinearLayout {
-  @BindView(R.id.title) EditText titleView;
-  @BindView(R.id.description) EditText descriptionView;
-  @BindView(R.id.screenshot) CheckBox screenshotView;
-  @BindView(R.id.logs) CheckBox logsView;
+  @BindView(R.id.title)
+  EditText titleView;
+
+  @BindView(R.id.description)
+  EditText descriptionView;
+
+  @BindView(R.id.screenshot)
+  CheckBox screenshotView;
+
+  @BindView(R.id.logs)
+  CheckBox logsView;
 
   public interface ReportDetailsListener {
     void onStateChanged(boolean valid);
@@ -28,22 +35,26 @@ public final class BugReportView extends LinearLayout {
     super(context, attrs);
   }
 
-  @Override protected void onFinishInflate() {
+  @Override
+  protected void onFinishInflate() {
     super.onFinishInflate();
     ButterKnife.bind(this);
 
-    titleView.setOnFocusChangeListener((v, hasFocus) -> {
-      if (!hasFocus) {
-        titleView.setError(Strings.isBlank(titleView.getText()) ? "Cannot be empty." : null);
-      }
-    });
-    titleView.addTextChangedListener(new EmptyTextWatcher() {
-      @Override public void afterTextChanged(Editable s) {
-        if (listener != null) {
-          listener.onStateChanged(!Strings.isBlank(s));
-        }
-      }
-    });
+    titleView.setOnFocusChangeListener(
+        (v, hasFocus) -> {
+          if (!hasFocus) {
+            titleView.setError(Strings.isBlank(titleView.getText()) ? "Cannot be empty." : null);
+          }
+        });
+    titleView.addTextChangedListener(
+        new EmptyTextWatcher() {
+          @Override
+          public void afterTextChanged(Editable s) {
+            if (listener != null) {
+              listener.onStateChanged(!Strings.isBlank(s));
+            }
+          }
+        });
 
     screenshotView.setChecked(true);
     logsView.setChecked(true);
@@ -54,8 +65,10 @@ public final class BugReportView extends LinearLayout {
   }
 
   public Report getReport() {
-    return new Report(String.valueOf(titleView.getText()),
-        String.valueOf(descriptionView.getText()), screenshotView.isChecked(),
+    return new Report(
+        String.valueOf(titleView.getText()),
+        String.valueOf(descriptionView.getText()),
+        screenshotView.isChecked(),
         logsView.isChecked());
   }
 
@@ -65,8 +78,8 @@ public final class BugReportView extends LinearLayout {
     public final boolean includeScreenshot;
     public final boolean includeLogs;
 
-    public Report(String title, String description, boolean includeScreenshot,
-        boolean includeLogs) {
+    public Report(
+        String title, String description, boolean includeScreenshot, boolean includeLogs) {
       this.title = title;
       this.description = description;
       this.includeScreenshot = includeScreenshot;

@@ -34,50 +34,66 @@ public final class LogsDialog extends AlertDialog {
 
     setTitle("Logs");
     setView(listView);
-    setButton(BUTTON_NEGATIVE, "Close", (dialog, which) -> {
-      // NO-OP.
-    });
-    setButton(BUTTON_POSITIVE, "Share", (dialog, which) -> {
-      share();
-    });
+    setButton(
+        BUTTON_NEGATIVE,
+        "Close",
+        (dialog, which) -> {
+          // NO-OP.
+        });
+    setButton(
+        BUTTON_POSITIVE,
+        "Share",
+        (dialog, which) -> {
+          share();
+        });
   }
 
-  @Override protected void onStart() {
+  @Override
+  protected void onStart() {
     super.onStart();
 
     adapter.setLogs(lumberYard.bufferedLogs());
 
     subscriptions = new CompositeSubscription();
-    subscriptions.add(lumberYard.logs() //
-        .observeOn(AndroidSchedulers.mainThread()) //
-        .subscribe(adapter));
+    subscriptions.add(
+        lumberYard
+            .logs() //
+            .observeOn(AndroidSchedulers.mainThread()) //
+            .subscribe(adapter));
   }
 
-  @Override protected void onStop() {
+  @Override
+  protected void onStop() {
     super.onStop();
     subscriptions.unsubscribe();
   }
 
   private void share() {
-    lumberYard.save() //
+    lumberYard
+        .save() //
         .subscribeOn(Schedulers.io()) //
         .observeOn(AndroidSchedulers.mainThread()) //
-        .subscribe(new Subscriber<File>() {
-          @Override public void onCompleted() {
-            // NO-OP.
-          }
+        .subscribe(
+            new Subscriber<File>() {
+              @Override
+              public void onCompleted() {
+                // NO-OP.
+              }
 
-          @Override public void onError(Throwable e) {
-            Toast.makeText(getContext(), "Couldn't save the logs for sharing.", Toast.LENGTH_SHORT)
-                .show();
-          }
+              @Override
+              public void onError(Throwable e) {
+                Toast.makeText(
+                        getContext(), "Couldn't save the logs for sharing.", Toast.LENGTH_SHORT)
+                    .show();
+              }
 
-          @Override public void onNext(File file) {
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setType("text/plain");
-            sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-            intentManager.maybeStartChooser(sendIntent);
-          }
-        });
+              @Override
+              public void onNext(File file) {
+                Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                sendIntent.setType("text/plain");
+                sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                intentManager.maybeStartChooser(sendIntent);
+              }
+            });
   }
 }

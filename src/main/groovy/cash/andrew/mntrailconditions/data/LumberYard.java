@@ -1,5 +1,7 @@
 package cash.andrew.mntrailconditions.data;
 
+import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
 import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -19,8 +21,6 @@ import rx.Subscriber;
 import rx.subjects.PublishSubject;
 import timber.log.Timber;
 
-import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
 @Singleton
 public final class LumberYard {
   private static final int BUFFER_SIZE = 200;
@@ -30,13 +30,15 @@ public final class LumberYard {
   private final Deque<Entry> entries = new ArrayDeque<>(BUFFER_SIZE + 1);
   private final PublishSubject<Entry> entrySubject = PublishSubject.create();
 
-  @Inject public LumberYard(Application app) {
+  @Inject
+  public LumberYard(Application app) {
     this.app = app;
   }
 
   public Timber.Tree tree() {
     return new Timber.DebugTree() {
-      @Override protected void log(int priority, String tag, String message, Throwable t) {
+      @Override
+      protected void log(int priority, String tag, String message, Throwable t) {
         addEntry(new Entry(priority, tag, message));
       }
     };
@@ -59,42 +61,44 @@ public final class LumberYard {
     return entrySubject;
   }
 
-  /**  Save the current logs to disk. */
+  /** Save the current logs to disk. */
   public Observable<File> save() {
-    return Observable.create(new Observable.OnSubscribe<File>() {
-      @Override public void call(Subscriber<? super File> subscriber) {
-        File folder = app.getExternalFilesDir(null);
-        if (folder == null) {
-          subscriber.onError(new IOException("External storage is not mounted."));
-          return;
-        }
+    return Observable.create(
+        new Observable.OnSubscribe<File>() {
+          @Override
+          public void call(Subscriber<? super File> subscriber) {
+            File folder = app.getExternalFilesDir(null);
+            if (folder == null) {
+              subscriber.onError(new IOException("External storage is not mounted."));
+              return;
+            }
 
-        String fileName = ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
-        File output = new File(folder, fileName);
+            String fileName = ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
+            File output = new File(folder, fileName);
 
-        BufferedSink sink = null;
-        try {
-          sink = Okio.buffer(Okio.sink(output));
-          List<Entry> entries = bufferedLogs();
-          for (Entry entry : entries) {
-            sink.writeUtf8(entry.prettyPrint()).writeByte('\n');
-          }
-
-          subscriber.onNext(output);
-          subscriber.onCompleted();
-        } catch (IOException e) {
-          subscriber.onError(e);
-        } finally {
-          if (sink != null) {
+            BufferedSink sink = null;
             try {
-              sink.close();
+              sink = Okio.buffer(Okio.sink(output));
+              List<Entry> entries = bufferedLogs();
+              for (Entry entry : entries) {
+                sink.writeUtf8(entry.prettyPrint()).writeByte('\n');
+              }
+
+              subscriber.onNext(output);
+              subscriber.onCompleted();
             } catch (IOException e) {
               subscriber.onError(e);
+            } finally {
+              if (sink != null) {
+                try {
+                  sink.close();
+                } catch (IOException e) {
+                  subscriber.onError(e);
+                }
+              }
             }
           }
-        }
-      }
-    });
+        });
   }
 
   /**
@@ -103,7 +107,8 @@ public final class LumberYard {
    */
   public void cleanUp() {
     new AsyncTask<Void, Void, Void>() {
-      @Override protected Void doInBackground(Void... folders) {
+      @Override
+      protected Void doInBackground(Void... folders) {
         File folder = app.getExternalFilesDir(null);
         if (folder != null) {
           for (File file : folder.listFiles()) {
@@ -130,7 +135,10 @@ public final class LumberYard {
     }
 
     public String prettyPrint() {
-      return String.format("%22s %s %s", tag, displayLevel(),
+      return String.format(
+          "%22s %s %s",
+          tag,
+          displayLevel(),
           // Indent newlines to match the original indentation.
           message.replaceAll("\\n", "\n                         "));
     }

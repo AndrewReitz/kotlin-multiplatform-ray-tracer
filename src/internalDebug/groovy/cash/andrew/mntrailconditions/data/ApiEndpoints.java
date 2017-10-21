@@ -17,7 +17,8 @@ public enum ApiEndpoints {
     this.url = url;
   }
 
-  @Override public String toString() {
+  @Override
+  public String toString() {
     return name;
   }
 

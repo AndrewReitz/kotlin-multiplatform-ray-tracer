@@ -1,5 +1,12 @@
 package cash.andrew.mntrailconditions.ui.debug;
 
+import static android.content.Context.POWER_SERVICE;
+import static android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP;
+import static android.os.PowerManager.FULL_WAKE_LOCK;
+import static android.os.PowerManager.ON_AFTER_RELEASE;
+import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -12,10 +19,6 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cash.andrew.mntrailconditions.R;
-import cash.andrew.mntrailconditions.util.IntentManager;
-import com.f2prateek.rx.preferences.Preference;
-import com.jakewharton.madge.MadgeFrameLayout;
-import com.jakewharton.scalpel.ScalpelFrameLayout;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.data.PixelGridEnabled;
 import cash.andrew.mntrailconditions.data.PixelRatioEnabled;
@@ -25,17 +28,14 @@ import cash.andrew.mntrailconditions.data.SeenDebugDrawer;
 import cash.andrew.mntrailconditions.ui.ViewContainer;
 import cash.andrew.mntrailconditions.ui.bugreport.BugReportLens;
 import cash.andrew.mntrailconditions.util.EmptyActivityLifecycleCallbacks;
+import cash.andrew.mntrailconditions.util.IntentManager;
+import com.f2prateek.rx.preferences.Preference;
+import com.jakewharton.madge.MadgeFrameLayout;
+import com.jakewharton.scalpel.ScalpelFrameLayout;
 import com.mattprecious.telescope.TelescopeLayout;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import rx.subscriptions.CompositeSubscription;
-
-import static android.content.Context.POWER_SERVICE;
-import static android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP;
-import static android.os.PowerManager.FULL_WAKE_LOCK;
-import static android.os.PowerManager.ON_AFTER_RELEASE;
-import static android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * An {@link ViewContainer} for debug builds which wraps a sliding drawer on the right that holds
@@ -52,14 +52,25 @@ public final class DebugViewContainer implements ViewContainer {
   private final Preference<Boolean> scalpelWireframeEnabled;
 
   static class ViewHolder {
-    @BindView(R.id.debug_drawer_layout) DebugDrawerLayout drawerLayout;
-    @BindView(R.id.debug_drawer) ViewGroup debugDrawer;
-    @BindView(R.id.telescope_container) TelescopeLayout telescopeLayout;
-    @BindView(R.id.madge_container) MadgeFrameLayout madgeFrameLayout;
-    @BindView(R.id.debug_content) ScalpelFrameLayout content;
+    @BindView(R.id.debug_drawer_layout)
+    DebugDrawerLayout drawerLayout;
+
+    @BindView(R.id.debug_drawer)
+    ViewGroup debugDrawer;
+
+    @BindView(R.id.telescope_container)
+    TelescopeLayout telescopeLayout;
+
+    @BindView(R.id.madge_container)
+    MadgeFrameLayout madgeFrameLayout;
+
+    @BindView(R.id.debug_content)
+    ScalpelFrameLayout content;
   }
 
-  @Inject public DebugViewContainer(LumberYard lumberYard,
+  @Inject
+  public DebugViewContainer(
+      LumberYard lumberYard,
       IntentManager intentManager,
       @SeenDebugDrawer Preference<Boolean> seenDebugDrawer,
       @PixelGridEnabled Preference<Boolean> pixelGridEnabled,
@@ -75,32 +86,38 @@ public final class DebugViewContainer implements ViewContainer {
     this.scalpelWireframeEnabled = scalpelWireframeEnabled;
   }
 
-  @Override public ViewGroup forActivity(final Activity activity) {
+  @Override
+  public ViewGroup forActivity(final Activity activity) {
     activity.setContentView(R.layout.debug_activity_frame);
 
     final ViewHolder viewHolder = new ViewHolder();
     ButterKnife.bind(viewHolder, activity);
 
-    final Context drawerContext = new ContextThemeWrapper(activity, R.style.Theme_MnTrailConditions_Debug);
+    final Context drawerContext =
+        new ContextThemeWrapper(activity, R.style.Theme_MnTrailConditions_Debug);
     final DebugView debugView = new DebugView(drawerContext);
     viewHolder.debugDrawer.addView(debugView);
 
     viewHolder.drawerLayout.setDrawerShadow(R.drawable.debug_drawer_shadow, GravityCompat.END);
-    viewHolder.drawerLayout.setDrawerListener(new DebugDrawerLayout.SimpleDrawerListener() {
-      @Override public void onDrawerOpened(View drawerView) {
-        debugView.onDrawerOpened();
-      }
-    });
+    viewHolder.drawerLayout.setDrawerListener(
+        new DebugDrawerLayout.SimpleDrawerListener() {
+          @Override
+          public void onDrawerOpened(View drawerView) {
+            debugView.onDrawerOpened();
+          }
+        });
 
     TelescopeLayout.cleanUp(activity); // Clean up any old screenshots.
     viewHolder.telescopeLayout.setLens(new BugReportLens(activity, lumberYard, intentManager));
 
     // If you have not seen the debug drawer before, show it with a message
     if (!seenDebugDrawer.get()) {
-      viewHolder.drawerLayout.postDelayed(() -> {
-        viewHolder.drawerLayout.openDrawer(GravityCompat.END);
-        Toast.makeText(drawerContext, R.string.debug_drawer_welcome, Toast.LENGTH_LONG).show();
-      }, SECONDS.toMillis(1));
+      viewHolder.drawerLayout.postDelayed(
+          () -> {
+            viewHolder.drawerLayout.openDrawer(GravityCompat.END);
+            Toast.makeText(drawerContext, R.string.debug_drawer_welcome, Toast.LENGTH_LONG).show();
+          },
+          SECONDS.toMillis(1));
       seenDebugDrawer.set(true);
     }
 
@@ -109,35 +126,53 @@ public final class DebugViewContainer implements ViewContainer {
     setupScalpel(viewHolder, subscriptions);
 
     final Application app = activity.getApplication();
-    app.registerActivityLifecycleCallbacks(new EmptyActivityLifecycleCallbacks() {
-      @Override public void onActivityDestroyed(Activity lifecycleActivity) {
-        if (lifecycleActivity == activity) {
-          subscriptions.unsubscribe();
-          app.unregisterActivityLifecycleCallbacks(this);
-        }
-      }
-    });
+    app.registerActivityLifecycleCallbacks(
+        new EmptyActivityLifecycleCallbacks() {
+          @Override
+          public void onActivityDestroyed(Activity lifecycleActivity) {
+            if (lifecycleActivity == activity) {
+              subscriptions.unsubscribe();
+              app.unregisterActivityLifecycleCallbacks(this);
+            }
+          }
+        });
 
     riseAndShine(activity);
     return viewHolder.content;
   }
 
   private void setupMadge(final ViewHolder viewHolder, CompositeSubscription subscriptions) {
-    subscriptions.add(pixelGridEnabled.asObservable().subscribe(enabled -> {
-      viewHolder.madgeFrameLayout.setOverlayEnabled(enabled);
-    }));
-    subscriptions.add(pixelRatioEnabled.asObservable().subscribe(enabled -> {
-      viewHolder.madgeFrameLayout.setOverlayRatioEnabled(enabled);
-    }));
+    subscriptions.add(
+        pixelGridEnabled
+            .asObservable()
+            .subscribe(
+                enabled -> {
+                  viewHolder.madgeFrameLayout.setOverlayEnabled(enabled);
+                }));
+    subscriptions.add(
+        pixelRatioEnabled
+            .asObservable()
+            .subscribe(
+                enabled -> {
+                  viewHolder.madgeFrameLayout.setOverlayRatioEnabled(enabled);
+                }));
   }
 
   private void setupScalpel(final ViewHolder viewHolder, CompositeSubscription subscriptions) {
-    subscriptions.add(scalpelEnabled.asObservable().subscribe(enabled -> {
-      viewHolder.content.setLayerInteractionEnabled(enabled);
-    }));
-    subscriptions.add(scalpelWireframeEnabled.asObservable().subscribe(enabled -> {
-      viewHolder.content.setDrawViews(!enabled);
-    }));
+    subscriptions.add(
+        scalpelEnabled
+            .asObservable()
+            .subscribe(
+                enabled -> {
+                  viewHolder.content.setLayerInteractionEnabled(enabled);
+                }));
+    subscriptions.add(
+        scalpelWireframeEnabled
+            .asObservable()
+            .subscribe(
+                enabled -> {
+                  viewHolder.content.setDrawViews(!enabled);
+                }));
   }
 
   /**

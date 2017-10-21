@@ -1,14 +1,13 @@
 package cash.andrew.mntrailconditions.ui.bugreport;
 
+import static cash.andrew.mntrailconditions.ui.bugreport.BugReportView.Report;
+import static cash.andrew.mntrailconditions.ui.bugreport.BugReportView.ReportDetailsListener;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import cash.andrew.mntrailconditions.R;
-
-import static cash.andrew.mntrailconditions.ui.bugreport.BugReportView.Report;
-import static cash.andrew.mntrailconditions.ui.bugreport.BugReportView.ReportDetailsListener;
 
 public final class BugReportDialog extends AlertDialog implements ReportDetailsListener {
   public interface ReportListener {
@@ -27,22 +26,27 @@ public final class BugReportDialog extends AlertDialog implements ReportDetailsL
     setTitle("Report a bug");
     setView(view);
     setButton(Dialog.BUTTON_NEGATIVE, "Cancel", (OnClickListener) null);
-    setButton(Dialog.BUTTON_POSITIVE, "Submit", (dialog, which) -> {
-      if (listener != null) {
-        listener.onBugReportSubmit(view.getReport());
-      }
-    });
+    setButton(
+        Dialog.BUTTON_POSITIVE,
+        "Submit",
+        (dialog, which) -> {
+          if (listener != null) {
+            listener.onBugReportSubmit(view.getReport());
+          }
+        });
   }
 
   public void setReportListener(ReportListener listener) {
     this.listener = listener;
   }
 
-  @Override protected void onStart() {
+  @Override
+  protected void onStart() {
     getButton(Dialog.BUTTON_POSITIVE).setEnabled(false);
   }
 
-  @Override public void onStateChanged(boolean valid) {
+  @Override
+  public void onStateChanged(boolean valid) {
     getButton(Dialog.BUTTON_POSITIVE).setEnabled(valid);
   }
 }

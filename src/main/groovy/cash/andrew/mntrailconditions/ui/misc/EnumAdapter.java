@@ -23,11 +23,13 @@ public class EnumAdapter<T extends Enum<T>> extends BindableAdapter<T> {
     this.nullOffset = showNull ? 1 : 0;
   }
 
-  @Override public final int getCount() {
+  @Override
+  public final int getCount() {
     return enumConstants.length + nullOffset;
   }
 
-  @Override public final T getItem(int position) {
+  @Override
+  public final T getItem(int position) {
     if (showNull && position == 0) {
       return null;
     }
@@ -35,15 +37,18 @@ public class EnumAdapter<T extends Enum<T>> extends BindableAdapter<T> {
     return enumConstants[position - nullOffset];
   }
 
-  @Override public final long getItemId(int position) {
+  @Override
+  public final long getItemId(int position) {
     return position;
   }
 
-  @Override public View newView(LayoutInflater inflater, int position, ViewGroup container) {
+  @Override
+  public View newView(LayoutInflater inflater, int position, ViewGroup container) {
     return inflater.inflate(android.R.layout.simple_spinner_item, container, false);
   }
 
-  @Override public final void bindView(T item, int position, View view) {
+  @Override
+  public final void bindView(T item, int position, View view) {
     TextView tv = ButterKnife.findById(view, android.R.id.text1);
     tv.setText(getName(item));
   }

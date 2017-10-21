@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-
 package cash.andrew.mntrailconditions.ui.debug;
 
 /**
- * Interface used to communicate from the v21-specific code for configuring a DrawerLayout
- * to the DrawerLayout itself.
+ * Interface used to communicate from the v21-specific code for configuring a DrawerLayout to the
+ * DrawerLayout itself.
  */
 interface DrawerLayoutImpl {
   void setChildInsets(Object insets, boolean drawStatusBar);

@@ -4,9 +4,8 @@ import cash.andrew.mntrailconditions.ui.InternalReleaseUiModule;
 import dagger.Module;
 
 @Module(
-    addsTo = MnTrailConditionsModule.class,
-    includes = InternalReleaseUiModule.class,
-    overrides = true
+  addsTo = MnTrailConditionsModule.class,
+  includes = InternalReleaseUiModule.class,
+  overrides = true
 )
-public final class InternalReleaseMnTrailConditionsModule {
-}
+public final class InternalReleaseMnTrailConditionsModule {}

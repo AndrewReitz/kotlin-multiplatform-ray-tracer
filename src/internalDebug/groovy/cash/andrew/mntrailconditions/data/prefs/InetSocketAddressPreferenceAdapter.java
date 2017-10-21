@@ -1,23 +1,25 @@
 package cash.andrew.mntrailconditions.data.prefs;
 
+import static java.net.Proxy.Type.HTTP;
+
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.f2prateek.rx.preferences.Preference;
 import cash.andrew.mntrailconditions.util.Strings;
+import com.f2prateek.rx.preferences.Preference;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
-
-import static java.net.Proxy.Type.HTTP;
 
 public class InetSocketAddressPreferenceAdapter implements Preference.Adapter<InetSocketAddress> {
   public static final InetSocketAddressPreferenceAdapter INSTANCE =
       new InetSocketAddressPreferenceAdapter();
 
-  InetSocketAddressPreferenceAdapter() {
-  }
+  InetSocketAddressPreferenceAdapter() {}
 
-  @Override public void set(@NonNull String key, @NonNull InetSocketAddress address,
+  @Override
+  public void set(
+      @NonNull String key,
+      @NonNull InetSocketAddress address,
       @NonNull SharedPreferences.Editor editor) {
     String host = null;
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {

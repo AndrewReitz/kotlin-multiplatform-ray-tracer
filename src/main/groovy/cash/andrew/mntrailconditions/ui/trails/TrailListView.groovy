@@ -73,9 +73,9 @@ class TrailListView extends LinearLayout {
         .filter { TrailInfo ti -> ti.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
         .toList()
         .subscribe { List<TrailInfo> trailInfo ->
-      trailListAdapter.trails = trailInfo
-      animator.displayedChildId = R.id.trail_list_content
-    }
+          trailListAdapter.trails = trailInfo
+          animator.displayedChildId = R.id.trail_list_content
+        }
     subscriptions.add(subscription)
 
     subscription = result.filter(Funcs.not(Results.isSuccessful()))

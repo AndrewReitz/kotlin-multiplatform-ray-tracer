@@ -5,28 +5,28 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
-import com.kobakei.ratethisapp.RateThisApp;
-
-import javax.inject.Inject;
-
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cash.andrew.mntrailconditions.R;
 import cash.andrew.mntrailconditions.data.Injector;
+import com.kobakei.ratethisapp.RateThisApp;
 import dagger.ObjectGraph;
+import javax.inject.Inject;
 
 public final class MainActivity extends Activity {
-  @BindView(R.id.main_content) ViewGroup content;
+  @BindView(R.id.main_content)
+  ViewGroup content;
 
-  @BindColor(R.color.status_bar) int statusBarColor;
+  @BindColor(R.color.status_bar)
+  int statusBarColor;
 
   @Inject ViewContainer viewContainer;
 
   private ObjectGraph activityGraph;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     LayoutInflater inflater = getLayoutInflater();
 
@@ -46,14 +46,16 @@ public final class MainActivity extends Activity {
     RateThisApp.showRateDialogIfNeeded(this);
   }
 
-  @Override public Object getSystemService(@NonNull String name) {
+  @Override
+  public Object getSystemService(@NonNull String name) {
     if (Injector.matchesService(name)) {
       return activityGraph;
     }
     return super.getSystemService(name);
   }
 
-  @Override protected void onDestroy() {
+  @Override
+  protected void onDestroy() {
     activityGraph = null;
     super.onDestroy();
   }

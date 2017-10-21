@@ -6,7 +6,9 @@ import javax.inject.Singleton;
 
 @Module(addsTo = MnTrailConditionsModule.class, overrides = true)
 public final class ProductionMnTrailConditionsModule {
-  @Provides @Singleton MnTrailConditionsInitializer provideMnTrailConditionsInitializer() {
+  @Provides
+  @Singleton
+  MnTrailConditionsInitializer provideMnTrailConditionsInitializer() {
     return new ProductionInitalizer();
   }
 }

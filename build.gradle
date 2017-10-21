@@ -38,25 +38,25 @@ repositories {
   maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
 }
 
- def getGitSha() {
-   def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
-   p.waitFor()
-   if (p.exitValue() != 0) {
-     throw new RuntimeException(p.errorStream.text)
-   }
+def getGitSha() {
+  def p = 'git rev-parse --short HEAD'.execute([], project.rootDir)
+  p.waitFor()
+  if (p.exitValue() != 0) {
+    throw new RuntimeException(p.errorStream.text)
+  }
 
-   return p.text.trim()
- }
+  return p.text.trim()
+}
 
- def getGitTimestamp() {
-   def p = 'git log -n 1 --format=%at'.execute([], rootDir)
-   p.waitFor()
-   if (p.exitValue() != 0) {
-     throw new RuntimeException(p.errorStream.text)
-   }
+def getGitTimestamp() {
+  def p = 'git log -n 1 --format=%at'.execute([], rootDir)
+  p.waitFor()
+  if (p.exitValue() != 0) {
+    throw new RuntimeException(p.errorStream.text)
+  }
 
-   return p.text.trim()
- }
+  return p.text.trim()
+}
 
 android {
   compileSdkVersion 26
@@ -106,12 +106,8 @@ android {
   }
 
   productFlavors {
-    internal {
-      applicationId 'com.andrewreitz.cash.andrew.mntrailconditions.internal'
-    }
-    production {
-      applicationId 'com.andrewreitz.cash.andrew.mntrailconditions'
-    }
+    internal { applicationId 'com.andrewreitz.cash.andrew.mntrailconditions.internal' }
+    production { applicationId 'com.andrewreitz.cash.andrew.mntrailconditions' }
   }
 
   lintOptions {
@@ -124,9 +120,7 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
-  dexOptions {
-    javaMaxHeapSize '4G'
-  }
+  dexOptions { javaMaxHeapSize '4G' }
 
   packagingOptions {
     exclude 'LICENSE.txt'
@@ -136,9 +130,7 @@ android {
   sourceSets.main.java.srcDirs += 'src/main/kotlin'
 }
 
-configurations {
-  internalDebugCompile
-}
+configurations { internalDebugCompile }
 
 ext {
   supportVersion = '26.1.0'
@@ -197,15 +189,13 @@ dependencies {
 
   compile 'io.github.kobakei:ratethisapp:1.2.0'
 
-    internalCompile "com.facebook.stetho:stetho:$stethoVersion"
+  internalCompile "com.facebook.stetho:stetho:$stethoVersion"
   internalCompile "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
   internalCompile "com.facebook.stetho:stetho-timber:$stethoVersion@aar"
 
   compile 'com.andrewreitz.velcro:velcro-bindablerecycleradapter:2.0.0-SNAPSHOT'
 
-  productionCompile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') {
-    transitive = true
-  }
+  productionCompile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') { transitive = true }
 
   testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
 }
@@ -221,11 +211,7 @@ androidGroovy {
   skipJavaC = true
 }
 
-configurations.all {
-  resolutionStrategy {
-    force "com.android.support:support-annotations:$supportVersion"
-  }
-}
+configurations.all { resolutionStrategy { force "com.android.support:support-annotations:$supportVersion" } }
 
 def installAll = tasks.create('installAll')
 installAll.description = 'Install all applications.'
@@ -243,7 +229,11 @@ android.testVariants.all { variant ->
 dependencyUpdates.resolutionStrategy = {
   componentSelection { rules ->
     rules.all { ComponentSelection selection ->
-      boolean rejected = ['alpha', 'beta', 'alpha-preview-01'].any { qualifier ->
+      boolean rejected = [
+        'alpha',
+        'beta',
+        'alpha-preview-01'
+      ].any { qualifier ->
         selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
       }
       if (rejected) {
@@ -255,24 +245,21 @@ dependencyUpdates.resolutionStrategy = {
 
 spotless {
   java {
-    //target '**/*.java'
+    target '**/*.java'
     googleJavaFormat()
   }
-  groovy {
-    //target '**/*.groovy'
-    excludeJava()
+  format('groovy') {
+    target '**/*.groovy'
     paddedCell()
-    greclipse()
+    trimTrailingWhitespace()
     indentWithSpaces(2)
   }
   groovyGradle {
-    // same as groovy, but for .gradle (defaults to '*.gradle')
     target '**/*.gradle'
     greclipse()
     indentWithSpaces(2)
   }
   kotlin {
-    //target '**/*.kt'
-    ktlint()
-  }
+    target '**/*.kt'
+    ktlint() }
 }

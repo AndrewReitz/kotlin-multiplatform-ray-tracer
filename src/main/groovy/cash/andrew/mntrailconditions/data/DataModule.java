@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import cash.andrew.mntrailconditions.data.moshi.adapters.LocalDateTimeJsonAdapter;
 import cash.andrew.mntrailconditions.data.okhttp.ApiVersionHeaderInterceptor;
+import cash.andrew.mntrailconditions.data.okhttp.UserAgentInterceptor;
 import com.f2prateek.rx.preferences.RxSharedPreferences;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import cash.andrew.mntrailconditions.data.api.ApiModule;
@@ -61,6 +62,7 @@ public final class DataModule {
 
     return new OkHttpClient.Builder()
         .cache(cache)
-        .addInterceptor(new ApiVersionHeaderInterceptor());
+        .addInterceptor(new ApiVersionHeaderInterceptor())
+        .addInterceptor(new UserAgentInterceptor());
   }
 }

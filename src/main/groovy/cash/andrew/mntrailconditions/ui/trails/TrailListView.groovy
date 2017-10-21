@@ -18,6 +18,8 @@ import com.arasthel.swissknife.SwissKnife
 import com.arasthel.swissknife.annotations.InjectView
 import groovy.transform.CompileStatic
 import org.threeten.bp.LocalDateTime
+import rx.subscriptions.CompositeSubscription
+import timber.log.Timber
 
 import javax.inject.Inject
 import retrofit2.adapter.rxjava.Result
@@ -37,6 +39,8 @@ class TrailListView extends LinearLayout {
   @Inject TrailConditionsService trailConditionsService
   @Inject TrailListAdapter trailListAdapter
 
+  private static final CompositeSubscription subscriptions = new CompositeSubscription()
+
   TrailListView(Context context, AttributeSet attrs) {
     super(context, attrs)
     if (!isInEditMode()) {
@@ -54,28 +58,38 @@ class TrailListView extends LinearLayout {
 
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow()
+    Timber.d("onAttachedToWindow() called")
 
     Observable<Result<List<TrailRegion>>> result = trailConditionsService.trailRegions
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .share()
 
-    result.filter(Results.isSuccessful())
-          .map(Results.resultToBodyData())
-          .flatMap {List<TrailRegion> trailRegions -> Observable.from(trailRegions) }
-          .map { TrailRegion trailRegion -> trailRegion.trails }
-          .flatMap { List<TrailInfo> trailInfoList -> Observable.from(trailInfoList) }
-          .filter { TrailInfo ti -> ti.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
-          .toList()
-          .subscribe { List<TrailInfo> trailInfo ->
-            trailListAdapter.trails = trailInfo
-            animator.displayedChildId = R.id.trail_list_content
-          }
+    def subscription = result.filter(Results.isSuccessful())
+        .map(Results.resultToBodyData())
+        .flatMap { List<TrailRegion> trailRegions -> Observable.from(trailRegions) }
+        .map { TrailRegion trailRegion -> trailRegion.trails }
+        .flatMap { List<TrailInfo> trailInfoList -> Observable.from(trailInfoList) }
+        .filter { TrailInfo ti -> ti.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
+        .toList()
+        .subscribe { List<TrailInfo> trailInfo ->
+      trailListAdapter.trails = trailInfo
+      animator.displayedChildId = R.id.trail_list_content
+    }
+    subscriptions.add(subscription)
 
-    result.filter(Funcs.not(Results.isSuccessful()))
+    subscription = result.filter(Funcs.not(Results.isSuccessful()))
         .doOnNext(Results.logError())
         .subscribe {
-          animator.displayedChildId = R.id.trail_list_error
-        }
+      animator.displayedChildId = R.id.trail_list_error
+    }
+    subscriptions.add(subscription)
+  }
+
+  @Override
+  protected void onDetachedFromWindow() {
+    Timber.d("onDetachedFromWindow() called")
+    subscriptions.clear()
+    super.onDetachedFromWindow()
   }
 }

@@ -9,7 +9,7 @@ import okhttp3.Response
 class ApiVersionHeaderInterceptor implements Interceptor {
   @Override Response intercept(Interceptor.Chain chain) throws IOException {
     Request newRequest = chain.request().newBuilder().with {
-      addHeader('api-version', '1')
+      addHeader('Api-Version', Api.VERSION)
       build()
     }
     return chain.proceed(newRequest)

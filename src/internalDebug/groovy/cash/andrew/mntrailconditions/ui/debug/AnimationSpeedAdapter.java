@@ -1,5 +1,7 @@
 package cash.andrew.mntrailconditions.ui.debug;
 
+import static butterknife.ButterKnife.findById;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,12 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import cash.andrew.mntrailconditions.ui.misc.BindableAdapter;
 
-import static butterknife.ButterKnife.findById;
-
 class AnimationSpeedAdapter extends BindableAdapter<Integer> {
-  private static final int[] VALUES = {
-      1, 2, 3, 5, 10
-  };
+  private static final int[] VALUES = {1, 2, 3, 5, 10};
 
   public static int getPositionForValue(int value) {
     for (int i = 0; i < VALUES.length; i++) {
@@ -27,23 +25,28 @@ class AnimationSpeedAdapter extends BindableAdapter<Integer> {
     super(context);
   }
 
-  @Override public int getCount() {
+  @Override
+  public int getCount() {
     return VALUES.length;
   }
 
-  @Override public Integer getItem(int position) {
+  @Override
+  public Integer getItem(int position) {
     return VALUES[position];
   }
 
-  @Override public long getItemId(int position) {
+  @Override
+  public long getItemId(int position) {
     return position;
   }
 
-  @Override public View newView(LayoutInflater inflater, int position, ViewGroup container) {
+  @Override
+  public View newView(LayoutInflater inflater, int position, ViewGroup container) {
     return inflater.inflate(android.R.layout.simple_spinner_item, container, false);
   }
 
-  @Override public void bindView(Integer item, int position, View view) {
+  @Override
+  public void bindView(Integer item, int position, View view) {
     TextView tv = findById(view, android.R.id.text1);
     if (item == 1) {
       tv.setText("Normal");

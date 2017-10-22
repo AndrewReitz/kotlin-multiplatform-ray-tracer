@@ -1,15 +1,15 @@
 package cash.andrew.mntrailconditions.ui.debug;
 
+import static butterknife.ButterKnife.findById;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.f2prateek.rx.preferences.Preference;
 import cash.andrew.mntrailconditions.ui.misc.BindableAdapter;
+import com.f2prateek.rx.preferences.Preference;
 import java.net.InetSocketAddress;
-
-import static butterknife.ButterKnife.findById;
 
 class ProxyAdapter extends BindableAdapter<String> {
   public static final int NONE = 0;
@@ -25,11 +25,13 @@ class ProxyAdapter extends BindableAdapter<String> {
     this.proxyAddress = proxyAddress;
   }
 
-  @Override public int getCount() {
+  @Override
+  public int getCount() {
     return 2 /* "None" and "Set" */ + (proxyAddress.isSet() ? 1 : 0);
   }
 
-  @Override public String getItem(int position) {
+  @Override
+  public String getItem(int position) {
     if (position == 0) {
       return "None";
     }
@@ -39,15 +41,18 @@ class ProxyAdapter extends BindableAdapter<String> {
     return proxyAddress.get().toString();
   }
 
-  @Override public long getItemId(int position) {
+  @Override
+  public long getItemId(int position) {
     return position;
   }
 
-  @Override public View newView(LayoutInflater inflater, int position, ViewGroup container) {
+  @Override
+  public View newView(LayoutInflater inflater, int position, ViewGroup container) {
     return inflater.inflate(android.R.layout.simple_spinner_item, container, false);
   }
 
-  @Override public void bindView(String item, int position, View view) {
+  @Override
+  public void bindView(String item, int position, View view) {
     TextView tv = findById(view, android.R.id.text1);
     tv.setText(item);
   }

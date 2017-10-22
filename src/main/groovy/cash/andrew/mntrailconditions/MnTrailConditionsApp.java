@@ -2,11 +2,11 @@ package cash.andrew.mntrailconditions;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
-import com.jakewharton.processphoenix.ProcessPhoenix;
-import com.jakewharton.threetenabp.AndroidThreeTen;
 import cash.andrew.mntrailconditions.data.Injector;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer;
+import com.jakewharton.processphoenix.ProcessPhoenix;
+import com.jakewharton.threetenabp.AndroidThreeTen;
 import com.squareup.leakcanary.LeakCanary;
 import dagger.ObjectGraph;
 import javax.inject.Inject;
@@ -19,7 +19,8 @@ public final class MnTrailConditionsApp extends Application {
   @Inject LumberYard lumberYard;
   @Inject MnTrailConditionsInitializer appInitializer;
 
-  @Override public void onCreate() {
+  @Override
+  public void onCreate() {
     super.onCreate();
     if (LeakCanary.isInAnalyzerProcess(this) || ProcessPhoenix.isPhoenixProcess(this)) {
       return;
@@ -38,7 +39,8 @@ public final class MnTrailConditionsApp extends Application {
     registerActivityLifecycleCallbacks(activityHierarchyServer);
   }
 
-  @Override public Object getSystemService(@NonNull String name) {
+  @Override
+  public Object getSystemService(@NonNull String name) {
     if (Injector.matchesService(name)) {
       return objectGraph;
     }

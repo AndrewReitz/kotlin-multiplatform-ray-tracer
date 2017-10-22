@@ -41,23 +41,19 @@ import okio.Okio;
 import timber.log.Timber;
 
 /**
- * <p>This class can be used to enable the use of HierarchyViewer inside an
- * application. HierarchyViewer is an Android SDK tool that can be used
- * to inspect and debug the user interface of running applications. For
- * security reasons, HierarchyViewer does not work on production builds
- * (for instance phones bought in store.) By using this class, you can
- * make HierarchyViewer work on any device. You must be very careful
- * however to only enable HierarchyViewer when debugging your
- * application.</p>
+ * This class can be used to enable the use of HierarchyViewer inside an application.
+ * HierarchyViewer is an Android SDK tool that can be used to inspect and debug the user interface
+ * of running applications. For security reasons, HierarchyViewer does not work on production builds
+ * (for instance phones bought in store.) By using this class, you can make HierarchyViewer work on
+ * any device. You must be very careful however to only enable HierarchyViewer when debugging your
+ * application.
  *
- * <p>To use this view server, your application must require the INTERNET
- * permission.</p>
+ * <p>To use this view server, your application must require the INTERNET permission.
  */
 public class SocketActivityHierarchyServer implements Runnable, ActivityHierarchyServer {
-  /**
-   * The default port used to start view servers.
-   */
+  /** The default port used to start view servers. */
   private static final int VIEW_SERVER_DEFAULT_PORT = 4939;
+
   private static final int VIEW_SERVER_MAX_CONNECTIONS = 10;
 
   private static final String VALUE_PROTOCOL_VERSION = "4";
@@ -117,11 +113,14 @@ public class SocketActivityHierarchyServer implements Runnable, ActivityHierarch
     return true;
   }
 
-  @Override public void onActivityCreated(Activity activity, Bundle bundle) {
+  @Override
+  public void onActivityCreated(Activity activity, Bundle bundle) {
     String name = activity.getTitle().toString();
     if (TextUtils.isEmpty(name)) {
-      name = activity.getClass().getCanonicalName() +
-          "/0x" + Integer.toHexString(System.identityHashCode(activity));
+      name =
+          activity.getClass().getCanonicalName()
+              + "/0x"
+              + Integer.toHexString(System.identityHashCode(activity));
     } else {
       name += " (" + activity.getClass().getCanonicalName() + ")";
     }
@@ -134,30 +133,33 @@ public class SocketActivityHierarchyServer implements Runnable, ActivityHierarch
     fireWindowsChangedEvent();
   }
 
-  @Override public void onActivityStarted(Activity activity) {
-  }
+  @Override
+  public void onActivityStarted(Activity activity) {}
 
-  @Override public void onActivityResumed(Activity activity) {
+  @Override
+  public void onActivityResumed(Activity activity) {
     View view = activity.getWindow().getDecorView();
     mFocusLock.writeLock().lock();
     try {
       mFocusedWindow = view == null ? null : view.getRootView();
       if (mFocusedWindow != null) {
-        mFocusedWindow.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-          @Override public void onViewAttachedToWindow(View v) {
-          }
+        mFocusedWindow.addOnAttachStateChangeListener(
+            new View.OnAttachStateChangeListener() {
+              @Override
+              public void onViewAttachedToWindow(View v) {}
 
-          @Override public void onViewDetachedFromWindow(View v) {
-            mFocusLock.writeLock().lock();
-            try {
-              if (v == mFocusedWindow) {
-                mFocusedWindow = null;
+              @Override
+              public void onViewDetachedFromWindow(View v) {
+                mFocusLock.writeLock().lock();
+                try {
+                  if (v == mFocusedWindow) {
+                    mFocusedWindow = null;
+                  }
+                } finally {
+                  mFocusLock.writeLock().unlock();
+                }
               }
-            } finally {
-              mFocusLock.writeLock().unlock();
-            }
-          }
-        });
+            });
       }
     } finally {
       mFocusLock.writeLock().unlock();
@@ -165,16 +167,17 @@ public class SocketActivityHierarchyServer implements Runnable, ActivityHierarch
     fireFocusChangedEvent();
   }
 
-  @Override public void onActivityPaused(Activity activity) {
-  }
+  @Override
+  public void onActivityPaused(Activity activity) {}
 
-  @Override public void onActivityStopped(Activity activity) {
-  }
+  @Override
+  public void onActivityStopped(Activity activity) {}
 
-  @Override public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
-  }
+  @Override
+  public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {}
 
-  @Override public void onActivityDestroyed(Activity activity) {
+  @Override
+  public void onActivityDestroyed(Activity activity) {
     mWindowsLock.writeLock().lock();
     try {
       mWindows.remove(activity.getWindow().getDecorView().getRootView());
@@ -398,10 +401,14 @@ public class SocketActivityHierarchyServer implements Runnable, ActivityHierarch
 
         // call stuff
         final Method dispatch =
-            ViewDebug.class.getDeclaredMethod("dispatchCommand", View.class, String.class,
-                String.class, OutputStream.class);
+            ViewDebug.class.getDeclaredMethod(
+                "dispatchCommand", View.class, String.class, String.class, OutputStream.class);
         dispatch.setAccessible(true);
-        dispatch.invoke(null, window, command, parameters,
+        dispatch.invoke(
+            null,
+            window,
+            command,
+            parameters,
             new UncloseableOutputStream(client.getOutputStream()));
 
         if (!client.isOutputShutdown()) {

@@ -1,5 +1,7 @@
 package cash.andrew.mntrailconditions.ui.debug;
 
+import static butterknife.ButterKnife.findById;
+
 import android.animation.ValueAnimator;
 import android.app.Application;
 import android.content.Context;
@@ -19,10 +21,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cash.andrew.mntrailconditions.util.IntentManager;
-import com.f2prateek.rx.preferences.Preference;
-import com.jakewharton.processphoenix.ProcessPhoenix;
-import com.jakewharton.rxbinding.widget.RxAdapterView;
 import cash.andrew.mntrailconditions.BuildConfig;
 import cash.andrew.mntrailconditions.R;
 import cash.andrew.mntrailconditions.data.AnimationSpeed;
@@ -42,8 +40,12 @@ import cash.andrew.mntrailconditions.data.ScalpelWireframeEnabled;
 import cash.andrew.mntrailconditions.data.prefs.InetSocketAddressPreferenceAdapter;
 import cash.andrew.mntrailconditions.ui.logs.LogsDialog;
 import cash.andrew.mntrailconditions.ui.misc.EnumAdapter;
+import cash.andrew.mntrailconditions.util.IntentManager;
 import cash.andrew.mntrailconditions.util.Keyboards;
 import cash.andrew.mntrailconditions.util.Strings;
+import com.f2prateek.rx.preferences.Preference;
+import com.jakewharton.processphoenix.ProcessPhoenix;
+import com.jakewharton.rxbinding.widget.RxAdapterView;
 import com.squareup.leakcanary.internal.DisplayLeakActivity;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.StatsSnapshot;
@@ -61,53 +63,115 @@ import org.threeten.bp.temporal.TemporalAccessor;
 import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
-import static butterknife.ButterKnife.findById;
-
 public final class DebugView extends FrameLayout {
   private static final DateTimeFormatter DATE_DISPLAY_FORMAT =
       DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.US).withZone(ZoneId.systemDefault());
 
-  @BindView(R.id.debug_network_endpoint) Spinner endpointView;
-  @BindView(R.id.debug_network_endpoint_edit) View endpointEditView;
-  @BindView(R.id.debug_network_proxy) Spinner networkProxyView;
+  @BindView(R.id.debug_network_endpoint)
+  Spinner endpointView;
 
-  @BindView(R.id.debug_ui_animation_speed) Spinner uiAnimationSpeedView;
-  @BindView(R.id.debug_ui_pixel_grid) Switch uiPixelGridView;
-  @BindView(R.id.debug_ui_pixel_ratio) Switch uiPixelRatioView;
-  @BindView(R.id.debug_ui_scalpel) Switch uiScalpelView;
-  @BindView(R.id.debug_ui_scalpel_wireframe) Switch uiScalpelWireframeView;
+  @BindView(R.id.debug_network_endpoint_edit)
+  View endpointEditView;
 
-  @BindView(R.id.debug_build_name) TextView buildNameView;
-  @BindView(R.id.debug_build_code) TextView buildCodeView;
-  @BindView(R.id.debug_build_sha) TextView buildShaView;
-  @BindView(R.id.debug_build_date) TextView buildDateView;
+  @BindView(R.id.debug_network_proxy)
+  Spinner networkProxyView;
 
-  @BindView(R.id.debug_device_make) TextView deviceMakeView;
-  @BindView(R.id.debug_device_model) TextView deviceModelView;
-  @BindView(R.id.debug_device_resolution) TextView deviceResolutionView;
-  @BindView(R.id.debug_device_density) TextView deviceDensityView;
-  @BindView(R.id.debug_device_release) TextView deviceReleaseView;
-  @BindView(R.id.debug_device_api) TextView deviceApiView;
+  @BindView(R.id.debug_ui_animation_speed)
+  Spinner uiAnimationSpeedView;
 
-  @BindView(R.id.debug_picasso_indicators) Switch picassoIndicatorView;
-  @BindView(R.id.debug_picasso_cache_size) TextView picassoCacheSizeView;
-  @BindView(R.id.debug_picasso_cache_hit) TextView picassoCacheHitView;
-  @BindView(R.id.debug_picasso_cache_miss) TextView picassoCacheMissView;
-  @BindView(R.id.debug_picasso_decoded) TextView picassoDecodedView;
-  @BindView(R.id.debug_picasso_decoded_total) TextView picassoDecodedTotalView;
-  @BindView(R.id.debug_picasso_decoded_avg) TextView picassoDecodedAvgView;
-  @BindView(R.id.debug_picasso_transformed) TextView picassoTransformedView;
-  @BindView(R.id.debug_picasso_transformed_total) TextView picassoTransformedTotalView;
-  @BindView(R.id.debug_picasso_transformed_avg) TextView picassoTransformedAvgView;
+  @BindView(R.id.debug_ui_pixel_grid)
+  Switch uiPixelGridView;
 
-  @BindView(R.id.debug_okhttp_cache_max_size) TextView okHttpCacheMaxSizeView;
-  @BindView(R.id.debug_okhttp_cache_write_error) TextView okHttpCacheWriteErrorView;
-  @BindView(R.id.debug_okhttp_cache_request_count) TextView okHttpCacheRequestCountView;
-  @BindView(R.id.debug_okhttp_cache_network_count) TextView okHttpCacheNetworkCountView;
-  @BindView(R.id.debug_okhttp_cache_hit_count) TextView okHttpCacheHitCountView;
+  @BindView(R.id.debug_ui_pixel_ratio)
+  Switch uiPixelRatioView;
+
+  @BindView(R.id.debug_ui_scalpel)
+  Switch uiScalpelView;
+
+  @BindView(R.id.debug_ui_scalpel_wireframe)
+  Switch uiScalpelWireframeView;
+
+  @BindView(R.id.debug_build_name)
+  TextView buildNameView;
+
+  @BindView(R.id.debug_build_code)
+  TextView buildCodeView;
+
+  @BindView(R.id.debug_build_sha)
+  TextView buildShaView;
+
+  @BindView(R.id.debug_build_date)
+  TextView buildDateView;
+
+  @BindView(R.id.debug_device_make)
+  TextView deviceMakeView;
+
+  @BindView(R.id.debug_device_model)
+  TextView deviceModelView;
+
+  @BindView(R.id.debug_device_resolution)
+  TextView deviceResolutionView;
+
+  @BindView(R.id.debug_device_density)
+  TextView deviceDensityView;
+
+  @BindView(R.id.debug_device_release)
+  TextView deviceReleaseView;
+
+  @BindView(R.id.debug_device_api)
+  TextView deviceApiView;
+
+  @BindView(R.id.debug_picasso_indicators)
+  Switch picassoIndicatorView;
+
+  @BindView(R.id.debug_picasso_cache_size)
+  TextView picassoCacheSizeView;
+
+  @BindView(R.id.debug_picasso_cache_hit)
+  TextView picassoCacheHitView;
+
+  @BindView(R.id.debug_picasso_cache_miss)
+  TextView picassoCacheMissView;
+
+  @BindView(R.id.debug_picasso_decoded)
+  TextView picassoDecodedView;
+
+  @BindView(R.id.debug_picasso_decoded_total)
+  TextView picassoDecodedTotalView;
+
+  @BindView(R.id.debug_picasso_decoded_avg)
+  TextView picassoDecodedAvgView;
+
+  @BindView(R.id.debug_picasso_transformed)
+  TextView picassoTransformedView;
+
+  @BindView(R.id.debug_picasso_transformed_total)
+  TextView picassoTransformedTotalView;
+
+  @BindView(R.id.debug_picasso_transformed_avg)
+  TextView picassoTransformedAvgView;
+
+  @BindView(R.id.debug_okhttp_cache_max_size)
+  TextView okHttpCacheMaxSizeView;
+
+  @BindView(R.id.debug_okhttp_cache_write_error)
+  TextView okHttpCacheWriteErrorView;
+
+  @BindView(R.id.debug_okhttp_cache_request_count)
+  TextView okHttpCacheRequestCountView;
+
+  @BindView(R.id.debug_okhttp_cache_network_count)
+  TextView okHttpCacheNetworkCountView;
+
+  @BindView(R.id.debug_okhttp_cache_hit_count)
+  TextView okHttpCacheHitCountView;
 
   @Inject OkHttpClient client;
-  @Inject @Named("Api") OkHttpClient apiClient;
+
+  @Inject
+  @Named("Api")
+  OkHttpClient apiClient;
+
   @Inject Picasso picasso;
   @Inject LumberYard lumberYard;
   @Inject @ApiEndpoint Preference<String> networkEndpoint;
@@ -161,14 +225,15 @@ public final class DebugView extends FrameLayout {
     RxAdapterView.itemSelections(endpointView)
         .map(endpointAdapter::getItem)
         .filter(item -> item != currentEndpoint)
-        .subscribe(selected -> {
-          if (selected == ApiEndpoints.CUSTOM) {
-            Timber.d("Custom network endpoint selected. Prompting for URL.");
-            showCustomEndpointDialog(currentEndpoint.ordinal(), "http://");
-          } else {
-            setEndpointAndRelaunch(selected.url);
-          }
-        });
+        .subscribe(
+            selected -> {
+              if (selected == ApiEndpoints.CUSTOM) {
+                Timber.d("Custom network endpoint selected. Prompting for URL.");
+                showCustomEndpointDialog(currentEndpoint.ordinal(), "http://");
+              } else {
+                setEndpointAndRelaunch(selected.url);
+              }
+            });
 
     int currentProxyPosition = networkProxyAddress.isSet() ? ProxyAdapter.PROXY : ProxyAdapter.NONE;
     final ProxyAdapter proxyAdapter = new ProxyAdapter(getContext(), networkProxyAddress);
@@ -177,29 +242,31 @@ public final class DebugView extends FrameLayout {
 
     RxAdapterView.itemSelections(networkProxyView)
         .filter(position -> !networkProxyAddress.isSet() || position != ProxyAdapter.PROXY)
-        .subscribe(position -> {
-          if (position == ProxyAdapter.NONE) {
-            // Only clear the proxy and restart if one was previously set.
-            if (currentProxyPosition != ProxyAdapter.NONE) {
-              Timber.d("Clearing network proxy");
-              // TODO: Keep the custom proxy around so you can easily switch back and forth.
-              networkProxyAddress.delete();
-              // Force a restart to re-initialize the app without a proxy.
-              ProcessPhoenix.triggerRebirth(getContext());
-            }
-          } else if (networkProxyAddress.isSet() && position == ProxyAdapter.PROXY) {
-            Timber.d("Ignoring re-selection of network proxy %s", networkProxyAddress.get());
-          } else {
-            Timber.d("New network proxy selected. Prompting for host.");
-            showNewNetworkProxyDialog(proxyAdapter);
-          }
-        });
+        .subscribe(
+            position -> {
+              if (position == ProxyAdapter.NONE) {
+                // Only clear the proxy and restart if one was previously set.
+                if (currentProxyPosition != ProxyAdapter.NONE) {
+                  Timber.d("Clearing network proxy");
+                  // TODO: Keep the custom proxy around so you can easily switch back and forth.
+                  networkProxyAddress.delete();
+                  // Force a restart to re-initialize the app without a proxy.
+                  ProcessPhoenix.triggerRebirth(getContext());
+                }
+              } else if (networkProxyAddress.isSet() && position == ProxyAdapter.PROXY) {
+                Timber.d("Ignoring re-selection of network proxy %s", networkProxyAddress.get());
+              } else {
+                Timber.d("New network proxy selected. Prompting for host.");
+                showNewNetworkProxyDialog(proxyAdapter);
+              }
+            });
 
     // Only show the endpoint editor when a custom endpoint is in use.
     endpointEditView.setVisibility(currentEndpoint == ApiEndpoints.CUSTOM ? VISIBLE : GONE);
   }
 
-  @OnClick(R.id.debug_network_endpoint_edit) void onEditEndpointClicked() {
+  @OnClick(R.id.debug_network_endpoint_edit)
+  void onEditEndpointClicked() {
     Timber.d("Prompting to edit custom endpoint URL.");
     // Pass in the currently selected position since we are merely editing.
     showCustomEndpointDialog(endpointView.getSelectedItemPosition(), networkEndpoint.get());
@@ -215,49 +282,60 @@ public final class DebugView extends FrameLayout {
     RxAdapterView.itemSelections(uiAnimationSpeedView)
         .map(speedAdapter::getItem)
         .filter(item -> item != animationSpeed.get())
-        .subscribe(selected -> {
-          Timber.d("Setting animation speed to %sx", selected);
-          animationSpeed.set(selected);
-          applyAnimationSpeed(selected);
-        });
+        .subscribe(
+            selected -> {
+              Timber.d("Setting animation speed to %sx", selected);
+              animationSpeed.set(selected);
+              applyAnimationSpeed(selected);
+            });
     // Ensure the animation speed value is always applied across app restarts.
     post(() -> applyAnimationSpeed(animationSpeedValue));
 
     boolean gridEnabled = pixelGridEnabled.get();
     uiPixelGridView.setChecked(gridEnabled);
     uiPixelRatioView.setEnabled(gridEnabled);
-    uiPixelGridView.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      Timber.d("Setting pixel grid overlay enabled to %b", isChecked);
-      pixelGridEnabled.set(isChecked);
-      uiPixelRatioView.setEnabled(isChecked);
-    });
+    uiPixelGridView.setOnCheckedChangeListener(
+        (buttonView, isChecked) -> {
+          Timber.d("Setting pixel grid overlay enabled to %b", isChecked);
+          pixelGridEnabled.set(isChecked);
+          uiPixelRatioView.setEnabled(isChecked);
+        });
 
     uiPixelRatioView.setChecked(pixelRatioEnabled.get());
-    uiPixelRatioView.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      Timber.d("Setting pixel scale overlay enabled to %b", isChecked);
-      pixelRatioEnabled.set(isChecked);
-    });
+    uiPixelRatioView.setOnCheckedChangeListener(
+        (buttonView, isChecked) -> {
+          Timber.d("Setting pixel scale overlay enabled to %b", isChecked);
+          pixelRatioEnabled.set(isChecked);
+        });
 
     uiScalpelView.setChecked(scalpelEnabled.get());
     uiScalpelWireframeView.setEnabled(scalpelEnabled.get());
-    uiScalpelView.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      Timber.d("Setting scalpel interaction enabled to %b", isChecked);
-      scalpelEnabled.set(isChecked);
-      uiScalpelWireframeView.setEnabled(isChecked);
-    });
+    uiScalpelView.setOnCheckedChangeListener(
+        (buttonView, isChecked) -> {
+          Timber.d("Setting scalpel interaction enabled to %b", isChecked);
+          scalpelEnabled.set(isChecked);
+          uiScalpelWireframeView.setEnabled(isChecked);
+        });
 
     uiScalpelWireframeView.setChecked(scalpelWireframeEnabled.get());
-    uiScalpelWireframeView.setOnCheckedChangeListener((buttonView, isChecked) -> {
-      Timber.d("Setting scalpel wireframe enabled to %b", isChecked);
-      scalpelWireframeEnabled.set(isChecked);
-    });
+    uiScalpelWireframeView.setOnCheckedChangeListener(
+        (buttonView, isChecked) -> {
+          Timber.d("Setting scalpel wireframe enabled to %b", isChecked);
+          scalpelWireframeEnabled.set(isChecked);
+        });
   }
 
-  @OnClick(R.id.debug_logs_show) void showLogs() {
-    new LogsDialog(new ContextThemeWrapper(getContext(), R.style.Theme_MnTrailConditions), lumberYard, intentManager).show();
+  @OnClick(R.id.debug_logs_show)
+  void showLogs() {
+    new LogsDialog(
+            new ContextThemeWrapper(getContext(), R.style.Theme_MnTrailConditions),
+            lumberYard,
+            intentManager)
+        .show();
   }
 
-  @OnClick(R.id.debug_leaks_show) void showLeaks() {
+  @OnClick(R.id.debug_leaks_show)
+  void showLeaks() {
     Intent intent = new Intent(getContext(), DisplayLeakActivity.class);
     getContext().startActivity(intent);
   }
@@ -286,11 +364,12 @@ public final class DebugView extends FrameLayout {
     boolean picassoDebuggingValue = picassoDebugging.get();
     picasso.setIndicatorsEnabled(picassoDebuggingValue);
     picassoIndicatorView.setChecked(picassoDebuggingValue);
-    picassoIndicatorView.setOnCheckedChangeListener((button, isChecked) -> {
-      Timber.d("Setting Picasso debugging to " + isChecked);
-      picasso.setIndicatorsEnabled(isChecked);
-      picassoDebugging.set(isChecked);
-    });
+    picassoIndicatorView.setOnCheckedChangeListener(
+        (button, isChecked) -> {
+          Timber.d("Setting Picasso debugging to " + isChecked);
+          picasso.setIndicatorsEnabled(isChecked);
+          picassoDebugging.set(isChecked);
+        });
 
     refreshPicassoStats();
   }
@@ -360,7 +439,7 @@ public final class DebugView extends FrameLayout {
   }
 
   private static String getSizeString(long bytes) {
-    String[] units = new String[] { "B", "KB", "MB", "GB" };
+    String[] units = new String[] {"B", "KB", "MB", "GB"};
     int unit = 0;
     while (bytes >= 1024) {
       bytes /= 1024;
@@ -370,7 +449,8 @@ public final class DebugView extends FrameLayout {
   }
 
   private void showNewNetworkProxyDialog(final ProxyAdapter proxyAdapter) {
-    final int originalSelection = networkProxyAddress.isSet() ? ProxyAdapter.PROXY : ProxyAdapter.NONE;
+    final int originalSelection =
+        networkProxyAddress.isSet() ? ProxyAdapter.PROXY : ProxyAdapter.NONE;
 
     View view = LayoutInflater.from(app).inflate(R.layout.debug_drawer_network_proxy, null);
     final EditText hostView = findById(view, R.id.debug_drawer_network_proxy_host);
@@ -387,21 +467,25 @@ public final class DebugView extends FrameLayout {
     new AlertDialog.Builder(getContext()) //
         .setTitle("Set Network Proxy")
         .setView(view)
-        .setNegativeButton("Cancel", (dialog, i) -> {
-          networkProxyView.setSelection(originalSelection);
-          dialog.cancel();
-        })
-        .setPositiveButton("Use", (dialog, i) -> {
-          String in = hostView.getText().toString();
-          InetSocketAddress address = InetSocketAddressPreferenceAdapter.parse(in);
-          if (address != null) {
-            networkProxyAddress.set(address);
-            // Force a restart to re-initialize the app with the new proxy.
-            ProcessPhoenix.triggerRebirth(getContext());
-          } else {
-            networkProxyView.setSelection(originalSelection);
-          }
-        })
+        .setNegativeButton(
+            "Cancel",
+            (dialog, i) -> {
+              networkProxyView.setSelection(originalSelection);
+              dialog.cancel();
+            })
+        .setPositiveButton(
+            "Use",
+            (dialog, i) -> {
+              String in = hostView.getText().toString();
+              InetSocketAddress address = InetSocketAddressPreferenceAdapter.parse(in);
+              if (address != null) {
+                networkProxyAddress.set(address);
+                // Force a restart to re-initialize the app with the new proxy.
+                ProcessPhoenix.triggerRebirth(getContext());
+              } else {
+                networkProxyView.setSelection(originalSelection);
+              }
+            })
         .setOnCancelListener(dialogInterface -> networkProxyView.setSelection(originalSelection))
         .show();
   }
@@ -415,21 +499,26 @@ public final class DebugView extends FrameLayout {
     new AlertDialog.Builder(getContext()) //
         .setTitle("Set Network Endpoint")
         .setView(view)
-        .setNegativeButton("Cancel", (dialog, i) -> {
-          endpointView.setSelection(originalSelection);
-          dialog.cancel();
-        })
-        .setPositiveButton("Use", (dialog, i) -> {
-            String theUrl = url.getText().toString();
-            if (!Strings.isBlank(theUrl)) {
-              setEndpointAndRelaunch(theUrl);
-            } else {
+        .setNegativeButton(
+            "Cancel",
+            (dialog, i) -> {
               endpointView.setSelection(originalSelection);
-            }
-        })
-        .setOnCancelListener((dialogInterface) -> {
-            endpointView.setSelection(originalSelection);
-        })
+              dialog.cancel();
+            })
+        .setPositiveButton(
+            "Use",
+            (dialog, i) -> {
+              String theUrl = url.getText().toString();
+              if (!Strings.isBlank(theUrl)) {
+                setEndpointAndRelaunch(theUrl);
+              } else {
+                endpointView.setSelection(originalSelection);
+              }
+            })
+        .setOnCancelListener(
+            (dialogInterface) -> {
+              endpointView.setSelection(originalSelection);
+            })
         .show();
   }
 

@@ -1,5 +1,7 @@
 package cash.andrew.mntrailconditions.data;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
@@ -14,13 +16,11 @@ import com.squareup.picasso.RequestHandler;
 import java.io.IOException;
 import retrofit2.mock.NetworkBehavior;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-
 /**
  * A Picasso {@link Downloader} which loads images from assets but attempts to emulate the
  * subtleties of a real HTTP client and its disk cache.
- * <p>
- * Images <em>must</em> be in the form {@code mock:///path/to/asset.png}.
+ *
+ * <p>Images <em>must</em> be in the form {@code mock:///path/to/asset.png}.
  */
 public final class MockRequestHandler extends RequestHandler {
   private final NetworkBehavior behavior;
@@ -29,7 +29,8 @@ public final class MockRequestHandler extends RequestHandler {
   /** Emulate the disk cache by storing the URLs in an LRU using its size as the value. */
   private final LruCache<String, Long> emulatedDiskCache =
       new LruCache<String, Long>(DataModule.DISK_CACHE_SIZE) {
-        @Override protected int sizeOf(String key, Long value) {
+        @Override
+        protected int sizeOf(String key, Long value) {
           return (int) Math.min(value.longValue(), Integer.MAX_VALUE);
         }
       };
@@ -39,11 +40,13 @@ public final class MockRequestHandler extends RequestHandler {
     this.assetManager = assetManager;
   }
 
-  @Override public boolean canHandleRequest(Request data) {
+  @Override
+  public boolean canHandleRequest(Request data) {
     return "mock".equals(data.uri.getScheme());
   }
 
-  @Override public Result load(Request request, int networkPolicy) throws IOException {
+  @Override
+  public Result load(Request request, int networkPolicy) throws IOException {
     String imagePath = request.uri.getPath().substring(1); // Grab only the path sans leading slash.
 
     // Check the disk cache for the image. A non-null return value indicates a hit.

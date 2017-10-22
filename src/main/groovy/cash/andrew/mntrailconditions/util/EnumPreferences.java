@@ -3,11 +3,10 @@ package cash.andrew.mntrailconditions.util;
 import android.content.SharedPreferences;
 
 public final class EnumPreferences {
-  private EnumPreferences() {
-  }
+  private EnumPreferences() {}
 
-  public static <T extends Enum<T>> T getEnumValue(SharedPreferences preferences, Class<T> type,
-      String key, T defaultValue) {
+  public static <T extends Enum<T>> T getEnumValue(
+      SharedPreferences preferences, Class<T> type, String key, T defaultValue) {
     String name = preferences.getString(key, null);
     if (name != null) {
       try {

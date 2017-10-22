@@ -1,5 +1,7 @@
 package cash.andrew.mntrailconditions.ui.logs;
 
+import static cash.andrew.mntrailconditions.data.LumberYard.Entry;
+
 import android.content.Context;
 import android.support.annotation.DrawableRes;
 import android.util.Log;
@@ -10,14 +12,12 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cash.andrew.mntrailconditions.R;
+import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.ui.misc.BindableAdapter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import rx.functions.Action1;
-import cash.andrew.mntrailconditions.data.LumberYard;
-
-import static cash.andrew.mntrailconditions.data.LumberYard.Entry;
 
 final class LogAdapter extends BindableAdapter<Entry> implements Action1<LumberYard.Entry> {
   private List<LumberYard.Entry> logs;
@@ -31,40 +31,52 @@ final class LogAdapter extends BindableAdapter<Entry> implements Action1<LumberY
     this.logs = new ArrayList<>(logs);
   }
 
-  @Override public void call(LumberYard.Entry entry) {
+  @Override
+  public void call(LumberYard.Entry entry) {
     logs.add(entry);
     notifyDataSetChanged();
   }
 
-  @Override public int getCount() {
+  @Override
+  public int getCount() {
     return logs.size();
   }
 
-  @Override public LumberYard.Entry getItem(int i) {
+  @Override
+  public LumberYard.Entry getItem(int i) {
     return logs.get(i);
   }
 
-  @Override public long getItemId(int i) {
+  @Override
+  public long getItemId(int i) {
     return i;
   }
 
-  @Override public View newView(LayoutInflater inflater, int position, ViewGroup container) {
+  @Override
+  public View newView(LayoutInflater inflater, int position, ViewGroup container) {
     View view = inflater.inflate(R.layout.debug_logs_list_item, container, false);
     LogItemViewHolder viewHolder = new LogItemViewHolder(view);
     view.setTag(viewHolder);
     return view;
   }
 
-  @Override public void bindView(LumberYard.Entry item, int position, View view) {
+  @Override
+  public void bindView(LumberYard.Entry item, int position, View view) {
     LogItemViewHolder viewHolder = (LogItemViewHolder) view.getTag();
     viewHolder.setEntry(item);
   }
 
   static final class LogItemViewHolder {
     private final View rootView;
-    @BindView(R.id.debug_log_level) TextView levelView;
-    @BindView(R.id.debug_log_tag) TextView tagView;
-    @BindView(R.id.debug_log_message) TextView messageView;
+
+    @BindView(R.id.debug_log_level)
+    TextView levelView;
+
+    @BindView(R.id.debug_log_tag)
+    TextView tagView;
+
+    @BindView(R.id.debug_log_message)
+    TextView messageView;
 
     LogItemViewHolder(View rootView) {
       this.rootView = rootView;

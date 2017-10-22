@@ -1,26 +1,23 @@
 package cash.andrew.mntrailconditions.ui.bugreport;
 
+import static cash.andrew.mntrailconditions.ui.bugreport.BugReportDialog.ReportListener;
+import static cash.andrew.mntrailconditions.ui.bugreport.BugReportView.Report;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ShareCompat;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
-
 import cash.andrew.mntrailconditions.BuildConfig;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.util.IntentManager;
 import cash.andrew.mntrailconditions.util.Strings;
 import com.mattprecious.telescope.Lens;
-
 import java.io.File;
-
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-import static cash.andrew.mntrailconditions.ui.bugreport.BugReportDialog.ReportListener;
-import static cash.andrew.mntrailconditions.ui.bugreport.BugReportView.Report;
 
 /**
  * Pops a dialog asking for more information about the bug report and then creates an email with a
@@ -39,7 +36,8 @@ public final class BugReportLens extends Lens implements ReportListener {
     this.intentManager = intentManager;
   }
 
-  @Override public void onCapture(File screenshot) {
+  @Override
+  public void onCapture(File screenshot) {
     this.screenshot = screenshot;
 
     BugReportDialog dialog = new BugReportDialog(context);
@@ -47,25 +45,31 @@ public final class BugReportLens extends Lens implements ReportListener {
     dialog.show();
   }
 
-  @Override public void onBugReportSubmit(final Report report) {
+  @Override
+  public void onBugReportSubmit(final Report report) {
     if (report.includeLogs) {
-      lumberYard.save()
+      lumberYard
+          .save()
           .subscribeOn(Schedulers.io())
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new Subscriber<File>() {
-            @Override public void onCompleted() {
-              // NO-OP.
-            }
+          .subscribe(
+              new Subscriber<File>() {
+                @Override
+                public void onCompleted() {
+                  // NO-OP.
+                }
 
-            @Override public void onError(Throwable e) {
-              Toast.makeText(context, "Couldn't attach the logs.", Toast.LENGTH_SHORT).show();
-              submitReport(report, null);
-            }
+                @Override
+                public void onError(Throwable e) {
+                  Toast.makeText(context, "Couldn't attach the logs.", Toast.LENGTH_SHORT).show();
+                  submitReport(report, null);
+                }
 
-            @Override public void onNext(File logs) {
-              submitReport(report, logs);
-            }
-          });
+                @Override
+                public void onNext(File logs) {
+                  submitReport(report, logs);
+                }
+              });
     } else {
       submitReport(report, null);
     }
@@ -75,9 +79,10 @@ public final class BugReportLens extends Lens implements ReportListener {
     DisplayMetrics dm = context.getResources().getDisplayMetrics();
     String densityBucket = getDensityString(dm);
 
-    ShareCompat.IntentBuilder intent = ShareCompat.IntentBuilder.from(context)
+    ShareCompat.IntentBuilder intent =
+        ShareCompat.IntentBuilder.from(context)
             .setType("message/rfc822")
-    // TODO: .addEmailTo("cash.andrew.mntrailconditions-bugs@blackhole.io")
+            // TODO: .addEmailTo("cash.andrew.mntrailconditions-bugs@blackhole.io")
             .setSubject(report.title);
 
     StringBuilder body = new StringBuilder();

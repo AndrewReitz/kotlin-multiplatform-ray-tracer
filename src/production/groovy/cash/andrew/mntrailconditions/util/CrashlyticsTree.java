@@ -11,8 +11,8 @@ public final class CrashlyticsTree extends Timber.Tree {
   private static final String CRASHLYTICS_KEY_MESSAGE = "message";
 
   @Override
-  protected void log(int priority, @Nullable String tag, @Nullable String message, @Nullable
-      Throwable t) {
+  protected void log(
+      int priority, @Nullable String tag, @Nullable String message, @Nullable Throwable t) {
     if (priority == Log.VERBOSE || priority == Log.DEBUG || priority == Log.INFO) {
       return;
     }

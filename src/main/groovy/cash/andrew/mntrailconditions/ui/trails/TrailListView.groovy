@@ -58,37 +58,15 @@ class TrailListView extends LinearLayout {
     recyclerView.adapter = trailListAdapter
 
     refreshLayout.onRefreshListener = {
+      Timber.d("onRefresh() called")
+      loadData()
     }
   }
 
   @Override protected void onAttachedToWindow() {
     super.onAttachedToWindow()
     Timber.d("onAttachedToWindow() called")
-
-    Observable<Result<List<TrailRegion>>> result = trailConditionsService.trailRegions
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .share()
-
-    def subscription = result.filter(Results.isSuccessful())
-        .map(Results.resultToBodyData())
-        .flatMap { List<TrailRegion> trailRegions -> Observable.from(trailRegions) }
-        .map { TrailRegion trailRegion -> trailRegion.trails }
-        .flatMap { List<TrailInfo> trailInfoList -> Observable.from(trailInfoList) }
-        .filter { TrailInfo ti -> ti.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
-        .toList()
-        .subscribe { List<TrailInfo> trailInfo ->
-          trailListAdapter.trails = trailInfo
-          animator.displayedChildId = R.id.trail_list_content
-        }
-    subscriptions.add(subscription)
-
-    subscription = result.filter(Funcs.not(Results.isSuccessful()))
-        .doOnNext(Results.logError())
-        .subscribe {
-          animator.displayedChildId = R.id.trail_list_error
-        }
-    subscriptions.add(subscription)
+    loadData()
   }
 
   @Override
@@ -96,5 +74,35 @@ class TrailListView extends LinearLayout {
     Timber.d("onDetachedFromWindow() called")
     subscriptions.clear()
     super.onDetachedFromWindow()
+  }
+
+  private void loadData() {
+    Timber.d("loadData() called");
+    Observable<Result<List<TrailRegion>>> result = trailConditionsService.trailRegions
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .share()
+
+    def subscription = result.filter(Results.isSuccessful())
+            .map(Results.resultToBodyData())
+            .flatMap { List<TrailRegion> trailRegions -> Observable.from(trailRegions) }
+            .map { TrailRegion trailRegion -> trailRegion.trails }
+            .flatMap { List<TrailInfo> trailInfoList -> Observable.from(trailInfoList) }
+            .filter { TrailInfo ti -> ti.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
+            .toList()
+            .subscribe { List<TrailInfo> trailInfo ->
+              trailListAdapter.trails = trailInfo
+              animator.displayedChildId = R.id.trail_list_content
+            }
+    subscriptions.add(subscription)
+
+    subscription = result.filter(Funcs.not(Results.isSuccessful()))
+            .doOnNext(Results.logError())
+            .subscribe {
+              animator.displayedChildId = R.id.trail_list_error
+            }
+    subscriptions.add(subscription)
+
+    refreshLayout.refreshing = false
   }
 }

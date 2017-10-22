@@ -83,7 +83,7 @@ android {
     multiDexEnabled true
 
     versionCode 1
-    versionName '🌶'
+    versionName '🍩'
 
     buildConfigField 'String', 'GIT_SHA', "\"$gitSha\""
     buildConfigField 'long', 'GIT_TIMESTAMP', "$gitTimestamp"

@@ -1,6 +1,7 @@
 package cash.andrew.mntrailconditions.ui.trails
 
 import android.content.Context
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -34,7 +35,8 @@ class TrailListView extends LinearLayout {
 
   @InjectView(R.id.trail_list_toolbar) Toolbar toolbarView
   @InjectView(R.id.trail_list_animator) BetterViewAnimator animator
-  @InjectView(R.id.trail_list_content) RecyclerView recyclerView
+  @InjectView(R.id.trail_list_content) SwipeRefreshLayout refreshLayout
+  @InjectView(R.id.trail_list_recycler_view) RecyclerView recyclerView
 
   @Inject TrailConditionsService trailConditionsService
   @Inject TrailListAdapter trailListAdapter
@@ -54,6 +56,9 @@ class TrailListView extends LinearLayout {
 
     recyclerView.layoutManager = new LinearLayoutManager(context)
     recyclerView.adapter = trailListAdapter
+
+    refreshLayout.onRefreshListener = {
+    }
   }
 
   @Override protected void onAttachedToWindow() {
@@ -81,8 +86,8 @@ class TrailListView extends LinearLayout {
     subscription = result.filter(Funcs.not(Results.isSuccessful()))
         .doOnNext(Results.logError())
         .subscribe {
-      animator.displayedChildId = R.id.trail_list_error
-    }
+          animator.displayedChildId = R.id.trail_list_error
+        }
     subscriptions.add(subscription)
   }
 

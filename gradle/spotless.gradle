@@ -1,0 +1,40 @@
+apply plugin: 'com.diffplug.gradle.spotless'
+spotless {
+  format 'misc', {
+    target '**/*.adoc', '**/.gitignore', '**/*.xml', '**/*.properties'
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+
+  java {
+    target '**/*.java'
+    googleJavaFormat()
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+
+  groovy {
+    target '**/*.groovy'
+    greclipse()
+    paddedCell()
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+
+  groovyGradle {
+    target '**/*.gradle'
+    greclipse()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+
+  kotlin {
+    target '**/*.kt'
+    ktlint()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
+}

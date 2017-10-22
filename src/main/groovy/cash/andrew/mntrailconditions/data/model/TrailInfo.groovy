@@ -14,4 +14,3 @@ class TrailInfo {
   String description
   LocalDateTime lastUpdated
 }
-

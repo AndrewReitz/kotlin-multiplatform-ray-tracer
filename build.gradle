@@ -28,8 +28,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.github.ben-manes.versions'
 apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
-apply plugin: 'com.diffplug.gradle.spotless'
 apply from: "$rootDir/gradle/signing.gradle"
+apply from: "$rootDir/gradle/spotless.gradle"
 
 repositories {
   jcenter()
@@ -241,25 +241,4 @@ dependencyUpdates.resolutionStrategy = {
       }
     }
   }
-}
-
-spotless {
-  java {
-    target '**/*.java'
-    googleJavaFormat()
-  }
-  format('groovy') {
-    target '**/*.groovy'
-    paddedCell()
-    trimTrailingWhitespace()
-    indentWithSpaces(2)
-  }
-  groovyGradle {
-    target '**/*.gradle'
-    greclipse()
-    indentWithSpaces(2)
-  }
-  kotlin {
-    target '**/*.kt'
-    ktlint() }
 }

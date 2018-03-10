@@ -1,11 +1,24 @@
 = Change Log
 
-== 1.1
+
+== 🥚
+
+- update to kotlin/java, and prepping for new apis
+
+== 🍩
+
+- hotfix for moving from red shift, to heroku
+
+== 🌶
+
+- pull to refresh implemented, and update caching.
+
+== 🍌
 
 - updated app colors
 - updated app icon
 - updated app name
 
-== 1.0
+== 🍎
 
 - Initial Release

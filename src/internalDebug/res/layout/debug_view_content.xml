@@ -69,6 +69,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         />
+
     <ImageButton
         android:id="@+id/debug_network_endpoint_edit"
         android:layout_height="wrap_content"
@@ -79,17 +80,6 @@
         android:visibility="gone"
         />
   </LinearLayout>
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Proxy"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <Spinner
-      android:id="@+id/debug_network_proxy"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      />
 
   <!-- USER INTERFACE SECTION -->
 
@@ -110,50 +100,6 @@
       android:id="@+id/debug_ui_animation_speed"
       android:layout_width="0dp"
       android:layout_gravity="start|center_vertical|fill_horizontal"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Pixel Grid"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <Switch
-      android:id="@+id/debug_ui_pixel_grid"
-      android:layout_gravity="start|center_vertical"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowWidget"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Pixel Scale"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <Switch
-      android:id="@+id/debug_ui_pixel_ratio"
-      android:layout_gravity="start|center_vertical"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowWidget"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Scalpel"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <Switch
-      android:id="@+id/debug_ui_scalpel"
-      android:layout_gravity="start|center_vertical"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowWidget"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Wireframe"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <Switch
-      android:id="@+id/debug_ui_scalpel_wireframe"
-      android:layout_gravity="start|center_vertical"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowWidget"
       />
 
   <!-- LOGGING SECTION -->

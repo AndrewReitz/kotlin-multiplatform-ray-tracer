@@ -1,20 +1,15 @@
 buildscript {
-  ext.kotlinVersion = '1.1.51'
+  ext.kotlinVersion = '1.2.30'
   repositories {
     jcenter()
-    maven { url 'https://maven.google.com' }
+    google()
     maven { url 'https://maven.fabric.io/public' }
-    maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:2.3.2'
+    classpath 'com.android.tools.build:gradle:3.0.1'
     classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-    classpath 'me.tatarka:gradle-retrolambda:3.6.0'
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.15.0'
-    classpath 'org.codehaus.groovy:groovy-android-gradle-plugin:1.2.0'
-    classpath 'net.kaleidos.gradle.plugins:emerger:0.0.2'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    classpath "com.diffplug.spotless:spotless-plugin-gradle:3.6.0"
+    classpath "com.diffplug.spotless:spotless-plugin-gradle:3.10.0"
 
     // fabric swears that this is okay...
     //noinspection GradleDynamicVersion
@@ -23,17 +18,16 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'groovyx.android'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.github.ben-manes.versions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
-apply plugin: 'me.tatarka.retrolambda'
 apply from: "$rootDir/gradle/signing.gradle"
 apply from: "$rootDir/gradle/spotless.gradle"
 
 repositories {
   jcenter()
-  maven { url 'https://maven.google.com' }
+  google()
   maven { url 'https://maven.fabric.io/public' }
   maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
 }
@@ -59,8 +53,8 @@ def getGitTimestamp() {
 }
 
 android {
-  compileSdkVersion 26
-  buildToolsVersion '26.0.2'
+  compileSdkVersion 27
+  buildToolsVersion '27.0.3'
 
   signingConfigs {
     debug {
@@ -78,12 +72,13 @@ android {
   }
 
   defaultConfig {
+    applicationId 'com.andrewreitz.cash.andrew.mntrailconditions'
     minSdkVersion 21
-    targetSdkVersion 26
+    targetSdkVersion 27
     multiDexEnabled true
 
     versionCode 1
-    versionName '🍩'
+    versionName '🥚'
 
     buildConfigField 'String', 'GIT_SHA', "\"$gitSha\""
     buildConfigField 'long', 'GIT_TIMESTAMP', "$gitTimestamp"
@@ -93,21 +88,28 @@ android {
     debug {
       applicationIdSuffix '.debug'
       signingConfig signingConfigs.debug
-      minifyEnabled true
-      shrinkResources true
+      minifyEnabled false
+      shrinkResources false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
     }
     release {
       signingConfig signingConfigs.release
-      minifyEnabled true
-      shrinkResources true
+      minifyEnabled false
+      shrinkResources false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
     }
   }
 
+  flavorDimensions 'environment'
+
   productFlavors {
-    internal { applicationId 'com.andrewreitz.cash.andrew.mntrailconditions.internal' }
-    production { applicationId 'com.andrewreitz.cash.andrew.mntrailconditions' }
+    internal {
+        dimension 'environment'
+        applicationIdSuffix 'internal'
+    }
+    production {
+        dimension 'environment'
+    }
   }
 
   lintOptions {
@@ -120,95 +122,93 @@ android {
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
-  dexOptions { javaMaxHeapSize '4G' }
-
   packagingOptions {
     exclude 'LICENSE.txt'
     exclude 'META-INF/LICENSE.txt'
   }
 
-  sourceSets.main.java.srcDirs += 'src/main/kotlin'
+  sourceSets {
+    main.java.srcDirs += 'src/main/kotlin'
+    test.java.srcDirs += 'src/test/kotlin'
+    debug.java.srcDirs += 'src/debug/kotlin'
+    release.java.srcDirs += 'src/release/kotlin'
+    internal.java.srcDirs += 'src/internal/kotlin'
+    internalDebug.java.srcDirs += 'src/internalDebug/kotlin'
+    production.java.srcDirs += 'src/production/kotlin'
+    productionDebug.java.srcDirs += 'src/productionDebug/kotlin'
+    productionRelease.java.srcDirs += 'src/productionRelease/kotlin'
+  }
 }
 
-configurations { internalDebugCompile }
+configurations { internalDebugImplementation }
 
 ext {
-  supportVersion = '26.1.0'
-  stethoVersion = '1.4.2'
+  supportVersion = '27.1.0'
+  stethoVersion = '1.5.0'
   retrofitVersion = '2.2.0'
 }
 
 dependencies {
-  compile 'org.codehaus.groovy:groovy:2.4.10:grooid'
+  implementation 'androidx.core:core-ktx:0.2'
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
-  compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+  implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+  implementation "com.android.support:support-v4:$supportVersion"
+  implementation "com.android.support:support-annotations:$supportVersion"
+  implementation "com.android.support:appcompat-v7:$supportVersion"
+  implementation "com.android.support:recyclerview-v7:$supportVersion"
+  implementation "com.android.support:design:$supportVersion"
+  implementation "com.android.support:cardview-v7:$supportVersion"
 
-  compile 'com.arasthel:swissknife:1.4.0'
+  implementation 'com.squareup.dagger:dagger:1.2.5'
+  kapt 'com.squareup.dagger:dagger-compiler:1.2.5'
 
-  compile 'com.android.support.constraint:constraint-layout:1.0.2'
-  compile "com.android.support:support-v4:$supportVersion"
-  compile "com.android.support:support-annotations:$supportVersion"
-  compile "com.android.support:appcompat-v7:$supportVersion"
-  compile "com.android.support:recyclerview-v7:$supportVersion"
-  compile "com.android.support:design:$supportVersion"
-  compile "com.android.support:cardview-v7:$supportVersion"
+  implementation 'com.squareup.okhttp3:okhttp:3.9.1'
+  implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+  implementation 'com.squareup.picasso:picasso:2.5.2'
+  implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+  implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+  implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+  implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+  implementation 'com.squareup.moshi:moshi-kotlin:1.5.0'
+  internalDebugImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
 
-  compile 'com.squareup.dagger:dagger:1.2.5'
-  annotationProcessor 'com.squareup.dagger:dagger-compiler:1.2.5'
+  implementation 'com.jakewharton:butterknife:8.8.1'
+  kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
-  compile 'com.squareup.okhttp3:okhttp:3.6.0'
-  compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-  compile 'com.squareup.picasso:picasso:2.5.2'
-  compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
-  compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-  compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
-  compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
-  internalDebugCompile "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
+  implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+  implementation 'com.jakewharton:process-phoenix:2.0.0'
+  implementation 'com.jakewharton.timber:timber:4.6.1'
+  implementation 'com.jakewharton.byteunits:byteunits:0.9.1'
 
-  compile 'com.jakewharton:butterknife:8.5.1'
-  annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+  internalImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+  productionImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
-  compile 'com.jakewharton:process-phoenix:2.0.0'
-  compile 'com.jakewharton.timber:timber:4.5.1'
-  compile 'com.jakewharton.byteunits:byteunits:0.9.1'
-  compile 'com.jakewharton.rxbinding:rxbinding:1.0.1'
-  internalDebugCompile 'com.jakewharton.madge:madge:1.1.4'
-  internalDebugCompile 'com.jakewharton.scalpel:scalpel:1.1.2'
+  implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
+  implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-  internalCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-  productionCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+  implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
 
-  compile 'io.reactivex:rxjava:1.2.9'
-  compile 'io.reactivex:rxandroid:1.2.1'
+  internalImplementation 'com.mattprecious.telescope:telescope:2.1.0@aar'
 
-  compile 'com.jakewharton.threetenabp:threetenabp:1.0.5'
+  implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
 
-  internalCompile 'com.mattprecious.telescope:telescope:2.1.0@aar'
+  implementation 'io.github.kobakei:ratethisapp:1.2.0'
 
-  compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.2'
+  internalImplementation "com.facebook.stetho:stetho:$stethoVersion"
+  internalImplementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
+  internalImplementation "com.facebook.stetho:stetho-timber:$stethoVersion@aar"
 
-  compile 'io.github.kobakei:ratethisapp:1.2.0'
+  implementation 'com.andrewreitz.velcro:velcro-bindablerecycleradapter:2.0.0-SNAPSHOT'
 
-  internalCompile "com.facebook.stetho:stetho:$stethoVersion"
-  internalCompile "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
-  internalCompile "com.facebook.stetho:stetho-timber:$stethoVersion@aar"
+  productionImplementation('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') { transitive = true }
 
-  compile 'com.andrewreitz.velcro:velcro-bindablerecycleradapter:2.0.0-SNAPSHOT'
-
-  productionCompile('com.crashlytics.sdk.android:crashlytics:2.6.7@aar') { transitive = true }
-
-  testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+  testImplementation 'org.amshove.kluent:kluent-android:1.35'
 }
 
-androidGroovy {
-  // setup custom groovy compile options
-  options {
-    configure(groovyOptions) {
-      javaAnnotationProcessing = true
-      configurationScript = file("$projectDir/config/groovy-compile-options.groovy")
-    }
-  }
-  skipJavaC = true
+kapt {
+  useBuildCache = true
 }
 
 configurations.all { resolutionStrategy { force "com.android.support:support-annotations:$supportVersion" } }
@@ -224,21 +224,4 @@ android.applicationVariants.all { variant ->
 // The default 'assemble' task only applies to normal variants. Add test variants as well.
 android.testVariants.all { variant ->
   tasks.getByName('assemble').dependsOn variant.assemble
-}
-
-dependencyUpdates.resolutionStrategy = {
-  componentSelection { rules ->
-    rules.all { ComponentSelection selection ->
-      boolean rejected = [
-        'alpha',
-        'beta',
-        'alpha-preview-01'
-      ].any { qualifier ->
-        selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
-      }
-      if (rejected) {
-        selection.reject('Release candidate')
-      }
-    }
-  }
 }

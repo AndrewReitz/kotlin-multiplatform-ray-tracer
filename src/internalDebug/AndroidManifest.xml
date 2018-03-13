@@ -11,7 +11,10 @@
   <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
-  <application>
+  <application
+      android:icon="@mipmap/dev_app_icon"
+      tools:replace="android:icon"
+      >
     <activity
         android:name="cash.andrew.mntrailconditions.ui.DebugActivity"
         android:label="MnTrailConditions Dev Settings"

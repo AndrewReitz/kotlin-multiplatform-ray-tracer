@@ -2,16 +2,13 @@ package cash.andrew.mntrailconditions.ui;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cash.andrew.mntrailconditions.R;
-import cash.andrew.mntrailconditions.data.Injector;
 import com.kobakei.ratethisapp.RateThisApp;
-import dagger.ObjectGraph;
 import javax.inject.Inject;
 
 public final class MainActivity extends Activity {
@@ -23,17 +20,12 @@ public final class MainActivity extends Activity {
 
   @Inject ViewContainer viewContainer;
 
-  private ObjectGraph activityGraph;
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     LayoutInflater inflater = getLayoutInflater();
 
-    // Explicitly reference the application object since we don't want to match our own injector.
-    ObjectGraph appGraph = Injector.obtain(getApplication());
-    appGraph.inject(this);
-    activityGraph = appGraph.plus(new MainActivityModule(this));
+    // todo inject stuff
 
     ViewGroup container = viewContainer.forActivity(this);
 
@@ -44,19 +36,5 @@ public final class MainActivity extends Activity {
 
     RateThisApp.onCreate(this);
     RateThisApp.showRateDialogIfNeeded(this);
-  }
-
-  @Override
-  public Object getSystemService(@NonNull String name) {
-    if (Injector.matchesService(name)) {
-      return activityGraph;
-    }
-    return super.getSystemService(name);
-  }
-
-  @Override
-  protected void onDestroy() {
-    activityGraph = null;
-    super.onDestroy();
   }
 }

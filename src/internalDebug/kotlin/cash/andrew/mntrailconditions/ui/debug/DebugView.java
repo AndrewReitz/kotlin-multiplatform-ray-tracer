@@ -27,7 +27,6 @@ import cash.andrew.mntrailconditions.data.AnimationSpeed;
 import cash.andrew.mntrailconditions.data.ApiEndpoint;
 import cash.andrew.mntrailconditions.data.ApiEndpoints;
 import cash.andrew.mntrailconditions.data.CaptureIntents;
-import cash.andrew.mntrailconditions.data.Injector;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.data.NetworkDelay;
 import cash.andrew.mntrailconditions.data.NetworkFailurePercent;
@@ -175,7 +174,6 @@ public final class DebugView extends FrameLayout {
 
   public DebugView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    Injector.obtain(context).inject(this);
 
     // Inflate all of the controls and inject them.
     LayoutInflater.from(context).inflate(R.layout.debug_view_content, this);

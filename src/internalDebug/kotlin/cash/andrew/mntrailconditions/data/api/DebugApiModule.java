@@ -21,7 +21,7 @@ import retrofit2.mock.MockRetrofit;
 import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
-@Module(complete = false, library = true, overrides = true)
+@Module
 public final class DebugApiModule {
   @Provides
   @Singleton

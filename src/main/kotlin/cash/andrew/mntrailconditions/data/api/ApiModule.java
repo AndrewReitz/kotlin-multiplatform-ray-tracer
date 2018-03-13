@@ -11,7 +11,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
-@Module(complete = false, library = true)
+@Module
 public final class ApiModule {
   public static final HttpUrl PRODUCTION_API_URL =
       HttpUrl.parse("https://mn-trail-info-service.herokuapp.com");

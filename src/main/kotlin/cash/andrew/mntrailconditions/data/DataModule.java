@@ -23,7 +23,7 @@ import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import timber.log.Timber;
 
-@Module(includes = ApiModule.class, complete = false, library = true)
+@Module(includes = ApiModule.class)
 public final class DataModule {
   static final int DISK_CACHE_SIZE = (int) MEGABYTES.toBytes(50);
 

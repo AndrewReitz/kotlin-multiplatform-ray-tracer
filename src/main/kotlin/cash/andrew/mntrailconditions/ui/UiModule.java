@@ -4,13 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 import javax.inject.Singleton;
 
-@Module(
-  injects = {
-    MainActivity.class,
-  },
-  complete = false,
-  library = true
-)
+@Module
 public final class UiModule {
   @Provides
   @Singleton

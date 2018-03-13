@@ -5,9 +5,14 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import cash.andrew.mntrailconditions.R
-import cash.andrew.mntrailconditions.data.Injector
 import cash.andrew.mntrailconditions.data.api.TrailConditionsService
-import cash.andrew.mntrailconditions.util.*
+import cash.andrew.mntrailconditions.util.data
+import cash.andrew.mntrailconditions.util.isNotSuccessful
+import cash.andrew.mntrailconditions.util.isSuccessful
+import cash.andrew.mntrailconditions.util.observeOnMainThread
+import cash.andrew.mntrailconditions.util.plusAssign
+import cash.andrew.mntrailconditions.util.retryOnUnsuccessfulResult
+import cash.andrew.mntrailconditions.util.retryWithTimeout
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.trail_list_view.view.*
 import org.threeten.bp.LocalDateTime
@@ -28,12 +33,6 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     private val recyclerView by lazy { trail_list_recycler_view }
     private val refreshLayout by lazy { trail_list_content }
     private val animator by lazy { trail_list_animator }
-
-    init {
-        if (!isInEditMode) {
-            Injector.obtain(context).inject(this)
-        }
-    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()

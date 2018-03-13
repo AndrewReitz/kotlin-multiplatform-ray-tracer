@@ -8,11 +8,11 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 
 interface TrailConditionsService {
-    @GET("/")
+    @GET("/?api-version=1")
     @Headers("api-version: 1")
     fun trailRegions(): Single<Result<List<TrailRegion>>>
 
-    @GET("/")
+    @GET("/?api-version=3")
     @Headers("api-version: 3")
     fun trailData(): Single<Result<List<TrailData>>>
 }

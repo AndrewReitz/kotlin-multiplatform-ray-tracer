@@ -70,6 +70,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
         subscriptions += trailData.filter { result -> result.isSuccessful }
                 .map { result -> result.data }
+                .doOnSuccess { Timber.v("trail data list: %s", it) }
                 .toObservable()
                 .flatMapIterable { it }
                 .map { data -> data.toViewModel() }
@@ -83,7 +84,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
         subscriptions += trailData.filter { result -> result.isNotSuccessful }
                 .observeOnMainThread()
-                .doOnSuccess { result ->
+                .subscribe { result ->
                     if (result.isError) {
                         Timber.e(result.error(), "Failed to get trail data from v3 api")
                     } else {
@@ -91,7 +92,6 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                         Timber.e("Failed to get trail data from v3 api. Server returned %d", response.code())
                     }
                 }
-                .subscribe {  animator.displayedChildId = R.id.trail_list_error }
 
         val trailRegions = trailData.filter { it.isNotSuccessful }
                 .flatMap {

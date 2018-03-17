@@ -216,29 +216,6 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
     Drawable getDefaultStatusBarBackground(Context context);
   }
 
-  static class DrawerLayoutCompatImplBase implements DrawerLayoutCompatImpl {
-    public void configureApplyInsets(View drawerLayout) {
-      // This space for rent
-    }
-
-    public void dispatchChildInsets(View child, Object insets, int drawerGravity) {
-      // This space for rent
-    }
-
-    public void applyMarginInsets(MarginLayoutParams lp, Object insets, int drawerGravity) {
-      // This space for rent
-    }
-
-    public int getTopInset(Object insets) {
-      return 0;
-    }
-
-    @Override
-    public Drawable getDefaultStatusBarBackground(Context context) {
-      return null;
-    }
-  }
-
   static class DrawerLayoutCompatImplApi21 implements DrawerLayoutCompatImpl {
     public void configureApplyInsets(View drawerLayout) {
       DrawerLayoutCompatApi21.configureApplyInsets(drawerLayout);
@@ -263,12 +240,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
   }
 
   static {
-    final int version = Build.VERSION.SDK_INT;
-    if (version >= 21) {
-      IMPL = new DrawerLayoutCompatImplApi21();
-    } else {
-      IMPL = new DrawerLayoutCompatImplBase();
-    }
+    IMPL = new DrawerLayoutCompatImplApi21();
   }
 
   static final DrawerLayoutCompatImpl IMPL;

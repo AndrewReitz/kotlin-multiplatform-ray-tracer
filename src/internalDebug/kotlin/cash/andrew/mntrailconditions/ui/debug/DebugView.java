@@ -32,7 +32,6 @@ import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.data.NetworkDelay;
 import cash.andrew.mntrailconditions.data.NetworkFailurePercent;
 import cash.andrew.mntrailconditions.data.NetworkVariancePercent;
-import cash.andrew.mntrailconditions.data.PicassoDebugging;
 import cash.andrew.mntrailconditions.ui.logs.LogsDialog;
 import cash.andrew.mntrailconditions.ui.misc.EnumAdapter;
 import cash.andrew.mntrailconditions.util.IntentManager;
@@ -155,7 +154,6 @@ public final class DebugView extends FrameLayout {
   @Inject @ApiEndpoint Preference<String> networkEndpoint;
   @Inject @CaptureIntents Preference<Boolean> captureIntents;
   @Inject @AnimationSpeed Preference<Integer> animationSpeed;
-  @Inject @PicassoDebugging Preference<Boolean> picassoDebugging;
   @Inject @NetworkDelay Preference<Long> networkDelay;
   @Inject @NetworkFailurePercent Preference<Integer> networkFailurePercent;
   @Inject @NetworkVariancePercent Preference<Integer> networkVariancePercent;
@@ -176,7 +174,6 @@ public final class DebugView extends FrameLayout {
     ButterKnife.bind(this);
 
     setupNetworkSection();
-    setupUserInterfaceSection();
     setupBuildSection();
     setupDeviceSection();
     setupOkHttpCacheSection();
@@ -215,26 +212,6 @@ public final class DebugView extends FrameLayout {
     Timber.d("Prompting to edit custom endpoint URL.");
     // Pass in the currently selected position since we are merely editing.
     showCustomEndpointDialog(endpointView.getSelectedItemPosition(), networkEndpoint.get());
-  }
-
-  private void setupUserInterfaceSection() {
-    final AnimationSpeedAdapter speedAdapter = new AnimationSpeedAdapter(getContext());
-    uiAnimationSpeedView.setAdapter(speedAdapter);
-    final int animationSpeedValue = animationSpeed.get();
-    uiAnimationSpeedView.setSelection(
-        AnimationSpeedAdapter.getPositionForValue(animationSpeedValue));
-
-    RxAdapterView.itemSelections(uiAnimationSpeedView)
-        .map(speedAdapter::getItem)
-        .filter(item -> item != animationSpeed.get())
-        .subscribe(
-            selected -> {
-              Timber.d("Setting animation speed to %sx", selected);
-              animationSpeed.set(selected);
-              applyAnimationSpeed(selected);
-            });
-    // Ensure the animation speed value is always applied across app restarts.
-    post(() -> applyAnimationSpeed(animationSpeedValue));
   }
 
   @OnClick(R.id.debug_logs_show)

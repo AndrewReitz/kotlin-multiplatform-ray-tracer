@@ -22,11 +22,9 @@ import cash.andrew.mntrailconditions.R;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.data.SeenDebugDrawer;
 import cash.andrew.mntrailconditions.ui.ViewContainer;
-import cash.andrew.mntrailconditions.ui.bugreport.BugReportLens;
 import cash.andrew.mntrailconditions.util.IntentManager;
 
 import com.f2prateek.rx.preferences2.Preference;
-import com.mattprecious.telescope.TelescopeLayout;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -46,9 +44,6 @@ public final class DebugViewContainer implements ViewContainer {
 
     @BindView(R.id.debug_drawer)
     ViewGroup debugDrawer;
-
-    @BindView(R.id.telescope_container)
-    TelescopeLayout telescopeLayout;
 
     @BindView(R.id.debug_content)
     FrameLayout content;
@@ -85,9 +80,6 @@ public final class DebugViewContainer implements ViewContainer {
             debugView.onDrawerOpened();
           }
         });
-
-    TelescopeLayout.cleanUp(activity); // Clean up any old screenshots.
-    viewHolder.telescopeLayout.setLens(new BugReportLens(activity, lumberYard, intentManager));
 
     // If you have not seen the debug drawer before, show it with a message
     if (!seenDebugDrawer.get()) {

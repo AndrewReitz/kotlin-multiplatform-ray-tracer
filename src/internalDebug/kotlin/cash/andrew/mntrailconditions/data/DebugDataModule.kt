@@ -6,13 +6,21 @@ import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import dagger.Module
 import dagger.Provides
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier annotation class ApiEndpoint
+@Qualifier annotation class AnimationSpeed
+@Qualifier annotation class CaptureIntents
+@Qualifier annotation class NetworkDelay
+@Qualifier annotation class NetworkFailurePercent
+@Qualifier annotation class NetworkVariancePercent
+@Qualifier annotation class SeenDebugDrawer
 
 @Module(includes = [DebugApiModule::class])
 object DebugDataModule {
 
     private const val DEFAULT_ANIMATION_SPEED = 1 // 1x (normal) speed.
-    private const val DEFAULT_PICASSO_DEBUGGING = false // Debug indicators displayed
     private const val DEFAULT_SEEN_DEBUG_DRAWER = false // Show debug drawer first time.
     private const val DEFAULT_CAPTURE_INTENTS = true // Capture external intents.
 
@@ -57,13 +65,6 @@ object DebugDataModule {
     @AnimationSpeed
     fun provideAnimationSpeed(preferences: RxSharedPreferences): Preference<Int> =
             preferences.getInteger("debug_animation_speed", DEFAULT_ANIMATION_SPEED)
-
-    @JvmStatic
-    @Provides
-    @Singleton
-    @PicassoDebugging
-    fun providePicassoDebugging(preferences: RxSharedPreferences): Preference<Boolean> =
-            preferences.getBoolean("debug_picasso_debugging", DEFAULT_PICASSO_DEBUGGING)
 
     @JvmStatic
     @Provides

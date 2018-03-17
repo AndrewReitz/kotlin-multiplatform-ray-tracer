@@ -189,8 +189,6 @@ dependencies {
 
   implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
 
-  internalImplementation 'com.mattprecious.telescope:telescope:2.1.0@aar'
-
   implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
 
   implementation 'io.github.kobakei:ratethisapp:1.2.0'

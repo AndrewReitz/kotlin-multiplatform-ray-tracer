@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.widget.LinearLayout
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.api.TrailConditionsService
+import cash.andrew.mntrailconditions.util.activityComponent
 import cash.andrew.mntrailconditions.util.data
 import cash.andrew.mntrailconditions.util.isNotSuccessful
 import cash.andrew.mntrailconditions.util.isSuccessful
@@ -19,11 +20,9 @@ import org.threeten.bp.LocalDateTime
 import timber.log.Timber
 import javax.inject.Inject
 
-class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+private val THREE_MONTHS_BEFORE_TODAY = LocalDateTime.now().minusMonths(3)
 
-    companion object {
-        private val THREE_MONTHS_BEFORE_TODAY = LocalDateTime.now().minusMonths(3)
-    }
+class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     @Inject lateinit var trailConditionsService: TrailConditionsService
     @Inject lateinit var trailListAdapter: TrailListAdapter
@@ -33,6 +32,10 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     private val recyclerView by lazy { trail_list_recycler_view }
     private val refreshLayout by lazy { trail_list_content }
     private val animator by lazy { trail_list_animator }
+
+    init {
+        context.activityComponent.trailsComponent.inject(this)
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -65,6 +68,14 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         val trailData = trailConditionsService.trailData()
                 .retryOnUnsuccessfulResult(3)
                 .retryWithTimeout()
+                .doOnSuccess { result ->
+                    if (result.isError) {
+                        Timber.e(result.error(), "Failed to get trail data from v3 api")
+                    } else {
+                        val response = result.response()
+                        Timber.e("Failed to get trail data from v3 api. Server returned %d", response.code())
+                    }
+                }
                 .cache()
 
         subscriptions += trailData.filter { result -> result.isSuccessful }
@@ -79,17 +90,6 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 .subscribe { trails ->
                     trailListAdapter.trails = trails
                     animator.displayedChildId = R.id.trail_list_content
-                }
-
-        subscriptions += trailData.filter { result -> result.isNotSuccessful }
-                .observeOnMainThread()
-                .subscribe { result ->
-                    if (result.isError) {
-                        Timber.e(result.error(), "Failed to get trail data from v3 api")
-                    } else {
-                        val response = result.response()
-                        Timber.e("Failed to get trail data from v3 api. Server returned %d", response.code())
-                    }
                 }
 
         val trailRegions = trailData.filter { it.isNotSuccessful }

@@ -22,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cash.andrew.mntrailconditions.BuildConfig;
+import cash.andrew.mntrailconditions.MnTrailConditionsApp;
 import cash.andrew.mntrailconditions.R;
 import cash.andrew.mntrailconditions.data.AnimationSpeed;
 import cash.andrew.mntrailconditions.data.ApiEndpoint;
@@ -40,8 +41,6 @@ import com.f2prateek.rx.preferences2.Preference;
 import com.jakewharton.processphoenix.ProcessPhoenix;
 import com.jakewharton.rxbinding2.widget.RxAdapterView;
 import com.squareup.leakcanary.internal.DisplayLeakActivity;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.StatsSnapshot;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -50,15 +49,12 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
-import io.reactivex.functions.Consumer;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
 import org.threeten.bp.Instant;
 import org.threeten.bp.ZoneId;
 import org.threeten.bp.format.DateTimeFormatter;
 import org.threeten.bp.temporal.TemporalAccessor;
-import retrofit2.mock.NetworkBehavior;
 import timber.log.Timber;
 
 public final class DebugView extends FrameLayout {
@@ -155,13 +151,11 @@ public final class DebugView extends FrameLayout {
   @Named("Api")
   OkHttpClient apiClient;
 
-  @Inject Picasso picasso;
   @Inject LumberYard lumberYard;
   @Inject @ApiEndpoint Preference<String> networkEndpoint;
   @Inject @CaptureIntents Preference<Boolean> captureIntents;
   @Inject @AnimationSpeed Preference<Integer> animationSpeed;
   @Inject @PicassoDebugging Preference<Boolean> picassoDebugging;
-  @Inject NetworkBehavior behavior;
   @Inject @NetworkDelay Preference<Long> networkDelay;
   @Inject @NetworkFailurePercent Preference<Integer> networkFailurePercent;
   @Inject @NetworkVariancePercent Preference<Integer> networkVariancePercent;
@@ -175,6 +169,8 @@ public final class DebugView extends FrameLayout {
   public DebugView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
+    ((MnTrailConditionsApp)context.getApplicationContext()).getComponent().inject(this);
+
     // Inflate all of the controls and inject them.
     LayoutInflater.from(context).inflate(R.layout.debug_view_content, this);
     ButterKnife.bind(this);
@@ -183,17 +179,15 @@ public final class DebugView extends FrameLayout {
     setupUserInterfaceSection();
     setupBuildSection();
     setupDeviceSection();
-    setupPicassoSection();
     setupOkHttpCacheSection();
   }
 
   public void onDrawerOpened() {
-    refreshPicassoStats();
     refreshOkHttpCacheStats();
   }
 
   private void setupNetworkSection() {
-    final ApiEndpoints currentEndpoint = ApiEndpoints.from(networkEndpoint.get());
+    final ApiEndpoints currentEndpoint = ApiEndpoints.Companion.from(networkEndpoint.get());
     final EnumAdapter<ApiEndpoints> endpointAdapter =
         new EnumAdapter<>(getContext(), ApiEndpoints.class);
     endpointView.setAdapter(endpointAdapter);
@@ -208,7 +202,7 @@ public final class DebugView extends FrameLayout {
                 Timber.d("Custom network endpoint selected. Prompting for URL.");
                 showCustomEndpointDialog(currentEndpoint.ordinal(), "http://");
               } else {
-                setEndpointAndRelaunch(selected.url);
+                setEndpointAndRelaunch(selected.getUrl());
               }
             });
 
@@ -276,36 +270,6 @@ public final class DebugView extends FrameLayout {
     deviceDensityView.setText(displayMetrics.densityDpi + "dpi (" + densityBucket + ")");
     deviceReleaseView.setText(Build.VERSION.RELEASE);
     deviceApiView.setText(String.valueOf(Build.VERSION.SDK_INT));
-  }
-
-  private void setupPicassoSection() {
-    boolean picassoDebuggingValue = picassoDebugging.get();
-    picasso.setIndicatorsEnabled(picassoDebuggingValue);
-    picassoIndicatorView.setChecked(picassoDebuggingValue);
-    picassoIndicatorView.setOnCheckedChangeListener(
-        (button, isChecked) -> {
-          Timber.d("Setting Picasso debugging to " + isChecked);
-          picasso.setIndicatorsEnabled(isChecked);
-          picassoDebugging.set(isChecked);
-        });
-
-    refreshPicassoStats();
-  }
-
-  private void refreshPicassoStats() {
-    StatsSnapshot snapshot = picasso.getSnapshot();
-    String size = getSizeString(snapshot.size);
-    String total = getSizeString(snapshot.maxSize);
-    int percentage = (int) ((1f * snapshot.size / snapshot.maxSize) * 100);
-    picassoCacheSizeView.setText(size + " / " + total + " (" + percentage + "%)");
-    picassoCacheHitView.setText(String.valueOf(snapshot.cacheHits));
-    picassoCacheMissView.setText(String.valueOf(snapshot.cacheMisses));
-    picassoDecodedView.setText(String.valueOf(snapshot.originalBitmapCount));
-    picassoDecodedTotalView.setText(getSizeString(snapshot.totalOriginalBitmapSize));
-    picassoDecodedAvgView.setText(getSizeString(snapshot.averageOriginalBitmapSize));
-    picassoTransformedView.setText(String.valueOf(snapshot.transformedBitmapCount));
-    picassoTransformedTotalView.setText(getSizeString(snapshot.totalTransformedBitmapSize));
-    picassoTransformedAvgView.setText(getSizeString(snapshot.averageTransformedBitmapSize));
   }
 
   private void setupOkHttpCacheSection() {

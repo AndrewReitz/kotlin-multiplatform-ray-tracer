@@ -1,7 +1,7 @@
 package cash.andrew.mntrailconditions.data.model
 
 import android.support.annotation.DrawableRes
-import cash.andrew.mntrailconditions.MnTrailConditionsApp
+import cash.andrew.mntrailconditions.DATE_TIME_FORMAT
 import cash.andrew.mntrailconditions.util.statusToResource
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
@@ -22,7 +22,7 @@ data class TrailData(
         val street: String?
 )
 
-val TrailData.updatedAtString: String get() = MnTrailConditionsApp.DATE_TIME_FORMAT.format(
+val TrailData.updatedAtString: String get() = DATE_TIME_FORMAT.format(
         LocalDateTime.ofInstant(updatedAt, ZoneId.systemDefault())
 )
 

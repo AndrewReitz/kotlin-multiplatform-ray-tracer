@@ -2,6 +2,8 @@ package cash.andrew.mntrailconditions.util
 
 import android.app.Activity
 import android.content.Context
+import cash.andrew.mntrailconditions.MnTrailConditionsApp
+import cash.andrew.mntrailconditions.ui.ActivityComponent
 
 /**
  * Interface to express that an object is the owner of a component. You can get a reference to this
@@ -16,14 +18,14 @@ interface HasComponent<out T> {
     val component: T
 }
 
-//fun <T> T.makeComponent():
-//        ActivityComponent where T : HasComponent<ActivityComponent>,
-//                                T : Activity = (application as PrideApp)
-//        .component
-//        .activityComponentBuilder()
-//        .activity(this)
-//        .build()
-//
-//@Suppress("UNCHECKED_CAST")
-//val Context.activityComponent
-//    get() = (this as HasComponent<ActivityComponent>).component
+fun <T> T.makeComponent():
+        ActivityComponent where T : HasComponent<ActivityComponent>,
+                                T : Activity = (application as MnTrailConditionsApp)
+        .component
+        .activityComponentBuilder
+        .activity(this)
+        .build()
+
+@Suppress("UNCHECKED_CAST")
+val Context.activityComponent
+    get() = (this as HasComponent<ActivityComponent>).component

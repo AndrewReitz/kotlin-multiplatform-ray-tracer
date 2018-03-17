@@ -12,11 +12,13 @@ import timber.log.Timber
 
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
+val DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy h:mm a")!!
+
 class MnTrailConditionsApp : Application(), HasComponent<AppComponent> {
 
-    val activityHierarchyServer by lazy { component.activityHierarchyServer }
-    val lumberYard by lazy { component.lumberYard }
-    val appInitializer by lazy { component.appInitializer }
+    private val activityHierarchyServer by lazy { component.activityHierarchyServer }
+    private val lumberYard by lazy { component.lumberYard }
+    private val appInitializer by lazy { component.appInitializer }
 
     private lateinit var _component: AppComponent
     override val component by lazy { _component }
@@ -40,9 +42,5 @@ class MnTrailConditionsApp : Application(), HasComponent<AppComponent> {
         Timber.plant(lumberYard.tree())
 
         registerActivityLifecycleCallbacks(activityHierarchyServer)
-    }
-
-    companion object {
-        val DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy h:mm a")!!
     }
 }

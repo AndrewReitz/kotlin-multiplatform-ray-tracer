@@ -4,6 +4,10 @@ import static org.threeten.bp.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 import android.app.Application;
 import android.util.Log;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.PublishSubject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -12,14 +16,8 @@ import java.util.Deque;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 import okio.BufferedSink;
 import okio.Okio;
-
 import org.threeten.bp.LocalDateTime;
 import timber.log.Timber;
 
@@ -66,38 +64,38 @@ public final class LumberYard {
   /** Save the current logs to disk. */
   public Observable<File> save() {
     return Observable.create(
-            emitter -> {
-                File folder = app.getExternalFilesDir(null);
-                if (folder == null) {
-                    emitter.onError(new IOException("External storage is not mounted."));
-                    return;
-                }
+        emitter -> {
+          File folder = app.getExternalFilesDir(null);
+          if (folder == null) {
+            emitter.onError(new IOException("External storage is not mounted."));
+            return;
+          }
 
-                String fileName = ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
-                File output = new File(folder, fileName);
+          String fileName = ISO_LOCAL_DATE_TIME.format(LocalDateTime.now());
+          File output = new File(folder, fileName);
 
-                BufferedSink sink = null;
-                try {
-                    sink = Okio.buffer(Okio.sink(output));
-                    List<Entry> entries = bufferedLogs();
-                    for (Entry entry : entries) {
-                        sink.writeUtf8(entry.prettyPrint()).writeByte('\n');
-                    }
+          BufferedSink sink = null;
+          try {
+            sink = Okio.buffer(Okio.sink(output));
+            List<Entry> entries = bufferedLogs();
+            for (Entry entry : entries) {
+              sink.writeUtf8(entry.prettyPrint()).writeByte('\n');
+            }
 
-                    emitter.onNext(output);
-                    emitter.onComplete();
-                } catch (IOException e) {
-                    emitter.onError(e);
-                } finally {
-                    if (sink != null) {
-                        try {
-                            sink.close();
-                        } catch (IOException e) {
-                            emitter.onError(e);
-                        }
-                    }
-                }
-            });
+            emitter.onNext(output);
+            emitter.onComplete();
+          } catch (IOException e) {
+            emitter.onError(e);
+          } finally {
+            if (sink != null) {
+              try {
+                sink.close();
+              } catch (IOException e) {
+                emitter.onError(e);
+              }
+            }
+          }
+        });
   }
 
   /**
@@ -105,18 +103,19 @@ public final class LumberYard {
    * finished using the file reference.
    */
   public void cleanUp() {
-      Completable.fromAction(() -> {
-          File folder = app.getExternalFilesDir(null);
-          if (folder != null) {
-              for (File file : folder.listFiles()) {
+    Completable.fromAction(
+            () -> {
+              File folder = app.getExternalFilesDir(null);
+              if (folder != null) {
+                for (File file : folder.listFiles()) {
                   if (file.getName().endsWith(".log")) {
-                      file.delete();
+                    file.delete();
                   }
+                }
               }
-          }
-      })
-      .observeOn(Schedulers.computation())
-      .subscribe();
+            })
+        .observeOn(Schedulers.computation())
+        .subscribe();
   }
 
   public static final class Entry {

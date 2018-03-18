@@ -84,7 +84,6 @@ class DebugView
         setupDeviceSection()
         setupOkHttpCacheSection()
 
-
         endpointEditView.setOnClickListener {
             Timber.d("Prompting to edit custom endpoint URL.")
             // Pass in the currently selected position since we are merely editing.

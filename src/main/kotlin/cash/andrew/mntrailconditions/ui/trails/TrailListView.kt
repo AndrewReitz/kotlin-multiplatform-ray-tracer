@@ -127,7 +127,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                         Timber.e("Failed to get trail regions. Server returned %d", response.code())
                     }
                 }
-                .subscribe {  animator.displayedChildId = R.id.trail_list_error }
+                .subscribe { animator.displayedChildId = R.id.trail_list_error }
 
         refreshLayout.isRefreshing = false
     }

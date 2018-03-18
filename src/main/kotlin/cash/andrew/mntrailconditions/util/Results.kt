@@ -45,4 +45,3 @@ fun <A : Any> Maybe<Result<A>>.retryOnUnsuccessfulResult(times: Long = 1): Maybe
             .singleElement()
             .switchIfEmpty(cached)
 }
-

@@ -72,5 +72,4 @@ object DebugDataModule {
     @SeenDebugDrawer
     fun provideSeenDebugDrawer(preferences: RxSharedPreferences): Preference<Boolean> =
             preferences.getBoolean("debug_seen_debug_drawer", DEFAULT_SEEN_DEBUG_DRAWER)
-
 }

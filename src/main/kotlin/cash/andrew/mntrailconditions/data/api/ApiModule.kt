@@ -37,5 +37,5 @@ import javax.inject.Qualifier
     fun provideTrailConditionsService(retrofit: Retrofit): TrailConditionsService =
             retrofit.create(TrailConditionsService::class.java)
 
-    fun createApiClient(client: OkHttpClient): OkHttpClient.Builder =  client.newBuilder()
+    fun createApiClient(client: OkHttpClient): OkHttpClient.Builder = client.newBuilder()
 }

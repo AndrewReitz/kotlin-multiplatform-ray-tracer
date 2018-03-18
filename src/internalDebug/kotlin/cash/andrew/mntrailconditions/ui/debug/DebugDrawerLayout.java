@@ -294,7 +294,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
   public void setChildInsets(Object insets, boolean draw) {
     mLastInsets = insets;
     mDrawStatusBarBackground = draw;
-    //setWillNotDraw(!draw && getBackground() == null);
+    // setWillNotDraw(!draw && getBackground() == null);
     requestLayout();
   }
 
@@ -743,11 +743,11 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
 
       if (applyInsets) {
         final int cgrav = GravityCompat.getAbsoluteGravity(lp.gravity, layoutDirection);
-        //if (ViewCompat.getFitsSystemWindows(child)) {
+        // if (ViewCompat.getFitsSystemWindows(child)) {
         IMPL.dispatchChildInsets(child, mLastInsets, cgrav);
-        //}
+        // }
         //  IMPL.applyMarginInsets(lp, mLastInsets, cgrav);
-        //} else {
+        // } else {
       }
 
       if (isContentView(child)) {
@@ -1406,7 +1406,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
   @Override
   public boolean onKeyDown(int keyCode, KeyEvent event) {
     if (keyCode == KeyEvent.KEYCODE_BACK && hasVisibleDrawer()) {
-        event.startTracking();
+      event.startTracking();
       return true;
     }
     return super.onKeyDown(keyCode, event);

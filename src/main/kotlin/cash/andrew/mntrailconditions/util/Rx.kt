@@ -16,11 +16,11 @@ operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
     add(disposable)
 }
 
-fun <T: Any> Single<T>.subscribeOnIO(): Single<T> = subscribeOn(Schedulers.io())
+fun <T : Any> Single<T>.subscribeOnIO(): Single<T> = subscribeOn(Schedulers.io())
 
-fun <T: Any> Observable<T>.observeOnMainThread(): Observable<T> = observeOn(AndroidSchedulers.mainThread())
-fun <T: Any> Single<T>.observeOnMainThread(): Single<T> = observeOn(AndroidSchedulers.mainThread())
-fun <T: Any> Maybe<T>.observeOnMainThread(): Maybe<T> = observeOn(AndroidSchedulers.mainThread())
+fun <T : Any> Observable<T>.observeOnMainThread(): Observable<T> = observeOn(AndroidSchedulers.mainThread())
+fun <T : Any> Single<T>.observeOnMainThread(): Single<T> = observeOn(AndroidSchedulers.mainThread())
+fun <T : Any> Maybe<T>.observeOnMainThread(): Maybe<T> = observeOn(AndroidSchedulers.mainThread())
 
 /**
  * Sets a time out on the [Single] and retries the single [times] specified.
@@ -60,4 +60,3 @@ fun <T : Any> Maybe<T>.retryWithTimeout(
         timeUnit: TimeUnit = TimeUnit.SECONDS
 ): Maybe<T> = timeout(timeout, timeUnit)
         .retry { count, throwable -> throwable is TimeoutException && count < times }
-

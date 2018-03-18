@@ -420,31 +420,6 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
   }
 
   /**
-   * Enable or disable interaction with the given drawer.
-   *
-   * <p>This allows the application to restrict the user's ability to open or close the given
-   * drawer. DrawerLayout will still respond to calls to {@link #openDrawer(int)}, {@link
-   * #closeDrawer(int)} and friends if a drawer is locked.
-   *
-   * <p>Locking a drawer open or closed will implicitly open or close that drawer as appropriate.
-   *
-   * @param lockMode The new lock mode for the given drawer. One of {@link #LOCK_MODE_UNLOCKED},
-   *     {@link #LOCK_MODE_LOCKED_CLOSED} or {@link #LOCK_MODE_LOCKED_OPEN}.
-   * @param drawerView The drawer view to change the lock mode for
-   * @see #LOCK_MODE_UNLOCKED
-   * @see #LOCK_MODE_LOCKED_CLOSED
-   * @see #LOCK_MODE_LOCKED_OPEN
-   */
-  public void setDrawerLockMode(@LockMode int lockMode, View drawerView) {
-    if (!isDrawerView(drawerView)) {
-      throw new IllegalArgumentException(
-          "View " + drawerView + " is not a " + "drawer with appropriate layout_gravity");
-    }
-    final int gravity = ((LayoutParams) drawerView.getLayoutParams()).gravity;
-    setDrawerLockMode(lockMode, gravity);
-  }
-
-  /**
    * Check the lock mode of the drawer with the given gravity.
    *
    * @param edgeGravity Gravity of the drawer to check

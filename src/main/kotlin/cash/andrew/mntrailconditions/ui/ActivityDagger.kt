@@ -26,6 +26,4 @@ interface ActivityComponent {
 }
 
 @Module
-object ActivityModule {
-
-}
+object ActivityModule

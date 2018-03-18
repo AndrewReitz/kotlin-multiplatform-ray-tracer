@@ -2,19 +2,15 @@ package cash.andrew.mntrailconditions
 
 import android.app.Application
 import cash.andrew.mntrailconditions.data.DataModule
+import cash.andrew.mntrailconditions.data.InternalReleaseDataModule
 import cash.andrew.mntrailconditions.data.LumberYard
-import cash.andrew.mntrailconditions.data.ProdDataModule
 import cash.andrew.mntrailconditions.ui.ActivityComponent
 import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer
 import cash.andrew.mntrailconditions.ui.UiModule
-import cash.andrew.mntrailconditions.util.CrashlyticsTree
-import com.crashlytics.android.Crashlytics
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import io.fabric.sdk.android.Fabric
-import timber.log.Timber
 import javax.inject.Singleton
 
 @Singleton
@@ -34,12 +30,9 @@ interface AppComponent {
     }
 }
 
-@Module(includes = [UiModule::class, DataModule::class, ProdDataModule::class])
+@Module(includes = [UiModule::class, DataModule::class, InternalReleaseDataModule::class])
 object MnTrailConditionsModule {
     @JvmStatic
     @Provides
-    fun provideMnTrailConditionsInitializer(context: Application): MnTrailConditionsInitializer = {
-        Fabric.with(context, Crashlytics())
-        Timber.plant(CrashlyticsTree())
-    }
+    fun provideMnTrailConditionsInitializer(context: Application): MnTrailConditionsInitializer = { }
 }

@@ -50,7 +50,7 @@ object DataModule {
     @Singleton
     fun provideOkHttpClient(app: Application): OkHttpClient = createOkHttpClient(app).build()
 
-    fun createOkHttpClient(app: Application): OkHttpClient.Builder =
+    private fun createOkHttpClient(app: Application): OkHttpClient.Builder =
             OkHttpClient.Builder()
                 .cache(Cache(File(app.cacheDir, "http"), DISK_CACHE_SIZE.toLong()))
                 .addInterceptor(UserAgentInterceptor())

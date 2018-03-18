@@ -8,7 +8,7 @@ import okhttp3.OkHttpClient
 import javax.inject.Singleton
 
 @Module
-object ProdApiModule {
+object InternalReleaseApiModule {
 
     @JvmStatic
     @Provides

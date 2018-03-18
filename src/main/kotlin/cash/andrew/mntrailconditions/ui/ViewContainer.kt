@@ -1,7 +1,5 @@
 package cash.andrew.mntrailconditions.ui
 
-import butterknife.ButterKnife.findById
-
 import android.app.Activity
 import android.view.ViewGroup
 
@@ -12,9 +10,9 @@ interface ViewContainer {
 
     companion object {
         /** An [ViewContainer] which returns the normal activity content view.  */
+        @SuppressWarnings("unused")
         val DEFAULT = object: ViewContainer {
-            override fun forActivity(activity: Activity): ViewGroup =
-                    findById<ViewGroup>(activity, android.R.id.content)
+            override fun forActivity(activity: Activity): ViewGroup = activity.findViewById(android.R.id.content)
         }
     }
 }

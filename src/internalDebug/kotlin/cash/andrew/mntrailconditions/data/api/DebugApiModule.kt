@@ -6,7 +6,6 @@ import com.f2prateek.rx.preferences2.Preference
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
-import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
@@ -33,8 +32,8 @@ object DebugApiModule {
     @JvmStatic
     @Provides
     @Singleton
-    @Named("Api")
-    internal fun provideApiClient(
+    @ApiClient
+    fun provideApiClient(
             client: OkHttpClient,
             loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient = ApiModule.createApiClient(client)

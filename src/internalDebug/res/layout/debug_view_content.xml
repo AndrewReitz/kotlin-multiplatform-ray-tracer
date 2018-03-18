@@ -35,10 +35,12 @@
           style="@android:style/TextAppearance.Holo.Widget.ActionBar.Subtitle"
           />
     </LinearLayout>
+
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@mipmap/dev_app_icon"
+        tools:ignore="ContentDescription"
         />
   </LinearLayout>
 
@@ -78,6 +80,7 @@
         android:src="@drawable/debug_drawer_icon_edit"
         android:background="?android:attr/actionBarItemBackground"
         android:visibility="gone"
+        tools:ignore="ContentDescription,RtlHardcoded"
         />
   </LinearLayout>
 
@@ -263,135 +266,6 @@
       />
   <TextView
       android:id="@+id/debug_device_api"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <!-- PICASSO SECTION -->
-
-  <TextView
-      android:layout_columnSpan="2"
-      android:layout_width="0dp"
-      android:layout_gravity="start|fill_horizontal"
-      android:text="Picasso"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.Header"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Indicators"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <Switch
-      android:id="@+id/debug_picasso_indicators"
-      android:layout_gravity="start|center_vertical"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowWidget"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Cache"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_cache_size"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="   Hits"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_cache_hit"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="   Misses"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_cache_miss"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Decoded"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_decoded"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="   Total"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_decoded_total"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="   Average"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_decoded_avg"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Transformed"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_transformed"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="   Total"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_transformed_total"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="   Average"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_picasso_transformed_avg"
       android:layout_width="0dp"
       android:layout_gravity="start|center_vertical|fill_horizontal"
       style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"

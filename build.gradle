@@ -7,7 +7,8 @@ buildscript {
   }
   dependencies {
     classpath 'com.android.tools.build:gradle:3.0.1'
-    classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    classpath 'com.google.gms:google-services:3.2.0'
+    classpath 'com.google.firebase:firebase-plugins:1.1.5'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     classpath "com.diffplug.spotless:spotless-plugin-gradle:3.10.0"
 
@@ -22,6 +23,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.firebase-perf'
 apply from: "$rootDir/gradle/signing.gradle"
 apply from: "$rootDir/gradle/spotless.gradle"
 
@@ -104,12 +106,10 @@ android {
 
   productFlavors {
     internal {
-        dimension 'environment'
-        applicationIdSuffix 'internal'
+      dimension 'environment'
+      applicationIdSuffix 'internal'
     }
-    production {
-        dimension 'environment'
-    }
+    production { dimension 'environment' }
   }
 
   lintOptions {
@@ -130,13 +130,9 @@ android {
   sourceSets {
     main.java.srcDirs += 'src/main/kotlin'
     test.java.srcDirs += 'src/test/kotlin'
-    debug.java.srcDirs += 'src/debug/kotlin'
-    release.java.srcDirs += 'src/release/kotlin'
-    internal.java.srcDirs += 'src/internal/kotlin'
     internalDebug.java.srcDirs += 'src/internalDebug/kotlin'
+    internalRelease.java.srcDirs += 'src/internalRelease/kotlin'
     production.java.srcDirs += 'src/production/kotlin'
-    productionDebug.java.srcDirs += 'src/productionDebug/kotlin'
-    productionRelease.java.srcDirs += 'src/productionRelease/kotlin'
   }
 }
 
@@ -146,6 +142,7 @@ ext {
   supportVersion = '27.1.0'
   stethoVersion = '1.5.0'
   retrofitVersion = '2.2.0'
+  firebaseVersion = "11.8.0"
 }
 
 dependencies {
@@ -161,21 +158,18 @@ dependencies {
   implementation "com.android.support:design:$supportVersion"
   implementation "com.android.support:cardview-v7:$supportVersion"
 
-  implementation 'com.squareup.dagger:dagger:1.2.5'
-  kapt 'com.squareup.dagger:dagger-compiler:1.2.5'
+  implementation "com.google.firebase:firebase-core:$firebaseVersion"
+  implementation "com.google.firebase:firebase-perf:$firebaseVersion"
 
-  implementation 'com.squareup.okhttp3:okhttp:3.9.1'
-  implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-  implementation 'com.squareup.picasso:picasso:2.5.2'
-  implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
+  implementation 'com.google.dagger:dagger:2.15'
+  kapt 'com.google.dagger:dagger-compiler:2.15'
+
+  implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+  implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
   implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
   implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
   implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
   implementation 'com.squareup.moshi:moshi-kotlin:1.5.0'
-  internalDebugImplementation "com.squareup.retrofit2:retrofit-mock:$retrofitVersion"
-
-  implementation 'com.jakewharton:butterknife:8.8.1'
-  kapt 'com.jakewharton:butterknife-compiler:8.8.1'
 
   implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
   implementation 'com.jakewharton:process-phoenix:2.0.0'
@@ -189,8 +183,6 @@ dependencies {
   implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
   implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
-
-  internalImplementation 'com.mattprecious.telescope:telescope:2.1.0@aar'
 
   implementation 'com.f2prateek.rx.preferences2:rx-preferences:2.0.0-RC3'
 
@@ -207,9 +199,7 @@ dependencies {
   testImplementation 'org.amshove.kluent:kluent-android:1.35'
 }
 
-kapt {
-  useBuildCache = true
-}
+kapt { useBuildCache = true }
 
 configurations.all { resolutionStrategy { force "com.android.support:support-annotations:$supportVersion" } }
 
@@ -225,3 +215,5 @@ android.applicationVariants.all { variant ->
 android.testVariants.all { variant ->
   tasks.getByName('assemble').dependsOn variant.assemble
 }
+
+apply plugin: 'com.google.gms.google-services'

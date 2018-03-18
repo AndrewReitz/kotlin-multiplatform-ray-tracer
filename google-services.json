@@ -1,0 +1,187 @@
+{
+  "project_info": {
+    "project_number": "404915382330",
+    "firebase_url": "https://morc-trail-conditions.firebaseio.com",
+    "project_id": "morc-trail-conditions",
+    "storage_bucket": "morc-trail-conditions.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404915382330:android:31ddccdaf96d44f3",
+        "android_client_info": {
+          "package_name": "com.andrewreitz.cash.andrew.mntrailconditions.internal.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404915382330-dsdmgq9cbouio0887jenc1ie2mi5frge.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andrewreitz.cash.andrew.mntrailconditions.internal.debug",
+            "certificate_hash": "ff77272a0622ca238bc1c5c347313ffdbee54fea"
+          }
+        },
+        {
+          "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmPbjVP9eL1Zv9wu93Q4AiB5RYR-vl4tE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404915382330:android:df8cc4523e6f51a7",
+        "android_client_info": {
+          "package_name": "com.andrewreitz.cash.andrew.mntrailconditions.internal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404915382330-3qs24pqk7bsoro9god44im7snbcgfa8d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andrewreitz.cash.andrew.mntrailconditions.internal",
+            "certificate_hash": "ff77272a0622ca238bc1c5c347313ffdbee54fea"
+          }
+        },
+        {
+          "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmPbjVP9eL1Zv9wu93Q4AiB5RYR-vl4tE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404915382330:android:32e48190793ac5e2",
+        "android_client_info": {
+          "package_name": "com.andrewreitz.cash.andrew.mntrailconditions"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404915382330-kminpgl2v3gch7uvv70fpunn0get98ll.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andrewreitz.cash.andrew.mntrailconditions",
+            "certificate_hash": "ff77272a0622ca238bc1c5c347313ffdbee54fea"
+          }
+        },
+        {
+          "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmPbjVP9eL1Zv9wu93Q4AiB5RYR-vl4tE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404915382330:android:27922e61e30fbca5",
+        "android_client_info": {
+          "package_name": "com.andrewreitz.cash.andrew.mntrailconditions.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404915382330-5ut2itntdglpul1qrhbld5aclmihfc81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.andrewreitz.cash.andrew.mntrailconditions.debug",
+            "certificate_hash": "ff77272a0622ca238bc1c5c347313ffdbee54fea"
+          }
+        },
+        {
+          "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmPbjVP9eL1Zv9wu93Q4AiB5RYR-vl4tE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

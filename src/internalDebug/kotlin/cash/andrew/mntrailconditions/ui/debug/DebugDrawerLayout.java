@@ -216,29 +216,6 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
     Drawable getDefaultStatusBarBackground(Context context);
   }
 
-  static class DrawerLayoutCompatImplBase implements DrawerLayoutCompatImpl {
-    public void configureApplyInsets(View drawerLayout) {
-      // This space for rent
-    }
-
-    public void dispatchChildInsets(View child, Object insets, int drawerGravity) {
-      // This space for rent
-    }
-
-    public void applyMarginInsets(MarginLayoutParams lp, Object insets, int drawerGravity) {
-      // This space for rent
-    }
-
-    public int getTopInset(Object insets) {
-      return 0;
-    }
-
-    @Override
-    public Drawable getDefaultStatusBarBackground(Context context) {
-      return null;
-    }
-  }
-
   static class DrawerLayoutCompatImplApi21 implements DrawerLayoutCompatImpl {
     public void configureApplyInsets(View drawerLayout) {
       DrawerLayoutCompatApi21.configureApplyInsets(drawerLayout);
@@ -263,12 +240,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
   }
 
   static {
-    final int version = Build.VERSION.SDK_INT;
-    if (version >= 21) {
-      IMPL = new DrawerLayoutCompatImplApi21();
-    } else {
-      IMPL = new DrawerLayoutCompatImplBase();
-    }
+    IMPL = new DrawerLayoutCompatImplApi21();
   }
 
   static final DrawerLayoutCompatImpl IMPL;
@@ -322,7 +294,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
   public void setChildInsets(Object insets, boolean draw) {
     mLastInsets = insets;
     mDrawStatusBarBackground = draw;
-    //setWillNotDraw(!draw && getBackground() == null);
+    // setWillNotDraw(!draw && getBackground() == null);
     requestLayout();
   }
 
@@ -445,31 +417,6 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
         break;
         // default: do nothing
     }
-  }
-
-  /**
-   * Enable or disable interaction with the given drawer.
-   *
-   * <p>This allows the application to restrict the user's ability to open or close the given
-   * drawer. DrawerLayout will still respond to calls to {@link #openDrawer(int)}, {@link
-   * #closeDrawer(int)} and friends if a drawer is locked.
-   *
-   * <p>Locking a drawer open or closed will implicitly open or close that drawer as appropriate.
-   *
-   * @param lockMode The new lock mode for the given drawer. One of {@link #LOCK_MODE_UNLOCKED},
-   *     {@link #LOCK_MODE_LOCKED_CLOSED} or {@link #LOCK_MODE_LOCKED_OPEN}.
-   * @param drawerView The drawer view to change the lock mode for
-   * @see #LOCK_MODE_UNLOCKED
-   * @see #LOCK_MODE_LOCKED_CLOSED
-   * @see #LOCK_MODE_LOCKED_OPEN
-   */
-  public void setDrawerLockMode(@LockMode int lockMode, View drawerView) {
-    if (!isDrawerView(drawerView)) {
-      throw new IllegalArgumentException(
-          "View " + drawerView + " is not a " + "drawer with appropriate layout_gravity");
-    }
-    final int gravity = ((LayoutParams) drawerView.getLayoutParams()).gravity;
-    setDrawerLockMode(lockMode, gravity);
   }
 
   /**
@@ -796,11 +743,11 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
 
       if (applyInsets) {
         final int cgrav = GravityCompat.getAbsoluteGravity(lp.gravity, layoutDirection);
-        //if (ViewCompat.getFitsSystemWindows(child)) {
+        // if (ViewCompat.getFitsSystemWindows(child)) {
         IMPL.dispatchChildInsets(child, mLastInsets, cgrav);
-        //}
+        // }
         //  IMPL.applyMarginInsets(lp, mLastInsets, cgrav);
-        //} else {
+        // } else {
       }
 
       if (isContentView(child)) {
@@ -1459,7 +1406,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
   @Override
   public boolean onKeyDown(int keyCode, KeyEvent event) {
     if (keyCode == KeyEvent.KEYCODE_BACK && hasVisibleDrawer()) {
-        event.startTracking();
+      event.startTracking();
       return true;
     }
     return super.onKeyDown(keyCode, event);

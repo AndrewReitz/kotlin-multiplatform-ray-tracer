@@ -15,20 +15,12 @@ spotless {
     endWithNewline()
   }
 
-  groovy {
-    target '**/*.groovy'
-    greclipse()
-    paddedCell()
-    trimTrailingWhitespace()
-    indentWithSpaces(2)
-    endWithNewline()
-  }
-
   groovyGradle {
     target '**/*.gradle'
     greclipse()
     indentWithSpaces(2)
     endWithNewline()
+    paddedCell()
   }
 
   kotlin {

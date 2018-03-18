@@ -8,12 +8,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.util.IntentManager;
-import java.io.File;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DefaultObserver;
 import io.reactivex.schedulers.Schedulers;
+import java.io.File;
 
 public final class LogsDialog extends AlertDialog {
   private final LumberYard lumberYard;

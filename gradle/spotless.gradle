@@ -1,7 +1,7 @@
 apply plugin: 'com.diffplug.gradle.spotless'
 spotless {
   format 'misc', {
-    target '**/*.adoc', '**/.gitignore', '**/*.xml', '**/*.properties'
+    target '**/*.adoc', '**/.gitignore', 'src/**/*.xml', '**/*.properties'
     trimTrailingWhitespace()
     indentWithSpaces(2)
     endWithNewline()

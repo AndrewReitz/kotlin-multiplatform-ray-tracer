@@ -1,8 +1,8 @@
 package cash.andrew.mntrailconditions.util
 
-import com.nhaarman.mockito_kotlin.mock
 import io.reactivex.Maybe
 import io.reactivex.Single
+import org.amshove.kluent.mock
 import org.amshove.kluent.shouldBe
 import org.junit.Test
 import retrofit2.Response
@@ -25,7 +25,7 @@ class ResultsTest {
     fun `should not be successful when there is an error or the response has an error`() {
         // given
         val result1 = Result.error<Any>(IOException("Oh no!"))
-        val result2 = Result.response(Response.error<Any>(400, mock()))
+        val result2 = Result.response(Response.error<String>(400, mock()))
 
         // expect
         result1.isSuccessful shouldBe false

@@ -141,7 +141,7 @@ configurations { internalDebugImplementation }
 ext {
   supportVersion = '27.1.0'
   stethoVersion = '1.5.0'
-  retrofitVersion = '2.2.0'
+  retrofitVersion = '2.4.0'
   firebaseVersion = "11.8.0"
 }
 
@@ -164,8 +164,8 @@ dependencies {
   implementation 'com.google.dagger:dagger:2.15'
   kapt 'com.google.dagger:dagger-compiler:2.15'
 
-  implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-  implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+  implementation 'com.squareup.okhttp3:okhttp:3.8.1'
+  implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
   implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
   implementation "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
   implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"

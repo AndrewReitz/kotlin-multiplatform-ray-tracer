@@ -73,7 +73,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                         Timber.e(result.error(), "Failed to get trail data from v3 api")
                     } else {
                         val response = result.response()
-                        Timber.e("Failed to get trail data from v3 api. Server returned %d", response.code())
+                        Timber.e("Failed to get trail data from v3 api. Server returned %d", response?.code())
                     }
                 }
                 .cache()
@@ -124,7 +124,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                         Timber.e(result.error(), "Failed to get trail regions")
                     } else {
                         val response = result.response()
-                        Timber.e("Failed to get trail regions. Server returned %d", response.code())
+                        Timber.e("Failed to get trail regions. Server returned %d", response?.code())
                     }
                 }
                 .subscribe { animator.displayedChildId = R.id.trail_list_error }

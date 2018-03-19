@@ -6,10 +6,10 @@ import io.reactivex.Single
 import retrofit2.adapter.rxjava2.Result
 import timber.log.Timber
 
-val <T : Any> Result<T>.isSuccessful: Boolean get() = !isError && response().isSuccessful
+val <T : Any> Result<T>.isSuccessful: Boolean get() = !isError && response()!!.isSuccessful
 val <T : Any> Result<T>.isNotSuccessful: Boolean get() = !isSuccessful
 
-val <T : Any> Result<T>.data: T get() = response().body()
+val <T : Any> Result<T>.data: T get() = response()!!.body()!!
 
 /**
  * Retries the call of the single until there is a successful result or it has tried the number of

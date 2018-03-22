@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cash.andrew.mntrailconditions">
 
-  <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
-  <application
-      android:allowBackup="true"
-      android:icon="@mipmap/app_icon"
-      android:label="@string/application_name"
-      android:theme="@style/Theme.MnTrailConditions.App"
-      android:name="cash.andrew.mntrailconditions.MnTrailConditionsApp"
-      >
-    <activity
-        android:name="cash.andrew.mntrailconditions.ui.MainActivity"
-        android:label="@string/launcher_name"
-        android:launchMode="singleTask"
-        android:theme="@style/Theme.MnTrailConditions"
-        >
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>
-    </activity>
+    <application
+        android:name="cash.andrew.mntrailconditions.MnTrailConditionsApp"
+        android:allowBackup="true"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/application_name"
+        android:theme="@style/Theme.MnTrailConditions.App">
+        <activity
+            android:name="cash.andrew.mntrailconditions.ui.MainActivity"
+            android:label="@string/launcher_name"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.MnTrailConditions">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-    <meta-data
-        android:name="io.fabric.ApiKey"
-        android:value="70c11ca0c2a7650c8d46912da5df388159dd6916"
-        />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
 
-  </application>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="morc" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="70c11ca0c2a7650c8d46912da5df388159dd6916" />
+
+    </application>
 </manifest>

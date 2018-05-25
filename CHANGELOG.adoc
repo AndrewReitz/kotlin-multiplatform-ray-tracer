@@ -1,5 +1,8 @@
 = Change Log
 
+== 🐟
+
+- update gradle plugins and dependencies
 
 == 🥚
 

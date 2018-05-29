@@ -3,6 +3,9 @@
 == 🐟
 
 - update gradle plugins and dependencies
+- fixed crashlytics not reporting
+- added `RxJavaPlugins.setErrorHandler { Timber.e(it) }` to avoid crashing app when two errors are
+thrown in the chain.
 
 == 🥚
 

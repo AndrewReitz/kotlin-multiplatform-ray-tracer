@@ -38,8 +38,7 @@ interface AppComponent {
 object MnTrailConditionsModule {
     @JvmStatic
     @Provides
-    fun provideMnTrailConditionsInitializer(context: Application): MnTrailConditionsInitializer = {
-        Fabric.with(context, Crashlytics())
+    fun provideMnTrailConditionsInitializer(): MnTrailConditionsInitializer = {
         Timber.plant(CrashlyticsTree())
     }
 }

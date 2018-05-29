@@ -5,6 +5,7 @@ import cash.andrew.mntrailconditions.util.HasComponent
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
+import io.reactivex.plugins.RxJavaPlugins
 
 import org.threeten.bp.format.DateTimeFormatter
 
@@ -12,7 +13,7 @@ import timber.log.Timber
 
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
-val DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("MM/dd/yyyy h:mm a")!!
+val DATE_TIME_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy h:mm a")
 
 class MnTrailConditionsApp : Application(), HasComponent<AppComponent> {
 
@@ -29,6 +30,7 @@ class MnTrailConditionsApp : Application(), HasComponent<AppComponent> {
             return
         }
 
+        RxJavaPlugins.setErrorHandler { Timber.e(it) }
         LeakCanary.install(this)
         AndroidThreeTen.init(this)
 

@@ -84,6 +84,15 @@
         />
   </LinearLayout>
 
+<Button
+    android:id="@+id/debug_network_logs_show"
+    android:layout_columnSpan="2"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start|fill_horizontal"
+    android:text="Show network logs"
+    />
+
   <!-- USER INTERFACE SECTION -->
 
   <TextView

@@ -34,5 +34,5 @@ interface AppComponent {
 object MnTrailConditionsModule {
     @JvmStatic
     @Provides
-    fun provideMnTrailConditionsInitializer(context: Application): MnTrailConditionsInitializer = { }
+    fun provideMnTrailConditionsInitializer(): MnTrailConditionsInitializer = { }
 }

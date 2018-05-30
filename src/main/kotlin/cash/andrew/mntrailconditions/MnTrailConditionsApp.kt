@@ -7,13 +7,9 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import io.reactivex.plugins.RxJavaPlugins
 
-import org.threeten.bp.format.DateTimeFormatter
-
 import timber.log.Timber
 
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
-
-val DATE_TIME_FORMAT: DateTimeFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy h:mm a")
 
 class MnTrailConditionsApp : Application(), HasComponent<AppComponent> {
 

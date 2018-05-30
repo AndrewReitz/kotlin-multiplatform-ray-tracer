@@ -29,6 +29,7 @@ import cash.andrew.mntrailconditions.util.IntentManager
 import com.f2prateek.rx.preferences2.Preference
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.jakewharton.rxbinding2.widget.RxAdapterView
+import com.readystatesoftware.chuck.Chuck
 import com.squareup.leakcanary.internal.DisplayLeakActivity
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -48,25 +49,25 @@ class DebugView
         attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    private val endpointView by lazy { findViewById<Spinner>(R.id.debug_network_endpoint) }
-    private val endpointEditView by lazy { findViewById<View>(R.id.debug_network_endpoint_edit) }
-    private val buildNameView by lazy { findViewById<TextView>(R.id.debug_build_name) }
-    private val buildCodeView by lazy { findViewById<TextView>(R.id.debug_build_code) }
-    private val buildShaView by lazy { findViewById<TextView>(R.id.debug_build_sha) }
-    private val buildDateView by lazy { findViewById<TextView>(R.id.debug_build_date) }
-    private val deviceMakeView by lazy { findViewById<TextView>(R.id.debug_device_make) }
-    private val deviceModelView by lazy { findViewById<TextView>(R.id.debug_device_model) }
-    private val deviceResolutionView by lazy { findViewById<TextView>(R.id.debug_device_resolution) }
-    private val deviceDensityView by lazy { findViewById<TextView>(R.id.debug_device_density) }
-    private val deviceReleaseView by lazy { findViewById<TextView>(R.id.debug_device_release) }
-    private val deviceApiView by lazy { findViewById<TextView>(R.id.debug_device_api) }
-    private val okHttpCacheMaxSizeView by lazy { findViewById<TextView>(R.id.debug_okhttp_cache_max_size) }
-    private val okHttpCacheWriteErrorView by lazy { findViewById<TextView>(R.id.debug_okhttp_cache_write_error) }
-    private val okHttpCacheRequestCountView by lazy { findViewById<TextView>(R.id.debug_okhttp_cache_request_count) }
-    private val okHttpCacheNetworkCountView by lazy { findViewById<TextView>(R.id.debug_okhttp_cache_network_count) }
-    private val okHttpCacheHitCountView by lazy { findViewById<TextView>(R.id.debug_okhttp_cache_hit_count) }
-    private val debugShowLogs by lazy { findViewById<Button>(R.id.debug_logs_show) }
-    private val debugShowLeaks by lazy { findViewById<Button>(R.id.debug_leaks_show) }
+    private val endpointView get() = findViewById<Spinner>(R.id.debug_network_endpoint)
+    private val endpointEditView get() = findViewById<View>(R.id.debug_network_endpoint_edit)
+    private val buildNameView get() = findViewById<TextView>(R.id.debug_build_name)
+    private val buildCodeView get() = findViewById<TextView>(R.id.debug_build_code)
+    private val buildShaView get() = findViewById<TextView>(R.id.debug_build_sha)
+    private val buildDateView get() = findViewById<TextView>(R.id.debug_build_date)
+    private val deviceMakeView get() = findViewById<TextView>(R.id.debug_device_make)
+    private val deviceModelView get() = findViewById<TextView>(R.id.debug_device_model)
+    private val deviceResolutionView get() = findViewById<TextView>(R.id.debug_device_resolution)
+    private val deviceDensityView get() = findViewById<TextView>(R.id.debug_device_density)
+    private val deviceReleaseView get() = findViewById<TextView>(R.id.debug_device_release)
+    private val deviceApiView get() = findViewById<TextView>(R.id.debug_device_api)
+    private val okHttpCacheMaxSizeView get() = findViewById<TextView>(R.id.debug_okhttp_cache_max_size)
+    private val okHttpCacheWriteErrorView get() = findViewById<TextView>(R.id.debug_okhttp_cache_write_error)
+    private val okHttpCacheRequestCountView get() = findViewById<TextView>(R.id.debug_okhttp_cache_request_count)
+    private val okHttpCacheNetworkCountView get() = findViewById<TextView>(R.id.debug_okhttp_cache_network_count)
+    private val okHttpCacheHitCountView get() = findViewById<TextView>(R.id.debug_okhttp_cache_hit_count)
+    private val debugShowLogs get() = findViewById<Button>(R.id.debug_logs_show)
+    private val debugShowLeaks get() = findViewById<Button>(R.id.debug_leaks_show)
 
     @Inject lateinit var client: OkHttpClient
     @Inject lateinit var lumberYard: LumberYard
@@ -87,7 +88,7 @@ class DebugView
         endpointEditView.setOnClickListener {
             Timber.d("Prompting to edit custom endpoint URL.")
             // Pass in the currently selected position since we are merely editing.
-            showCustomEndpointDialog(endpointView!!.selectedItemPosition, networkEndpoint!!.get())
+            showCustomEndpointDialog(endpointView.selectedItemPosition, networkEndpoint.get())
         }
 
         debugShowLogs.setOnClickListener {
@@ -101,6 +102,11 @@ class DebugView
         debugShowLeaks.setOnClickListener {
             val intent = Intent(context, DisplayLeakActivity::class.java)
             context.startActivity(intent)
+        }
+
+        findViewById<Button>(R.id.debug_network_logs_show).setOnClickListener {
+            val intent = Chuck.getLaunchIntent(app)
+            app.startActivity(intent)
         }
     }
 

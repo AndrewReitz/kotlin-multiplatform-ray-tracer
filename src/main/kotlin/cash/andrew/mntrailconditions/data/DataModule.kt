@@ -11,7 +11,7 @@ import cash.andrew.mntrailconditions.data.moshi.adapters.LocalDateTimeJsonAdapte
 import cash.andrew.mntrailconditions.data.okhttp.UserAgentInterceptor
 
 import com.f2prateek.rx.preferences2.RxSharedPreferences
-import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -42,7 +42,7 @@ object DataModule {
     fun provideMoshi(): Moshi = Moshi.Builder()
                 .add(InstantJsonAdapter())
                 .add(LocalDateTimeJsonAdapter())
-                .add(KotlinJsonAdapterFactory())
+
                 .build()
 
     @JvmStatic
@@ -54,4 +54,5 @@ object DataModule {
             OkHttpClient.Builder()
                 .cache(Cache(File(app.cacheDir, "http"), DISK_CACHE_SIZE.toLong()))
                 .addInterceptor(UserAgentInterceptor())
+                .addInterceptor(ChuckInterceptor(app).showNotification(false))
 }

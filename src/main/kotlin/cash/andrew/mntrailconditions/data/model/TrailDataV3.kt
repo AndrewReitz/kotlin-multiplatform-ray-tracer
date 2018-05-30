@@ -1,13 +1,14 @@
 package cash.andrew.mntrailconditions.data.model
 
 import android.support.annotation.DrawableRes
-import cash.andrew.mntrailconditions.DATE_TIME_FORMAT
 import cash.andrew.mntrailconditions.util.statusToResource
+import com.squareup.moshi.JsonClass
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
+import org.threeten.bp.temporal.ChronoUnit
 
-data class TrailData(
+@JsonClass(generateAdapter = true)
+data class TrailDataV3(
         val city: String?,
         val trailName: String?,
         val zipcode: String?,
@@ -22,9 +23,12 @@ data class TrailData(
         val street: String?
 )
 
-val TrailData.updatedAtString: String get() = DATE_TIME_FORMAT.format(
-        LocalDateTime.ofInstant(updatedAt, ZoneId.systemDefault())
-)
+val TrailDataV3.updatedAtString: String get() {
+    val now = LocalDateTime.now()
+    val days = ChronoUnit.DAYS.between(updatedAt, now)
+    val hours = ChronoUnit.HOURS.between(updatedAt, now) % 24
+    return if (days == 0L) "$hours hours ago" else "$days days $hours hours ago"
+}
 
 @get:DrawableRes
-val TrailData.resourceId: Int get() = statusToResource(trailStatus ?: "")
+val TrailDataV3.resourceId: Int get() = statusToResource(trailStatus ?: "")

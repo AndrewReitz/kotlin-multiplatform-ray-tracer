@@ -5,6 +5,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import cash.andrew.mntrailconditions.R
+import cash.andrew.mntrailconditions.R.id.trail_list_animator
+import cash.andrew.mntrailconditions.R.id.trail_list_content
+import cash.andrew.mntrailconditions.R.id.trail_list_recycler_view
 import cash.andrew.mntrailconditions.data.api.TrailConditionsService
 import cash.andrew.mntrailconditions.util.activityComponent
 import cash.andrew.mntrailconditions.util.data
@@ -65,7 +68,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     private fun loadData() {
         Timber.d("loadData() called")
 
-        val trailData = trailConditionsService.trailData()
+        val trailData = trailConditionsService.trailDataV3()
                 .retryOnUnsuccessfulResult(3)
                 .retryWithTimeout()
                 .doOnSuccess { result ->
@@ -94,9 +97,9 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
         val trailRegions = trailData.filter { it.isNotSuccessful }
                 .flatMap {
-                    trailConditionsService.trailRegions()
-                            .retryOnUnsuccessfulResult(3)
-                            .retryWithTimeout()
+                    trailConditionsService.trailRegionsV2()
+                            .retryOnUnsuccessfulResult(5)
+                            .retryWithTimeout(timeout = 5) // can be very slow to update
                             .toMaybe()
                 }
                 .cache()
@@ -105,15 +108,14 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 .map { result -> result.data }
                 .toObservable()
                 .flatMapIterable { it }
-                .flatMapIterable { trailRegion -> trailRegion.trails }
-                .filter { trailInfo -> trailInfo.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
-                .map { trailInfo -> trailInfo.toViewModel() }
+                .filter { trail -> trail.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
+                .map { trail -> trail.toViewModel() }
                 .toList()
                 .filter { it.isNotEmpty() }
                 .map { trails -> trails.sortedBy { it.name } }
                 .observeOnMainThread()
-                .subscribe { trailInfoList ->
-                    trailListAdapter.trails = trailInfoList
+                .subscribe { trails ->
+                    trailListAdapter.trails = trails
                     animator.displayedChildId = R.id.trail_list_content
                 }
 

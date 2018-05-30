@@ -8,12 +8,10 @@ import cash.andrew.mntrailconditions.ui.ActivityComponent
 import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer
 import cash.andrew.mntrailconditions.ui.UiModule
 import cash.andrew.mntrailconditions.util.CrashlyticsTree
-import com.crashlytics.android.Crashlytics
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import javax.inject.Singleton
 
@@ -38,8 +36,7 @@ interface AppComponent {
 object MnTrailConditionsModule {
     @JvmStatic
     @Provides
-    fun provideMnTrailConditionsInitializer(context: Application): MnTrailConditionsInitializer = {
-        Fabric.with(context, Crashlytics())
+    fun provideMnTrailConditionsInitializer(): MnTrailConditionsInitializer = {
         Timber.plant(CrashlyticsTree())
     }
 }

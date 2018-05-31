@@ -1,32 +1,27 @@
 package cash.andrew.mntrailconditions.ui.trails
 
-import android.support.annotation.DrawableRes
 import cash.andrew.mntrailconditions.data.model.TrailDataV2
 import cash.andrew.mntrailconditions.data.model.TrailDataV3
-import cash.andrew.mntrailconditions.data.model.lastUpdatedFormatted
-import cash.andrew.mntrailconditions.data.model.resourceId
-import cash.andrew.mntrailconditions.data.model.updatedAtString
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
 
 data class TrailViewModel(
         val name: String,
         val status: String,
         val description: String,
-        val lastUpdated: String,
-        @DrawableRes val statusDrawableId: Int
+        val updatedAt: Instant?
 )
 
 fun TrailDataV2.toViewModel() = TrailViewModel(
         name = name,
         status = status,
         description = description.trim(),
-        lastUpdated = lastUpdatedFormatted,
-        statusDrawableId = resourceId
+        updatedAt = lastUpdated.atZone(ZoneId.systemDefault()).toInstant()
 )
 
 fun TrailDataV3.toViewModel() = TrailViewModel(
         name = trailName ?: "",
-        status = trailStatus ?: "",
+        status = trailStatus ?: "Unknown",
         description = description ?: "",
-        lastUpdated = updatedAtString,
-        statusDrawableId = resourceId
+        updatedAt = createdAt
 )

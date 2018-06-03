@@ -1,5 +1,9 @@
 = Change Log
 
+== 🍇
+
+- added FCM
+
 == 🐟
 
 - update gradle plugins and dependencies

@@ -8,6 +8,7 @@
     <application
         android:name="cash.andrew.mntrailconditions.MnTrailConditionsApp"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/app_icon"
         android:label="@string/application_name"
         android:theme="@style/Theme.MnTrailConditions.App">

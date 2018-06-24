@@ -9,12 +9,12 @@ import java.util.concurrent.TimeUnit.SECONDS
 
 import android.app.Activity
 import android.os.PowerManager
-import android.support.v4.view.GravityCompat
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.core.view.GravityCompat
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.SeenDebugDrawer
 import cash.andrew.mntrailconditions.ui.ViewContainer

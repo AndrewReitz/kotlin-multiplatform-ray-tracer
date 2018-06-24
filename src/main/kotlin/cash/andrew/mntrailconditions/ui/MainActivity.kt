@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class MainActivity : Activity(), HasComponent<ActivityComponent> {
 
-    private val content by lazy { main_content }
+    private val content get() = main_content
 
     @Inject lateinit var viewContainer: ViewContainer
 

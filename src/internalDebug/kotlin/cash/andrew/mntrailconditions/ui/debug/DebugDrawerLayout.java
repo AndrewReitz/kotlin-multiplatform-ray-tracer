@@ -29,17 +29,6 @@ import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.AccessibilityDelegateCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MotionEventCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewGroupCompat;
-import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
-import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -51,6 +40,18 @@ import android.view.accessibility.AccessibilityEvent;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.AccessibilityDelegateCompat;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewGroupCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.customview.widget.ViewDragHelper;
 
 /** This is a fork of DrawerLayout which propagates insets without applying them. */
 public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
@@ -1817,7 +1818,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
      * it's not general-purpose useful.
      */
     private void copyNodeInfoNoChildren(
-        AccessibilityNodeInfoCompat dest, AccessibilityNodeInfoCompat src) {
+            AccessibilityNodeInfoCompat dest, AccessibilityNodeInfoCompat src) {
       final Rect rect = mTmpRect;
 
       src.getBoundsInParent(rect);

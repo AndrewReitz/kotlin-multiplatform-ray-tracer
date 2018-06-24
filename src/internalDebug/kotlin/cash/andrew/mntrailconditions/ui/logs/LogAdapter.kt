@@ -3,7 +3,7 @@ package cash.andrew.mntrailconditions.ui.logs
 import cash.andrew.mntrailconditions.data.LumberYard.Entry
 
 import android.content.Context
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View

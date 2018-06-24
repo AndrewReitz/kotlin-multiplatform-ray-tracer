@@ -1,9 +1,10 @@
 package cash.andrew.mntrailconditions.ui.trails
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.R.id.trail_list_animator
 import cash.andrew.mntrailconditions.R.id.trail_list_content
@@ -32,9 +33,9 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
     private val subscriptions: CompositeDisposable = CompositeDisposable()
 
-    private val recyclerView by lazy { trail_list_recycler_view }
-    private val refreshLayout by lazy { trail_list_content }
-    private val animator by lazy { trail_list_animator }
+    private val recyclerView get() = trail_list_recycler_view
+    private val refreshLayout get() = trail_list_content
+    private val animator get() = trail_list_animator
 
     init {
         context.activityComponent.trailsComponent.inject(this)
@@ -44,7 +45,8 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         super.onFinishInflate()
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = trailListAdapter
+        @Suppress("CAST_NEVER_SUCCEEDS") // will succeed cuz androidx stuff
+        recyclerView.adapter = trailListAdapter as RecyclerView.Adapter<*>
 
         refreshLayout.setOnRefreshListener {
             Timber.d("onRefresh() called")

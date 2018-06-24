@@ -1,8 +1,9 @@
 package cash.andrew.mntrailconditions.util
 
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import cash.andrew.mntrailconditions.R
 
+// todo re-write to "Open, Wet, Melting & Closed"
 @DrawableRes
 fun statusToResource(status: String): Int {
     val currentStatus = status.toLowerCase()

@@ -1,8 +1,8 @@
 package cash.andrew.mntrailconditions.ui.trails
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
+import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.util.statusToResource
 import kotlinx.android.synthetic.main.trail_list_item_view.view.*

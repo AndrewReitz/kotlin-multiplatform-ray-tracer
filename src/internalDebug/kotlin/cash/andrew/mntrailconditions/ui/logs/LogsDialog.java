@@ -3,9 +3,10 @@ package cash.andrew.mntrailconditions.ui.logs;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.AlertDialog;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.util.IntentManager;
 import io.reactivex.android.schedulers.AndroidSchedulers;

@@ -7,7 +7,7 @@
     <item name="android:windowBackground">@color/status_bar</item>
   </style>
 
-  <style name="Theme.MnTrailConditions" parent="Theme.AppCompat.Light.NoActionBar">
+  <style name="Theme.MnTrailConditions" parent="Theme.MaterialComponents.Light.NoActionBar">
     <item name="android:textColorPrimary">@color/text_color_primary</item>
     <item name="android:textColorSecondary">@color/text_color_secondary</item>
 

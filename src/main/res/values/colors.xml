@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="accent">#4fc3f7</color>
-  <color name="status_bar">#29b6f6</color>
-  <color name="content_background">#fffafafa</color>
-  <color name="text_color_primary">#dd000000</color>
-  <color name="text_color_secondary">#89000000</color>
+    <color name="primaryColor">#4fc3f7</color>
+    <color name="primaryLightColor">#8bf6ff</color>
+    <color name="primaryDarkColor">#0093c4</color>
+    <color name="primaryTextColor">#000000</color>
+    <color name="secondaryTextColor">#89000000</color>
+    <color name="contentBackground">#fffafafa</color>
 </resources>

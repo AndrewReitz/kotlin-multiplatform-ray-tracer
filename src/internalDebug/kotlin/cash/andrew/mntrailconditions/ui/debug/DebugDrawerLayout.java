@@ -37,10 +37,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.List;
-
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
@@ -52,6 +48,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewGroupCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.customview.widget.ViewDragHelper;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.List;
 
 /** This is a fork of DrawerLayout which propagates insets without applying them. */
 public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
@@ -1818,7 +1817,7 @@ public class DebugDrawerLayout extends ViewGroup implements DrawerLayoutImpl {
      * it's not general-purpose useful.
      */
     private void copyNodeInfoNoChildren(
-            AccessibilityNodeInfoCompat dest, AccessibilityNodeInfoCompat src) {
+        AccessibilityNodeInfoCompat dest, AccessibilityNodeInfoCompat src) {
       final Rect rect = mTmpRect;
 
       src.getBoundsInParent(rect);

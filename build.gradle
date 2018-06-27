@@ -55,7 +55,7 @@ def getGitTimestamp() {
 }
 
 android {
-  compileSdkVersion 'android-P'
+  compileSdkVersion 28
   buildToolsVersion '27.0.3'
 
   signingConfigs {

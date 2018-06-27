@@ -4,11 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cash.andrew.mntrailconditions.R
-import cash.andrew.mntrailconditions.R.id.trail_list_animator
-import cash.andrew.mntrailconditions.R.id.trail_list_content
-import cash.andrew.mntrailconditions.R.id.trail_list_recycler_view
 import cash.andrew.mntrailconditions.data.api.TrailConditionsService
 import cash.andrew.mntrailconditions.util.activityComponent
 import cash.andrew.mntrailconditions.util.data
@@ -45,8 +41,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
         super.onFinishInflate()
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        @Suppress("CAST_NEVER_SUCCEEDS") // will succeed cuz androidx stuff
-        recyclerView.adapter = trailListAdapter as RecyclerView.Adapter<*>
+        recyclerView.adapter = trailListAdapter
 
         refreshLayout.setOnRefreshListener {
             Timber.d("onRefresh() called")

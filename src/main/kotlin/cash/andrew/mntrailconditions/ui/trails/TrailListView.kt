@@ -89,7 +89,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 .observeOnMainThread()
                 .subscribe { trails ->
                     trailListAdapter.trails = trails
-                    animator.displayedChildId = R.id.trail_list_content
+                    animator.displayedChildId = R.id.trail_list_recycler_view
                 }
 
         val trailRegions = trailData.filter { it.isNotSuccessful }
@@ -113,7 +113,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 .observeOnMainThread()
                 .subscribe { trails ->
                     trailListAdapter.trails = trails
-                    animator.displayedChildId = R.id.trail_list_content
+                    animator.displayedChildId = R.id.trail_list_recycler_view
                 }
 
         subscriptions += trailRegions.filter { result -> result.isNotSuccessful }

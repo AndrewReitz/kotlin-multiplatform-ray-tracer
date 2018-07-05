@@ -6,6 +6,10 @@
     <string name="error_loading_trails">There was an error loading trails.\nTry again later</string>
     <string name="oops">Oops…</string>
     <string name="last_updated">Last Updated:</string>
+    <string name="favorites">Favorites</string>
+    <string name="trails">Trails</string>
+    <string name="favorite">favorite</string>
+    <string name="notification">notification</string>
 
     <plurals name="last_updated_days">
         <item quantity="one">%d day ago</item>

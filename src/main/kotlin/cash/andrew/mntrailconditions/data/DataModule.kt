@@ -16,6 +16,7 @@ import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.io.File
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module(includes = [ApiModule::class])
@@ -40,7 +41,6 @@ object DataModule {
     fun provideMoshi(): Moshi = Moshi.Builder()
                 .add(InstantJsonAdapter())
                 .add(LocalDateTimeJsonAdapter())
-
                 .build()
 
     @JvmStatic
@@ -50,6 +50,7 @@ object DataModule {
 
 
     @JvmStatic
+    @SavedTrails
     @Provides
     @Singleton
     fun provideTrailFavorites(prefs: RxSharedPreferences) = prefs.getStringSet("trail-favorites")
@@ -60,3 +61,5 @@ object DataModule {
                 .addInterceptor(UserAgentInterceptor())
                 .addInterceptor(ChuckInterceptor(app).showNotification(false))
 }
+
+@Qualifier annotation class SavedTrails

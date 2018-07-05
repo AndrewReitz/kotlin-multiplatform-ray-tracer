@@ -1,10 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@id/trail_favorites"
-        android:icon="@drawable/ic_favorite"
-        android:title="Favorites" />
+        android:icon="@drawable/ic_favorite_selected"
+        android:title="@string/favorites" />
     <item
         android:id="@id/trail_list"
         android:icon="@drawable/ic_list_view"
-        android:title="Trails" />
+        android:title="@string/trails" />
 </menu>

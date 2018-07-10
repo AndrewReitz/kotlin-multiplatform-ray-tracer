@@ -1,7 +1,7 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
-import cash.andrew.mntrailconditions.util.HasComponent
+import cash.andrew.mntrailconditions.util.ComponentContainer
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
@@ -11,7 +11,7 @@ import timber.log.Timber
 
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
-class MnTrailConditionsApp : Application(), HasComponent<AppComponent> {
+class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
     private val activityHierarchyServer by lazy { component.activityHierarchyServer }
     private val lumberYard by lazy { component.lumberYard }

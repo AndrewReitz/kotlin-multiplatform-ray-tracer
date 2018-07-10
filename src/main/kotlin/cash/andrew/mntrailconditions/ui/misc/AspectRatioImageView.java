@@ -5,7 +5,6 @@ import static android.view.View.MeasureSpec.EXACTLY;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-
 import androidx.appcompat.widget.AppCompatImageView;
 import cash.andrew.mntrailconditions.R;
 

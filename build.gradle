@@ -1,12 +1,12 @@
 buildscript {
-  ext.kotlinVersion = '1.2.50'
+  ext.kotlinVersion = '1.2.51'
   repositories {
-    jcenter()
     google()
+    jcenter()
     maven { url 'https://maven.fabric.io/public' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.2.0-beta01'
+    classpath 'com.android.tools.build:gradle:3.3.0-alpha02'
     classpath 'com.google.gms:google-services:3.2.0'
     classpath 'com.google.firebase:firebase-plugins:1.1.5'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -27,8 +27,8 @@ apply from: "$rootDir/gradle/signing.gradle"
 apply from: "$rootDir/gradle/spotless.gradle"
 
 repositories {
-  jcenter()
   google()
+  jcenter()
   maven { url 'https://maven.fabric.io/public' }
   maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
   maven { url 'https://jitpack.io' }
@@ -55,7 +55,7 @@ def getGitTimestamp() {
 }
 
 android {
-  compileSdkVersion 'android-P'
+  compileSdkVersion 28
   buildToolsVersion '27.0.3'
 
   signingConfigs {
@@ -147,20 +147,22 @@ ext {
 dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-  implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
-  implementation 'androidx.annotation:annotation:1.0.0-alpha3'
-  implementation 'androidx.appcompat:appcompat:1.0.0-alpha3'
-  implementation 'androidx.recyclerview:recyclerview:1.0.0-alpha3'
-  implementation 'androidx.cardview:cardview:1.0.0-alpha3'
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha1'
+  implementation 'androidx.annotation:annotation:1.0.0-beta01'
+  implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+  implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
+  implementation 'androidx.cardview:cardview:1.0.0-beta01'
+  implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
+  implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-beta01'
 
-  implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha02"
-  implementation "android.arch.navigation:navigation-ui-ktx:1.0.0-alpha02"
-  implementation 'com.google.android.material:material:1.0.0-alpha3'
+  implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha02'
+  implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha02'
+  implementation 'com.google.android.material:material:1.0.0-beta01'
 
   implementation 'com.google.firebase:firebase-core:16.0.1'
   implementation 'com.google.firebase:firebase-perf:16.0.0'
   implementation 'com.google.firebase:firebase-config:16.0.0'
-  implementation 'com.google.firebase:firebase-messaging:17.0.0'
+  implementation 'com.google.firebase:firebase-messaging:17.1.0'
 
   implementation 'com.google.dagger:dagger:2.16'
   kapt 'com.google.dagger:dagger-compiler:2.16'
@@ -176,7 +178,7 @@ dependencies {
 
   implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
   implementation 'com.jakewharton:process-phoenix:2.0.0'
-  implementation 'com.jakewharton.timber:timber:4.7.0'
+  implementation 'com.jakewharton.timber:timber:4.7.1'
   implementation 'com.jakewharton.byteunits:byteunits:0.9.1'
 
   debugImplementation 'com.readystatesoftware.chuck:library:1.1.0'
@@ -185,7 +187,7 @@ dependencies {
   internalImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
   productionImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
-  implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+  implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
   implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
   implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
@@ -205,7 +207,7 @@ dependencies {
   testImplementation 'org.amshove.kluent:kluent-android:1.38'
 }
 
-kapt { useBuildCache = true }
+kapt.useBuildCache = true
 
 def installAll = tasks.create('installAll')
 installAll.description = 'Install all applications.'

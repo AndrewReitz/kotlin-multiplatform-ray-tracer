@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import cash.andrew.mntrailconditions.data.LumberYard;
 import cash.andrew.mntrailconditions.util.IntentManager;

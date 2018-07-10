@@ -1,0 +1,22 @@
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@+id/trail_favorites"
+    >
+
+    <fragment
+        android:id="@+id/trail_favorites"
+        android:name="cash.andrew.mntrailconditions.ui.favorites.FavoriteTrailListFragment"
+        android:label="Trail Favorites"
+        tools:layout="@layout/fragment_favorite_trail_list"
+        />
+
+    <fragment
+        android:id="@+id/trail_list"
+        android:name="cash.andrew.mntrailconditions.ui.trails.TrailListFragment"
+        android:label="Trail List"
+        tools:layout="@layout/trail_list_view"
+        />
+
+</navigation>

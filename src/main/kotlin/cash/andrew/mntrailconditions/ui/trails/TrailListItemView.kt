@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.util.statusToResource
+import com.f2prateek.rx.preferences2.Preference
 import kotlinx.android.synthetic.main.trail_list_item_view.view.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -12,13 +13,14 @@ import org.threeten.bp.temporal.ChronoUnit
 
 class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
 
-    private val title get() = trail_list_item_title
-    private val conditionsImage get() = trail_list_item_conditions_image
-    private val conditionsText get() = trail_list_item_condition_text
-    private val detailsText get() = trail_list_item_details
-    private val lastUpdatedText get() = trail_list_last_updated_time
+    private inline val title get() = trail_list_item_title
+    private inline val conditionsImage get() = trail_list_item_conditions_image
+    private inline val conditionsText get() = trail_list_item_condition_text
+    private inline val detailsText get() = trail_list_item_details
+    private inline val lastUpdatedText get() = trail_list_last_updated_time
+    private inline val bottomBar get() = trail_list_bottom_bar
 
-    fun bind(trail: TrailViewModel) {
+    fun bind(trail: TrailViewModel, favoriteTrailsPref: Preference<Set<String>>) {
         with(trail) {
             val now = LocalDateTime.now()
             val updated = LocalDateTime.ofInstant(updatedAt, ZoneId.systemDefault())
@@ -35,5 +37,7 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
             lastUpdatedText.text = lastUpdated
             conditionsImage.setImageDrawable(context.getDrawable(statusToResource(status)))
         }
+
+        bottomBar.bind(trail, favoriteTrailsPref)
     }
 }

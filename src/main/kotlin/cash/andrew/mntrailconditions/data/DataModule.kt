@@ -7,6 +7,7 @@ import cash.andrew.mntrailconditions.data.api.ApiModule
 import cash.andrew.mntrailconditions.data.moshi.adapters.InstantJsonAdapter
 import cash.andrew.mntrailconditions.data.moshi.adapters.LocalDateTimeJsonAdapter
 import cash.andrew.mntrailconditions.data.okhttp.UserAgentInterceptor
+import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.jakewharton.byteunits.DecimalByteUnit.MEGABYTES
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -48,12 +49,12 @@ object DataModule {
     @Singleton
     fun provideOkHttpClient(app: Application): OkHttpClient = createOkHttpClient(app).build()
 
-
     @JvmStatic
     @SavedTrails
     @Provides
     @Singleton
-    fun provideTrailFavorites(prefs: RxSharedPreferences) = prefs.getStringSet("trail-favorites")
+    fun provideTrailFavorites(prefs: RxSharedPreferences): Preference<Set<String>> =
+            prefs.getStringSet("trail-favorites")
 
     private fun createOkHttpClient(app: Application): OkHttpClient.Builder =
             OkHttpClient.Builder()

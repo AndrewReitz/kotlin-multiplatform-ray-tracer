@@ -14,13 +14,15 @@ import cash.andrew.mntrailconditions.util.observeOnMainThread
 import cash.andrew.mntrailconditions.util.plusAssign
 import cash.andrew.mntrailconditions.util.retryOnUnsuccessfulResult
 import cash.andrew.mntrailconditions.util.retryWithTimeout
+import com.f2prateek.rx.preferences2.Preference
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.trail_list_view.view.*
 import org.threeten.bp.LocalDateTime
 import timber.log.Timber
 import javax.inject.Inject
 
-private val THREE_MONTHS_BEFORE_TODAY = LocalDateTime.now().minusMonths(3)
+val THREE_MONTHS_BEFORE_TODAY: LocalDateTime = LocalDateTime.now().minusMonths(3)
 
 class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -32,6 +34,8 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     private val recyclerView get() = trail_list_recycler_view
     private val refreshLayout get() = trail_list_content
     private val animator get() = trail_list_animator
+
+    var favoriteTrailsPref: Preference<Set<String>>? = null
 
     init {
         context.activityComponent.trailsComponent.inject(this)
@@ -78,19 +82,15 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 }
                 .cache()
 
-        subscriptions += trailData.filter { result -> result.isSuccessful }
+        val trailsV3 = trailData.filter { result -> result.isSuccessful }
                 .map { result -> result.data }
                 .doOnSuccess { Timber.v("trail data list: %s", it) }
                 .toObservable()
                 .flatMapIterable { it }
                 .map { data -> data.toViewModel() }
                 .toList()
+                .filter { it.isNotEmpty() }
                 .map { trails -> trails.sortedBy { it.name } }
-                .observeOnMainThread()
-                .subscribe { trails ->
-                    trailListAdapter.trails = trails
-                    animator.displayedChildId = R.id.trail_list_recycler_view
-                }
 
         val trailRegions = trailData.filter { it.isNotSuccessful }
                 .flatMap {
@@ -101,7 +101,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 }
                 .cache()
 
-        subscriptions += trailRegions.filter { result -> result.isSuccessful }
+        val trailsV2 = trailRegions.filter { result -> result.isSuccessful }
                 .map { result -> result.data }
                 .toObservable()
                 .flatMapIterable { it }
@@ -110,10 +110,22 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 .toList()
                 .filter { it.isNotEmpty() }
                 .map { trails -> trails.sortedBy { it.name } }
+
+        subscriptions += trailsV3.concatWith(trailsV2)
+                .toObservable()
+                .map { trails ->
+                    if (favoriteTrailsPref == null) trails
+                    else trails.filter { trail -> trail.name in favoriteTrailsPref!!.get() }
+                }
+                .subscribeOn(Schedulers.io())
                 .observeOnMainThread()
                 .subscribe { trails ->
-                    trailListAdapter.trails = trails
-                    animator.displayedChildId = R.id.trail_list_recycler_view
+                    if (favoriteTrailsPref != null && trails.isEmpty()) {
+                        animator.displayedChildId = R.id.trail_list_no_favorites_text
+                    } else {
+                        trailListAdapter.trails = trails
+                        animator.displayedChildId = R.id.trail_list_recycler_view
+                    }
                 }
 
         subscriptions += trailRegions.filter { result -> result.isNotSuccessful }

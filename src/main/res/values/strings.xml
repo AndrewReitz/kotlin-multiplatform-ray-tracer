@@ -10,6 +10,7 @@
     <string name="trails">Trails</string>
     <string name="favorite">favorite</string>
     <string name="notification">notification</string>
+    <string name="no_favorites">Looks like you don\'t have any favorites yet!</string>
 
     <plurals name="last_updated_days">
         <item quantity="one">%d day ago</item>

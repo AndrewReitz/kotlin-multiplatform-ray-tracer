@@ -14,12 +14,12 @@ import cash.andrew.mntrailconditions.ui.ActivityComponent
  * component as a private field. In your `component` implementation, check if the field is null, and
  * if so, instantiate the component object.
  */
-interface HasComponent<out T> {
+interface ComponentContainer<out T> {
     val component: T
 }
 
 fun <T> T.makeComponent():
-        ActivityComponent where T : HasComponent<ActivityComponent>,
+        ActivityComponent where T : ComponentContainer<ActivityComponent>,
                                 T : Activity = (application as MnTrailConditionsApp)
         .component
         .activityComponentBuilder
@@ -28,4 +28,4 @@ fun <T> T.makeComponent():
 
 @Suppress("UNCHECKED_CAST")
 val Context.activityComponent
-    get() = (this as HasComponent<ActivityComponent>).component
+    get() = (this as ComponentContainer<ActivityComponent>).component

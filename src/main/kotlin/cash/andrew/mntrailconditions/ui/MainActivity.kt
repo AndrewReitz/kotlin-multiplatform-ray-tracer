@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import cash.andrew.mntrailconditions.R
-import cash.andrew.mntrailconditions.util.HasComponent
+import cash.andrew.mntrailconditions.util.ComponentContainer
 import cash.andrew.mntrailconditions.util.makeComponent
 import com.kobakei.ratethisapp.RateThisApp
 import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasComponent<ActivityComponent> {
+class MainActivity : AppCompatActivity(), ComponentContainer<ActivityComponent> {
 
     private inline val bottomNavView get() = bottom_nav_view
 

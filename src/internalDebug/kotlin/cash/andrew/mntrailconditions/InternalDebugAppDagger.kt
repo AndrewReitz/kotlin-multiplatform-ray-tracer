@@ -1,14 +1,12 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
-import cash.andrew.mntrailconditions.data.DataModule
 import cash.andrew.mntrailconditions.data.LumberYard
 import cash.andrew.mntrailconditions.ui.ActivityComponent
 import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer
 import cash.andrew.mntrailconditions.ui.debug.DebugView
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Module
 import javax.inject.Singleton
 
 @Singleton
@@ -29,6 +27,3 @@ interface AppComponent {
         fun build(): AppComponent
     }
 }
-
-@Module(includes = [DataModule::class])
-object MnTrailConditionsModule

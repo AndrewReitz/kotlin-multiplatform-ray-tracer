@@ -60,7 +60,7 @@ object DataModule {
     @Provides
     @NotificationTrails
     @Singleton
-    fun provideNotificationList(prefs: RxSharedPreferences) : Preference<Set<String>> =
+    fun provideNotificationList(prefs: RxSharedPreferences): Preference<Set<String>> =
             prefs.getStringSet("trail-notifications")
 
     private fun createOkHttpClient(app: Application): OkHttpClient.Builder =

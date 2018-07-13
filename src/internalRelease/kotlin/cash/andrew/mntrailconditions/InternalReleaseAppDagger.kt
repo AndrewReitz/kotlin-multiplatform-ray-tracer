@@ -1,7 +1,6 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
-import cash.andrew.mntrailconditions.data.DataModule
 import cash.andrew.mntrailconditions.data.InternalReleaseDataModule
 import cash.andrew.mntrailconditions.data.LumberYard
 import cash.andrew.mntrailconditions.ui.ActivityComponent
@@ -14,7 +13,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [MnTrailConditionsModule::class])
+@Component(modules = [MnTrailConditionsModule::class, InternalReleaseMnTrailConditionsModule::class])
 interface AppComponent {
     val activityHierarchyServer: ActivityHierarchyServer
     val lumberYard: LumberYard
@@ -30,8 +29,8 @@ interface AppComponent {
     }
 }
 
-@Module(includes = [UiModule::class, DataModule::class, InternalReleaseDataModule::class])
-object MnTrailConditionsModule {
+@Module(includes = [UiModule::class, InternalReleaseDataModule::class])
+object InternalReleaseMnTrailConditionsModule {
     @JvmStatic
     @Provides
     fun provideMnTrailConditionsInitializer(): MnTrailConditionsInitializer = { }

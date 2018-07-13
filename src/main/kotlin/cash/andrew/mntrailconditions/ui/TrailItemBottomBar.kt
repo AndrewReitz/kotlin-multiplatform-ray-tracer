@@ -6,7 +6,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
-import cash.andrew.mntrailconditions.util.spacesToHyphens
+import cash.andrew.mntrailconditions.util.toTopicName
 import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.trail_item_bottom_bar.view.*
@@ -82,14 +82,19 @@ class TrailItemBottomBar(
 
         notificationsPref.set(updated)
 
-        notifications.forEach { trailName ->
-            firebaseMessaging.unsubscribeFromTopic(trailName.spacesToHyphens())
-                    .addOnFailureListener { Timber.e(it, "Error removing notifications for $trailName") }
+        val unSubscribe = notifications - updated
+        val subscribe = updated - notifications
+
+        unSubscribe.forEach { trailName ->
+            firebaseMessaging.unsubscribeFromTopic(trailName.toTopicName())
+                    .addOnSuccessListener { Timber.i("Success un-subscribing to ${trailName.toTopicName()}") }
+                    .addOnFailureListener { Timber.e(it, "Error removing notifications for ${trailName.toTopicName()}") }
         }
 
-        updated.forEach { trailName ->
-            firebaseMessaging.unsubscribeFromTopic(trailName.spacesToHyphens())
-                    .addOnFailureListener { Timber.e(it, "Error subscribing to notifications for $trailName") }
+        subscribe.forEach { trailName ->
+            firebaseMessaging.subscribeToTopic(trailName.toTopicName())
+                    .addOnSuccessListener { Timber.i("Success subscribing to ${trailName.toTopicName()}") }
+                    .addOnFailureListener { Timber.e(it, "Error subscribing to notifications for ${trailName.toTopicName()}") }
         }
     }
 }

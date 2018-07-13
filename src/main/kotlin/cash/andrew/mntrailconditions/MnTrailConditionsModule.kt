@@ -11,5 +11,5 @@ object MnTrailConditionsModule {
     @JvmStatic
     @Provides
     @Singleton
-    fun provideFirebaseMessaging() = FirebaseMessaging.getInstance()
+    fun provideFirebaseMessaging(): FirebaseMessaging = FirebaseMessaging.getInstance()
 }

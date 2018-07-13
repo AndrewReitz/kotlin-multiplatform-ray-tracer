@@ -1,7 +1,6 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
-import cash.andrew.mntrailconditions.data.DataModule
 import cash.andrew.mntrailconditions.data.LumberYard
 import cash.andrew.mntrailconditions.data.ProdDataModule
 import cash.andrew.mntrailconditions.ui.ActivityComponent

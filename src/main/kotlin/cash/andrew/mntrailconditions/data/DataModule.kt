@@ -56,6 +56,13 @@ object DataModule {
     fun provideTrailFavorites(prefs: RxSharedPreferences): Preference<Set<String>> =
             prefs.getStringSet("trail-favorites")
 
+    @JvmStatic
+    @Provides
+    @NotificationTrails
+    @Singleton
+    fun provideNotificationList(prefs: RxSharedPreferences): Preference<Set<String>> =
+            prefs.getStringSet("trail-notifications")
+
     private fun createOkHttpClient(app: Application): OkHttpClient.Builder =
             OkHttpClient.Builder()
                 .cache(Cache(File(app.cacheDir, "http"), DISK_CACHE_SIZE.toLong()))
@@ -64,3 +71,4 @@ object DataModule {
 }
 
 @Qualifier annotation class SavedTrails
+@Qualifier annotation class NotificationTrails

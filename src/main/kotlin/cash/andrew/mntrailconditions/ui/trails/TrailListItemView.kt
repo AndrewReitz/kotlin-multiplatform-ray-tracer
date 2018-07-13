@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.util.statusToResource
 import com.f2prateek.rx.preferences2.Preference
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.trail_list_item_view.view.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -20,7 +21,12 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
     private inline val lastUpdatedText get() = trail_list_last_updated_time
     private inline val bottomBar get() = trail_list_bottom_bar
 
-    fun bind(trail: TrailViewModel, favoriteTrailsPref: Preference<Set<String>>) {
+    fun bind(
+            trail: TrailViewModel,
+            favoriteTrailsPref: Preference<Set<String>>,
+            notificationPref: Preference<Set<String>>,
+            firebaseMessaging: FirebaseMessaging
+    ) {
         with(trail) {
             val now = LocalDateTime.now()
             val updated = LocalDateTime.ofInstant(updatedAt, ZoneId.systemDefault())
@@ -38,6 +44,6 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
             conditionsImage.setImageDrawable(context.getDrawable(statusToResource(status)))
         }
 
-        bottomBar.bind(trail, favoriteTrailsPref)
+        bottomBar.bind(trail, favoriteTrailsPref, notificationPref, firebaseMessaging)
     }
 }

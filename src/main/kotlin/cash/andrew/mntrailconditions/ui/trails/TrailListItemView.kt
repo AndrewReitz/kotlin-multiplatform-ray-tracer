@@ -32,8 +32,12 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
             val updated = LocalDateTime.ofInstant(updatedAt, ZoneId.systemDefault())
             val days = ChronoUnit.DAYS.between(updated, now).toInt()
             val hours = ChronoUnit.HOURS.between(updated, now).toInt()
+            val minutes = ChronoUnit.MINUTES.between(updatedAt, now).toInt()
             val lastUpdated = when (days) {
-                0 -> resources.getQuantityString(R.plurals.last_updated_hours, hours, hours)
+                0 -> when (hours) {
+                    0 -> resources.getQuantityString(R.plurals.last_updated_minutes, minutes, minutes)
+                    else -> resources.getQuantityString(R.plurals.last_updated_hours, hours, hours)
+                }
                 else -> resources.getQuantityString(R.plurals.last_updated_days, days, days)
             }
 

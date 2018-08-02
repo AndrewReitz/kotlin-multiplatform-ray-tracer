@@ -76,7 +76,7 @@ android {
   defaultConfig {
     applicationId 'com.andrewreitz.cash.andrew.mntrailconditions'
     minSdkVersion 21
-    targetSdkVersion 27
+    targetSdkVersion 28
     multiDexEnabled true
 
     versionCode 1

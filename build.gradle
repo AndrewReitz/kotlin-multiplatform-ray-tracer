@@ -1,16 +1,15 @@
 buildscript {
-  ext.kotlinVersion = '1.2.51'
+  ext.kotlinVersion = '1.2.60'
   repositories {
     google()
     jcenter()
     maven { url 'https://maven.fabric.io/public' }
   }
   dependencies {
-    classpath 'com.android.tools.build:gradle:3.3.0-alpha03'
+    classpath 'com.android.tools.build:gradle:3.3.0-alpha05'
     classpath 'com.google.gms:google-services:4.0.1'
     classpath 'com.google.firebase:firebase-plugins:1.1.5'
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-    classpath "com.diffplug.spotless:spotless-plugin-gradle:3.10.0"
     classpath 'io.fabric.tools:gradle:1.25.4'
     classpath 'android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha04'
   }
@@ -24,13 +23,11 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'androidx.navigation.safeargs'
 apply from: "$rootDir/gradle/signing.gradle"
-apply from: "$rootDir/gradle/spotless.gradle"
 
 repositories {
   google()
   jcenter()
   maven { url 'https://maven.fabric.io/public' }
-  maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
   maven { url 'https://jitpack.io' }
 }
 
@@ -147,17 +144,17 @@ ext {
 dependencies {
   implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
 
-  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha1'
-  implementation 'androidx.annotation:annotation:1.0.0-beta01'
-  implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
-  implementation 'androidx.recyclerview:recyclerview:1.0.0-beta01'
-  implementation 'androidx.cardview:cardview:1.0.0-beta01'
-  implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-beta01'
-  implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-beta01'
+  implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+  implementation 'androidx.annotation:annotation:1.0.0-rc01'
+  implementation 'androidx.appcompat:appcompat:1.0.0-rc01'
+  implementation 'androidx.recyclerview:recyclerview:1.0.0-rc01'
+  implementation 'androidx.cardview:cardview:1.0.0-rc01'
+  implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
+  implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-rc01'
 
   implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha04'
   implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha04'
-  implementation 'com.google.android.material:material:1.0.0-beta01'
+  implementation 'com.google.android.material:material:1.0.0-rc01'
 
   implementation 'com.google.firebase:firebase-core:16.0.1'
   implementation 'com.google.firebase:firebase-perf:16.0.0'
@@ -187,7 +184,7 @@ dependencies {
   internalImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
   productionImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
-  implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+  implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
   implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
   implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
@@ -199,8 +196,6 @@ dependencies {
   internalImplementation "com.facebook.stetho:stetho:$stethoVersion"
   internalImplementation "com.facebook.stetho:stetho-okhttp3:$stethoVersion"
   internalImplementation "com.facebook.stetho:stetho-timber:$stethoVersion@aar"
-
-  implementation 'com.andrewreitz.velcro:velcro-bindablerecycleradapter:2.0.0-SNAPSHOT'
 
   implementation 'com.crashlytics.sdk.android:crashlytics:2.9.4'
 

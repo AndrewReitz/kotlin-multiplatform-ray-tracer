@@ -1,25 +1,23 @@
 package cash.andrew.mntrailconditions.ui.debug
 
+import android.app.Activity
 import android.content.Context.POWER_SERVICE
+import android.os.PowerManager
 import android.os.PowerManager.ACQUIRE_CAUSES_WAKEUP
 import android.os.PowerManager.FULL_WAKE_LOCK
 import android.os.PowerManager.ON_AFTER_RELEASE
-import android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-import java.util.concurrent.TimeUnit.SECONDS
-
-import android.app.Activity
-import android.os.PowerManager
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.SeenDebugDrawer
 import cash.andrew.mntrailconditions.ui.ViewContainer
-
 import com.f2prateek.rx.preferences2.Preference
+import java.util.concurrent.TimeUnit.SECONDS
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -76,7 +74,6 @@ constructor(
     }
 
     companion object {
-
         /**
          * Show the activity over the lock-screen and wake up the device. If you launched the app manually
          * both of these conditions are already true. If you deployed from the IDE, however, this will
@@ -86,7 +83,7 @@ constructor(
             activity.window.addFlags(FLAG_SHOW_WHEN_LOCKED)
 
             val power = activity.getSystemService(POWER_SERVICE) as PowerManager
-            val lock = power.newWakeLock(FULL_WAKE_LOCK or ACQUIRE_CAUSES_WAKEUP or ON_AFTER_RELEASE, "wakeup!")
+            val lock = power.newWakeLock(FULL_WAKE_LOCK or ACQUIRE_CAUSES_WAKEUP or ON_AFTER_RELEASE, "cash.andrew.mntrailconditions:mywakelock")
             lock.acquire()
             lock.release()
         }

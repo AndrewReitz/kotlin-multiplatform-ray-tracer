@@ -31,17 +31,14 @@ import com.jakewharton.processphoenix.ProcessPhoenix
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.readystatesoftware.chuck.Chuck
 import com.squareup.leakcanary.internal.DisplayLeakActivity
-import java.util.Locale
-import java.util.concurrent.TimeUnit
-
-import javax.inject.Inject
-
 import io.reactivex.Completable
 import okhttp3.OkHttpClient
-import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
+import java.util.Locale
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class DebugView
 @JvmOverloads constructor(
@@ -53,8 +50,6 @@ class DebugView
     private val endpointEditView get() = findViewById<View>(R.id.debug_network_endpoint_edit)
     private val buildNameView get() = findViewById<TextView>(R.id.debug_build_name)
     private val buildCodeView get() = findViewById<TextView>(R.id.debug_build_code)
-    private val buildShaView get() = findViewById<TextView>(R.id.debug_build_sha)
-    private val buildDateView get() = findViewById<TextView>(R.id.debug_build_date)
     private val deviceMakeView get() = findViewById<TextView>(R.id.debug_device_make)
     private val deviceModelView get() = findViewById<TextView>(R.id.debug_device_model)
     private val deviceResolutionView get() = findViewById<TextView>(R.id.debug_device_resolution)
@@ -114,6 +109,7 @@ class DebugView
         refreshOkHttpCacheStats()
     }
 
+    @SuppressLint("CheckResult")
     private fun setupNetworkSection() {
         val currentEndpoint = ApiEndpoints.from(networkEndpoint.get())
         val endpointAdapter = EnumAdapter(context, ApiEndpoints::class.java)
@@ -139,10 +135,6 @@ class DebugView
     private fun setupBuildSection() {
         buildNameView.text = BuildConfig.VERSION_NAME
         buildCodeView.text = BuildConfig.VERSION_CODE.toString()
-        buildShaView.text = BuildConfig.GIT_SHA
-
-        val buildTime = Instant.ofEpochSecond(BuildConfig.GIT_TIMESTAMP)
-        buildDateView.text = DATE_DISPLAY_FORMAT.format(buildTime)
     }
 
     @SuppressLint("SetTextI18n")

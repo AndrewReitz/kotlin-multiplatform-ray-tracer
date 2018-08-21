@@ -88,6 +88,9 @@
             android:id="@+id/trail_list_bottom_barrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="trail_list_item_details,trail_list_item_condition_text"
             />

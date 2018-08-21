@@ -174,30 +174,6 @@
       style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
       />
 
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="SHA"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_build_sha"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
-  <TextView
-      android:layout_gravity="start|center_vertical"
-      android:text="Date"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowTitle"
-      />
-  <TextView
-      android:id="@+id/debug_build_date"
-      android:layout_width="0dp"
-      android:layout_gravity="start|center_vertical|fill_horizontal"
-      style="@style/Widget.MnTrailConditions.DebugDrawer.RowValue"
-      />
-
   <!-- DEVICE INFORMATION SECTION -->
 
   <TextView

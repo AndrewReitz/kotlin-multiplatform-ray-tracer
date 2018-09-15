@@ -5,16 +5,12 @@ import cash.andrew.mntrailconditions.data.model.TrailDataV3
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 
-sealed class TrailModel
-
 data class TrailViewModel(
         val name: String,
         val status: String,
         val description: String,
         val updatedAt: Instant?
-) : TrailModel()
-
-object Error : TrailModel()
+)
 
 fun TrailDataV2.toViewModel() = TrailViewModel(
         name = name,

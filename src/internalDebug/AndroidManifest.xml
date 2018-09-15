@@ -18,7 +18,7 @@
       >
     <activity
         android:name="cash.andrew.mntrailconditions.ui.DebugActivity"
-        android:label="MnTrailConditions Dev Settings"
+        android:label="Dev Settings"
         android:launchMode="singleTask"
         android:theme="@style/Theme.MnTrailConditions.Debug"
         android:screenOrientation="portrait"

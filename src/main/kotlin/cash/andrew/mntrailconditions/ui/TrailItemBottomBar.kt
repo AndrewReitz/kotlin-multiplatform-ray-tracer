@@ -30,32 +30,28 @@ class TrailItemBottomBar(
             firebaseMessaging: FirebaseMessaging
     ) {
         trail_favorite.apply {
+            isEnabled = false
             val favoriteTrails = favoriteTrailsPref.get()
-            val contains = favoriteTrails.contains(trail.name)
-            setImageResource(if (contains) R.drawable.ic_favorite_selected else R.drawable.ic_favorite_unselected)
-
-            setOnClickListener(favoriteClickListener(trail, favoriteTrailsPref))
+            isChecked = favoriteTrails.contains(trail.name)
+            setOnCheckedChangeListener(favoriteClickListener(trail, favoriteTrailsPref))
+            isEnabled = true
         }
 
         traiL_notification.apply {
+            isEnabled = false
             val notifications = notificationsPref.get()
-            val contains = notifications.contains(trail.name)
-            setImageResource(if (contains) R.drawable.ic_notifications_selected else R.drawable.ic_notifications_unselected)
-
-            setOnClickListener(notificationListener(trail, notificationsPref, firebaseMessaging))
+            isChecked = notifications.contains(trail.name)
+            setOnCheckedChangeListener(notificationListener(trail, notificationsPref, firebaseMessaging))
+            isEnabled = true
         }
     }
 
     private fun favoriteClickListener(
             trail: TrailViewModel,
             favoriteTrailsPref: Preference<Set<String>>
-    ): (View) -> Unit = { _ ->
+    ): (View, Boolean) -> Unit = { _, _ ->
         val favoriteTrails = favoriteTrailsPref.get()
         val contains = favoriteTrails.contains(trail.name)
-        trail_favorite.setImageResource(
-                if (!contains) R.drawable.ic_favorite_selected
-                else R.drawable.ic_favorite_unselected
-        )
 
         val updatedTrails = favoriteTrails.toMutableSet().apply {
             if (contains) remove(trail.name) else add(trail.name)
@@ -68,13 +64,9 @@ class TrailItemBottomBar(
             trail: TrailViewModel,
             notificationsPref: Preference<Set<String>>,
             firebaseMessaging: FirebaseMessaging
-    ): (View) -> Unit = { _ ->
+    ): (View, Boolean) -> Unit = { _, _ ->
         val notifications = notificationsPref.get()
         val contains = notifications.contains(trail.name)
-        traiL_notification.setImageResource(
-                if (contains) R.drawable.ic_notifications_unselected
-                else R.drawable.ic_notifications_selected
-        )
 
         val updated = notifications.toMutableSet().apply {
             if (contains) remove(trail.name) else add(trail.name)

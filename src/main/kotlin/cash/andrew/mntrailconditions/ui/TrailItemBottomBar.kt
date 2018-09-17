@@ -6,6 +6,7 @@ import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
+import cash.andrew.mntrailconditions.util.setToolTipTextCompat
 import cash.andrew.mntrailconditions.util.toTopicName
 import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.messaging.FirebaseMessaging
@@ -21,6 +22,9 @@ class TrailItemBottomBar(
 
     init {
         inflate(context, R.layout.trail_item_bottom_bar, this)
+
+        trail_favorite.setToolTipTextCompat(R.string.favorite)
+        traiL_notification.setToolTipTextCompat(R.string.notification)
     }
 
     fun bind(
@@ -30,17 +34,17 @@ class TrailItemBottomBar(
             firebaseMessaging: FirebaseMessaging
     ) {
         trail_favorite.apply {
+            setOnCheckedChangeListener(null)
             isEnabled = false
-            val favoriteTrails = favoriteTrailsPref.get()
-            isChecked = favoriteTrails.contains(trail.name)
+            isChecked = favoriteTrailsPref.get().contains(trail.name)
             setOnCheckedChangeListener(favoriteClickListener(trail, favoriteTrailsPref))
             isEnabled = true
         }
 
         traiL_notification.apply {
+            setOnCheckedChangeListener(null)
             isEnabled = false
-            val notifications = notificationsPref.get()
-            isChecked = notifications.contains(trail.name)
+            isChecked = notificationsPref.get().contains(trail.name)
             setOnCheckedChangeListener(notificationListener(trail, notificationsPref, firebaseMessaging))
             isEnabled = true
         }
@@ -49,13 +53,17 @@ class TrailItemBottomBar(
     private fun favoriteClickListener(
             trail: TrailViewModel,
             favoriteTrailsPref: Preference<Set<String>>
-    ): (View, Boolean) -> Unit = { _, _ ->
+    ): (View, Boolean) -> Unit = { _, enabled ->
+        Timber.d("favoriteClickListener() enabled = [%s]", enabled)
+        Timber.d("trailName = [%s]", trail.name)
+
         val favoriteTrails = favoriteTrailsPref.get()
-        val contains = favoriteTrails.contains(trail.name)
+        Timber.d("favoriteTrails = [%s]", favoriteTrails)
 
         val updatedTrails = favoriteTrails.toMutableSet().apply {
-            if (contains) remove(trail.name) else add(trail.name)
+            if (enabled) add(trail.name) else remove(trail.name)
         }
+        Timber.d("after update favoriteTrails = [%s]", updatedTrails)
 
         favoriteTrailsPref.set(updatedTrails)
     }
@@ -64,13 +72,17 @@ class TrailItemBottomBar(
             trail: TrailViewModel,
             notificationsPref: Preference<Set<String>>,
             firebaseMessaging: FirebaseMessaging
-    ): (View, Boolean) -> Unit = { _, _ ->
+    ): (View, Boolean) -> Unit = { _, enabled ->
+        Timber.d("notificationListener() enabled = [%s]", enabled)
+        Timber.d("trailName = [%s]", trail.name)
+
         val notifications = notificationsPref.get()
-        val contains = notifications.contains(trail.name)
+        Timber.d("notifications = [%s]", notifications)
 
         val updated = notifications.toMutableSet().apply {
-            if (contains) remove(trail.name) else add(trail.name)
+            if (enabled) add(trail.name) else remove(trail.name)
         }
+        Timber.d("after update notifications = [%s]", updated)
 
         notificationsPref.set(updated)
 

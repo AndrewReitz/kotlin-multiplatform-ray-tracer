@@ -33,6 +33,10 @@ pluginManagement {
             if (requested.id.id == "androidx.navigation.safeargs") {
                 useModule("android.arch.navigation:navigation-safe-args-gradle-plugin:${requested.version}")
             }
+
+            if (requested.id.id == "com.github.triplet.play") {
+                useModule("com.github.triplet.gradle:play-publisher:${requested.version}")
+            }
         }
     }
 }

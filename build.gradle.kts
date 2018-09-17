@@ -9,6 +9,7 @@ plugins {
     id("androidx.navigation.safeargs") version "1.0.0-alpha05"
     id("com.google.gms.google-services") version "4.0.1"
     id("com.gradle.build-scan") version "1.15.2"
+    id("com.github.triplet.play") version "1.2.2"
 }
 
 apply(from = "$rootDir/gradle/signing.gradle.kts")
@@ -25,6 +26,10 @@ buildScan {
     setTermsOfServiceUrl("https://gradle.com/terms-of-service")
     setTermsOfServiceAgree("yes")
     publishAlways()
+}
+
+play {
+
 }
 
 android {
@@ -120,21 +125,21 @@ dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha2")
-    implementation("androidx.annotation:annotation:1.0.0-rc01")
-    implementation("androidx.appcompat:appcompat:1.0.0-rc01")
-    implementation("androidx.recyclerview:recyclerview:1.0.0-rc01")
-    implementation("androidx.cardview:cardview:1.0.0-rc01")
+    implementation("androidx.annotation:annotation:1.0.0-rc02")
+    implementation("androidx.appcompat:appcompat:1.0.0-rc02")
+    implementation("androidx.recyclerview:recyclerview:1.0.0-rc02")
+    implementation("androidx.cardview:cardview:1.0.0-rc02")
     implementation("androidx.lifecycle:lifecycle-extensions:2.0.0-rc01")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-rc01")
 
     implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha05")
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha05")
-    implementation("com.google.android.material:material:1.0.0-rc01")
+    implementation("com.google.android.material:material:1.0.0-rc02")
 
-    implementation("com.google.firebase:firebase-core:16.0.1")
+    implementation("com.google.firebase:firebase-core:16.0.3")
     implementation("com.google.firebase:firebase-perf:16.1.0")
     implementation("com.google.firebase:firebase-config:16.0.0")
-    implementation("com.google.firebase:firebase-messaging:17.3.0")
+    implementation("com.google.firebase:firebase-messaging:17.3.1")
 
     implementation("com.google.dagger:dagger:2.16")
     kapt("com.google.dagger:dagger-compiler:2.16")
@@ -172,7 +177,7 @@ dependencies {
     add("internalImplementation", "com.facebook.stetho:stetho-okhttp3:$stethoVersion")
     add("internalImplementation", "com.facebook.stetho:stetho-timber:$stethoVersion@aar")
 
-    implementation("com.crashlytics.sdk.android:crashlytics:2.9.4")
+    implementation("com.crashlytics.sdk.android:crashlytics:2.9.5")
 
     testImplementation("org.amshove.kluent:kluent-android:1.38")
 }
@@ -184,7 +189,7 @@ installAll.description = "Install all applications."
 android.applicationVariants.all {
     installAll.dependsOn(install)
     // Ensure we end up in the same group as the other install tasks.
-    installAll.group = install.group
+    installAll.group = installProvider.get().group
 }
 
 // The default "assemble" task only applies to normal variants. Add test variants as well.

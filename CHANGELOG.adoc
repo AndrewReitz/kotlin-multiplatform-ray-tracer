@@ -1,5 +1,11 @@
 = Change Log
 
+== 🍦
+
+- Updated UI for cards
+- Updated app colors
+- Adding Play Store Pushing
+
 == 🍇
 
 - added FCM

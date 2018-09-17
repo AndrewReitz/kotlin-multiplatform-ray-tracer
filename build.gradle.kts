@@ -159,8 +159,8 @@ dependencies {
     add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.5.1")
     add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.5.1")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.0")
-    implementation("io.reactivex.rxjava2:rxandroid:2.0.2")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.2")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
 
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.0")
 
@@ -189,15 +189,7 @@ android.applicationVariants.all {
 
 // The default "assemble" task only applies to normal variants. Add test variants as well.
 android.testVariants.all {
-    tasks.getByName("assemble").dependsOn(assemble)
-}
-
-tasks.withType<Test> {
-    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
-}
-
-tasks.withType<JavaCompile> {
-    options.isFork = true
+    tasks.getByName("assemble").dependsOn(assembleProvider)
 }
 
 tasks["lint"].enabled = false

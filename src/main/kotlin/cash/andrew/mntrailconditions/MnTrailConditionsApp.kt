@@ -1,10 +1,13 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
+import android.os.Looper
 import cash.andrew.mntrailconditions.util.ComponentContainer
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
+import io.reactivex.android.plugins.RxAndroidPlugins
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
 
@@ -33,6 +36,9 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
                 .build()
 
         RxJavaPlugins.setErrorHandler { Timber.e(it) }
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
+            AndroidSchedulers.from(Looper.getMainLooper(), true)
+        }
 
         appInitializer(this)
 

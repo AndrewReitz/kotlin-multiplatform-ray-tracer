@@ -11,7 +11,7 @@
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp"
     app:cardBackgroundColor="@color/contentBackground"
-    app:cardElevation="4dp"
+    app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,92 +19,106 @@
         android:layout_height="wrap_content"
         >
 
+        <ImageView
+            android:id="@+id/trail_list_item_conditions_image"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/trail_list_item_details"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription"
+            tools:srcCompat="@drawable/dry" />
+
         <TextView
             android:id="@+id/trail_list_item_title"
-            android:layout_width="193dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Murphy Hanrehan"/>
-        <ImageView
-            android:id="@+id/trail_list_item_conditions_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="16dp"
-            android:src="@drawable/closed"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/trail_list_item_conditions_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription"/>
+            tools:text="Cottage Grove Bike Park" />
 
         <TextView
             android:id="@+id/trail_list_item_condition_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:textAllCaps="false"
+            android:textAppearance="@android:style/TextAppearance.Material.Subhead"
+            android:textColor="@color/primaryDarkColor"
+            android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/trail_list_item_conditions_image"
-            app:layout_constraintStart_toStartOf="@+id/trail_list_item_conditions_image"
-            app:layout_constraintTop_toBottomOf="@+id/trail_list_item_conditions_image"
-            tools:text="Wet Do Not Ride"/>
+            app:layout_constraintStart_toEndOf="@+id/trail_list_item_conditions_image"
+            app:layout_constraintTop_toBottomOf="@+id/trail_list_item_title"
+            tools:text="Wet Do No Ride" />
+
         <TextView
-            android:id="@+id/trail_list_last_updated_text"
+            android:id="@+id/trail_list_item_splitter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/last_updated"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/trail_list_item_title"
-            app:layout_constraintTop_toBottomOf="@+id/trail_list_item_title"/>
+            android:layout_marginStart="8dp"
+            android:text="•"
+            android:textAppearance="@android:style/TextAppearance.Material.Caption"
+            app:layout_constraintBottom_toBottomOf="@+id/trail_list_item_condition_text"
+            app:layout_constraintStart_toEndOf="@+id/trail_list_item_condition_text"
+            app:layout_constraintTop_toTopOf="@+id/trail_list_item_condition_text"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/trail_list_last_updated_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Caption"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/trail_list_item_splitter"
+            app:layout_constraintStart_toEndOf="@+id/trail_list_item_splitter"
+            app:layout_constraintTop_toTopOf="@+id/trail_list_item_splitter"
+            tools:text="10 Days Ago" />
+
         <TextView
             android:id="@+id/trail_list_item_details"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/trail_list_item_conditions_image"
-            app:layout_constraintStart_toStartOf="@+id/trail_list_last_updated_text"
-            app:layout_constraintTop_toBottomOf="@+id/trail_list_last_updated_text"
-            tools:text="Tacky to Dry with a few wet spots in the normal places as of 5:30 p.m. Easter Sunday."/>
-
-        <TextView
-            android:id="@+id/trail_list_last_updated_time"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/trail_list_last_updated_text"
-            app:layout_constraintTop_toTopOf="@+id/trail_list_last_updated_text"
-            tools:text="04-16-2017, 06:52 PM"/>
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/trail_list_bottom_barrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="@android:style/TextAppearance.Material.Body1"
+            android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="trail_list_item_details,trail_list_item_condition_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trail_list_last_updated_time"
+            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada, purus quis ultrices bibendum, turpis mi consequat quam, ultrices commodo ante lorem et massa. Nam quis mi mi. Quisque risus sem, porta at mollis sed, venenatis sit amet risus. Suspendisse ante risus, gravida eu arcu non, ultricies maximus justo. Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed accumsan nulla quis pretium porttitor. Aenean vulputate elit id nibh imperdiet laoreet a sed justo. Nullam lacus nisi, suscipit vitae hendrerit eu, scelerisque vitae libero." />
+
+        <View
+            android:id="@+id/trail_list_item_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#454545"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/trail_list_item_details"
             />
 
         <cash.andrew.mntrailconditions.ui.TrailItemBottomBar
             android:id="@+id/trail_list_bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="#eeeeee"
+            android:background="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/trail_list_bottom_barrier"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/trail_list_item_divider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </cash.andrew.mntrailconditions.ui.trails.TrailListItemView>

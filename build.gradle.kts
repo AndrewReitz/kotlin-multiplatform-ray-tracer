@@ -168,6 +168,10 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.2")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
 
+    implementation("com.uber.autodispose:autodispose-ktx:1.0.0-RC2")
+    implementation("com.uber.autodispose:autodispose-android:1.0.0-RC2")
+    implementation("com.uber.autodispose:autodispose-android-ktx:1.0.0-RC2")
+
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.0")
 
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")

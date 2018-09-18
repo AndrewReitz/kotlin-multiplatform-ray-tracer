@@ -11,11 +11,11 @@ import cash.andrew.mntrailconditions.util.data
 import cash.andrew.mntrailconditions.util.isNotSuccessful
 import cash.andrew.mntrailconditions.util.isSuccessful
 import cash.andrew.mntrailconditions.util.observeOnMainThread
-import cash.andrew.mntrailconditions.util.plusAssign
 import cash.andrew.mntrailconditions.util.retryOnUnsuccessfulResult
 import cash.andrew.mntrailconditions.util.retryWithTimeout
 import com.f2prateek.rx.preferences2.Preference
-import io.reactivex.disposables.CompositeDisposable
+import com.uber.autodispose.android.scope
+import com.uber.autodispose.autoDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.trail_list_view.view.*
 import org.threeten.bp.LocalDateTime
@@ -28,8 +28,6 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
     @Inject lateinit var trailConditionsService: TrailConditionsService
     @Inject lateinit var trailListAdapter: TrailListAdapter
-
-    private val subscriptions: CompositeDisposable = CompositeDisposable()
 
     private val recyclerView get() = trail_list_recycler_view
     private val refreshLayout get() = trail_list_content
@@ -62,7 +60,6 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
     override fun onDetachedFromWindow() {
         Timber.d("onDetachedFromWindow() called")
-        subscriptions.clear()
         super.onDetachedFromWindow()
     }
 
@@ -111,7 +108,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 .filter { it.isNotEmpty() }
                 .map { trails -> trails.sortedBy { it.name } }
 
-        subscriptions += trailsV3.concatWith(trailsV2)
+        trailsV3.concatWith(trailsV2)
                 .toObservable()
                 .map { trails ->
                     if (favoriteTrailsPref == null) trails
@@ -119,6 +116,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 }
                 .subscribeOn(Schedulers.io())
                 .observeOnMainThread()
+                .autoDisposable(scope())
                 .subscribe { trails ->
                     if (favoriteTrailsPref != null && trails.isEmpty()) {
                         animator.displayedChildId = R.id.trail_list_no_favorites_text
@@ -128,7 +126,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                     }
                 }
 
-        subscriptions += trailRegions.filter { result -> result.isNotSuccessful }
+        trailRegions.filter { result -> result.isNotSuccessful }
                 .observeOnMainThread()
                 .doOnSuccess { result ->
                     if (result.isError) {
@@ -138,6 +136,7 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                         Timber.e("Failed to get trail regions. Server returned %d", response?.code())
                     }
                 }
+                .autoDisposable(scope())
                 .subscribe { animator.displayedChildId = R.id.trail_list_error }
 
         refreshLayout.isRefreshing = false

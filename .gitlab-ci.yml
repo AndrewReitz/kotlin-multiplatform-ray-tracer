@@ -1,5 +1,8 @@
 image: openjdk:8-jdk
 
+cache:
+  untracked: true
+
 variables:
   ANDROID_COMPILE_SDK: "28"
   ANDROID_BUILD_TOOLS: "28.0.2"
@@ -19,18 +22,32 @@ before_script:
 - android-sdk-linux/tools/bin/sdkmanager --update > update.log
 - android-sdk-linux/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" > installPlatform.log
 
-
 - export ANDROID_HOME=$PWD/android-sdk-linux
 - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
 - chmod +x ./gradlew
 
+- echo $PUBLISH_KEY > keys/publish-key.json
+
+- export GRADLE_USER_HOME=`pwd`/.gradle
+
 stages:
 - build
+- deploy
 
 build:
   stage: build
+  only:
+  - branches
   script:
-  - ./gradlew build
+  - ./gradlew build -Pcash.andrew.mntrail.buildNumber=$CI_JOB_ID --no-daemon
   artifacts:
     paths:
     - build/outputs/
+
+masterBuild:
+  stage: deploy
+  script:
+  - ./gradlew publishRelease --no-daemon
+  only:
+  - master
+

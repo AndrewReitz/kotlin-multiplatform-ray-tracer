@@ -29,7 +29,8 @@ buildScan {
 }
 
 play {
-
+    setJsonFile(file("keys/publish-key.json"))
+    setTrack("internal")
 }
 
 android {
@@ -38,7 +39,7 @@ android {
 
     signingConfigs {
         getByName("debug") {
-            storeFile = file("debug.keystore")
+            storeFile = file("keys/debug.keystore")
             storePassword = "android"
             keyAlias = "android"
             keyPassword = "android"

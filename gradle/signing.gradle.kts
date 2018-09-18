@@ -6,9 +6,9 @@ extra["keystorePassword"] = when {
 
 
 extra["aliasKeyPassword"] = when {
-        project.hasProperty("cash.andrew.mntrail.aliasKeyPassword") -> project.properties["cash.andrew.mntrail.aliasKeyPassword"]
-        else -> System.getenv("MN_TRAIL_INFO_ALIAS_KEY_PASSWORD") ?: "android"
-    }
+    project.hasProperty("cash.andrew.mntrail.aliasKeyPassword") -> project.properties["cash.andrew.mntrail.aliasKeyPassword"]
+    else -> System.getenv("MN_TRAIL_INFO_ALIAS_KEY_PASSWORD") ?: "android"
+}
 
 
 extra["storeKeyAlias"] = when {
@@ -16,9 +16,7 @@ extra["storeKeyAlias"] = when {
     else -> System.getenv("MN_TRAIL_INFO_STORE_KEY_ALIAS") ?: "android"
 }
 
-extra["keystoreLocation"] = project.run {
-    when {
-        hasProperty("cash.andrew.mntrail.keystoreLocation") -> properties["cash.andrew.mntrail.keystoreLocation"]
-        else -> System.getenv("MN_TRAIL_INFO_KEYSTORE_LOCATION") ?: "debug.keystore"
-    }
+extra["keystoreLocation"] = when {
+    hasProperty("cash.andrew.mntrail.keystoreLocation") -> properties["cash.andrew.mntrail.keystoreLocation"]
+    else -> System.getenv("MN_TRAIL_INFO_KEYSTORE_LOCATION") ?: "keys/debug.keystore"
 }

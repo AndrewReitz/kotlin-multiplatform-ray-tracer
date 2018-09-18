@@ -1,0 +1,16 @@
+image: openjdk:11-jdk
+
+cache:
+  key: cache-key
+  paths:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
+  - $HOME/.android/build-cache
+
+stages:
+- build
+
+build:
+  stage: build
+  script:
+  - ./gradlew build --no-daemon

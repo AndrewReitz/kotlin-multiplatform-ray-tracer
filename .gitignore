@@ -122,3 +122,5 @@ gradle-app.setting
 
 *.iml
 */build/
+
+raytracer-console/*.png

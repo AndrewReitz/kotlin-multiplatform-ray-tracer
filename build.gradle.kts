@@ -29,7 +29,7 @@ buildScan {
 }
 
 play {
-    setJsonFile(file("keys/publish-key.json"))
+    jsonFile = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
     setTrack("internal")
 }
 

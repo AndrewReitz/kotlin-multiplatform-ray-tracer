@@ -1,7 +1,9 @@
 image: openjdk:8-jdk
 
 cache:
-  untracked: true
+  paths:
+  - .gradle/wrapper
+  - .gradle/caches
 
 variables:
   ANDROID_COMPILE_SDK: "28"
@@ -29,6 +31,7 @@ before_script:
 - echo $PUBLISH_KEY > keys/publish-key.json
 
 - export GRADLE_USER_HOME=`pwd`/.gradle
+- export MN_TRAIL_INFO_BUILD_NUMBER=$((CI_JOB_ID - 99347792))
 
 stages:
 - build
@@ -39,7 +42,7 @@ build:
   only:
   - branches
   script:
-  - ./gradlew build -Pcash.andrew.mntrail.buildNumber=$CI_JOB_ID --no-daemon
+  - ./gradlew build --no-daemon
   artifacts:
     paths:
     - build/outputs/
@@ -47,7 +50,7 @@ build:
 masterBuild:
   stage: deploy
   script:
-  - ./gradlew publishRelease --no-daemon
+  - ./gradlew publishApkProductionRelease --no-daemon
   only:
   - master
 

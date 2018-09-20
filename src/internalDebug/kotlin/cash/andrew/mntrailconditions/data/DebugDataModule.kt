@@ -4,6 +4,8 @@ import cash.andrew.mntrailconditions.data.api.DebugApiModule
 
 import com.f2prateek.rx.preferences2.Preference
 import com.f2prateek.rx.preferences2.RxSharedPreferences
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Qualifier
@@ -72,4 +74,11 @@ object DebugDataModule {
     @SeenDebugDrawer
     fun provideSeenDebugDrawer(preferences: RxSharedPreferences): Preference<Boolean> =
             preferences.getBoolean("debug_seen_debug_drawer", DEFAULT_SEEN_DEBUG_DRAWER)
+
+    @JvmStatic
+    @Provides
+    @Singleton
+    fun provideMoshiBuilder(builder: Moshi.Builder): Moshi = builder
+            .add(KotlinJsonAdapterFactory())
+            .build()
 }

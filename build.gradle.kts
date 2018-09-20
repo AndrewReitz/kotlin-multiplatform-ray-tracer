@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.3.0-alpha10"
+    id("com.android.application") version "3.3.0-alpha11"
     id("kotlin-android") version "1.2.60"
     id("kotlin-kapt") version "1.2.60"
     id("kotlin-android-extensions") version "1.2.60"
@@ -157,7 +157,7 @@ dependencies {
 
     implementation("com.squareup.moshi:moshi:1.6.0")
     debugImplementation("com.squareup.moshi:moshi-kotlin:1.6.0")
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.6.0")
+    kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.6.0")
 
     implementation("com.jakewharton.rxbinding2:rxbinding:2.1.1")
     implementation("com.jakewharton:process-phoenix:2.0.0")

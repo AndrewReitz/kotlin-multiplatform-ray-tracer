@@ -75,12 +75,16 @@ android {
             isShrinkResources = false
             val alwaysUpdateBuildId by extra { false }
             val enableCrashlytics by extra { false }
+
+            buildConfigField("boolean", "MOSHI_GENERATOR_ENABLED", "false")
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
+
+            buildConfigField("boolean", "MOSHI_GENERATOR_ENABLED", "true")
         }
     }
 
@@ -142,8 +146,8 @@ dependencies {
     implementation("com.google.firebase:firebase-config:16.0.0")
     implementation("com.google.firebase:firebase-messaging:17.3.1")
 
-    implementation("com.google.dagger:dagger:2.16")
-    kapt("com.google.dagger:dagger-compiler:2.16")
+    implementation("com.google.dagger:dagger:2.17")
+    kapt("com.google.dagger:dagger-compiler:2.17")
 
     implementation("com.squareup.okhttp3:okhttp:3.10.0")
     implementation("com.squareup.okhttp3:logging-interceptor:3.10.0")
@@ -152,6 +156,7 @@ dependencies {
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
 
     implementation("com.squareup.moshi:moshi:1.6.0")
+    debugImplementation("com.squareup.moshi:moshi-kotlin:1.6.0")
     kapt("com.squareup.moshi:moshi-kotlin-codegen:1.6.0")
 
     implementation("com.jakewharton.rxbinding2:rxbinding:2.1.1")
@@ -159,8 +164,8 @@ dependencies {
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.byteunits:byteunits:0.9.1")
 
-    add("debugImplementation", "com.readystatesoftware.chuck:library:1.1.0")
-    add("releaseImplementation", "com.readystatesoftware.chuck:library-no-op:1.1.0")
+    debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
+    releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
     add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.5.1")
     add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.5.1")

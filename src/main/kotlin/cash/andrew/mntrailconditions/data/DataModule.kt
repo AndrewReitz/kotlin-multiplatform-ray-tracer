@@ -39,10 +39,9 @@ object DataModule {
     @JvmStatic
     @Provides
     @Singleton
-    fun provideMoshi(): Moshi = Moshi.Builder()
+    fun provideMoshiBuilder(): Moshi.Builder = Moshi.Builder()
                 .add(InstantJsonAdapter())
                 .add(LocalDateTimeJsonAdapter())
-                .build()
 
     @JvmStatic
     @Provides

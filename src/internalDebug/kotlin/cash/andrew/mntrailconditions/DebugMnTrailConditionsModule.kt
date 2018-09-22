@@ -2,7 +2,6 @@ package cash.andrew.mntrailconditions
 
 import android.app.Application
 import cash.andrew.mntrailconditions.data.DebugDataModule
-import cash.andrew.mntrailconditions.ui.DebugUiModule
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.facebook.stetho.Stetho
@@ -13,7 +12,7 @@ import dagger.Provides
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 
-@Module(includes = [DebugUiModule::class, DebugDataModule::class])
+@Module(includes = [DebugDataModule::class])
 object DebugMnTrailConditionsModule {
     @JvmStatic
     @Provides

@@ -201,31 +201,27 @@ class DebugView
                 .subscribe { ProcessPhoenix.triggerRebirth(context) }
     }
 
-    companion object {
-        private val DATE_DISPLAY_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a", Locale.US).withZone(ZoneId.systemDefault())
-
-        private fun getDensityString(displayMetrics: DisplayMetrics): String {
-            return when (displayMetrics.densityDpi) {
-                DisplayMetrics.DENSITY_LOW -> "ldpi"
-                DisplayMetrics.DENSITY_MEDIUM -> "mdpi"
-                DisplayMetrics.DENSITY_HIGH -> "hdpi"
-                DisplayMetrics.DENSITY_XHIGH -> "xhdpi"
-                DisplayMetrics.DENSITY_XXHIGH -> "xxhdpi"
-                DisplayMetrics.DENSITY_XXXHIGH -> "xxxhdpi"
-                DisplayMetrics.DENSITY_TV -> "tvdpi"
-                else -> displayMetrics.densityDpi.toString()
-            }
+    private fun getDensityString(displayMetrics: DisplayMetrics): String {
+        return when (displayMetrics.densityDpi) {
+            DisplayMetrics.DENSITY_LOW -> "ldpi"
+            DisplayMetrics.DENSITY_MEDIUM -> "mdpi"
+            DisplayMetrics.DENSITY_HIGH -> "hdpi"
+            DisplayMetrics.DENSITY_XHIGH -> "xhdpi"
+            DisplayMetrics.DENSITY_XXHIGH -> "xxhdpi"
+            DisplayMetrics.DENSITY_XXXHIGH -> "xxxhdpi"
+            DisplayMetrics.DENSITY_TV -> "tvdpi"
+            else -> displayMetrics.densityDpi.toString()
         }
+    }
 
-        private fun getSizeString(bytes: Long): String {
-            var betterBytes = bytes
-            val units = arrayOf("B", "KB", "MB", "GB")
-            var unit = 0
-            while (betterBytes >= 1024) {
-                betterBytes /= 1024
-                unit += 1
-            }
-            return betterBytes.toString() + units[unit]
+    private fun getSizeString(bytes: Long): String {
+        var betterBytes = bytes
+        val units = arrayOf("B", "KB", "MB", "GB")
+        var unit = 0
+        while (betterBytes >= 1024) {
+            betterBytes /= 1024
+            unit += 1
         }
+        return betterBytes.toString() + units[unit]
     }
 }

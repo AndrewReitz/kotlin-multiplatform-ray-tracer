@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.3.0-alpha11"
+    id("com.android.application") version "3.2.0-rc03"
     id("kotlin-android") version "1.2.60"
     id("kotlin-kapt") version "1.2.60"
     id("kotlin-android-extensions") version "1.2.60"
@@ -130,15 +130,15 @@ dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha2")
-    implementation("androidx.annotation:annotation:1.0.0-rc02")
-    implementation("androidx.appcompat:appcompat:1.0.0-rc02")
-    implementation("androidx.recyclerview:recyclerview:1.0.0-rc02")
+    implementation("androidx.annotation:annotation:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.0.0")
     implementation("androidx.cardview:cardview:1.0.0-rc02")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0-rc01")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0-rc01")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
 
-    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha05")
-    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha05")
+    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06")
+    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06")
     implementation("com.google.android.material:material:1.0.0-rc02")
 
     implementation("com.google.firebase:firebase-core:16.0.3")
@@ -176,6 +176,7 @@ dependencies {
     implementation("com.uber.autodispose:autodispose-ktx:1.0.0-RC2")
     implementation("com.uber.autodispose:autodispose-android:1.0.0-RC2")
     implementation("com.uber.autodispose:autodispose-android-ktx:1.0.0-RC2")
+    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:1.0.0-RC2")
 
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.0")
 
@@ -199,12 +200,7 @@ installAll.description = "Install all applications."
 android.applicationVariants.all {
     installAll.dependsOn(install)
     // Ensure we end up in the same group as the other install tasks.
-    installAll.group = installProvider.get().group
+    installAll.group = "install"
 }
 
-// The default "assemble" task only applies to normal variants. Add test variants as well.
-android.testVariants.all {
-    tasks.getByName("assemble").dependsOn(assembleProvider)
-}
-
-tasks["lint"].enabled = false
+tasks["lint"].enabled = properties["runLint"] == "true"

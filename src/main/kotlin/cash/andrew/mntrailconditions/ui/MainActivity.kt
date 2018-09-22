@@ -7,6 +7,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.util.ComponentContainer
+import cash.andrew.mntrailconditions.util.DeviceWakeUp
 import cash.andrew.mntrailconditions.util.makeComponent
 import com.kobakei.ratethisapp.RateThisApp
 import kotlinx.android.synthetic.main.main_activity.*
@@ -16,18 +17,16 @@ class MainActivity : AppCompatActivity(), ComponentContainer<ActivityComponent> 
 
     private inline val bottomNavView get() = bottom_nav_view
 
-    @Inject lateinit var viewContainer: ViewContainer
+    @Inject lateinit var deviceWakeUp: DeviceWakeUp
 
     override val component: ActivityComponent by lazy { makeComponent() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val inflater = layoutInflater
+        setContentView(R.layout.main_activity)
 
         component.inject(this)
-
-        val container = viewContainer.forActivity(this)
-        inflater.inflate(R.layout.main_activity, container)
+        deviceWakeUp.riseAndShine()
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

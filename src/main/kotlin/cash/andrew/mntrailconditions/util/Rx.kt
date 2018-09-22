@@ -6,6 +6,8 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -15,6 +17,8 @@ fun <T : Any> Single<T>.subscribeOnIO(): Single<T> = subscribeOn(Schedulers.io()
 fun <T : Any> Observable<T>.observeOnMainThread(): Observable<T> = observeOn(AndroidSchedulers.mainThread())
 fun <T : Any> Single<T>.observeOnMainThread(): Single<T> = observeOn(AndroidSchedulers.mainThread())
 fun <T : Any> Maybe<T>.observeOnMainThread(): Maybe<T> = observeOn(AndroidSchedulers.mainThread())
+
+operator fun CompositeDisposable.plusAssign(disposable: Disposable) { add(disposable) }
 
 /**
  * Sets a time out on the [Single] and retries the single [times] specified.
@@ -40,7 +44,7 @@ fun <T : Any> Observable<T>.retryWithTimeout(
         timeout: Long = 1,
         timeUnit: TimeUnit = TimeUnit.SECONDS
 ): Observable<T> = timeout(timeout, timeUnit)
-        .retry(times, { error -> error is TimeoutException })
+        .retry(times) { error -> error is TimeoutException }
 
 /**
  * Sets a time out on the [Maybe] and retries the single [times] specified.

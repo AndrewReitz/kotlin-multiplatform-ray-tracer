@@ -15,7 +15,6 @@ typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
 class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
-    private val activityHierarchyServer by lazy { component.activityHierarchyServer }
     private val lumberYard by lazy { component.lumberYard }
     private val appInitializer by lazy { component.appInitializer }
 
@@ -44,7 +43,5 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
         lumberYard.cleanUp()
         Timber.plant(lumberYard.tree())
-
-        registerActivityLifecycleCallbacks(activityHierarchyServer)
     }
 }

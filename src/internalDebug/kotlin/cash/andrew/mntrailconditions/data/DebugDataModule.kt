@@ -17,13 +17,11 @@ import javax.inject.Singleton
 @Qualifier annotation class NetworkDelay
 @Qualifier annotation class NetworkFailurePercent
 @Qualifier annotation class NetworkVariancePercent
-@Qualifier annotation class SeenDebugDrawer
 
 @Module(includes = [DebugApiModule::class])
 object DebugDataModule {
 
     private const val DEFAULT_ANIMATION_SPEED = 1 // 1x (normal) speed.
-    private const val DEFAULT_SEEN_DEBUG_DRAWER = false // Show debug drawer first time.
     private const val DEFAULT_CAPTURE_INTENTS = true // Capture external intents.
 
     @JvmStatic
@@ -67,13 +65,6 @@ object DebugDataModule {
     @AnimationSpeed
     fun provideAnimationSpeed(preferences: RxSharedPreferences): Preference<Int> =
             preferences.getInteger("debug_animation_speed", DEFAULT_ANIMATION_SPEED)
-
-    @JvmStatic
-    @Provides
-    @Singleton
-    @SeenDebugDrawer
-    fun provideSeenDebugDrawer(preferences: RxSharedPreferences): Preference<Boolean> =
-            preferences.getBoolean("debug_seen_debug_drawer", DEFAULT_SEEN_DEBUG_DRAWER)
 
     @JvmStatic
     @Provides

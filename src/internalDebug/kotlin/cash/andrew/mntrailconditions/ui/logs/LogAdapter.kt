@@ -43,9 +43,9 @@ internal class LogAdapter(context: Context) : BindableAdapter<Entry>(context), C
         return view
     }
 
-    override fun bindView(item: LumberYard.Entry, position: Int, view: View) {
+    override fun bindView(item: LumberYard.Entry?, position: Int, view: View) {
         val viewHolder = view.tag as LogItemViewHolder
-        viewHolder.setEntry(item)
+        viewHolder.setEntry(item!!)
     }
 
     override fun accept(entry: Entry) {

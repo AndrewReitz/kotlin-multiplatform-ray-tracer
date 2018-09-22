@@ -26,9 +26,9 @@ class EnumAdapter<T : Enum<T>> @JvmOverloads constructor(
     override fun newView(inflater: LayoutInflater, position: Int, container: ViewGroup): View =
             inflater.inflate(android.R.layout.simple_spinner_item, container, false)
 
-    override fun bindView(item: T, position: Int, view: View) {
+    override fun bindView(item: T?, position: Int, view: View) {
         val tv: TextView = view.findViewById(android.R.id.text1)
-        tv.text = getName(item)
+        tv.text = getName(item!!)
     }
 
     override fun newDropDownView(

@@ -2,12 +2,11 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     id("com.android.application") version "3.2.0-rc03"
-    id("kotlin-android") version "1.2.60"
-    id("kotlin-kapt") version "1.2.60"
-    id("kotlin-android-extensions") version "1.2.60"
+    id("kotlin-android") version "1.2.70"
+    id("kotlin-kapt") version "1.2.70"
+    id("kotlin-android-extensions") version "1.2.70"
     id("io.fabric") version "1.25.4"
-    id("androidx.navigation.safeargs") version "1.0.0-alpha05"
-    id("com.google.gms.google-services") version "4.0.1"
+    id("com.google.gms.google-services") version "4.1.0"
     id("com.gradle.build-scan") version "1.15.2"
     id("com.github.triplet.play") version "1.2.2"
 }
@@ -80,8 +79,8 @@ android {
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
 
             buildConfigField("boolean", "MOSHI_GENERATOR_ENABLED", "true")
@@ -133,18 +132,16 @@ dependencies {
     implementation("androidx.annotation:annotation:1.0.0")
     implementation("androidx.appcompat:appcompat:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
-    implementation("androidx.cardview:cardview:1.0.0-rc02")
+    implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
 
     implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06")
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06")
-    implementation("com.google.android.material:material:1.0.0-rc02")
+    implementation("com.google.android.material:material:1.0.0")
 
     implementation("com.google.firebase:firebase-core:16.0.3")
-    implementation("com.google.firebase:firebase-perf:16.1.0")
-    implementation("com.google.firebase:firebase-config:16.0.0")
-    implementation("com.google.firebase:firebase-messaging:17.3.1")
+    implementation("com.google.firebase:firebase-messaging:17.3.2")
 
     implementation("com.google.dagger:dagger:2.17")
     kapt("com.google.dagger:dagger-compiler:2.17")

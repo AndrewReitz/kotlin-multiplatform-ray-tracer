@@ -6,6 +6,6 @@ import org.threeten.bp.Instant
 
 @Suppress("unused")
 class InstantJsonAdapter {
-    @FromJson fun instantFromJson(json: Long) = Instant.ofEpochMilli(json)
+    @FromJson fun instantFromJson(json: Long): Instant = Instant.ofEpochMilli(json)
     @ToJson fun instantToJson(instant: Instant) = instant.toEpochMilli()
 }

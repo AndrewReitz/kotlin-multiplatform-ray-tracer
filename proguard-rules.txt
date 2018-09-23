@@ -1,16 +1,36 @@
--dontobfuscate
 -dontoptimize
 -dontpreverify
+-dontskipnonpubliclibraryclasses
+-verbose
 
--ignorewarnings
+# JSR 305 annotations are for embedding nullability information.
+-dontwarn javax.annotation.**
 
--keep class cash.andrew.mntrailconditions.**
--keepclassmembers class cash.andrew.mntrailconditions.** {
-  *;
+# Retain Moshi adapters.
+-keepclasseswithmembers,allowobfuscation class * {
+    @com.squareup.moshi.* <methods>;
 }
 
--keep class com.jakewharton.processphoenix.ProcessPhoenix
+# The name of @JsonClass types is used to look up the generated adapter.
+-keepnames @com.squareup.moshi.JsonClass class *
 
--dontwarn com.squareup.okhttp.**
+# Retain generated JsonAdapters if annotated type is retained.
+-if @com.squareup.moshi.JsonClass class *
+-keep class <1>JsonAdapter {
+    <init>(...);
+    <fields>;
+}
 
+# Retain service method parameters when optimizing.
+-keepclassmembers,allowshrinking,allowobfuscation interface * {
+    @retrofit2.http.* <methods>;
+}
 
+# Retrofit does reflection on generic parameters and InnerClass is required to use Signature.
+-keepattributes Signature, InnerClasses
+
+# OkHttp platform used only on JVM and when Conscrypt dependency is available.
+-dontwarn okhttp3.internal.platform.ConscryptPlatform
+
+# For crashlytics
+-keepattributes SourceFile,LineNumberTable

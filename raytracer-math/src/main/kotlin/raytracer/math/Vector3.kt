@@ -2,7 +2,7 @@ package raytracer.math
 
 import java.lang.IllegalStateException
 
-@Suppress("NonAsciiCharacters")
+@Suppress("NonAsciiCharacters", "NOTHING_TO_INLINE")
 data class Vector3(
     val x: Double = 0.0,
     val y: Double = 0.0,
@@ -47,12 +47,12 @@ data class Vector3(
     infix fun dotProduct(vector: Vector3): Double = x * vector.x + y * vector.y + z * vector.z
     infix fun `∙`(vector: Vector3) = dotProduct(vector)
 
-    infix fun crossProduct(vector: Vector3) = Vector3(
+    inline infix fun crossProduct(vector: Vector3) = Vector3(
             x = (y * vector.z) - (z * vector.y),
             y = (z * vector.x) - (x * vector.z),
             z = (x * vector.y) - (y * vector.x)
     )
-    infix fun `×`(vector: Vector3) = crossProduct(vector)
+    inline infix fun `×`(vector: Vector3) = crossProduct(vector)
 
     val normalize: Vector3 by lazy { this / this.length }
     val length by lazy { Math.sqrt(lengthSquared) }

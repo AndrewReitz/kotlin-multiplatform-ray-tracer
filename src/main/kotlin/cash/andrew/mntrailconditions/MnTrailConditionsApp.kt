@@ -10,6 +10,11 @@ import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
+import android.app.NotificationManager
+import android.app.NotificationChannel
+import android.os.Build
+
+
 
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
@@ -43,5 +48,25 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
         lumberYard.cleanUp()
         Timber.plant(lumberYard.tree())
+
+        createNotificationChannel()
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return
+        }
+
+        val name = getString(R.string.notification_channel_trail_status)
+        val description = getString(R.string.notification_channel_trail_status_description)
+        val importance = NotificationManager.IMPORTANCE_DEFAULT
+
+        val channel = NotificationChannel(name, name, importance)
+        channel.description = description
+
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        val notificationManager = getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
     }
 }

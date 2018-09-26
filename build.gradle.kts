@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.2.0-rc03"
+    id("com.android.application") version "3.2.0"
     id("kotlin-android") version "1.2.70"
     id("kotlin-kapt") version "1.2.70"
     id("kotlin-android-extensions") version "1.2.70"

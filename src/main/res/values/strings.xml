@@ -26,4 +26,8 @@
         <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>
     </plurals>
+
+    <string name="default_notification_channel_id">@string/notification_channel_trail_status</string>
+    <string name="notification_channel_trail_status">Trail Status</string>
+    <string name="notification_channel_trail_status_description">Status and riding conditions of trails that you have subscribed to</string>
 </resources>

@@ -3,6 +3,8 @@ package raytracer.core
 import raytracer.math.Vector3
 
 interface Camera {
+    val imagePlaneWidth: Double
+
     fun getRay(v: Double, u: Double): Ray
 }
 
@@ -10,7 +12,7 @@ class PerspecticveCamera(
         val position: Vector3,
         val viewDirection: Vector3,
         val focalLength: Double,
-        val imagePlaneWidth: Double,
+        override val imagePlaneWidth: Double,
         val height: Double,
         val width: Double
 ) : Camera {

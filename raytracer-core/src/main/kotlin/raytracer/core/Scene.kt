@@ -5,13 +5,13 @@ import java.awt.image.BufferedImage.TYPE_3BYTE_BGR
 import java.awt.image.RenderedImage
 
 class Scene(
-    private val height: Int,
-    private val width: Int
+    val height: Int,
+    val width: Int
 ) {
 
-    private val lights: List<Light> = emptyList()
-    private val shapes: List<Shape> = emptyList()
-    private val camera: Camera = TODO()
+    val lights: List<Light> = emptyList()
+    val shapes: List<Shape> = emptyList()
+    val camera: Camera = TODO()
 
 
     fun render(): RenderedImage  {

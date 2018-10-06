@@ -1,9 +1,9 @@
 package raytracer.core
 
 data class Color(
-        val red: Double = 0.0,
-        val green: Double = 0.0,
-        val blue: Double = 0.0
+    val red: Int = 0,
+    val green: Int = 0,
+    val blue: Int = 0
 ) {
     operator fun plus(color: Color) = Color(
             red = red + color.red,
@@ -11,5 +11,5 @@ data class Color(
             green = green + color.green
     )
 
-    fun toColorInt() = (red.toInt() shl 16) or (green.toInt() shl 8) or blue.toInt()
+    fun toColorInt() = (red shl 16) or (green shl 8) or blue
 }

@@ -9,30 +9,29 @@ interface Camera {
 }
 
 class PerspecticveCamera(
-        val position: Vector3,
-        val viewDirection: Vector3,
-        val focalLength: Double,
-        override val imagePlaneWidth: Double,
-        val height: Double,
-        val width: Double
+    viewDirection: Vector3,
+    private val position: Vector3,
+    private val focalLength: Double,
+    override val imagePlaneWidth: Double,
+    val height: Double,
+    val width: Double
 ) : Camera {
 
-    val w: Vector3
-    val u: Vector3
-    val v: Vector3
-
+    private val w: Vector3
+    private val u: Vector3
+    private val v: Vector3
 
     init {
-        val tempW = !viewDirection / Math.sqrt(viewDirection `∙` viewDirection)
+        val tempW = !viewDirection / Math.sqrt(viewDirection dot viewDirection)
 
         val b = Vector3(x = 0.0, y = 1.0, z = 0.0)
 
-        val tempU = (b `×` tempW)
-                .let { it `∙` it }
+        val tempU = (b cross tempW)
+                .let { it dot it }
                 .let { Math.sqrt(it) }
                 .let { b / it }
 
-        v = tempW.crossProduct(tempU).normalize
+        v = tempW.cross(tempU).normalize
         u = tempU.normalize
         w = tempW.normalize
     }

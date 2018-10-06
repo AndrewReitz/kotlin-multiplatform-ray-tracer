@@ -64,7 +64,7 @@ class Vector3Test {
         val a = Vector3(3, 4, 5)
         val b = Vector3(4, 3, 5)
 
-        val result = a `∙` b
+        val result = a dot b
 
         assertEquals(actual = result, expected = 49.0)
     }
@@ -74,7 +74,7 @@ class Vector3Test {
         val a = Vector3(3, 4, 5)
         val b = Vector3(4, 3, 5)
 
-        val result = a `×` b
+        val result = a cross b
 
         assertEquals(actual = result, expected = expected)
     }

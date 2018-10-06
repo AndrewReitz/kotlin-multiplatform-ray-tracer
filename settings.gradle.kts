@@ -1,7 +1,8 @@
 include(
         "raytracer-core",
         "raytracer-math",
-        "raytracer-console"
+        "raytracer-console",
+        "raytracer-parsing"
 )
 
 rootProject.name = "kotlin-raytracer"

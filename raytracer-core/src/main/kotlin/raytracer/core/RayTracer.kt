@@ -1,16 +1,14 @@
 package raytracer.core
 
+import java.awt.Image
 import java.awt.image.BufferedImage
 import java.awt.image.BufferedImage.TYPE_3BYTE_BGR
 
 class RayTracer(private val scene: Scene) {
 
-    private inline val t get() = T(Double.MAX_VALUE)
-
-    fun draw() {
+    fun draw(): Image {
         val height = scene.height
         val width = scene.width
-
 
         val imageData = BufferedImage(width, height, TYPE_3BYTE_BGR)
 
@@ -43,12 +41,18 @@ class RayTracer(private val scene: Scene) {
                 val viewRay = camera.getRay(u = u, v = v)
 
                 do {
-                    val shape = scene.shapes.firstOrNull { it.isHit(viewRay, t) } ?: break
+                    var t = T(Double.MAX_VALUE)
+                    val shape = scene.shapes.firstOrNull {
+                        val hit = it.isHit(viewRay, t)
+                        t = hit.t
+                        hit.isHit
+                    } ?: break
 
-                    val color: Color = when(shape.shader) {
-                        is BlinnPhong -> {
-                            TODO()
-                        }
+                    val color: Color = when (shape.shader) {
+//                        is BlinnPhong -> {
+//                            scene.lights.map { light ->
+//                            }
+//                        }
                         is Lambertion -> {
                             // no reflections
                             coefficient = 0.0 // couldn't we break here instead?
@@ -59,18 +63,20 @@ class RayTracer(private val scene: Scene) {
                                 accumulated + color
                             }
                         }
+                        else -> TODO("Unsupported Color Type")
                     }
 
                     pixelColor += color
-
-                } while(level < 10 && coefficient > 0)
+                } while (level < 10 && coefficient > 0)
 
                 val a = mutableListOf(1, 2, 3)
                 a[2] = 3
 
-                imageData[1, 2] = pixelColor
+                imageData[1, 2] = pixelColor.toColorInt()
             }
         }
+
+        return imageData
     }
 
     private operator fun BufferedImage.set(x: Int, y: Int, rgb: Int) = setRGB(x, y, rgb)

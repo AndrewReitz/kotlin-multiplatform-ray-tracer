@@ -44,18 +44,16 @@ data class Vector3(
             z = -z
     )
 
-    infix fun dotProduct(vector: Vector3): Double = x * vector.x + y * vector.y + z * vector.z
-    infix fun `∙`(vector: Vector3) = dotProduct(vector)
+    infix fun dot(vector: Vector3): Double = x * vector.x + y * vector.y + z * vector.z
 
-    inline infix fun crossProduct(vector: Vector3) = Vector3(
+    inline infix fun cross(vector: Vector3) = Vector3(
             x = (y * vector.z) - (z * vector.y),
             y = (z * vector.x) - (x * vector.z),
             z = (x * vector.y) - (y * vector.x)
     )
-    inline infix fun `×`(vector: Vector3) = crossProduct(vector)
 
     val normalize: Vector3 by lazy { this / this.length }
-    val length by lazy { Math.sqrt(lengthSquared) }
+    val length by lazy { lengthSquared.squareRoot }
 
-    private val lengthSquared: Double by lazy { this dotProduct this }
+    private val lengthSquared: Double by lazy { this dot this }
 }

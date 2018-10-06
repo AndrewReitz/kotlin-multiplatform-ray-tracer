@@ -114,11 +114,8 @@ android {
         exclude("META-INF/LICENSE.txt")
     }
 
-    sourceSets {
-        getByName("main") { java.srcDirs(file("./src/main/kotlin")) }
-        getByName("test") { java.srcDirs(file("src/test/kotlin")) }
-        create("internalDebug") { java.srcDirs(file("src/internalDebug/kotlin")) }
-        getByName("production") { java.srcDirs(file("src/production/kotlin")) }
+    sourceSets.forEach { sourceSet ->
+        sourceSet.java.srcDirs(file("./src/${sourceSet.name}/kotlin"))
     }
 }
 

@@ -8,13 +8,15 @@ import cash.andrew.mntrailconditions.data.NotificationTrails
 import cash.andrew.mntrailconditions.data.SavedTrails
 import cash.andrew.mntrailconditions.ui.misc.BindableRecyclerAdapter
 import com.f2prateek.rx.preferences2.Preference
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
 
 class TrailListAdapter @Inject constructor(
         @SavedTrails private val favoriteTrailsPref: Preference<Set<String>>,
         @NotificationTrails private val notificationPref: Preference<Set<String>>,
-        private val firebaseMessaging: FirebaseMessaging
+        private val firebaseMessaging: FirebaseMessaging,
+        private val firebaseAnalytics: FirebaseAnalytics
 ) : BindableRecyclerAdapter<TrailViewModel>() {
     var trails: List<TrailViewModel> = listOf()
         set(value) {
@@ -28,7 +30,13 @@ class TrailListAdapter @Inject constructor(
     override fun getItem(position: Int) = trails[position]
 
     override fun bindView(item: TrailViewModel, view: View, position: Int) {
-        (view as TrailListItemView).bind(item, favoriteTrailsPref, notificationPref, firebaseMessaging)
+        (view as TrailListItemView).bind(
+                item,
+                favoriteTrailsPref,
+                notificationPref,
+                firebaseMessaging,
+                firebaseAnalytics
+        )
     }
 
     override fun getItemCount() = trails.size

@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.util.statusToResource
 import com.f2prateek.rx.preferences2.Preference
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.android.synthetic.main.trail_list_item_view.view.*
 import org.threeten.bp.LocalDateTime
@@ -25,7 +26,8 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
             trail: TrailViewModel,
             favoriteTrailsPref: Preference<Set<String>>,
             notificationPref: Preference<Set<String>>,
-            firebaseMessaging: FirebaseMessaging
+            firebaseMessaging: FirebaseMessaging,
+            firebaseAnalytics: FirebaseAnalytics
     ) {
         with(trail) {
             val now = LocalDateTime.now()
@@ -48,6 +50,12 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
             conditionsImage.setImageDrawable(context.getDrawable(statusToResource(status)))
         }
 
-        bottomBar.bind(trail, favoriteTrailsPref, notificationPref, firebaseMessaging)
+        bottomBar.bind(
+                trail,
+                favoriteTrailsPref,
+                notificationPref,
+                firebaseMessaging,
+                firebaseAnalytics
+        )
     }
 }

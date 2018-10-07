@@ -150,7 +150,7 @@ class DebugView
     }
 
     private fun setupOkHttpCacheSection() {
-        val cache = client.cache() // Shares the cache with apiClient, so no need to check both.
+        val cache = client.cache()!! // Shares the cache with apiClient, so no need to check both.
         okHttpCacheMaxSizeView.text = getSizeString(cache.maxSize())
 
         refreshOkHttpCacheStats()
@@ -158,7 +158,7 @@ class DebugView
 
     @SuppressLint("SetTextI18n")
     private fun refreshOkHttpCacheStats() {
-        val cache = client.cache() // Shares the cache with apiClient, so no need to check both.
+        val cache = client.cache()!! // Shares the cache with apiClient, so no need to check both.
         val writeTotal = cache.writeSuccessCount() + cache.writeAbortCount()
         val percentage = (1f * cache.writeAbortCount() / writeTotal * 100).toInt()
         okHttpCacheWriteErrorView.text = "${cache.writeAbortCount()}/$writeTotal($percentage%)"

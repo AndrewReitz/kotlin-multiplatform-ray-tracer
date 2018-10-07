@@ -1,13 +1,13 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.2.0"
-    id("kotlin-android") version "1.2.70"
-    id("kotlin-kapt") version "1.2.70"
-    id("kotlin-android-extensions") version "1.2.70"
+    id("com.android.application") version "3.3.0-alpha13"
+    id("kotlin-android") version "1.2.71"
+    id("kotlin-kapt") version "1.2.71"
+    id("kotlin-android-extensions") version "1.2.71"
     id("io.fabric") version "1.25.4"
     id("com.google.gms.google-services") version "4.1.0"
-    id("com.gradle.build-scan") version "1.15.2"
+    id("com.gradle.build-scan") version "1.16"
     id("com.github.triplet.play") version "1.2.2"
 }
 
@@ -137,21 +137,21 @@ dependencies {
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06")
     implementation("com.google.android.material:material:1.0.0")
 
-    implementation("com.google.firebase:firebase-core:16.0.3")
-    implementation("com.google.firebase:firebase-messaging:17.3.2")
+    implementation("com.google.firebase:firebase-core:16.0.4")
+    implementation("com.google.firebase:firebase-messaging:17.3.3")
 
     implementation("com.google.dagger:dagger:2.17")
     kapt("com.google.dagger:dagger-compiler:2.17")
 
-    implementation("com.squareup.okhttp3:okhttp:3.10.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.10.0")
+    implementation("com.squareup.okhttp3:okhttp:3.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
 
-    implementation("com.squareup.moshi:moshi:1.6.0")
-    debugImplementation("com.squareup.moshi:moshi-kotlin:1.6.0")
-    kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.6.0")
+    implementation("com.squareup.moshi:moshi:1.7.0")
+    debugImplementation("com.squareup.moshi:moshi-kotlin:1.7.0")
+    kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.7.0")
 
     implementation("com.jakewharton.rxbinding2:rxbinding:2.1.1")
     implementation("com.jakewharton:process-phoenix:2.0.0")

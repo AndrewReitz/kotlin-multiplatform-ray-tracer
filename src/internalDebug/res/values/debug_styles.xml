@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+  <style name="None" />
+
   <style name="Theme.MnTrailConditions.Debug" parent="Theme.AppCompat.NoActionBar">
     <item name="colorAccent">@color/primaryDarkColor</item>
     <item name="android:statusBarColor" tools:ignore="NewApi">@color/primaryDarkColor</item>

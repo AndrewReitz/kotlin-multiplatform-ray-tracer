@@ -1,7 +1,8 @@
+import com.android.build.gradle.tasks.LintBaseTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.3.0-alpha13"
+    id("com.android.application") version "3.2.0"
     id("kotlin-android") version "1.2.71"
     id("kotlin-kapt") version "1.2.71"
     id("kotlin-android-extensions") version "1.2.71"
@@ -34,7 +35,7 @@ play {
 
 android {
     compileSdkVersion(28)
-    buildToolsVersion("28.0.2")
+    buildToolsVersion("28.0.3")
 
     signingConfigs {
         getByName("debug") {
@@ -92,7 +93,7 @@ android {
     productFlavors {
         create("internal") {
             dimension = "environment"
-            applicationIdSuffix = "internal"
+            applicationIdSuffix = ".internal"
         }
         create("production") { dimension = "environment" }
     }
@@ -197,4 +198,4 @@ android.applicationVariants.all {
     installAll.group = "install"
 }
 
-tasks["lint"].enabled = properties["runLint"] == "true"
+//tasks["lint"].enabled = properties["runLint"] == "true"

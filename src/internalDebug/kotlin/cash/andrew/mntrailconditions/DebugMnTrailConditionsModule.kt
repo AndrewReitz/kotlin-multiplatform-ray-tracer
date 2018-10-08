@@ -11,6 +11,9 @@ import dagger.Module
 import dagger.Provides
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
+import android.os.StrictMode
+
+
 
 @Module(includes = [DebugDataModule::class])
 object DebugMnTrailConditionsModule {
@@ -32,6 +35,18 @@ object DebugMnTrailConditionsModule {
 
         // Initialize Fabric with the debug-disabled crashlytics.
         Fabric.with(app, crashlyticsKit)
+
+        StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .penaltyDeath()
+                .build())
+
+        StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder()
+                .detectAll()
+                .penaltyLog()
+                .penaltyDeath()
+                .build())
 
         // allows updating test in firestore to get push notifications
         // and ensure everything is working smoothly.

@@ -2,6 +2,12 @@
 
 == 🥝
 
+- Moved lumberyard out of prod release
+- Added adaptive icons
+- Added analytics around push notifications
+- Pushes can now be seen if the app is open
+- Fixed lint issues
+
 == 🍦
 
 - Updated UI for cards

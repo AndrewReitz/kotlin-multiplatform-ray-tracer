@@ -42,7 +42,7 @@ build:
   only:
   - branches
   script:
-  - ./gradlew build --no-daemon
+  - ./gradlew build lintProductionRelease -PrunLint=true --no-daemon
   artifacts:
     paths:
     - build/outputs/

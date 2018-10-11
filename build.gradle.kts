@@ -198,4 +198,4 @@ android.applicationVariants.all {
     installAll.group = "install"
 }
 
-//tasks["lint"].enabled = properties["runLint"] == "true"
+tasks["lint"].enabled = properties["runLint"] == "true"

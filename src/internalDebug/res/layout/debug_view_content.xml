@@ -39,7 +39,7 @@
     <ImageView
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@mipmap/dev_app_icon"
+        android:src="@mipmap/dev_ic_launcher_round"
         tools:ignore="ContentDescription"
         />
   </LinearLayout>

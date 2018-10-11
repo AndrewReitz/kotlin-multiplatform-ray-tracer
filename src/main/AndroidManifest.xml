@@ -9,7 +9,8 @@
         android:name="cash.andrew.mntrailconditions.MnTrailConditionsApp"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/app_icon"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/application_name"
         android:theme="@style/Theme.MnTrailConditions.App">
         <activity

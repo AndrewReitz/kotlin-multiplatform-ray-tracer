@@ -12,8 +12,9 @@
   <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
   <application
-      android:icon="@mipmap/dev_app_icon"
-      tools:replace="android:icon"
+      android:icon="@mipmap/dev_ic_launcher"
+      android:roundIcon="@mipmap/dev_ic_launcher_round"
+      tools:replace="android:icon,android:roundIcon"
       tools:ignore="GoogleAppIndexingWarning"
       >
     <activity
@@ -22,7 +23,7 @@
         android:launchMode="singleTask"
         android:theme="@style/Theme.MnTrailConditions.Debug"
         android:screenOrientation="portrait"
-        android:icon="@mipmap/dev_app_icon"
+        android:icon="@mipmap/dev_ic_launcher"
         >
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

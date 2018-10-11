@@ -11,7 +11,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [MnTrailConditionsModule::class, DebugMnTrailConditionsModule::class])
 interface AppComponent {
-    val lumberYard: LumberYard
     val appInitializer: MnTrailConditionsInitializer
 
     val activityComponentBuilder: ActivityComponent.Builder

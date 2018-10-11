@@ -14,13 +14,10 @@ import android.app.NotificationManager
 import android.app.NotificationChannel
 import android.os.Build
 
-
-
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
 class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
-    private val lumberYard by lazy { component.lumberYard }
     private val appInitializer by lazy { component.appInitializer }
 
     private lateinit var _component: AppComponent
@@ -45,9 +42,6 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
         }
 
         appInitializer(this)
-
-        lumberYard.cleanUp()
-        Timber.plant(lumberYard.tree())
 
         createNotificationChannel()
     }

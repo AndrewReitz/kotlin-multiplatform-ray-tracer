@@ -11,8 +11,6 @@ import io.reactivex.subjects.PublishSubject
 import java.io.File
 import java.io.IOException
 import java.util.ArrayDeque
-import java.util.ArrayList
-import java.util.Deque
 import javax.inject.Inject
 import javax.inject.Singleton
 import okio.BufferedSink
@@ -96,7 +94,7 @@ class LumberYard @Inject constructor(private val app: Application) {
                 }
             }
         }
-        .observeOn(Schedulers.computation())
+        .subscribeOn(Schedulers.computation())
         .subscribe()
     }
 

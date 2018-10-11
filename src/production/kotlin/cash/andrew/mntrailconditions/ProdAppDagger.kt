@@ -1,7 +1,6 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
-import cash.andrew.mntrailconditions.data.LumberYard
 import cash.andrew.mntrailconditions.data.ProdDataModule
 import cash.andrew.mntrailconditions.ui.ActivityComponent
 import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer
@@ -20,7 +19,6 @@ import javax.inject.Singleton
 @Component(modules = [MnTrailConditionsModule::class, ProdMnTrailConditionsModule::class])
 interface AppComponent {
     val activityHierarchyServer: ActivityHierarchyServer
-    val lumberYard: LumberYard
     val appInitializer: MnTrailConditionsInitializer
 
     val activityComponentBuilder: ActivityComponent.Builder

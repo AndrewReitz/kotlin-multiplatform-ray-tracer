@@ -1,3 +1,4 @@
+import com.android.build.gradle.api.ApkVariantOutput
 import com.android.build.gradle.tasks.LintBaseTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
@@ -9,7 +10,7 @@ plugins {
     id("io.fabric") version "1.25.4"
     id("com.google.gms.google-services") version "4.1.0"
     id("com.gradle.build-scan") version "1.16"
-    id("com.github.triplet.play") version "1.2.2"
+    id("com.github.triplet.play") version "2.0.0-beta1"
 }
 
 apply(from = "$rootDir/gradle/signing.gradle.kts")
@@ -29,8 +30,9 @@ buildScan {
 }
 
 play {
-    jsonFile = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
-    setTrack("internal")
+    serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
+    track = "internal"
+    defaultToAppBundles = true
 }
 
 android {

@@ -3,7 +3,7 @@ import com.android.build.gradle.tasks.LintBaseTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.2.0"
+    id("com.android.application") version "3.2.1"
     id("kotlin-android") version "1.2.71"
     id("kotlin-kapt") version "1.2.71"
     id("kotlin-android-extensions") version "1.2.71"
@@ -141,10 +141,10 @@ dependencies {
     implementation("com.google.android.material:material:1.0.0")
 
     implementation("com.google.firebase:firebase-core:16.0.4")
-    implementation("com.google.firebase:firebase-messaging:17.3.3")
+    implementation("com.google.firebase:firebase-messaging:17.3.4")
 
-    implementation("com.google.dagger:dagger:2.17")
-    kapt("com.google.dagger:dagger-compiler:2.17")
+    implementation("com.google.dagger:dagger:2.18")
+    kapt("com.google.dagger:dagger-compiler:2.18")
 
     implementation("com.squareup.okhttp3:okhttp:3.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
@@ -170,10 +170,10 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.2")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
 
-    implementation("com.uber.autodispose:autodispose-ktx:1.0.0-RC2")
-    implementation("com.uber.autodispose:autodispose-android:1.0.0-RC2")
-    implementation("com.uber.autodispose:autodispose-android-ktx:1.0.0-RC2")
-    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:1.0.0-RC2")
+    implementation("com.uber.autodispose:autodispose-ktx:1.0.0")
+    implementation("com.uber.autodispose:autodispose-android:1.0.0")
+    implementation("com.uber.autodispose:autodispose-android-ktx:1.0.0")
+    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:1.0.0")
 
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.0")
 

@@ -4,13 +4,14 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     id("com.android.application") version "3.2.1"
-    id("kotlin-android") version "1.2.71"
-    id("kotlin-kapt") version "1.2.71"
-    id("kotlin-android-extensions") version "1.2.71"
-    id("io.fabric") version "1.25.4"
+    id("kotlin-android") version "1.3.0-rc-198"
+    id("kotlin-kapt") version "1.3.0-rc-198"
+    id("kotlin-android-extensions") version "1.3.0-rc-198"
+    id("io.fabric") version "1.26.1"
     id("com.google.gms.google-services") version "4.1.0"
     id("com.gradle.build-scan") version "1.16"
-    id("com.github.triplet.play") version "2.0.0-beta1"
+    id("com.github.triplet.play") version "2.0.0-beta2"
+    id("com.github.ben-manes.versions") version "0.20.0"
 }
 
 apply(from = "$rootDir/gradle/signing.gradle.kts")
@@ -156,7 +157,7 @@ dependencies {
     debugImplementation("com.squareup.moshi:moshi-kotlin:1.7.0")
     kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.7.0")
 
-    implementation("com.jakewharton.rxbinding2:rxbinding:2.1.1")
+    implementation("com.jakewharton.rxbinding2:rxbinding:2.2.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.byteunits:byteunits:0.9.1")
@@ -164,10 +165,10 @@ dependencies {
     debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
-    add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.5.1")
-    add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.5.1")
+    add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.6.2")
+    add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.6.2")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.2")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.3")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
 
     implementation("com.uber.autodispose:autodispose-ktx:1.0.0")
@@ -175,7 +176,7 @@ dependencies {
     implementation("com.uber.autodispose:autodispose-android-ktx:1.0.0")
     implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:1.0.0")
 
-    implementation("com.jakewharton.threetenabp:threetenabp:1.1.0")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.1.1")
 
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
@@ -187,7 +188,7 @@ dependencies {
 
     implementation("com.crashlytics.sdk.android:crashlytics:2.9.5")
 
-    testImplementation("org.amshove.kluent:kluent-android:1.38")
+    testImplementation("org.amshove.kluent:kluent-android:1.42")
 }
 
 kapt.useBuildCache = true

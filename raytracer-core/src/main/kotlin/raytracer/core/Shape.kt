@@ -1,13 +1,13 @@
 package raytracer.core
 
 import raytracer.math.Vector3
-import raytracer.math.squareRoot
+import kotlin.math.sqrt
 
 interface Shape {
     val shader: Shader
-
-    fun isHit(ray: Ray, t: T): HitData
+    fun isHit(ray: Ray, t: T = T.default): HitData
     fun getN(start: Vector3): Vector3
+    fun calculateColor(viewRay: Ray, light: Light, t: T, shapes: List<Shape>): Color
 }
 
 class Sphere(
@@ -28,15 +28,24 @@ class Sphere(
             return HitData(t = t, isHit = false)
         }
 
-        val t0 = (-B - D.squareRoot) / A
-        val t1 = (-B + D.squareRoot) / A
+        val t0 = (-B - sqrt(D)) / A
+        val t1 = (-B + sqrt(D)) / A
 
         return when {
-            t0 > 0.0000001f && t0 < t.t -> HitData(t = T(t0), isHit = true)
-            t1 > 0.0000001f && t1 < t.t -> HitData(t = T(t1), isHit = true)
+            t0 > 0.0000001f && t0 < t.value -> HitData(t = T(t0), isHit = true)
+            t1 > 0.0000001f && t1 < t.value -> HitData(t = T(t1), isHit = true)
             else -> HitData(t = t, isHit = false)
         }
     }
+
+    override fun calculateColor(viewRay: Ray, light: Light, t: T, shapes: List<Shape>): Color =
+            shader.calculateColor(
+                    position = position,
+                    viewRay = viewRay,
+                    light = light,
+                    t = t,
+                    shapes = shapes
+            )
 
     override fun getN(start: Vector3) = (start - position).normalize
 }
@@ -76,12 +85,16 @@ class Triangle(
         return when {
             alpha < 0 || alpha > 1 -> HitData(t = t, isHit = false)
             beta < 0 || beta > 1 - alpha -> HitData(t = t, isHit = false)
-            t0 > 0.0000001 && t0 <= t.t -> HitData(t = T(t0), isHit = true)
+            t0 > 0.0000001 && t0 <= t.value -> HitData(t = T(t0), isHit = true)
             else -> HitData(t = t, isHit = false)
         }
     }
 
     override fun getN(start: Vector3): Vector3 = n
+
+    override fun calculateColor(viewRay: Ray, light: Light, t: T, shapes: List<Shape>): Color {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }
 
 data class HitData(

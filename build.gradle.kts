@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.3.0-rc-57"
+    kotlin("jvm") version "1.3.10"
     id("com.gradle.build-scan") version "1.15.2"
 }
 
@@ -18,7 +18,6 @@ allprojects {
 
     repositories {
         jcenter()
-        maven { url = uri("http://dl.bintray.com/kotlin/kotlin-eap") }
     }
 }
 
@@ -28,11 +27,10 @@ subprojects {
     configurations.create("ktlint")
 
     dependencies {
-        api(kotlin("stdlib"))
-        api("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1-eap13")
+        implementation(kotlin("stdlib"))
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:0.26.1-eap13")
 
-//        api("com.google.dagger:dagger:2.17")
-//        kapt("com.google.dagger:dagger-compiler:2.17")
+        implementation("io.github.microutils:kotlin-logging:1.6.10")
 
         testImplementation(kotlin("test"))
         testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")

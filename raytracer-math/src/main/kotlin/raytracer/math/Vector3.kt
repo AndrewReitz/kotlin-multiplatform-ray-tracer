@@ -1,8 +1,10 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package raytracer.math
 
 import java.lang.IllegalStateException
+import kotlin.math.sqrt
 
-@Suppress("NonAsciiCharacters", "NOTHING_TO_INLINE")
 data class Vector3(
     val x: Double = 0.0,
     val y: Double = 0.0,
@@ -11,25 +13,25 @@ data class Vector3(
 
     constructor(x: Int, y: Int, z: Int) : this(x.toDouble(), y.toDouble(), z.toDouble())
 
-    operator fun plus(vector: Vector3) = Vector3(
+    inline operator fun plus(vector: Vector3) = Vector3(
             x = x + vector.x,
             y = y + vector.y,
             z = z + vector.z
     )
 
-    operator fun minus(vector: Vector3) = Vector3(
+    inline operator fun minus(vector: Vector3) = Vector3(
             x = x - vector.x,
             y = y - vector.y,
             z = z - vector.z
     )
 
-    operator fun times(value: Double) = Vector3(
+    inline operator fun times(value: Double) = Vector3(
             x = value * x,
             y = value * y,
             z = value * z
     )
 
-    operator fun div(value: Double): Vector3 {
+    inline operator fun div(value: Double): Vector3 {
         if (value == 0.0) throw IllegalStateException("Cannot divide by 0")
         return Vector3(
                 x = x / value,
@@ -38,7 +40,7 @@ data class Vector3(
         )
     }
 
-    operator fun not() = Vector3(
+    inline operator fun not() = Vector3(
             x = -x,
             y = -y,
             z = -z
@@ -53,7 +55,7 @@ data class Vector3(
     )
 
     val normalize: Vector3 by lazy { this / this.length }
-    val length by lazy { lengthSquared.squareRoot }
+    val length by lazy { sqrt(lengthSquared) }
 
     private val lengthSquared: Double by lazy { this dot this }
 }

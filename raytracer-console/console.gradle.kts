@@ -7,5 +7,5 @@ application {
 }
 
 dependencies {
-    compile(project(":raytracer-core"))
+    implementation(project(":raytracer-core"))
 }

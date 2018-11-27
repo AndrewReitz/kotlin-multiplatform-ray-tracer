@@ -1,12 +1,11 @@
 package raytracer.core
 
-import java.awt.Image
 import java.awt.image.BufferedImage
 import java.awt.image.BufferedImage.TYPE_3BYTE_BGR
 
 class RayTracer(private val scene: Scene) {
 
-    fun draw(): Image {
+    fun draw(): BufferedImage {
         val height = scene.height
         val width = scene.width
 
@@ -33,14 +32,14 @@ class RayTracer(private val scene: Scene) {
                 var coefficient = 1.0
                 var level = 1
 
-                var pixelColor = Color()
+                var pixelColor = Color(0x0, 0x0, 0x0)
 
                 val u = left + (right - left) * (col + 0.5) / width
                 val v = bottom + (top - bottom) * (row + 0.5) / height
 
                 val viewRay = camera.getRay(u = u, v = v)
 
-                do {
+//                do {
                     var t = T(Double.MAX_VALUE)
                     val shape = scene.shapes.firstOrNull {
                         val hit = it.isHit(viewRay, t)
@@ -49,30 +48,25 @@ class RayTracer(private val scene: Scene) {
                     } ?: break
 
                     val color: Color = when (shape.shader) {
-//                        is BlinnPhong -> {
-//                            scene.lights.map { light ->
-//                            }
-//                        }
-                        is Lambertion -> {
-                            // no reflections
-                            coefficient = 0.0 // couldn't we break here instead?
-
+                        is BlinnPhong -> {
+                            scene.lights.map { light ->  // we have reflections here
+                                shape.calculateColor(viewRay, light, t, scene.shapes)
+                            }.reduce { acc, i -> acc + i }
+                        }
+                        is Lambertion -> { // coef = 0 here
+                            coefficient = 0.0
                             scene.lights.map {
-                                shape.shader.calculateColor(viewRay, it, t, scene.shapes)
+                                shape.calculateColor(viewRay, it, t, scene.shapes)
                             }.reduce { accumulated, color ->
                                 accumulated + color
                             }
                         }
-                        else -> TODO("Unsupported Color Type")
                     }
 
                     pixelColor += color
-                } while (level < 10 && coefficient > 0)
+//                } while (level < 10 && coefficient > 0)
 
-                val a = mutableListOf(1, 2, 3)
-                a[2] = 3
-
-                imageData[1, 2] = pixelColor.toColorInt()
+                imageData[row, col] = pixelColor.toColorInt()
             }
         }
 

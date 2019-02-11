@@ -1,17 +1,18 @@
-import com.android.build.gradle.api.ApkVariantOutput
-import com.android.build.gradle.tasks.LintBaseTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application") version "3.2.1"
-    id("kotlin-android") version "1.3.0-rc-198"
-    id("kotlin-kapt") version "1.3.0-rc-198"
-    id("kotlin-android-extensions") version "1.3.0-rc-198"
-    id("io.fabric") version "1.26.1"
-    id("com.google.gms.google-services") version "4.1.0"
-    id("com.gradle.build-scan") version "1.16"
-    id("com.github.triplet.play") version "2.0.0-beta2"
+    val kotlinVersion = "1.3.21"
+    id("com.android.application") version "3.3.0"
+    id("kotlin-android") version kotlinVersion
+    id("kotlin-kapt") version kotlinVersion
+    id("kotlin-android-extensions") version kotlinVersion
+    id("io.fabric") version "1.27.1"
+    id("com.gradle.build-scan") version "2.1"
+    id("com.github.triplet.play") version "2.1.0"
     id("com.github.ben-manes.versions") version "0.20.0"
+
+    // this is broken... Crashlytics probably won't work now?
+    // id("com.google.gms.google-services") version "4.2.0"
 }
 
 apply(from = "$rootDir/gradle/signing.gradle.kts")
@@ -124,38 +125,38 @@ android {
 }
 
 val stethoVersion by extra { "1.5.0" }
-val retrofitVersion by extra { "2.4.0" }
+val retrofitVersion by extra { "2.5.0" }
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha2")
-    implementation("androidx.annotation:annotation:1.0.0")
-    implementation("androidx.appcompat:appcompat:1.0.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
+    implementation("androidx.annotation:annotation:1.0.1")
+    implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
 
-    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06")
-    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06")
+    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-beta01")
+    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-beta01")
     implementation("com.google.android.material:material:1.0.0")
 
-    implementation("com.google.firebase:firebase-core:16.0.4")
+    implementation("com.google.firebase:firebase-core:16.0.7")
     implementation("com.google.firebase:firebase-messaging:17.3.4")
 
-    implementation("com.google.dagger:dagger:2.18")
-    kapt("com.google.dagger:dagger-compiler:2.18")
+    implementation("com.google.dagger:dagger:2.21")
+    kapt("com.google.dagger:dagger-compiler:2.21")
 
-    implementation("com.squareup.okhttp3:okhttp:3.11.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.11.0")
+    implementation("com.squareup.okhttp3:okhttp:3.13.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.13.1")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
 
-    implementation("com.squareup.moshi:moshi:1.7.0")
-    debugImplementation("com.squareup.moshi:moshi-kotlin:1.7.0")
-    kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.7.0")
+    implementation("com.squareup.moshi:moshi:1.8.0")
+    debugImplementation("com.squareup.moshi:moshi-kotlin:1.8.0")
+    kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.8.0")
 
     implementation("com.jakewharton.rxbinding2:rxbinding:2.2.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
@@ -168,13 +169,13 @@ dependencies {
     add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.6.2")
     add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.6.2")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.3")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.6")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
 
-    implementation("com.uber.autodispose:autodispose-ktx:1.0.0")
-    implementation("com.uber.autodispose:autodispose-android:1.0.0")
-    implementation("com.uber.autodispose:autodispose-android-ktx:1.0.0")
-    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:1.0.0")
+    implementation("com.uber.autodispose:autodispose-ktx:1.1.0")
+    implementation("com.uber.autodispose:autodispose-android:1.1.0")
+    implementation("com.uber.autodispose:autodispose-android-ktx:1.1.0")
+    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:1.1.0")
 
     implementation("com.jakewharton.threetenabp:threetenabp:1.1.1")
 
@@ -186,9 +187,10 @@ dependencies {
     add("internalImplementation", "com.facebook.stetho:stetho-okhttp3:$stethoVersion")
     add("internalImplementation", "com.facebook.stetho:stetho-timber:$stethoVersion@aar")
 
-    implementation("com.crashlytics.sdk.android:crashlytics:2.9.5")
+    implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
 
-    testImplementation("org.amshove.kluent:kluent-android:1.42")
+    testImplementation("org.amshove.kluent:kluent-android:1.47")
+    testImplementation("junit:junit:4.12")
 }
 
 kapt.useBuildCache = true
@@ -196,7 +198,7 @@ kapt.useBuildCache = true
 val installAll: Task = tasks.create("installAll")
 installAll.description = "Install all applications."
 android.applicationVariants.all {
-    installAll.dependsOn(install)
+    installAll.dependsOn(installProvider)
     // Ensure we end up in the same group as the other install tasks.
     installAll.group = "install"
 }

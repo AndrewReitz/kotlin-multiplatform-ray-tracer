@@ -3,6 +3,12 @@
 -dontskipnonpubliclibraryclasses
 -verbose
 
+# new R8 stuff
+-allowaccessmodification
+-assumevalues class android.os.Build$VERSION {
+    int SDK_INT return 21..1000;
+}
+
 # JSR 305 annotations are for embedding nullability information.
 -dontwarn javax.annotation.**
 

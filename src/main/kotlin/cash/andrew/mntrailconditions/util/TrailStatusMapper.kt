@@ -14,6 +14,7 @@ fun statusToResource(status: String): Int {
         "tacky" in currentStatus -> R.drawable.tacky
         "fat tires" in currentStatus || "needs packing" in currentStatus -> R.drawable.fat_tires
         "open" in status || "dry" in currentStatus || "packed" in currentStatus -> R.drawable.dry
+//        "icy" in status -> R.drawable.icy todo
         else -> R.drawable.closed
     }
 }

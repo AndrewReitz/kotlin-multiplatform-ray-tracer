@@ -1,8 +1,9 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     val kotlinVersion = "1.3.21"
-    id("com.android.application") version "3.3.0"
+    id("com.android.application") version "3.3.1"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
@@ -11,7 +12,8 @@ plugins {
     id("com.github.triplet.play") version "2.1.0"
     id("com.github.ben-manes.versions") version "0.20.0"
 
-    // this is broken... Crashlytics probably won't work now?
+    // this is broken...
+    // values have just been added by hand now.
     // id("com.google.gms.google-services") version "4.2.0"
 }
 
@@ -126,10 +128,12 @@ android {
 
 val stethoVersion by extra { "1.5.0" }
 val retrofitVersion by extra { "2.5.0" }
+val autoDisposeVersion by extra { "1.1.0" }
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
+    implementation("androidx.core:core-ktx:1.0.1")
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
     implementation("androidx.annotation:annotation:1.0.1")
     implementation("androidx.appcompat:appcompat:1.0.2")
@@ -138,8 +142,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
 
-    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-beta01")
-    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-beta01")
+    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-beta02")
+    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-beta02")
     implementation("com.google.android.material:material:1.0.0")
 
     implementation("com.google.firebase:firebase-core:16.0.7")
@@ -166,18 +170,19 @@ dependencies {
     debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
-    add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.6.2")
-    add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.6.2")
+    add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.6.3")
+    add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3")
 
     implementation("io.reactivex.rxjava2:rxjava:2.2.6")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
-    implementation("com.uber.autodispose:autodispose-ktx:1.1.0")
-    implementation("com.uber.autodispose:autodispose-android:1.1.0")
-    implementation("com.uber.autodispose:autodispose-android-ktx:1.1.0")
-    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:1.1.0")
+    implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
+    implementation("com.uber.autodispose:autodispose-android:$autoDisposeVersion")
+    implementation("com.uber.autodispose:autodispose-android-ktx:$autoDisposeVersion")
+    implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
+    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:$autoDisposeVersion")
 
-    implementation("com.jakewharton.threetenabp:threetenabp:1.1.1")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.1.2")
 
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
@@ -189,7 +194,7 @@ dependencies {
 
     implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
 
-    testImplementation("org.amshove.kluent:kluent-android:1.47")
+    testImplementation("org.amshove.kluent:kluent-android:1.48")
     testImplementation("junit:junit:4.12")
 }
 

@@ -18,11 +18,10 @@ import com.uber.autodispose.android.scope
 import com.uber.autodispose.autoDisposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.trail_list_view.view.*
-import org.threeten.bp.LocalDateTime
 import timber.log.Timber
 import javax.inject.Inject
 
-val THREE_MONTHS_BEFORE_TODAY: LocalDateTime = LocalDateTime.now().minusMonths(3)
+//val THREE_MONTHS_BEFORE_TODAY: LocalDateTime = LocalDateTime.now().minusMonths(3)
 
 class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -77,7 +76,10 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                         Timber.e("Failed to get trail data from v3 api. Server returned %d", response?.code())
                     }
                 }
-                .cache()
+                .toObservable()
+                .replay(1)
+                .autoConnect(-1)
+                .singleOrError()
 
         val trailsV3 = trailData.filter { result -> result.isSuccessful }
                 .map { result -> result.data }
@@ -96,13 +98,17 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                             .retryWithTimeout(timeout = 5) // can be very slow to update
                             .toMaybe()
                 }
-                .cache()
+                .toObservable()
+                .replay(1)
+                .autoConnect(-1)
+                .singleOrError()
 
         val trailsV2 = trailRegions.filter { result -> result.isSuccessful }
                 .map { result -> result.data }
                 .toObservable()
                 .flatMapIterable { it }
-                .filter { trail -> trail.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
+                // todo make this an option in settings
+//                .filter { trail -> trail.lastUpdated.isAfter(THREE_MONTHS_BEFORE_TODAY) }
                 .map { trail -> trail.toViewModel() }
                 .toList()
                 .filter { it.isNotEmpty() }
@@ -117,14 +123,17 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                 .subscribeOn(Schedulers.io())
                 .observeOnMainThread()
                 .autoDisposable(scope())
-                .subscribe { trails ->
-                    if (favoriteTrailsPref != null && trails.isEmpty()) {
-                        animator.displayedChildId = R.id.trail_list_no_favorites_text
-                    } else {
-                        trailListAdapter.trails = trails
-                        animator.displayedChildId = R.id.trail_list_recycler_view
-                    }
-                }
+                .subscribe(
+                        { trails ->
+                            if (favoriteTrailsPref != null && trails.isEmpty()) {
+                                animator.displayedChildId = R.id.trail_list_no_favorites_text
+                            } else {
+                                trailListAdapter.trails = trails
+                                animator.displayedChildId = R.id.trail_list_recycler_view
+                            }
+                        },
+                        { exception -> Timber.e(exception, "Something went wrong") }
+                )
 
         trailRegions.filter { result -> result.isNotSuccessful }
                 .observeOnMainThread()
@@ -137,7 +146,10 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
                     }
                 }
                 .autoDisposable(scope())
-                .subscribe { animator.displayedChildId = R.id.trail_list_error }
+                .subscribe(
+                        { animator.displayedChildId = R.id.trail_list_error },
+                        { exception -> Timber.e(exception, "Something went wrong showing an error") }
+                )
 
         refreshLayout.isRefreshing = false
     }

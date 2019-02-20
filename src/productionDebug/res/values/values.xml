@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">404915382330-37ib1a8ajr9ensjn40onpckn51ij92mh.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://morc-trail-conditions.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">404915382330</string>
+    <string name="google_api_key" translatable="false">AIzaSyDmPbjVP9eL1Zv9wu93Q4AiB5RYR-vl4tE</string>
+    <string name="google_app_id" translatable="false">1:404915382330:android:27922e61e30fbca5</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDmPbjVP9eL1Zv9wu93Q4AiB5RYR-vl4tE</string>
+    <string name="google_storage_bucket" translatable="false">morc-trail-conditions.appspot.com</string>
+    <string name="project_id" translatable="false">morc-trail-conditions</string>
+</resources>

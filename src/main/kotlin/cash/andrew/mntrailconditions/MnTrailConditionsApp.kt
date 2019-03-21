@@ -13,12 +13,15 @@ import timber.log.Timber
 import android.app.NotificationManager
 import android.app.NotificationChannel
 import android.os.Build
+import cash.andrew.mntrailconditions.ui.ActivityComponent
+import cash.andrew.mntrailconditions.util.StartUpFirebaseTopicSubscriber
 
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
 class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
     private val appInitializer by lazy { component.appInitializer }
+    private val startUpFirebaseTopicSubscriber by lazy { component.startUpFirebaseTopicSubscriber }
 
     private lateinit var _component: AppComponent
     override val component by lazy { _component }
@@ -42,6 +45,7 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
         }
 
         appInitializer(this)
+        startUpFirebaseTopicSubscriber.subscribe()
 
         createNotificationChannel()
     }
@@ -63,4 +67,11 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
         val notificationManager = getSystemService(NotificationManager::class.java)
         notificationManager.createNotificationChannel(channel)
     }
+}
+
+/** Component that both production and internal builds dagger graphs share. */
+interface BaseComponent {
+    val startUpFirebaseTopicSubscriber: StartUpFirebaseTopicSubscriber
+    val appInitializer: MnTrailConditionsInitializer
+    val activityComponentBuilder: ActivityComponent.Builder
 }

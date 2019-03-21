@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     val kotlinVersion = "1.3.21"
-    id("com.android.application") version "3.3.1"
+    id("com.android.application") version "3.4.0-rc02"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
@@ -122,8 +122,12 @@ android {
         exclude("META-INF/LICENSE.txt")
     }
 
+    // issue where this isn't created unless I add it.
+    sourceSets.maybeCreate("internalDebug")
+    sourceSets.maybeCreate("productionDebug")
+    sourceSets.maybeCreate("productionRelease")
     sourceSets.forEach { sourceSet ->
-        sourceSet.java.srcDirs(file("./src/${sourceSet.name}/kotlin"))
+        sourceSet.java.srcDirs(file("src/${sourceSet.name}/kotlin"))
     }
 }
 
@@ -204,7 +208,7 @@ kapt {
 
     arguments {
         arg("dagger.formatGeneratedSource", "disabled")
-        arg("dagger.gradle.incremental")
+        arg("dagger.gradle.incremental", "true")
     }
 }
 

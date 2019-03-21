@@ -32,15 +32,19 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
         with(trail) {
             val now = LocalDateTime.now()
             val updated = LocalDateTime.ofInstant(updatedAt, ZoneId.systemDefault())
+            val months = ChronoUnit.MONTHS.between(updated, now).toInt()
             val days = ChronoUnit.DAYS.between(updated, now).toInt()
             val hours = ChronoUnit.HOURS.between(updated, now).toInt()
             val minutes = ChronoUnit.MINUTES.between(updated, now).toInt()
-            val lastUpdated = when (days) {
-                0 -> when (hours) {
-                    0 -> resources.getQuantityString(R.plurals.last_updated_minutes, minutes, minutes)
-                    else -> resources.getQuantityString(R.plurals.last_updated_hours, hours, hours)
+            val lastUpdated = when (months) {
+                0 -> when (days) {
+                    0 -> when (hours) {
+                        0 -> resources.getQuantityString(R.plurals.last_updated_minutes, minutes, minutes)
+                        else -> resources.getQuantityString(R.plurals.last_updated_hours, hours, hours)
+                    }
+                    else -> resources.getQuantityString(R.plurals.last_updated_days, days, days)
                 }
-                else -> resources.getQuantityString(R.plurals.last_updated_days, days, days)
+                else -> resources.getQuantityString(R.plurals.last_updated_months, months, months)
             }
 
             title.text = name

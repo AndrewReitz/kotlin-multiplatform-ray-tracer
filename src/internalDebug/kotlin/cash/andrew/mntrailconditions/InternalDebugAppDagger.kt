@@ -1,8 +1,6 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
-import cash.andrew.mntrailconditions.data.LumberYard
-import cash.andrew.mntrailconditions.ui.ActivityComponent
 import cash.andrew.mntrailconditions.ui.debug.DebugView
 import dagger.BindsInstance
 import dagger.Component
@@ -10,11 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [MnTrailConditionsModule::class, DebugMnTrailConditionsModule::class])
-interface AppComponent {
-    val appInitializer: MnTrailConditionsInitializer
-
-    val activityComponentBuilder: ActivityComponent.Builder
-
+interface AppComponent: BaseComponent {
     fun inject(view: DebugView)
 
     @Component.Builder

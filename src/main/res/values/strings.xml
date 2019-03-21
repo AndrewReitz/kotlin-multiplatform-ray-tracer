@@ -11,6 +11,11 @@
     <string name="notification">notification</string>
     <string name="no_favorites">Looks like you don\'t have any favorites yet!</string>
 
+    <plurals name="last_updated_months">
+        <item quantity="one">%d month ago</item>
+        <item quantity="other">%d months ago</item>
+    </plurals>
+
     <plurals name="last_updated_days">
         <item quantity="one">%d day ago</item>
         <item quantity="other">%d days ago</item>

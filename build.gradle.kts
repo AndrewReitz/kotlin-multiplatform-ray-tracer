@@ -1,16 +1,16 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     val kotlinVersion = "1.3.21"
-    id("com.android.application") version "3.3.1"
+    id("com.android.application") version "3.4.0-rc02"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
-    id("io.fabric") version "1.27.1"
-    id("com.gradle.build-scan") version "2.1"
-    id("com.github.triplet.play") version "2.1.0"
-    id("com.github.ben-manes.versions") version "0.20.0"
+    id("io.fabric") version "1.28.0"
+    id("com.gradle.build-scan") version "2.2.1"
+    id("com.github.triplet.play") version "2.1.1"
+    id("com.github.ben-manes.versions") version "0.21.0"
 
     // this is broken...
     // values have just been added by hand now.
@@ -34,7 +34,8 @@ buildScan {
 }
 
 play {
-    serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
+    serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"]
+            ?: "keys/publish-key.json")
     track = "internal"
     defaultToAppBundles = true
 }
@@ -121,12 +122,16 @@ android {
         exclude("META-INF/LICENSE.txt")
     }
 
+    // issue where this isn't created unless I add it.
+    sourceSets.maybeCreate("internalDebug")
+    sourceSets.maybeCreate("productionDebug")
+    sourceSets.maybeCreate("productionRelease")
     sourceSets.forEach { sourceSet ->
-        sourceSet.java.srcDirs(file("./src/${sourceSet.name}/kotlin"))
+        sourceSet.java.srcDirs(file("src/${sourceSet.name}/kotlin"))
     }
 }
 
-val stethoVersion by extra { "1.5.0" }
+val stethoVersion by extra { "1.5.1" }
 val retrofitVersion by extra { "2.5.0" }
 val autoDisposeVersion by extra { "1.1.0" }
 
@@ -135,25 +140,25 @@ dependencies {
 
     implementation("androidx.core:core-ktx:1.0.1")
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
-    implementation("androidx.annotation:annotation:1.0.1")
+    implementation("androidx.annotation:annotation:1.0.2")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
 
-    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0-beta02")
-    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0-beta02")
+    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0")
+    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
 
-    implementation("com.google.firebase:firebase-core:16.0.7")
-    implementation("com.google.firebase:firebase-messaging:17.3.4")
+    implementation("com.google.firebase:firebase-core:16.0.8")
+    implementation("com.google.firebase:firebase-messaging:17.4.0")
 
     implementation("com.google.dagger:dagger:2.21")
     kapt("com.google.dagger:dagger-compiler:2.21")
 
-    implementation("com.squareup.okhttp3:okhttp:3.13.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.13.1")
+    implementation("com.squareup.okhttp3:okhttp:3.14.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.14.0")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
@@ -173,7 +178,7 @@ dependencies {
     add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.6.3")
     add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.6")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.7")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
     implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
@@ -182,7 +187,7 @@ dependencies {
     implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
     implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:$autoDisposeVersion")
 
-    implementation("com.jakewharton.threetenabp:threetenabp:1.1.2")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
 
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
@@ -198,14 +203,23 @@ dependencies {
     testImplementation("junit:junit:4.12")
 }
 
-kapt.useBuildCache = true
+kapt {
+    useBuildCache = true
 
-val installAll: Task = tasks.create("installAll")
-installAll.description = "Install all applications."
-android.applicationVariants.all {
-    installAll.dependsOn(installProvider)
-    // Ensure we end up in the same group as the other install tasks.
-    installAll.group = "install"
+    arguments {
+        arg("dagger.formatGeneratedSource", "disabled")
+        arg("dagger.gradle.incremental", "true")
+    }
 }
 
-tasks["lint"].enabled = properties["runLint"] == "true"
+val installAll = tasks.register("installAll") {
+    description = "Install all applications."
+    group = "install"
+}
+android.applicationVariants.all {
+    installAll.dependsOn(installProvider)
+}
+
+tasks.named("lint").configure {
+    enabled = properties["runLint"] == "true"
+}

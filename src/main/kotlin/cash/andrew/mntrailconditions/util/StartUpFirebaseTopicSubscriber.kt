@@ -4,7 +4,6 @@ import cash.andrew.mntrailconditions.data.NotificationTrails
 import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * Re-subscribes to all topics when the app starts. This is to avoid issues when
@@ -16,8 +15,8 @@ class StartUpFirebaseTopicSubscriber @Inject constructor(
         private val firebaseMessaging: FirebaseMessaging
 ) {
     fun subscribe() {
-        notificationsPref.get().forEach {
-            firebaseMessaging.subscribeToTopic(it)
-        }
+        notificationsPref.get()
+                .map { it.toTopicName() }
+                .forEach { firebaseMessaging.subscribeToTopic(it) }
     }
 }

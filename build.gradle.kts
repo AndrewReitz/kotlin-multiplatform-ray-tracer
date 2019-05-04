@@ -2,14 +2,14 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    val kotlinVersion = "1.3.21"
-    id("com.android.application") version "3.4.0-rc02"
+    val kotlinVersion = "1.3.31"
+    id("com.android.application") version "3.4.0"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
-    id("io.fabric") version "1.28.0"
+    id("io.fabric") version "1.28.1"
     id("com.gradle.build-scan") version "2.2.1"
-    id("com.github.triplet.play") version "2.1.1"
+    id("com.github.triplet.play") version "2.2.0"
     id("com.github.ben-manes.versions") version "0.21.0"
 
     // this is broken...
@@ -80,8 +80,8 @@ android {
             signingConfig = signingConfigs.getByName("debug")
             isMinifyEnabled = false
             isShrinkResources = false
-            val alwaysUpdateBuildId by extra { false }
-            val enableCrashlytics by extra { false }
+            extra["alwaysUpdateBuildId"] = false
+            extra["enableCrashlytics"] = false
 
             buildConfigField("boolean", "MOSHI_GENERATOR_ENABLED", "false")
         }
@@ -122,24 +122,20 @@ android {
         exclude("META-INF/LICENSE.txt")
     }
 
-    // issue where this isn't created unless I add it.
-    sourceSets.maybeCreate("internalDebug")
-    sourceSets.maybeCreate("productionDebug")
-    sourceSets.maybeCreate("productionRelease")
-    sourceSets.forEach { sourceSet ->
-        sourceSet.java.srcDirs(file("src/${sourceSet.name}/kotlin"))
+    sourceSets.all {
+        java.srcDirs(file("src/$name/kotlin"))
     }
 }
 
-val stethoVersion by extra { "1.5.1" }
-val retrofitVersion by extra { "2.5.0" }
-val autoDisposeVersion by extra { "1.1.0" }
+val stethoVersion by extra("1.5.1")
+val retrofitVersion by extra("2.5.0")
+val autoDisposeVersion by extra("1.2.0")
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
     implementation("androidx.core:core-ktx:1.0.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha3")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha5")
     implementation("androidx.annotation:annotation:1.0.2")
     implementation("androidx.appcompat:appcompat:1.0.2")
     implementation("androidx.recyclerview:recyclerview:1.0.0")
@@ -152,13 +148,13 @@ dependencies {
     implementation("com.google.android.material:material:1.0.0")
 
     implementation("com.google.firebase:firebase-core:16.0.8")
-    implementation("com.google.firebase:firebase-messaging:17.4.0")
+    implementation("com.google.firebase:firebase-messaging:17.6.0")
 
-    implementation("com.google.dagger:dagger:2.21")
-    kapt("com.google.dagger:dagger-compiler:2.21")
+    implementation("com.google.dagger:dagger:2.22.1")
+    kapt("com.google.dagger:dagger-compiler:2.22.1")
 
-    implementation("com.squareup.okhttp3:okhttp:3.14.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.14.0")
+    implementation("com.squareup.okhttp3:okhttp:3.14.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.14.1")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
@@ -175,10 +171,10 @@ dependencies {
     debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
-    add("internalImplementation", "com.squareup.leakcanary:leakcanary-android:1.6.3")
-    add("productionImplementation", "com.squareup.leakcanary:leakcanary-android-no-op:1.6.3")
+    "internalImplementation"("com.squareup.leakcanary:leakcanary-android:1.6.3")
+    "productionImplementation"("com.squareup.leakcanary:leakcanary-android-no-op:1.6.3")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.7")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.8")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
     implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
@@ -199,7 +195,7 @@ dependencies {
 
     implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
 
-    testImplementation("org.amshove.kluent:kluent-android:1.48")
+    testImplementation("org.amshove.kluent:kluent-android:1.49")
     testImplementation("junit:junit:4.12")
 }
 

@@ -28,8 +28,8 @@ internal class LogAdapter(context: Context) : BindableAdapter<Entry>(context), C
         return logs.size
     }
 
-    override fun getItem(i: Int): LumberYard.Entry {
-        return logs[i]
+    override fun getItem(position: Int): Entry {
+        return logs[position]
     }
 
     override fun getItemId(i: Int): Long {

@@ -20,6 +20,8 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+const val SHARED_PREF_FILE_NAME = "cash.andrew.mntrailconditions"
+
 @Module(includes = [ApiModule::class])
 object DataModule {
 
@@ -29,7 +31,7 @@ object DataModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(app: Application): SharedPreferences =
-            app.getSharedPreferences("cash.andrew.mntrailconditions", MODE_PRIVATE)
+            app.getSharedPreferences(SHARED_PREF_FILE_NAME, MODE_PRIVATE)
 
     @JvmStatic
     @Provides

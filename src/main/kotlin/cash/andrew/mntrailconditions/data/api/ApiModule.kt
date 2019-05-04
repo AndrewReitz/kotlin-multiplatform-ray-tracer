@@ -24,11 +24,11 @@ import javax.inject.Qualifier
             baseUrl: HttpUrl,
             @ApiClient client: OkHttpClient,
             moshi: Moshi
-    ): Retrofit = Retrofit.Builder() //
-                .client(client) //
-                .baseUrl(baseUrl) //
-                .addConverterFactory(MoshiConverterFactory.create(moshi)) //
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync()) //
+    ): Retrofit = Retrofit.Builder()
+                .client(client)
+                .baseUrl(baseUrl)
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
                 .build()
 
     @JvmStatic

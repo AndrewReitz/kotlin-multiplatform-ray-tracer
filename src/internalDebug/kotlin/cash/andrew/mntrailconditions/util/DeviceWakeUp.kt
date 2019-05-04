@@ -14,6 +14,7 @@ class DeviceWakeUp @Inject constructor(
      * both of these conditions are already true. If you deployed from the IDE, however, this will
      * save you from hundreds of power button presses and pattern swiping per day!
      */
+    @Suppress("DEPRECATION")
     fun riseAndShine() {
         activity.window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
 

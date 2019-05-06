@@ -8,7 +8,7 @@ plugins {
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
     id("io.fabric") version "1.28.1"
-    id("com.gradle.build-scan") version "2.2.1"
+    id("com.gradle.build-scan") version "2.3"
     id("com.github.triplet.play") version "2.2.0"
     id("com.github.ben-manes.versions") version "0.21.0"
 
@@ -147,8 +147,8 @@ dependencies {
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0")
     implementation("com.google.android.material:material:1.0.0")
 
-    implementation("com.google.firebase:firebase-core:16.0.8")
-    implementation("com.google.firebase:firebase-messaging:17.6.0")
+    implementation("com.google.firebase:firebase-core:16.0.9")
+    implementation("com.google.firebase:firebase-messaging:18.0.0")
 
     implementation("com.google.dagger:dagger:2.22.1")
     kapt("com.google.dagger:dagger-compiler:2.22.1")
@@ -189,11 +189,11 @@ dependencies {
 
     implementation("io.github.kobakei:ratethisapp:1.2.0")
 
-    add("internalImplementation", "com.facebook.stetho:stetho:$stethoVersion")
-    add("internalImplementation", "com.facebook.stetho:stetho-okhttp3:$stethoVersion")
-    add("internalImplementation", "com.facebook.stetho:stetho-timber:$stethoVersion@aar")
+    "internalImplementation"("com.facebook.stetho:stetho:$stethoVersion")
+    "internalImplementation"("com.facebook.stetho:stetho-okhttp3:$stethoVersion")
+    "internalImplementation"("com.facebook.stetho:stetho-timber:$stethoVersion@aar")
 
-    implementation("com.crashlytics.sdk.android:crashlytics:2.9.9")
+    implementation("com.crashlytics.sdk.android:crashlytics:2.10.0")
 
     testImplementation("org.amshove.kluent:kluent-android:1.49")
     testImplementation("junit:junit:4.12")

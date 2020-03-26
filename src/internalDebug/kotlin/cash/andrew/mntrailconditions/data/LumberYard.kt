@@ -14,7 +14,8 @@ import java.util.ArrayDeque
 import javax.inject.Inject
 import javax.inject.Singleton
 import okio.BufferedSink
-import okio.Okio
+import okio.buffer
+import okio.sink
 import org.threeten.bp.LocalDateTime
 import timber.log.Timber
 
@@ -59,10 +60,10 @@ class LumberYard @Inject constructor(private val app: Application) {
 
         var sink: BufferedSink? = null
         try {
-            sink = Okio.buffer(Okio.sink(output))
+            sink = output.sink().buffer()
             val entries = bufferedLogs()
             for (entry in entries) {
-                sink!!.writeUtf8(entry.prettyPrint()).writeByte('\n'.toInt())
+                sink.writeUtf8(entry.prettyPrint()).writeByte('\n'.toInt())
             }
 
             emitter.onNext(output)
@@ -88,7 +89,7 @@ class LumberYard @Inject constructor(private val app: Application) {
     fun cleanUp() {
         Completable.fromAction {
             val folder = app.getExternalFilesDir(null) ?: return@fromAction
-            for (file in folder.listFiles()) {
+            for (file in folder.listFiles()!!) {
                 if (file.name.endsWith(".log")) {
                     file.delete()
                 }

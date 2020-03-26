@@ -2,15 +2,14 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    val kotlinVersion = "1.3.31"
+    val kotlinVersion = "1.3.71"
     id("com.android.application") version "3.4.0"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
-    id("io.fabric") version "1.28.1"
-    id("com.gradle.build-scan") version "2.3"
+    id("io.fabric") version "1.31.2"
     id("com.github.triplet.play") version "2.2.0"
-    id("com.github.ben-manes.versions") version "0.21.0"
+    id("com.github.ben-manes.versions") version "0.28.0"
 
     // this is broken...
     // values have just been added by hand now.
@@ -27,12 +26,6 @@ repositories {
     maven { url = uri("https://jitpack.io") }
 }
 
-buildScan {
-    setTermsOfServiceUrl("https://gradle.com/terms-of-service")
-    setTermsOfServiceAgree("yes")
-    publishAlways()
-}
-
 play {
     serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"]
             ?: "keys/publish-key.json")
@@ -41,8 +34,8 @@ play {
 }
 
 android {
-    compileSdkVersion(28)
-    buildToolsVersion("28.0.3")
+    compileSdkVersion(29)
+    buildToolsVersion("29.0.3")
 
     signingConfigs {
         getByName("debug") {
@@ -67,11 +60,11 @@ android {
     defaultConfig {
         applicationId = "com.andrewreitz.cash.andrew.mntrailconditions"
         minSdkVersion(21)
-        targetSdkVersion(28)
+        targetSdkVersion(29)
 
         val buildNumber: String by project
         versionCode = if (buildNumber.isBlank()) 1 else buildNumber.toInt()
-        versionName = "🍋"
+        versionName = "🍈"
     }
 
     buildTypes {
@@ -99,10 +92,10 @@ android {
 
     productFlavors {
         create("internal") {
-            dimension = "environment"
+            setDimension("environment")
             applicationIdSuffix = ".internal"
         }
-        create("production") { dimension = "environment" }
+        create("production") { setDimension("environment") }
     }
 
     variantFilter {
@@ -113,8 +106,8 @@ android {
     }
 
     compileOptions {
-        setSourceCompatibility(JavaVersion.VERSION_1_8)
-        setTargetCompatibility(JavaVersion.VERSION_1_8)
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     packagingOptions {
@@ -128,40 +121,42 @@ android {
 }
 
 val stethoVersion by extra("1.5.1")
-val retrofitVersion by extra("2.5.0")
+val retrofitVersion by extra("2.7.1")
 val autoDisposeVersion by extra("1.2.0")
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
 
-    implementation("androidx.core:core-ktx:1.0.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-alpha5")
-    implementation("androidx.annotation:annotation:1.0.2")
-    implementation("androidx.appcompat:appcompat:1.0.2")
-    implementation("androidx.recyclerview:recyclerview:1.0.0")
+    implementation("androidx.core:core-ktx:1.2.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta4")
+    implementation("androidx.annotation:annotation:1.1.0")
+    implementation("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
+
 
     implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0")
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0")
-    implementation("com.google.android.material:material:1.0.0")
+    implementation("com.google.android.material:material:1.1.0")
 
-    implementation("com.google.firebase:firebase-core:16.0.9")
-    implementation("com.google.firebase:firebase-messaging:18.0.0")
+    implementation("com.google.firebase:firebase-core:17.2.3")
+    implementation("com.google.firebase:firebase-messaging:20.1.3")
 
-    implementation("com.google.dagger:dagger:2.22.1")
-    kapt("com.google.dagger:dagger-compiler:2.22.1")
+    implementation("com.google.dagger:dagger:2.27")
+    kapt("com.google.dagger:dagger-compiler:2.27")
 
-    implementation("com.squareup.okhttp3:okhttp:3.14.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:3.14.1")
+    implementation("com.squareup.okhttp3:okhttp:4.4.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.4.0")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
 
-    implementation("com.squareup.moshi:moshi:1.8.0")
-    debugImplementation("com.squareup.moshi:moshi-kotlin:1.8.0")
-    kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.8.0")
+    implementation("com.squareup.moshi:moshi:1.9.2")
+    debugImplementation("com.squareup.moshi:moshi-kotlin:1.9.2")
+    kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.9.2")
 
     implementation("com.jakewharton.rxbinding2:rxbinding:2.2.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
@@ -171,10 +166,7 @@ dependencies {
     debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
-    "internalImplementation"("com.squareup.leakcanary:leakcanary-android:1.6.3")
-    "productionImplementation"("com.squareup.leakcanary:leakcanary-android-no-op:1.6.3")
-
-    implementation("io.reactivex.rxjava2:rxjava:2.2.8")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.19")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
     implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
@@ -183,7 +175,7 @@ dependencies {
     implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
     implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:$autoDisposeVersion")
 
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.0")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.2")
 
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
@@ -193,10 +185,10 @@ dependencies {
     "internalImplementation"("com.facebook.stetho:stetho-okhttp3:$stethoVersion")
     "internalImplementation"("com.facebook.stetho:stetho-timber:$stethoVersion@aar")
 
-    implementation("com.crashlytics.sdk.android:crashlytics:2.10.0")
+    implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
 
-    testImplementation("org.amshove.kluent:kluent-android:1.49")
-    testImplementation("junit:junit:4.12")
+    testImplementation("org.amshove.kluent:kluent-android:1.60")
+    testImplementation("junit:junit:4.13")
 }
 
 kapt {
@@ -204,7 +196,6 @@ kapt {
 
     arguments {
         arg("dagger.formatGeneratedSource", "disabled")
-        arg("dagger.gradle.incremental", "true")
     }
 }
 

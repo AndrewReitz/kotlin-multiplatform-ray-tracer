@@ -12,7 +12,7 @@ class EnumAdapter<T : Enum<T>> @JvmOverloads constructor(
         private val showNull: Boolean = false
 ) : BindableAdapter<T>(context) {
 
-    private val enumConstants: Array<T> = enumType.enumConstants
+    private val enumConstants: Array<T> = requireNotNull(enumType.enumConstants)
     private val nullOffset: Int = if (showNull) 1 else 0
 
     override fun getCount(): Int = enumConstants.size + nullOffset

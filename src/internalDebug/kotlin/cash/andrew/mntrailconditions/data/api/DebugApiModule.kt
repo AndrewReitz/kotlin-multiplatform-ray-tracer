@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
@@ -18,13 +19,18 @@ object DebugApiModule {
     @JvmStatic
     @Provides
     @Singleton
-    fun provideHttpUrl(@ApiEndpoint apiEndpoint: Preference<String>): HttpUrl = HttpUrl.parse(apiEndpoint.get())!!
+    fun provideHttpUrl(@ApiEndpoint apiEndpoint: Preference<String>): HttpUrl = apiEndpoint.get().toHttpUrl()
 
     @JvmStatic
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        val loggingInterceptor = HttpLoggingInterceptor { message -> Timber.tag("OkHttp").v(message) }
+        val logger = object: HttpLoggingInterceptor.Logger {
+            override fun log(message: String) {
+                Timber.tag("OkHttp").v(message)
+            }
+        }
+        val loggingInterceptor = HttpLoggingInterceptor(logger)
         loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return loggingInterceptor
     }

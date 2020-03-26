@@ -30,13 +30,9 @@ import com.f2prateek.rx.preferences2.Preference
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.readystatesoftware.chuck.Chuck
-import com.squareup.leakcanary.internal.DisplayLeakActivity
 import io.reactivex.Completable
 import okhttp3.OkHttpClient
-import org.threeten.bp.ZoneId
-import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -94,11 +90,6 @@ class DebugView
                     .show()
         }
 
-        debugShowLeaks.setOnClickListener {
-            val intent = Intent(context, DisplayLeakActivity::class.java)
-            context.startActivity(intent)
-        }
-
         findViewById<Button>(R.id.debug_network_logs_show).setOnClickListener {
             val intent = Chuck.getLaunchIntent(app)
             app.startActivity(intent)
@@ -150,7 +141,7 @@ class DebugView
     }
 
     private fun setupOkHttpCacheSection() {
-        val cache = client.cache()!! // Shares the cache with apiClient, so no need to check both.
+        val cache = client.cache!! // Shares the cache with apiClient, so no need to check both.
         okHttpCacheMaxSizeView.text = getSizeString(cache.maxSize())
 
         refreshOkHttpCacheStats()
@@ -158,7 +149,7 @@ class DebugView
 
     @SuppressLint("SetTextI18n")
     private fun refreshOkHttpCacheStats() {
-        val cache = client.cache()!! // Shares the cache with apiClient, so no need to check both.
+        val cache = client.cache!! // Shares the cache with apiClient, so no need to check both.
         val writeTotal = cache.writeSuccessCount() + cache.writeAbortCount()
         val percentage = (1f * cache.writeAbortCount() / writeTotal * 100).toInt()
         okHttpCacheWriteErrorView.text = "${cache.writeAbortCount()}/$writeTotal($percentage%)"
@@ -193,6 +184,7 @@ class DebugView
                 .show()
     }
 
+    @SuppressLint("CheckResult")
     private fun setEndpointAndRelaunch(endpoint: String?) {
         Timber.d("Setting network endpoint to %s", endpoint)
         networkEndpoint.set(endpoint!!)

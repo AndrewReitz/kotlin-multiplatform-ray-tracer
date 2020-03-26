@@ -5,6 +5,7 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -15,7 +16,7 @@ import javax.inject.Qualifier
 
 @Module object ApiModule {
 
-    val PRODUCTION_API_URL = HttpUrl.parse("https://mn-trail-info-service.herokuapp.com")!!
+    val PRODUCTION_API_URL = "https://mn-trail-info-service.herokuapp.com".toHttpUrl()
 
     @JvmStatic
     @Provides

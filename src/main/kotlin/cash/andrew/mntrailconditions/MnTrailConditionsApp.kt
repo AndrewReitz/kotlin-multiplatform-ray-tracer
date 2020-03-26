@@ -3,9 +3,7 @@ package cash.andrew.mntrailconditions
 import android.app.Application
 import android.os.Looper
 import cash.andrew.mntrailconditions.util.ComponentContainer
-import com.jakewharton.processphoenix.ProcessPhoenix
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.squareup.leakcanary.LeakCanary
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.plugins.RxJavaPlugins
@@ -28,11 +26,6 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
     override fun onCreate() {
         super.onCreate()
-        if (LeakCanary.isInAnalyzerProcess(this) || ProcessPhoenix.isPhoenixProcess(this)) {
-            return
-        }
-
-        LeakCanary.install(this)
         AndroidThreeTen.init(this)
 
         _component = DaggerAppComponent.builder()
@@ -64,7 +57,7 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
 
         // Register the channel with the system; you can't change the importance
         // or other notification behaviors after this
-        val notificationManager = getSystemService(NotificationManager::class.java)
+        val notificationManager = getSystemService(NotificationManager::class.java)!!
         notificationManager.createNotificationChannel(channel)
     }
 }

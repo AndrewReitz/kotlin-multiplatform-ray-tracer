@@ -30,7 +30,6 @@ play {
     serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"]
             ?: "keys/publish-key.json")
     track = "internal"
-    defaultToAppBundles = true
 }
 
 android {

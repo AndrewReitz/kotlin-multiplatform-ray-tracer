@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
@@ -181,8 +180,6 @@ dependencies {
 
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
-    implementation("io.github.kobakei:ratethisapp:1.2.0")
-
     "internalImplementation"("com.facebook.stetho:stetho:$stethoVersion")
     "internalImplementation"("com.facebook.stetho:stetho-okhttp3:$stethoVersion")
     "internalImplementation"("com.facebook.stetho:stetho-timber:$stethoVersion@aar")
@@ -193,22 +190,8 @@ dependencies {
     testImplementation("junit:junit:4.13")
 }
 
-kapt {
-    useBuildCache = true
-
-    arguments {
-        arg("dagger.formatGeneratedSource", "disabled")
-    }
-}
-
 val installAll = tasks.register("installAll") {
     description = "Install all applications."
     group = "install"
-}
-android.applicationVariants.all {
-    installAll.dependsOn(installProvider)
-}
-
-tasks.named("lint").configure {
-    enabled = properties["runLint"] == "true"
+    dependsOn(android.applicationVariants.map { it.installProvider })
 }

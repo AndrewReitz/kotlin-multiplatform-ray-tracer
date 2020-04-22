@@ -8,7 +8,6 @@ import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.util.ComponentContainer
 import cash.andrew.mntrailconditions.util.DeviceWakeUp
 import cash.andrew.mntrailconditions.util.makeComponent
-import com.kobakei.ratethisapp.RateThisApp
 import kotlinx.android.synthetic.main.main_activity.*
 import javax.inject.Inject
 
@@ -31,8 +30,5 @@ class MainActivity : AppCompatActivity(), ComponentContainer<ActivityComponent> 
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
 
         bottomNavView.setupWithNavController(navHostFragment.navController)
-
-        RateThisApp.onCreate(this)
-        RateThisApp.showRateDialogIfNeeded(this)
     }
 }

@@ -1,10 +1,9 @@
 package cash.andrew.mntrailconditions.data.model
 
-import cash.andrew.mntrailconditions.BuildConfig
 import com.squareup.moshi.JsonClass
 import org.threeten.bp.Instant
 
-@JsonClass(generateAdapter = BuildConfig.MOSHI_GENERATOR_ENABLED)
+@JsonClass(generateAdapter = true)
 data class TrailDataV3(
         val city: String?,
         val trailName: String?,

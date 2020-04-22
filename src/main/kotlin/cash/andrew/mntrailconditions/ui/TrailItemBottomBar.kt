@@ -26,7 +26,7 @@ class TrailItemBottomBar(
         inflate(context, R.layout.trail_item_bottom_bar, this)
 
         trail_favorite.setToolTipTextCompat(R.string.favorite)
-        traiL_notification.setToolTipTextCompat(R.string.notification)
+        trail_notification.setToolTipTextCompat(R.string.notification)
     }
 
     fun bind(
@@ -46,7 +46,7 @@ class TrailItemBottomBar(
             isEnabled = true
         }
 
-        traiL_notification.apply {
+        trail_notification.apply {
             setOnCheckedChangeListener(null)
             isEnabled = false
             isChecked = notificationsPref.get().contains(trail.name)

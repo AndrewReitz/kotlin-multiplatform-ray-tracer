@@ -10,7 +10,6 @@
     android:layout_marginTop="4dp"
     android:layout_marginBottom="4dp"
     app:cardCornerRadius="4dp"
-    app:cardBackgroundColor="@color/contentBackground"
     app:cardElevation="2dp"
     app:cardUseCompatPadding="true"
     >
@@ -30,7 +29,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
-            tools:srcCompat="@drawable/dry" />
+            tools:srcCompat="@drawable/dry"
+            />
 
         <TextView
             android:id="@+id/trail_list_item_title"
@@ -53,7 +53,7 @@
             android:layout_marginStart="16dp"
             android:textAllCaps="false"
             android:textAppearance="@android:style/TextAppearance.Material.Subhead"
-            android:textColor="@color/primaryDarkColor"
+            android:textColor="?attr/colorPrimaryDark"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/trail_list_item_conditions_image"
@@ -102,7 +102,7 @@
             android:id="@+id/trail_list_item_divider"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#454545"
+            android:background="?attr/colorOnBackground"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"

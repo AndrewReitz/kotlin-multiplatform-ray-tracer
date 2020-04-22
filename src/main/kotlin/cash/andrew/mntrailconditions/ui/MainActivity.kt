@@ -3,7 +3,6 @@ package cash.andrew.mntrailconditions.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.util.ComponentContainer

@@ -5,7 +5,6 @@ plugins {
     id("com.android.application") version "3.6.2"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
-    id("kotlin-android-extensions") version kotlinVersion
     id("io.fabric") version "1.31.2"
     id("com.github.triplet.play") version "2.7.5"
     id("com.github.ben-manes.versions") version "0.28.0"
@@ -112,10 +111,6 @@ android {
         exclude("META-INF/LICENSE.txt")
     }
 
-    sourceSets.all {
-        java.srcDirs(file("src/$name/kotlin"))
-    }
-
     viewBinding {
         isEnabled = true
     }
@@ -127,6 +122,8 @@ val autoDisposeVersion by extra("1.2.0")
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
 
     implementation("androidx.core:core-ktx:1.2.0")
     implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta4")

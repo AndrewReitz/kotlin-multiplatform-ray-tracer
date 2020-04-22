@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
     val kotlinVersion = "1.3.71"
-    id("com.android.application") version "3.4.0"
+    id("com.android.application") version "3.6.2"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
@@ -62,8 +62,9 @@ android {
         targetSdkVersion(29)
 
         val buildNumber: String by project
-        versionCode = if (buildNumber.isBlank()) 1 else buildNumber.toInt()
-        versionName = "🍈"
+        versionCode =
+        if (buildNumber.isBlank()) 1 else buildNumber.toInt()
+        versionName = "一"
     }
 
     buildTypes {
@@ -117,6 +118,10 @@ android {
     sourceSets.all {
         java.srcDirs(file("src/$name/kotlin"))
     }
+
+    viewBinding {
+        isEnabled = true
+    }
 }
 
 val stethoVersion by extra("1.5.1")
@@ -141,14 +146,14 @@ dependencies {
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0")
     implementation("com.google.android.material:material:1.1.0")
 
-    implementation("com.google.firebase:firebase-core:17.2.3")
-    implementation("com.google.firebase:firebase-messaging:20.1.3")
+    implementation("com.google.firebase:firebase-core:17.3.0")
+    implementation("com.google.firebase:firebase-messaging:20.1.5")
 
     implementation("com.google.dagger:dagger:2.27")
     kapt("com.google.dagger:dagger-compiler:2.27")
 
-    implementation("com.squareup.okhttp3:okhttp:4.4.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.4.0")
+    implementation("com.squareup.okhttp3:okhttp:4.5.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
     implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
@@ -174,7 +179,7 @@ dependencies {
     implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
     implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:$autoDisposeVersion")
 
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.2")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.3")
 
     implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 

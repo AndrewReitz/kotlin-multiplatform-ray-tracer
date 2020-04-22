@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/contentBackground"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout"
     >
 
@@ -24,13 +23,13 @@
         android:textOff=""
         android:textOn=""
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/traiL_notification"
+        app:layout_constraintEnd_toStartOf="@+id/trail_notification"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
     <ToggleButton
-        android:id="@+id/traiL_notification"
+        android:id="@+id/trail_notification"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="8dp"

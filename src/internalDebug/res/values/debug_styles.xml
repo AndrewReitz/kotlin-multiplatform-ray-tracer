@@ -3,8 +3,8 @@
   <style name="None" />
 
   <style name="Theme.MnTrailConditions.Debug" parent="Theme.AppCompat.NoActionBar">
-    <item name="colorAccent">@color/primaryDarkColor</item>
-    <item name="android:statusBarColor" tools:ignore="NewApi">@color/primaryDarkColor</item>
+    <item name="colorAccent">@color/dark_blue</item>
+    <item name="android:statusBarColor" tools:ignore="NewApi">@color/dark_blue</item>
   </style>
 
     <style name="Widget.MnTrailConditions.DebugDrawer.Header" parent="None">

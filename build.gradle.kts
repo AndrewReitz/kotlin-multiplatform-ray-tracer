@@ -2,13 +2,13 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    val kotlinVersion = "1.3.71"
+    val kotlinVersion = "1.3.72"
     id("com.android.application") version "3.6.2"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
     id("kotlin-android-extensions") version kotlinVersion
     id("io.fabric") version "1.31.2"
-    id("com.github.triplet.play") version "2.2.0"
+    id("com.github.triplet.play") version "2.7.5"
     id("com.github.ben-manes.versions") version "0.28.0"
 
     // this is broken...
@@ -58,7 +58,7 @@ android {
 
     defaultConfig {
         applicationId = "com.andrewreitz.cash.andrew.mntrailconditions"
-        minSdkVersion(21)
+        minSdkVersion(23)
         targetSdkVersion(29)
 
         val buildNumber: String by project
@@ -75,16 +75,12 @@ android {
             isShrinkResources = false
             extra["alwaysUpdateBuildId"] = false
             extra["enableCrashlytics"] = false
-
-            buildConfigField("boolean", "MOSHI_GENERATOR_ENABLED", "false")
         }
         getByName("release") {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
-
-            buildConfigField("boolean", "MOSHI_GENERATOR_ENABLED", "true")
         }
     }
 
@@ -92,10 +88,12 @@ android {
 
     productFlavors {
         create("internal") {
-            setDimension("environment")
+            dimension = "environment"
             applicationIdSuffix = ".internal"
         }
-        create("production") { setDimension("environment") }
+        create("production") {
+            dimension = "environment"
+        }
     }
 
     variantFilter {
@@ -125,7 +123,7 @@ android {
 }
 
 val stethoVersion by extra("1.5.1")
-val retrofitVersion by extra("2.7.1")
+val retrofitVersion by extra("2.8.1")
 val autoDisposeVersion by extra("1.2.0")
 
 dependencies {
@@ -191,7 +189,7 @@ dependencies {
 
     implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
 
-    testImplementation("org.amshove.kluent:kluent-android:1.60")
+    testImplementation("org.amshove.kluent:kluent-android:1.61")
     testImplementation("junit:junit:4.13")
 }
 

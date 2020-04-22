@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.api.TrailConditionsService
+import cash.andrew.mntrailconditions.databinding.TrailListViewBinding
 import cash.andrew.mntrailconditions.util.activityComponent
 import cash.andrew.mntrailconditions.util.data
 import cash.andrew.mntrailconditions.util.isNotSuccessful
@@ -17,22 +18,21 @@ import com.f2prateek.rx.preferences2.Preference
 import com.uber.autodispose.android.scope
 import com.uber.autodispose.autoDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.trail_list_view.view.*
 import timber.log.Timber
 import javax.inject.Inject
-
-//val THREE_MONTHS_BEFORE_TODAY: LocalDateTime = LocalDateTime.now().minusMonths(3)
 
 class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     @Inject lateinit var trailConditionsService: TrailConditionsService
     @Inject lateinit var trailListAdapter: TrailListAdapter
 
-    private val recyclerView get() = trail_list_recycler_view
-    private val refreshLayout get() = trail_list_content
-    private val animator get() = trail_list_animator
+    private val recyclerView get() = binding.trailListRecyclerView
+    private val refreshLayout get() = binding.trailListContent
+    private val animator get() = binding.trailListAnimator
 
     var favoriteTrailsPref: Preference<Set<String>>? = null
+
+    private lateinit var binding: TrailListViewBinding
 
     init {
         context.activityComponent.trailsComponent.inject(this)
@@ -40,6 +40,8 @@ class TrailListView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+
+        binding = TrailListViewBinding.bind(this)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = trailListAdapter

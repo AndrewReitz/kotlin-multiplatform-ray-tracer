@@ -4,23 +4,30 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
+import cash.andrew.mntrailconditions.databinding.TrailListItemViewBinding
 import cash.andrew.mntrailconditions.util.statusToResource
 import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.android.synthetic.main.trail_list_item_view.view.*
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.temporal.ChronoUnit
 
 class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
 
-    private inline val title get() = trail_list_item_title
-    private inline val conditionsImage get() = trail_list_item_conditions_image
-    private inline val conditionsText get() = trail_list_item_condition_text
-    private inline val detailsText get() = trail_list_item_details
-    private inline val lastUpdatedText get() = trail_list_last_updated_time
-    private inline val bottomBar get() = trail_list_bottom_bar
+    private inline val title get() = binding.trailListItemTitle
+    private inline val conditionsImage get() = binding.trailListItemConditionsImage
+    private inline val conditionsText get() = binding.trailListItemConditionText
+    private inline val detailsText get() = binding.trailListItemDetails
+    private inline val lastUpdatedText get() = binding.trailListLastUpdatedTime
+    private inline val bottomBar get() = binding.trailListBottomBar
+
+    private lateinit var binding: TrailListItemViewBinding
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        binding = TrailListItemViewBinding.bind(this)
+    }
 
     fun bind(
             trail: TrailViewModel,

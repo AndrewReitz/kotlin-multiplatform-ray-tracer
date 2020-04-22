@@ -6,13 +6,13 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import cash.andrew.mntrailconditions.R
+import cash.andrew.mntrailconditions.databinding.TrailItemBottomBarBinding
 import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
 import cash.andrew.mntrailconditions.util.setToolTipTextCompat
 import cash.andrew.mntrailconditions.util.toTopicName
 import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
-import kotlinx.android.synthetic.main.trail_item_bottom_bar.view.*
 import timber.log.Timber
 
 /**
@@ -22,11 +22,15 @@ class TrailItemBottomBar(
         context: Context, attrs: AttributeSet?
 ) : ConstraintLayout(context, attrs) {
 
+    private val binding: TrailItemBottomBarBinding
+
     init {
         inflate(context, R.layout.trail_item_bottom_bar, this)
 
-        trail_favorite.setToolTipTextCompat(R.string.favorite)
-        trail_notification.setToolTipTextCompat(R.string.notification)
+        binding = TrailItemBottomBarBinding.bind(this)
+
+        binding.trailFavorite.setToolTipTextCompat(R.string.favorite)
+        binding.trailNotification.setToolTipTextCompat(R.string.notification)
     }
 
     fun bind(
@@ -36,7 +40,7 @@ class TrailItemBottomBar(
             firebaseMessaging: FirebaseMessaging,
             firebaseAnalytics: FirebaseAnalytics
     ) {
-        trail_favorite.apply {
+        binding.trailFavorite.apply {
             setOnCheckedChangeListener(null)
             isEnabled = false
             isChecked = favoriteTrailsPref.get().contains(trail.name)
@@ -46,7 +50,7 @@ class TrailItemBottomBar(
             isEnabled = true
         }
 
-        trail_notification.apply {
+        binding.trailNotification.apply {
             setOnCheckedChangeListener(null)
             isEnabled = false
             isChecked = notificationsPref.get().contains(trail.name)

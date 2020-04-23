@@ -2,11 +2,11 @@ package cash.andrew.mntrailconditions.util
 
 import androidx.annotation.DrawableRes
 import cash.andrew.mntrailconditions.R
+import java.util.*
 
-// todo re-write to "Open, Wet, Melting & Closed"
 @DrawableRes
 fun statusToResource(status: String): Int {
-    val currentStatus = status.toLowerCase()
+    val currentStatus = status.toLowerCase(Locale.US)
     return when {
         "wet" in currentStatus -> R.drawable.wet
         "closed" in currentStatus || "not" in currentStatus -> R.drawable.closed
@@ -14,7 +14,6 @@ fun statusToResource(status: String): Int {
         "tacky" in currentStatus -> R.drawable.tacky
         "fat tires" in currentStatus || "needs packing" in currentStatus -> R.drawable.fat_tires
         "open" in status || "dry" in currentStatus || "packed" in currentStatus -> R.drawable.dry
-//        "icy" in status -> R.drawable.icy todo
         else -> R.drawable.closed
     }
 }

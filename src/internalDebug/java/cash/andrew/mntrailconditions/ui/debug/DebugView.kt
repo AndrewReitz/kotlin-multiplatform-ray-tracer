@@ -3,37 +3,27 @@ package cash.andrew.mntrailconditions.ui.debug
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.util.AttributeSet
 import android.util.DisplayMetrics
-import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.Spinner
-import android.widget.SpinnerAdapter
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import cash.andrew.mntrailconditions.BuildConfig
 import cash.andrew.mntrailconditions.MnTrailConditionsApp
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.ApiEndpoint
 import cash.andrew.mntrailconditions.data.ApiEndpoints
-import cash.andrew.mntrailconditions.data.LumberYard
-import cash.andrew.mntrailconditions.ui.logs.LogsDialog
+import cash.andrew.mntrailconditions.data.preference.Preference
+import cash.andrew.mntrailconditions.databinding.DebugDrawerNetworkEndpointBinding
+import cash.andrew.mntrailconditions.databinding.DebugViewContentBinding
 import cash.andrew.mntrailconditions.ui.misc.EnumAdapter
 import cash.andrew.mntrailconditions.util.IntentManager
-import com.f2prateek.rx.preferences2.Preference
 import com.jakewharton.processphoenix.ProcessPhoenix
-import com.jakewharton.rxbinding2.widget.RxAdapterView
 import com.readystatesoftware.chuck.Chuck
-import io.reactivex.Completable
 import okhttp3.OkHttpClient
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class DebugView
@@ -42,35 +32,36 @@ class DebugView
         attrs: AttributeSet? = null
 ) : FrameLayout(context, attrs) {
 
-    private val endpointView get() = findViewById<Spinner>(R.id.debug_network_endpoint)
-    private val endpointEditView get() = findViewById<View>(R.id.debug_network_endpoint_edit)
-    private val buildNameView get() = findViewById<TextView>(R.id.debug_build_name)
-    private val buildCodeView get() = findViewById<TextView>(R.id.debug_build_code)
-    private val deviceMakeView get() = findViewById<TextView>(R.id.debug_device_make)
-    private val deviceModelView get() = findViewById<TextView>(R.id.debug_device_model)
-    private val deviceResolutionView get() = findViewById<TextView>(R.id.debug_device_resolution)
-    private val deviceDensityView get() = findViewById<TextView>(R.id.debug_device_density)
-    private val deviceReleaseView get() = findViewById<TextView>(R.id.debug_device_release)
-    private val deviceApiView get() = findViewById<TextView>(R.id.debug_device_api)
-    private val okHttpCacheMaxSizeView get() = findViewById<TextView>(R.id.debug_okhttp_cache_max_size)
-    private val okHttpCacheWriteErrorView get() = findViewById<TextView>(R.id.debug_okhttp_cache_write_error)
-    private val okHttpCacheRequestCountView get() = findViewById<TextView>(R.id.debug_okhttp_cache_request_count)
-    private val okHttpCacheNetworkCountView get() = findViewById<TextView>(R.id.debug_okhttp_cache_network_count)
-    private val okHttpCacheHitCountView get() = findViewById<TextView>(R.id.debug_okhttp_cache_hit_count)
-    private val debugShowLogs get() = findViewById<Button>(R.id.debug_logs_show)
-    private val debugShowLeaks get() = findViewById<Button>(R.id.debug_leaks_show)
+    private val endpointView get() = binding.debugNetworkEndpoint
+    private val endpointEditView get() = binding.debugNetworkEndpointEdit
+    private val buildNameView get() = binding.debugBuildName
+    private val buildCodeView get() = binding.debugBuildCode
+    private val deviceMakeView get() = binding.debugDeviceMake
+    private val deviceModelView get() = binding.debugDeviceModel
+    private val deviceResolutionView get() = binding.debugDeviceResolution
+    private val deviceDensityView get() = binding.debugDeviceDensity
+    private val deviceReleaseView get() = binding.debugDeviceRelease
+    private val deviceApiView get() = binding.debugDeviceApi
+    private val okHttpCacheMaxSizeView get() = binding.debugOkhttpCacheMaxSize
+    private val okHttpCacheWriteErrorView get() = binding.debugOkhttpCacheWriteError
+    private val okHttpCacheRequestCountView get() = binding.debugOkhttpCacheRequestCount
+    private val okHttpCacheNetworkCountView get() = binding.debugOkhttpCacheNetworkCount
+    private val okHttpCacheHitCountView get() = binding.debugOkhttpCacheHitCount
 
     @Inject lateinit var client: OkHttpClient
-    @Inject lateinit var lumberYard: LumberYard
     @Inject @field:ApiEndpoint lateinit var networkEndpoint: Preference<String>
     @Inject lateinit var app: Application
     @Inject lateinit var intentManager: IntentManager
+
+    private val binding: DebugViewContentBinding
 
     init {
         (context.applicationContext as MnTrailConditionsApp).component.inject(this)
 
         // Inflate all of the controls and inject them.
         LayoutInflater.from(context).inflate(R.layout.debug_view_content, this)
+        binding = DebugViewContentBinding.bind(this)
+
         setupNetworkSection()
         setupBuildSection()
         setupDeviceSection()
@@ -82,15 +73,7 @@ class DebugView
             showCustomEndpointDialog(endpointView.selectedItemPosition, networkEndpoint.get())
         }
 
-        debugShowLogs.setOnClickListener {
-            LogsDialog(
-                    ContextThemeWrapper(context, R.style.Theme_MnTrailConditions),
-                    lumberYard,
-                    intentManager)
-                    .show()
-        }
-
-        findViewById<Button>(R.id.debug_network_logs_show).setOnClickListener {
+        binding.debugNetworkLogsShow.setOnClickListener {
             val intent = Chuck.getLaunchIntent(app)
             app.startActivity(intent)
         }
@@ -107,17 +90,22 @@ class DebugView
         endpointView.adapter = endpointAdapter
         endpointView.setSelection(currentEndpoint.ordinal)
 
-        RxAdapterView.itemSelections<SpinnerAdapter>(endpointView)
-                .map { endpointAdapter.getItem(it) }
-                .filter { item -> item !== currentEndpoint }
-                .subscribe { selected ->
-                    if (selected === ApiEndpoints.CUSTOM) {
-                        Timber.d("Custom network endpoint selected. Prompting for URL.")
-                        showCustomEndpointDialog(currentEndpoint.ordinal, "http://")
-                    } else {
-                        setEndpointAndRelaunch(selected!!.url)
-                    }
+        endpointView.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selected = endpointAdapter.getItem(position)
+                if (selected == currentEndpoint) return
+
+                if (selected === ApiEndpoints.CUSTOM) {
+                    Timber.d("Custom network endpoint selected. Prompting for URL.")
+                    showCustomEndpointDialog(currentEndpoint.ordinal, "http://")
+                } else {
+                    setEndpointAndRelaunch(selected!!.url)
                 }
+            }
+        }
 
         // Only show the endpoint editor when a custom endpoint is in use.
         endpointEditView.visibility = if (currentEndpoint === ApiEndpoints.CUSTOM) View.VISIBLE else View.GONE
@@ -161,7 +149,8 @@ class DebugView
     @SuppressLint("InflateParams")
     private fun showCustomEndpointDialog(originalSelection: Int, defaultUrl: String) {
         val view = LayoutInflater.from(app).inflate(R.layout.debug_drawer_network_endpoint, null)
-        val url: EditText = findViewById(R.id.debug_drawer_network_endpoint_url)
+        val viewBinding = DebugDrawerNetworkEndpointBinding.bind(view)
+        val url: EditText = viewBinding.debugDrawerNetworkEndpointUrl
         url.setText(defaultUrl)
         url.setSelection(url.length())
 
@@ -189,8 +178,9 @@ class DebugView
         Timber.d("Setting network endpoint to %s", endpoint)
         networkEndpoint.set(endpoint!!)
 
-        Completable.timer(1L, TimeUnit.SECONDS)
-                .subscribe { ProcessPhoenix.triggerRebirth(context) }
+        postDelayed({
+            ProcessPhoenix.triggerRebirth(context)
+        }, 1000)
     }
 
     private fun getDensityString(displayMetrics: DisplayMetrics): String {

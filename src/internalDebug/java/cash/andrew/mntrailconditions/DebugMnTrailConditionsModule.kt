@@ -12,7 +12,6 @@ import dagger.Provides
 import io.fabric.sdk.android.Fabric
 import timber.log.Timber
 import android.os.StrictMode
-import cash.andrew.mntrailconditions.data.LumberYard
 
 @Module(includes = [DebugDataModule::class])
 object DebugMnTrailConditionsModule {
@@ -20,13 +19,10 @@ object DebugMnTrailConditionsModule {
     @Provides
     fun provideMnTrailConditionsInitializer(
             app: Application,
-            firebaseMessaging: FirebaseMessaging,
-            lumberYard: LumberYard
+            firebaseMessaging: FirebaseMessaging
     ): MnTrailConditionsInitializer = { context ->
         Stetho.initializeWithDefaults(context)
 
-        lumberYard.cleanUp()
-        Timber.plant(lumberYard.tree())
         Timber.plant(Timber.DebugTree())
         Timber.plant(StethoTree())
 

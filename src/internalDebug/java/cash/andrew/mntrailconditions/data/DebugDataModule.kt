@@ -1,9 +1,9 @@
 package cash.andrew.mntrailconditions.data
 
+import android.content.SharedPreferences
 import cash.andrew.mntrailconditions.data.api.DebugApiModule
+import cash.andrew.mntrailconditions.data.preference.*
 
-import com.f2prateek.rx.preferences2.Preference
-import com.f2prateek.rx.preferences2.RxSharedPreferences
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -28,43 +28,43 @@ object DebugDataModule {
     @Provides
     @Singleton
     @ApiEndpoint
-    fun provideEndpointPreference(preferences: RxSharedPreferences): Preference<String> =
-            preferences.getString("debug_endpoint", ApiEndpoints.PRODUCTION.url!!)
+    fun provideEndpointPreference(preferences: SharedPreferences): Preference<String> =
+            preferences.stringPreference("debug_endpoint", requireNotNull(ApiEndpoints.PRODUCTION.url))
 
     @JvmStatic
     @Provides
     @Singleton
     @NetworkDelay
-    fun provideNetworkDelay(preferences: RxSharedPreferences): Preference<Long> =
-            preferences.getLong("debug_network_delay", 2000L)
+    fun provideNetworkDelay(preferences: SharedPreferences): Preference<Long> =
+            preferences.longPreference("debug_network_delay", 2000L)
 
     @JvmStatic
     @Provides
     @Singleton
     @NetworkFailurePercent
-    fun provideNetworkFailurePercent(preferences: RxSharedPreferences): Preference<Int> =
-            preferences.getInteger("debug_network_failure_percent", 3)
+    fun provideNetworkFailurePercent(preferences: SharedPreferences): Preference<Int> =
+            preferences.intPreference("debug_network_failure_percent", 3)
 
     @JvmStatic
     @Provides
     @Singleton
     @NetworkVariancePercent
-    fun provideNetworkVariancePercent(preferences: RxSharedPreferences): Preference<Int> =
-            preferences.getInteger("debug_network_variance_percent", 40)
+    fun provideNetworkVariancePercent(preferences: SharedPreferences): Preference<Int> =
+            preferences.intPreference("debug_network_variance_percent", 40)
 
     @JvmStatic
     @Provides
     @Singleton
     @CaptureIntents
-    fun provideCaptureIntentsPreference(preferences: RxSharedPreferences): Preference<Boolean> =
-            preferences.getBoolean("debug_capture_intents", DEFAULT_CAPTURE_INTENTS)
+    fun provideCaptureIntentsPreference(preferences: SharedPreferences): Preference<Boolean> =
+            preferences.booleanPreference("debug_capture_intents", DEFAULT_CAPTURE_INTENTS)
 
     @JvmStatic
     @Provides
     @Singleton
     @AnimationSpeed
-    fun provideAnimationSpeed(preferences: RxSharedPreferences): Preference<Int> =
-            preferences.getInteger("debug_animation_speed", DEFAULT_ANIMATION_SPEED)
+    fun provideAnimationSpeed(preferences: SharedPreferences): Preference<Int> =
+            preferences.intPreference("debug_animation_speed", DEFAULT_ANIMATION_SPEED)
 
     @JvmStatic
     @Provides

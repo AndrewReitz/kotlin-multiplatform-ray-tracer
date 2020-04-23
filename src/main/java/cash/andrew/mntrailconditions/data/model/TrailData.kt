@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 import org.threeten.bp.LocalDateTime
 
 @JsonClass(generateAdapter = true)
-data class TrailDataV2(
+data class TrailData(
         val name: String,
         val status: String,
         @Json(name = "fullDescription") val description: String,

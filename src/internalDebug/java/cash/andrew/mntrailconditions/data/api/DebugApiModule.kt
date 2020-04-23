@@ -1,8 +1,8 @@
 package cash.andrew.mntrailconditions.data.api
 
 import cash.andrew.mntrailconditions.data.ApiEndpoint
+import cash.andrew.mntrailconditions.data.preference.Preference
 
-import com.f2prateek.rx.preferences2.Preference
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides

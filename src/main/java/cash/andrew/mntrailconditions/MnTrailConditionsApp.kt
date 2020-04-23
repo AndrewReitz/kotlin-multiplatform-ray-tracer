@@ -1,13 +1,8 @@
 package cash.andrew.mntrailconditions
 
 import android.app.Application
-import android.os.Looper
 import cash.andrew.mntrailconditions.util.ComponentContainer
 import com.jakewharton.threetenabp.AndroidThreeTen
-import io.reactivex.android.plugins.RxAndroidPlugins
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.plugins.RxJavaPlugins
-import timber.log.Timber
 import android.app.NotificationManager
 import android.app.NotificationChannel
 import android.os.Build
@@ -31,11 +26,6 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
         _component = DaggerAppComponent.builder()
                 .application(this)
                 .build()
-
-        RxJavaPlugins.setErrorHandler { Timber.e(it) }
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler {
-            AndroidSchedulers.from(Looper.getMainLooper(), true)
-        }
 
         appInitializer(this)
         startUpFirebaseTopicSubscriber.subscribe()

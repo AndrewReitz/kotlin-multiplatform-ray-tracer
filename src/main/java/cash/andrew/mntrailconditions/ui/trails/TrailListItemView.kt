@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
+import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailListItemViewBinding
 import cash.andrew.mntrailconditions.util.statusToResource
-import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import org.threeten.bp.LocalDateTime

@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.NotificationTrails
 import cash.andrew.mntrailconditions.data.SavedTrails
+import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.ui.misc.BindableRecyclerAdapter
-import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject

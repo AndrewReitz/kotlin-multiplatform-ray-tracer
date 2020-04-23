@@ -1,7 +1,7 @@
 package cash.andrew.mntrailconditions.util
 
 import cash.andrew.mntrailconditions.data.NotificationTrails
-import com.f2prateek.rx.preferences2.Preference
+import cash.andrew.mntrailconditions.data.preference.Preference
 import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
 

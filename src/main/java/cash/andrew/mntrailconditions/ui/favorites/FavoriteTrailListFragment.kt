@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.SavedTrails
+import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.ui.trails.TrailListView
 import cash.andrew.mntrailconditions.util.activityComponent
-import com.f2prateek.rx.preferences2.Preference
 import javax.inject.Inject
 
 class FavoriteTrailListFragment : Fragment() {

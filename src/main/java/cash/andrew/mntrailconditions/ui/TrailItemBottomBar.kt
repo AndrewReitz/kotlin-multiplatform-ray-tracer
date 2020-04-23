@@ -6,11 +6,11 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import cash.andrew.mntrailconditions.R
+import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailItemBottomBarBinding
 import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
 import cash.andrew.mntrailconditions.util.setToolTipTextCompat
 import cash.andrew.mntrailconditions.util.toTopicName
-import com.f2prateek.rx.preferences2.Preference
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import timber.log.Timber

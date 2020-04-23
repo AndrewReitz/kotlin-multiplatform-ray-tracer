@@ -118,7 +118,6 @@ android {
 
 val stethoVersion by extra("1.5.1")
 val retrofitVersion by extra("2.8.1")
-val autoDisposeVersion by extra("1.2.0")
 
 dependencies {
     implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
@@ -150,13 +149,11 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.squareup.retrofit2:converter-moshi:$retrofitVersion")
-    implementation("com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion")
 
     implementation("com.squareup.moshi:moshi:1.9.2")
     debugImplementation("com.squareup.moshi:moshi-kotlin:1.9.2")
     kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.9.2")
 
-    implementation("com.jakewharton.rxbinding2:rxbinding:2.2.0")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.byteunits:byteunits:0.9.1")
@@ -164,18 +161,7 @@ dependencies {
     debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
-    implementation("io.reactivex.rxjava2:rxjava:2.2.19")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-
-    implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
-    implementation("com.uber.autodispose:autodispose-android:$autoDisposeVersion")
-    implementation("com.uber.autodispose:autodispose-android-ktx:$autoDisposeVersion")
-    implementation("com.uber.autodispose:autodispose-ktx:$autoDisposeVersion")
-    implementation("com.uber.autodispose:autodispose-android-archcomponents-ktx:$autoDisposeVersion")
-
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.3")
-
-    implementation("com.f2prateek.rx.preferences2:rx-preferences:2.0.0")
 
     "internalImplementation"("com.facebook.stetho:stetho:$stethoVersion")
     "internalImplementation"("com.facebook.stetho:stetho-okhttp3:$stethoVersion")
@@ -191,4 +177,10 @@ val installAll = tasks.register("installAll") {
     description = "Install all applications."
     group = "install"
     dependsOn(android.applicationVariants.map { it.installProvider })
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+    kotlinOptions.jvmTarget = "1.8"
 }

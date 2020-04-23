@@ -7,8 +7,7 @@
 - Switched to view binding
 - changed version names to counting in japanese because new firebase libs can not
 handle emojis.
-
-Switched to app bundles
+- Switched to app bundles
 
 == 🥝
 

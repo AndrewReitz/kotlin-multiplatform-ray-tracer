@@ -1,6 +1,12 @@
 = Change Log
 
-== 🍋
+== 一
+
+- Added Dark Theme
+- Switched to coroutines and completely removed RxJava
+- Switched to view binding
+- changed version names to counting in japanese because new firebase libs can not
+handle emojis.
 
 Switched to app bundles
 

@@ -29,9 +29,10 @@ before_script:
 - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
 - chmod +x ./gradlew
 
+- echo $PUBLISH_KEY > keys/publish-key.json
+
 - export GRADLE_USER_HOME=`pwd`/.gradle
 - export MN_TRAIL_INFO_BUILD_NUMBER=$((CI_JOB_ID - 99347792))
-- mv $PUBLISH_KEY_JSON ./publish-key.json
 
 stages:
 - build
@@ -50,7 +51,7 @@ build:
 masterBuild:
   stage: deploy
   script:
-  - ./gradlew publishProductionReleaseBundle -Pcash.andrew.mntrail.publishKey=publish-key.json --no-daemon
+  - ./gradlew publishProductionRelease --no-daemon
   only:
   - master
 

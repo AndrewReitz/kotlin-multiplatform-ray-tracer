@@ -31,6 +31,7 @@ before_script:
 
 - export GRADLE_USER_HOME=`pwd`/.gradle
 - export MN_TRAIL_INFO_BUILD_NUMBER=$((CI_JOB_ID - 99347792))
+- echo $PUBLISH_KEY_JSON
 
 stages:
 - build

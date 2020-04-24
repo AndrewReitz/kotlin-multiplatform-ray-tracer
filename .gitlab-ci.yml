@@ -31,7 +31,7 @@ before_script:
 
 - export GRADLE_USER_HOME=`pwd`/.gradle
 - export MN_TRAIL_INFO_BUILD_NUMBER=$((CI_JOB_ID - 99347792))
-- echo $PUBLISH_KEY_JSON
+- mv $PUBLISH_KEY_JSON ./publish-key.json
 
 stages:
 - build
@@ -50,7 +50,7 @@ build:
 masterBuild:
   stage: deploy
   script:
-  - ./gradlew publishProductionReleaseBundle -Pcash.andrew.mntrail.publishKey=$PUBLISH_KEY_JSON --no-daemon
+  - ./gradlew publishProductionReleaseBundle -Pcash.andrew.mntrail.publishKey=publish-key.json --no-daemon
   only:
   - master
 

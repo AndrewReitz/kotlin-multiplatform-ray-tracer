@@ -49,7 +49,7 @@ build:
 masterBuild:
   stage: deploy
   script:
-  - ./gradlew publishProductionReleaseBundle -Pcash.andrew.mntrail.publishKey=$(pwd)/publish.key.json --no-daemon
+  - ./gradlew publishProductionReleaseBundle -Pcash.andrew.mntrail.publishKey=$PUBLISH_KEY --no-daemon
   only:
   - master
 

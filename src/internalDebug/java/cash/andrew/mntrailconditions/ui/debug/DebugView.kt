@@ -30,7 +30,7 @@ class DebugView
 @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
-) : FrameLayout(context, attrs) {
+) : GridLayout(context, attrs) {
 
     private val endpointView get() = binding.debugNetworkEndpoint
     private val endpointEditView get() = binding.debugNetworkEndpointEdit
@@ -57,9 +57,9 @@ class DebugView
 
     init {
         (context.applicationContext as MnTrailConditionsApp).component.inject(this)
+        View.inflate(context, R.layout.debug_view_content, this)
 
         // Inflate all of the controls and inject them.
-        LayoutInflater.from(context).inflate(R.layout.debug_view_content, this)
         binding = DebugViewContentBinding.bind(this)
 
         setupNetworkSection()

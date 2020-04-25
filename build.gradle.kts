@@ -21,12 +21,10 @@ repositories {
     google()
     jcenter()
     maven { url = uri("https://maven.fabric.io/public") }
-    maven { url = uri("https://jitpack.io") }
 }
 
 play {
-    serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"]
-            ?: "keys/publish-key.json")
+    serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
     track = "internal"
 }
 

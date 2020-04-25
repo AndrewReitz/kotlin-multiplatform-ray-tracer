@@ -10,7 +10,6 @@ variables:
   ANDROID_BUILD_TOOLS: "29.0.3"
   ANDROID_SDK_TOOLS: "29.0.3"
 
-
 before_script:
 - apt-get --quiet update --yes
 - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
@@ -43,7 +42,7 @@ build:
   only:
   - branches
   script:
-  - ./gradlew build lintProductionRelease -PrunLint=true --no-daemon
+  - ./gradlew build lintProductionRelease -PrunLint=true --no-daemon --console=plain
   artifacts:
     paths:
     - build/outputs/
@@ -51,7 +50,7 @@ build:
 masterBuild:
   stage: deploy
   script:
-  - ./gradlew publishProductionRelease --no-daemon
+  - ./gradlew publishProductionRelease --no-daemon --console=plain
   only:
   - master
 

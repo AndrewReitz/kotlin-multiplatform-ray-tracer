@@ -5,34 +5,22 @@ pluginManagement {
         gradlePluginPortal()
         google()
         jcenter()
-        maven { url = uri("https://maven.fabric.io/public") }
     }
 
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.id in arrayOf("kotlin-android", "kotlin-kapt", "kotlin-android-extensions")) {
-                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
-            }
 
-            if (requested.id.id == "com.android.application") {
-                useModule("com.android.tools.build:gradle:${requested.version}")
-            }
+            val artifact = when(requested.id.id) {
+                "com.android.application" -> "com.android.tools.build:gradle:"
+                "com.google.firebase.crashlytics" -> "com.google.firebase:firebase-crashlytics-gradle:"
+                "androidx.navigation.safeargs" -> "android.arch.navigation:navigation-safe-args-gradle-plugin:"
+                "com.github.triplet.play" -> "com.github.triplet.gradle:play-publisher:"
+                "com.google.gms.google-services" -> "com.google.gms:google-services:"
+                in arrayOf("kotlin-android", "kotlin-kapt", "kotlin-android-extensions") -> "org.jetbrains.kotlin:kotlin-gradle-plugin:"
+                else -> return@eachPlugin
+            } + requested.version
 
-            if (requested.id.id == "io.fabric") {
-                useModule("io.fabric.tools:gradle:${requested.version}")
-            }
-
-            if (requested.id.id == "com.google.firebase.firebase-perf") {
-                useModule("com.google.firebase:firebase-plugins:${requested.version}")
-            }
-
-            if (requested.id.id == "androidx.navigation.safeargs") {
-                useModule("android.arch.navigation:navigation-safe-args-gradle-plugin:${requested.version}")
-            }
-
-            if (requested.id.id == "com.github.triplet.play") {
-                useModule("com.github.triplet.gradle:play-publisher:${requested.version}")
-            }
+            useModule(artifact)
         }
     }
 }

@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
-
 plugins {
     val kotlinVersion = "1.3.72"
     id("com.android.application") version "3.6.2"
@@ -22,6 +20,7 @@ repositories {
 play {
     serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
     track = "internal"
+    defaultToAppBundles = true
 }
 
 android {
@@ -54,8 +53,7 @@ android {
         targetSdkVersion(29)
 
         val buildNumber: String by project
-        versionCode =
-        if (buildNumber.isBlank()) 1 else buildNumber.toInt()
+        versionCode = buildNumber.toInt()
         versionName = "一"
     }
 
@@ -114,7 +112,7 @@ val stethoVersion by extra("1.5.1")
 val retrofitVersion by extra("2.8.1")
 
 dependencies {
-    implementation(kotlin("stdlib", KotlinCompilerVersion.VERSION))
+    implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
 
@@ -138,8 +136,11 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics:17.4.0")
     implementation("com.google.firebase:firebase-crashlytics:17.0.0")
 
+    debugImplementation("com.jakewharton.dagger:dagger-reflect:0.2.0")
+
+    kaptRelease("com.google.dagger:dagger-compiler:2.27")
+    releaseImplementation("com.jakewharton.dagger:dagger-codegen:0.2.0")
     implementation("com.google.dagger:dagger:2.27")
-    kapt("com.google.dagger:dagger-compiler:2.27")
 
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")

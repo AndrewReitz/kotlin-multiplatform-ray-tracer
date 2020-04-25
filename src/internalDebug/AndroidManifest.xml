@@ -2,32 +2,26 @@
 
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
-  <!-- Used for sharing logs and Spoon. -->
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    xmlns:tools="http://schemas.android.com/tools">
 
-  <!-- Used for instrumentation tests. -->
-  <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-  <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-  <application
-      android:icon="@mipmap/dev_ic_launcher"
-      android:roundIcon="@mipmap/dev_ic_launcher_round"
-      tools:replace="android:icon,android:roundIcon"
-      tools:ignore="GoogleAppIndexingWarning"
-      >
-    <activity
-        android:name="cash.andrew.mntrailconditions.ui.DebugActivity"
-        android:label="Dev Settings"
-        android:launchMode="singleTask"
-        android:theme="@style/Theme.MnTrailConditions.Debug"
+    <application
         android:icon="@mipmap/dev_ic_launcher"
-        >
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
-  </application>
+        android:roundIcon="@mipmap/dev_ic_launcher_round"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:icon,android:roundIcon">
+        <activity
+            android:name="cash.andrew.mntrailconditions.ui.DebugActivity"
+            android:icon="@mipmap/dev_ic_launcher"
+            android:label="Dev Settings"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.MnTrailConditions.Debug">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

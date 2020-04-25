@@ -8,6 +8,7 @@ import android.app.NotificationChannel
 import android.os.Build
 import cash.andrew.mntrailconditions.ui.ActivityComponent
 import cash.andrew.mntrailconditions.util.StartUpFirebaseTopicSubscriber
+import dagger.Dagger
 
 typealias MnTrailConditionsInitializer = ((Application) -> Unit)
 
@@ -23,7 +24,7 @@ class MnTrailConditionsApp : Application(), ComponentContainer<AppComponent> {
         super.onCreate()
         AndroidThreeTen.init(this)
 
-        _component = DaggerAppComponent.builder()
+        _component = Dagger.builder(AppComponent.Builder::class.java)
                 .application(this)
                 .build()
 

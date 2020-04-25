@@ -11,31 +11,31 @@ variables:
   ANDROID_SDK_TOOLS: "29.0.3"
 
 before_script:
-- apt-get --quiet update --yes
-- apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
+  - apt-get --quiet update --yes
+  - apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1
 
-- wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
-- unzip -q android-sdk.zip -d android-sdk-linux
+  - wget --quiet --output-document=android-sdk.zip https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip
+  - unzip -q android-sdk.zip -d android-sdk-linux
 
-- mkdir android-sdk-linux/licenses
-- printf "d56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > android-sdk-linux/licenses/android-sdk-license
-- printf "84831b9409646a918e30573bab4c9c91346d8abd" > android-sdk-linux/licenses/android-sdk-preview-license
+  - mkdir android-sdk-linux/licenses
+  - printf "d56f5187479451eabf01fb78af6dfcb131a6481e\n24333f8a63b6825ea9c5514f83c2829b004d1fee" > android-sdk-linux/licenses/android-sdk-license
+  - printf "84831b9409646a918e30573bab4c9c91346d8abd" > android-sdk-linux/licenses/android-sdk-preview-license
 
-- android-sdk-linux/tools/bin/sdkmanager --update > update.log
-- android-sdk-linux/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" > installPlatform.log
+  - android-sdk-linux/tools/bin/sdkmanager --update > update.log
+  - android-sdk-linux/tools/bin/sdkmanager "platforms;android-${ANDROID_COMPILE_SDK}" "build-tools;${ANDROID_BUILD_TOOLS}" > installPlatform.log
 
-- export ANDROID_HOME=$PWD/android-sdk-linux
-- export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
-- chmod +x ./gradlew
+  - export ANDROID_HOME=$PWD/android-sdk-linux
+  - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
+  - chmod +x ./gradlew
 
-- echo $PUBLISH_KEY > keys/publish-key.json
+  - echo $PUBLISH_KEY > keys/publish-key.json
 
-- export GRADLE_USER_HOME=`pwd`/.gradle
-- export MN_TRAIL_INFO_BUILD_NUMBER=$((CI_JOB_ID - 99347792))
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+  - export MN_TRAIL_INFO_BUILD_NUMBER=$((CI_JOB_ID - 99347792))
 
 stages:
-- build
-- deploy
+  - build
+  - deploy
 
 build:
   stage: build

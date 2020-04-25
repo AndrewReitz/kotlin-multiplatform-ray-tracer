@@ -5,22 +5,18 @@ plugins {
     id("com.android.application") version "3.6.2"
     id("kotlin-android") version kotlinVersion
     id("kotlin-kapt") version kotlinVersion
-    id("io.fabric") version "1.31.2"
     id("com.github.triplet.play") version "2.7.5"
     id("com.github.ben-manes.versions") version "0.28.0"
-
-    // this is broken...
-    // values have just been added by hand now.
-    // id("com.google.gms.google-services") version "4.2.0"
+    id("com.google.gms.google-services") version "4.3.3"
+    id("com.google.firebase.crashlytics") version "2.0.0"
+    id("build-number")
+    id("android-signing-config")
 }
-
-apply(from = "$rootDir/gradle/signing.gradle.kts")
-apply(from = "$rootDir/gradle/buildNumber.gradle.kts")
 
 repositories {
     google()
+    mavenCentral()
     jcenter()
-    maven { url = uri("https://maven.fabric.io/public") }
 }
 
 play {
@@ -139,6 +135,8 @@ dependencies {
 
     implementation("com.google.firebase:firebase-core:17.3.0")
     implementation("com.google.firebase:firebase-messaging:20.1.5")
+    implementation("com.google.firebase:firebase-analytics:17.4.0")
+    implementation("com.google.firebase:firebase-crashlytics:17.0.0")
 
     implementation("com.google.dagger:dagger:2.27")
     kapt("com.google.dagger:dagger-compiler:2.27")

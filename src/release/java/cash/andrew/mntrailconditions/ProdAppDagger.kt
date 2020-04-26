@@ -24,6 +24,10 @@ interface AppComponent: BaseComponent {
         fun application(application: Application): Builder
         fun build(): AppComponent
     }
+
+    companion object {
+        fun builder(): Builder = DaggerAppComponent.builder()
+    }
 }
 
 @Module(includes = [UiModule::class, ProdDataModule::class])

@@ -15,7 +15,6 @@ object DebugMnTrailConditionsModule {
     @JvmStatic
     @Provides
     fun provideMnTrailConditionsInitializer(
-            app: Application,
             firebaseMessaging: FirebaseMessaging
     ): MnTrailConditionsInitializer = { context ->
         Stetho.initializeWithDefaults(context)

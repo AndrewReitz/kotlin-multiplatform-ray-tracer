@@ -120,7 +120,6 @@ dependencies {
     debugImplementation("com.jakewharton.dagger:dagger-reflect:0.2.0")
 
     kaptRelease("com.google.dagger:dagger-compiler:2.27")
-    releaseImplementation("com.jakewharton.dagger:dagger-codegen:0.2.0")
     implementation("com.google.dagger:dagger:2.27")
 
     implementation("com.squareup.okhttp3:okhttp:4.5.0")

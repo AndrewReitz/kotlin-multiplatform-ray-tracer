@@ -42,7 +42,7 @@ build:
   only:
   - branches
   script:
-  - ./gradlew build lintProductionRelease bundleProduction -PrunLint=true --no-daemon --console=plain
+  - ./gradlew build lint bundle -PrunLint=true --no-daemon --console=plain
   artifacts:
     paths:
     - build/outputs/
@@ -50,7 +50,7 @@ build:
 masterBuild:
   stage: deploy
   script:
-  - ./gradlew publishProductionRelease --no-daemon --console=plain
+  - ./gradlew publishRelease --no-daemon --console=plain
   only:
   - master
 

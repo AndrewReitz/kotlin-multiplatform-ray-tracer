@@ -1,5 +1,12 @@
-# new R8 stuff
+# Keep Dagger Stuff, needed because we're using
+# dagger reflection in debug builds
+-keep class * implements cash.andrew.mntrailconditions.AppComponent {
+  *;
+}
+-keep class cash.andrew.mntrailconditions.AppComponent.Builder
+
+# New R8 stuff
 -allowaccessmodification
 -assumevalues class android.os.Build$VERSION {
-    int SDK_INT return 21..1000;
+    int SDK_INT return 23..1000;
 }

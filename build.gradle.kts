@@ -74,25 +74,6 @@ android {
         }
     }
 
-    flavorDimensions("environment")
-
-    productFlavors {
-        create("internal") {
-            dimension = "environment"
-            applicationIdSuffix = ".internal"
-        }
-        create("production") {
-            dimension = "environment"
-        }
-    }
-
-    variantFilter {
-        val names = flavors.map { it.name }
-        if (buildType.name == "release" && "internal" in names) {
-            setIgnore(true)
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -160,11 +141,9 @@ dependencies {
 
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.3")
 
-    "internalImplementation"("com.facebook.stetho:stetho:$stethoVersion")
-    "internalImplementation"("com.facebook.stetho:stetho-okhttp3:$stethoVersion")
-    "internalImplementation"("com.facebook.stetho:stetho-timber:$stethoVersion@aar")
-
-    implementation("com.crashlytics.sdk.android:crashlytics:2.10.1")
+    debugImplementation("com.facebook.stetho:stetho:$stethoVersion")
+    debugImplementation("com.facebook.stetho:stetho-okhttp3:$stethoVersion")
+    debugImplementation("com.facebook.stetho:stetho-timber:$stethoVersion@aar")
 
     testImplementation("org.amshove.kluent:kluent-android:1.61")
     testImplementation("junit:junit:4.13")

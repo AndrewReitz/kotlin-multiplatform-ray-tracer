@@ -3,7 +3,6 @@ package cash.andrew.mntrailconditions
 import android.app.Application
 import cash.andrew.mntrailconditions.data.ProdDataModule
 import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer
-import cash.andrew.mntrailconditions.ui.UiModule
 import cash.andrew.mntrailconditions.util.CrashlyticsTree
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.BindsInstance
@@ -16,8 +15,6 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [MnTrailConditionsModule::class, ProdMnTrailConditionsModule::class])
 interface AppComponent: BaseComponent {
-    val activityHierarchyServer: ActivityHierarchyServer
-
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -26,7 +23,7 @@ interface AppComponent: BaseComponent {
     }
 }
 
-@Module(includes = [UiModule::class, ProdDataModule::class])
+@Module(includes = [ProdDataModule::class])
 object ProdMnTrailConditionsModule {
     @JvmStatic
     @Provides

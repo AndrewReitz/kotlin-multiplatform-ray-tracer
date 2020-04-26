@@ -12,9 +12,20 @@ plugins {
 }
 
 repositories {
-    google()
     mavenCentral()
-    jcenter()
+    google()
+    jcenter {
+        content {
+            includeGroup("org.amshove.kluent")
+            includeGroup("org.jetbrains.trove4j")
+        }
+    }
+    maven {
+        url = uri("https://jitpack.io")
+        content {
+            includeGroup("com.github.AndrewReitz.andrew-kotlin-commons")
+        }
+    }
 }
 
 play {
@@ -89,10 +100,10 @@ android {
     }
 }
 
-val stethoVersion by extra("1.5.1")
-val retrofitVersion by extra("2.8.1")
-
 dependencies {
+    val stethoVersion = "1.5.1"
+    val retrofitVersion = "2.8.1"
+
     implementation(kotlin("stdlib"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
@@ -112,8 +123,8 @@ dependencies {
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0")
     implementation("com.google.android.material:material:1.1.0")
 
-    implementation("com.google.firebase:firebase-core:17.3.0")
-    implementation("com.google.firebase:firebase-messaging:20.1.5")
+    implementation("com.google.firebase:firebase-core:17.4.0")
+    implementation("com.google.firebase:firebase-messaging:20.1.6")
     implementation("com.google.firebase:firebase-analytics:17.4.0")
     implementation("com.google.firebase:firebase-crashlytics:17.0.0")
 
@@ -132,6 +143,7 @@ dependencies {
     debugImplementation("com.squareup.moshi:moshi-kotlin:1.9.2")
     kaptRelease("com.squareup.moshi:moshi-kotlin-codegen:1.9.2")
 
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.3")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.byteunits:byteunits:0.9.1")
@@ -139,7 +151,9 @@ dependencies {
     debugImplementation("com.readystatesoftware.chuck:library:1.1.0")
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.3")
+    implementation("com.github.AndrewReitz.andrew-kotlin-commons:andrew-kotlin-commons:master-SNAPSHOT")
+
+    implementation("io.noties.markwon:core:4.3.1")
 
     debugImplementation("com.facebook.stetho:stetho:$stethoVersion")
     debugImplementation("com.facebook.stetho:stetho-okhttp3:$stethoVersion")

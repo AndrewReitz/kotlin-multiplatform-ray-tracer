@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cash.andrew.mntrailconditions">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name="cash.andrew.mntrailconditions.MnTrailConditionsApp"
+        android:name=".MnTrailConditionsApp"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/application_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/Theme.MnTrailConditions">
         <activity
-            android:name="cash.andrew.mntrailconditions.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/launcher_name"
-            android:launchMode="singleTask"
-            >
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -35,32 +32,39 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".ui.MarkdownActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/Theme.MnTrailConditions"
+            />
+
         <service
             android:name=".messaging.TrailMessagingService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+ Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_stat_morc" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+ Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/light_blue" />
-
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="70c11ca0c2a7650c8d46912da5df388159dd6916" />
-
     </application>
+
 </manifest>

@@ -7,22 +7,22 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import dagger.Reusable
 
 @Module(includes = [DataModule::class])
 object MnTrailConditionsModule {
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     fun provideFirebaseMessaging(): FirebaseMessaging = FirebaseMessaging.getInstance()
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     fun provideFirebaseAnalytics(context: Application) = FirebaseAnalytics.getInstance(context)
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     fun provideFirebaseCrashlytics() = FirebaseCrashlytics.getInstance()
 }

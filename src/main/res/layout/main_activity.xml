@@ -24,13 +24,37 @@
         tools:layout="@layout/trail_list_view"
         />
 
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/overflow_menu_button"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:elevation="8dp"
+        app:srcCompat="@drawable/ic_more_vert_white_24dp"
+        android:background="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bottom_nav_view"
+        />
+
+    <View
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackground"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/bottom_nav_view"
+        />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
+        style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
         android:id="@+id/bottom_nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/overflow_menu_button"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav"
         />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

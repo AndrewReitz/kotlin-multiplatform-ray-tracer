@@ -9,7 +9,7 @@ import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.SavedTrails
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.ui.trails.TrailListView
-import cash.andrew.mntrailconditions.util.activityComponent
+import cash.andrew.mntrailconditions.util.component
 import javax.inject.Inject
 
 class FavoriteTrailListFragment : Fragment() {
@@ -21,7 +21,7 @@ class FavoriteTrailListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activity!!.activityComponent.trailsComponent.inject(this)
+        component.trailsComponent.inject(this)
     }
 
     override fun onCreateView(

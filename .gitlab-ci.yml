@@ -13,4 +13,4 @@ stages:
 build:
   stage: build
   script:
-  - ./gradlew build --no-daemon
+  - ./gradlew build --no-daemon --console=plain

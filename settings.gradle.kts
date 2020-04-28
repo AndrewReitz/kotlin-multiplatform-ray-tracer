@@ -14,10 +14,3 @@ for (project in rootProject.children) {
         assert(buildFile.isFile)
     }
 }
-
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        maven { url = uri("http://dl.bintray.com/kotlin/kotlin-eap") }
-    }
-}

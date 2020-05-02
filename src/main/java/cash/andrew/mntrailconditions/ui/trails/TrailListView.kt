@@ -4,13 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import cash.andrew.kotlin.common.retry
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.api.TrailConditionsService
 import cash.andrew.mntrailconditions.data.model.TrailData
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailListViewBinding
-import cash.andrew.mntrailconditions.util.activityComponent
-import cash.andrew.mntrailconditions.util.retry
+import cash.andrew.mntrailconditions.util.component
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class TrailListView(
     private lateinit var binding: TrailListViewBinding
 
     init {
-        context.activityComponent.trailsComponent.inject(this)
+        component.trailsComponent.inject(this)
     }
 
     override fun onFinishInflate() {
@@ -84,7 +84,7 @@ class TrailListView(
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e, "Error")
+                Timber.e(e, "Error loading trails")
                 launch(Dispatchers.Main) {
                     animator.displayedChildId = R.id.trail_list_error
                 }

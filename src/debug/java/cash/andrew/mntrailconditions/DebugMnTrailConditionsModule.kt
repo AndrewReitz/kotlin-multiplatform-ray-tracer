@@ -1,6 +1,5 @@
 package cash.andrew.mntrailconditions
 
-import android.app.Application
 import cash.andrew.mntrailconditions.data.DebugDataModule
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.timber.StethoTree

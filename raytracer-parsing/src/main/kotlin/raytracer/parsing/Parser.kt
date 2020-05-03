@@ -4,7 +4,6 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import okio.Okio
-import org.omg.CORBA.Any
 import java.io.File
 
 class Parser {

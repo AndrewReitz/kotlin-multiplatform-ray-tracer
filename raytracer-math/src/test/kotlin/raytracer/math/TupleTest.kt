@@ -178,4 +178,16 @@ class TupleTest {
     assertEquals(actual = a cross b, expected = Vector(-1, 2, -1))
     assertEquals(actual = b cross a, expected = Vector(1, -2, 1))
   }
+
+  @Test fun `Tuple make sure equals and hashcode work correctly`() {
+    val tuple1 = Vector(0, 0, 0.5)
+    val tuple2 = Vector(0, 0, 0.4999999)
+    assertEquals(tuple1, tuple2)
+    assertEquals(tuple1.hashCode(), tuple2.hashCode())
+
+    val tuple3 = Vector(0, 0, 0.5 - EPSILON)
+    val tuple4 = Vector(0, 0, 0.4999999 - EPSILON)
+    assertEquals(tuple3, tuple4)
+    assertEquals(tuple3.hashCode(), tuple4.hashCode())
+  }
 }

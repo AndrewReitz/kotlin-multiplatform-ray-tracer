@@ -3,6 +3,7 @@
 package raytracer.core
 
 import raytracer.math.EPSILON
+import raytracer.math.ONE_OVER_EPSILON
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -53,9 +54,9 @@ data class Color(
   }
 
   override fun hashCode(): Int {
-    var result = ((red + EPSILON) * 10000).roundToInt().hashCode()
-    result = 31 * result + ((green + EPSILON) * 10000).roundToInt().hashCode()
-    result = 31 * result + ((blue + EPSILON) * 10000).roundToInt().hashCode()
+    var result = ((red + EPSILON) * ONE_OVER_EPSILON).roundToInt().hashCode()
+    result = 31 * result + ((green + EPSILON) * ONE_OVER_EPSILON).roundToInt().hashCode()
+    result = 31 * result + ((blue + EPSILON) * ONE_OVER_EPSILON).roundToInt().hashCode()
     return result
   }
 

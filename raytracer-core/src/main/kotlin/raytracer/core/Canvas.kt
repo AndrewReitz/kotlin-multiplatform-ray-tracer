@@ -16,6 +16,8 @@ data class Canvas(
   }
 
   inline operator fun set(x: Int, y: Int, color: Color) {
+    if (x < 0 || x > width) return
+    if (y < 0 || y > height) return
     pixels[y][x] = color
   }
 
@@ -35,19 +37,20 @@ data class Canvas(
         val blue = (color.blue * 255).roundToInt().coerceIn(0, 255)
         "$red $green $blue"
       }
-      val line = row.joinToString(separator = " ")
 
-      if (line.length > 70) {
-        for(index in 70 downTo 67) {
+      var line = row.joinToString(separator = " ")
+      while (line.length > 70) {
+        for (index in 70 downTo 67) {
           if (line[index] == ' ') {
             sb.append(line.take(index))
             sb.newLine()
-            sb.append(line.substring(index + 1, line.length))
+            line = line.substring(index + 1)
+            break
           }
         }
-      } else {
-        sb.append(line)
       }
+
+      sb.append(line)
       sb.newLine()
     }
 

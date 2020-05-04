@@ -44,7 +44,7 @@ class ColorTest {
     assertEquals(actual = result.hashCode(), expected = Color(0.9, 0.2, 0.04).hashCode())
   }
 
-  @Test fun `Make sure equals and hashcode work correctly`() {
+  @Test fun `Color make sure equals and hashcode work correctly`() {
     val c1 = Color(0, 0, 0.5)
     val c2 = Color(0, 0, 0.4999999)
     assertEquals(c1, c2)

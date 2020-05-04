@@ -97,10 +97,10 @@ data class Tuple(
   }
 
   override fun hashCode(): Int {
-    var result = ((x + EPSILON) * 10000).roundToInt().hashCode()
-    result = 31 * result + ((y + EPSILON) * 10000).roundToInt().hashCode()
-    result = 31 * result + ((z + EPSILON) * 10000).roundToInt().hashCode()
-    result = 31 * result + ((w + EPSILON) * 10000).roundToInt().hashCode()
+    var result = ((x + EPSILON) * ONE_OVER_EPSILON).roundToInt().hashCode()
+    result = 31 * result + ((y + EPSILON) * ONE_OVER_EPSILON).roundToInt().hashCode()
+    result = 31 * result + ((z + EPSILON) * ONE_OVER_EPSILON).roundToInt().hashCode()
+    result = 31 * result + ((w + EPSILON) * ONE_OVER_EPSILON).roundToInt().hashCode()
     return result
   }
 }

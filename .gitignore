@@ -124,3 +124,5 @@ gradle-app.setting
 */build/
 
 raytracer-console/*.png
+
+*.ppm

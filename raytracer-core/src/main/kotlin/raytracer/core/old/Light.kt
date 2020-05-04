@@ -1,4 +1,4 @@
-package raytracer.core
+package raytracer.core.old
 
 import raytracer.math.old.Vector3
 

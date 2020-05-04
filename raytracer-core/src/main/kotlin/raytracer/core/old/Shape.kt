@@ -1,5 +1,6 @@
-package raytracer.core
+package raytracer.core.old
 
+import raytracer.core.Color
 import raytracer.math.old.Vector3
 import kotlin.math.sqrt
 
@@ -98,6 +99,6 @@ class Triangle(
 }
 
 data class HitData(
-    val t: T,
-    val isHit: Boolean
+  val t: T,
+  val isHit: Boolean
 )

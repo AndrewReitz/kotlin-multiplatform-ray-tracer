@@ -1,8 +1,8 @@
 package raytracer.console
 
-import raytracer.math.book.Point
-import raytracer.math.book.Tuple
-import raytracer.math.book.Vector
+import raytracer.math.Point
+import raytracer.math.Tuple
+import raytracer.math.Vector
 
 fun main() {
   var p = Projectile(

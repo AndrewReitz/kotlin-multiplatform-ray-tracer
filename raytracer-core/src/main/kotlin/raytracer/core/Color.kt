@@ -1,26 +1,75 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package raytracer.core
 
+import raytracer.math.EPSILON
+import kotlin.math.abs
+
 data class Color(
-    val red: Double = 0.0,
-    val green: Double = 0.0,
-    val blue: Double = 0.0
+  val red: Float,
+  val green: Float,
+  val blue: Float
 ) {
 
-    constructor(
-            red: Int = 0,
-            green: Int = 0,
-            blue: Int = 0
-    ) : this(
-            red = red.toDouble(),
-            green = green.toDouble(),
-            blue = blue.toDouble()
-    )
+  inline operator fun plus(color: Color) = Color(
+    red = red + color.red,
+    blue = blue + color.blue,
+    green = green + color.green
+  )
 
-    operator fun plus(color: Color) = Color(
-            red = red + color.red,
-            blue = blue + color.blue,
-            green = green + color.green
-    )
+  inline operator fun minus(color: Color) = Color(
+    red = red - color.red,
+    blue = blue - color.blue,
+    green = green - color.green
+  )
 
-    fun toColorInt() = (red.toInt() shl 16) or (green.toInt() shl 8) or blue.toInt()
+  inline operator fun times(scalar: Number): Color {
+    val value = scalar.toFloat()
+    return Color(
+      red = red * value,
+      blue = blue * value,
+      green = green * value
+    )
+  }
+
+  inline operator fun times(color: Color) = Color(
+    red = red * color.red,
+    blue = blue * color.blue,
+    green = green * color.green
+  )
+
+  // mostly for testing to over come floating point math issues
+  fun mostlyEqual(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as Color
+
+    if (abs(red - other.red) > EPSILON) return false
+    if (abs(green - other.green) > EPSILON) return false
+    if (abs(blue - other.blue) > EPSILON) return false
+
+    return true
+  }
+
+  companion object {
+    val EMPTY = Color(0, 0, 0)
+  }
+}
+
+@Suppress("FunctionName")
+inline fun Color(
+  red: Number = 0,
+  green: Number = 0,
+  blue: Number = 0
+): Color {
+  if (red == 0 && green == 0 && blue == 0) {
+    return Color.EMPTY
+  }
+
+  return Color(
+    red = red.toFloat(),
+    green = green.toFloat(),
+    blue = blue.toFloat()
+  )
 }

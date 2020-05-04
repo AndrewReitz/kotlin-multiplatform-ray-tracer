@@ -2,7 +2,6 @@
 
 package raytracer.math
 
-import raytracer.math.EPSILON
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -82,26 +81,14 @@ data class Tuple(
     w = w
   )
 
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (javaClass != other?.javaClass) return false
-
-    other as Tuple
-
+  // mostly for test, but fixes issues with float point math
+  fun mostlyEqual(other: Tuple): Boolean {
     if (abs(x - other.x) > EPSILON) return false
     if (abs(y - other.y) > EPSILON) return false
     if (abs(z - other.z) > EPSILON) return false
     if (abs(w - other.w) > EPSILON) return false
 
     return true
-  }
-
-  override fun hashCode(): Int {
-    var result = x.hashCode()
-    result = 31 * result + y.hashCode()
-    result = 31 * result + z.hashCode()
-    result = 31 * result + w.hashCode()
-    return result
   }
 }
 

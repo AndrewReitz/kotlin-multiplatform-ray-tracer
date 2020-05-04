@@ -1,7 +1,8 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package raytracer.core
+package raytracer.core.old
 
+import raytracer.core.Color
 import raytracer.math.old.Vector3
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -34,9 +35,9 @@ data class BlinnPhong(val values: List<Double>) : Shader() {
 
         val lambertion = lambertion.calculateColor(position, viewRay, light, t, shapes)
         val blinnPhong = Color(
-                red = 1.0 * values[3] * bling * light.intensity.x,
-                green = 1.0 * values[4] * bling * light.intensity.y,
-                blue = 1.0 * values[5] * bling * light.intensity.z
+            red = 1.0 * values[3] * bling * light.intensity.x,
+            green = 1.0 * values[4] * bling * light.intensity.y,
+            blue = 1.0 * values[5] * bling * light.intensity.z
         )
 
         return lambertion + blinnPhong
@@ -61,9 +62,9 @@ data class Lambertion(val values: List<Double>) : Shader() {
         val lambertion = if (temp > 0 && !inShadow) temp.pow(values[6]) else 0.0
 
         return Color(
-                red = 0.05 * values[0] + 1.0 * values[0] * lambertion * light.intensity.x,
-                green = 0.05 * values[1] + 1.0 * values[1] * lambertion * light.intensity.y,
-                blue = 0.05 * values[2] + 1.0 * values[2] * lambertion * light.intensity.z
+            red = 0.05 * values[0] + 1.0 * values[0] * lambertion * light.intensity.x,
+            green = 0.05 * values[1] + 1.0 * values[1] * lambertion * light.intensity.y,
+            blue = 0.05 * values[2] + 1.0 * values[2] * lambertion * light.intensity.z
         )
     }
 }

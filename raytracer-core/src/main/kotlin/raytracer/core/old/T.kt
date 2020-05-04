@@ -1,4 +1,4 @@
-package raytracer.core
+package raytracer.core.old
 
 inline class T(val value: Double) {
     companion object {

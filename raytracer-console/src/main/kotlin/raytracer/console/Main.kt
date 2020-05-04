@@ -1,41 +1,39 @@
 package raytracer.console
 
-import raytracer.core.Lambertion
-import raytracer.core.Light
-import raytracer.core.PerspecticveCamera
-import raytracer.core.RayTracer
-import raytracer.core.Scene
-import raytracer.core.Sphere
-import raytracer.math.Vector3
-import java.io.File
-import javax.imageio.ImageIO
+import raytracer.math.book.Point
+import raytracer.math.book.Tuple
+import raytracer.math.book.Vector
 
-fun main(args: Array<String>) {
-    val scene = Scene(
-            height = 400,
-            width = 400,
-            lights = listOf(
-                    Light(
-                            position = Vector3(0, 0, 0),
-                            intensity = Vector3(100, 100, 100)
-                    )
-            ),
-            camera = PerspecticveCamera(
-                    viewDirection = Vector3(1, 1, 1),
-                    position = Vector3(0, 0, 0),
-                    focalLength = 100.0,
-                    imagePlaneWidth = 100.0,
-                    height = 50.0,
-                    width = 50.0
-            ),
-            shapes = listOf(
-                    Sphere(
-                            radius = 1.0,
-                            position = Vector3(3, 3, 3),
-                            shader = Lambertion(listOf(0xff.toDouble(), 0.0, 0.0)))
-            )
-    )
+fun main() {
+  var p = Projectile(
+    position = Point(0, 1, 0),
+    velocity = Vector(1, 1, 0).normalize()
+  )
 
-    val image = RayTracer(scene).draw()
-    ImageIO.write(image, "png", File("output.png"))
+  val e = Environment(
+    wind = Vector(0, -0.1, 0),
+    gravity = Vector(-0.01, 0, 0)
+  )
+  var count = 0;
+  while (p.position.y >= 0) {
+    p = tick(p, e)
+    println("tick = ${++count} postion = $p")
+  }
 }
+
+fun tick(proj: Projectile, env: Environment): Projectile {
+  val position = proj.position + proj.velocity
+  val velocity = proj.velocity + env.gravity + env.wind
+
+  return Projectile(position, velocity)
+}
+
+data class Environment(
+  val wind: Tuple,
+  val gravity: Tuple
+)
+
+data class Projectile(
+  val position: Tuple,
+  val velocity: Tuple
+)

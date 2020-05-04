@@ -1,6 +1,6 @@
 package raytracer.core
 
-import raytracer.math.Vector3
+import raytracer.math.old.Vector3
 import kotlin.math.sqrt
 
 interface Shape {
@@ -11,9 +11,9 @@ interface Shape {
 }
 
 class Sphere(
-    private val radius: Double,
-    private val position: Vector3,
-    override val shader: Shader
+  private val radius: Double,
+  private val position: Vector3,
+  override val shader: Shader
 ) : Shape {
 
     override fun isHit(ray: Ray, t: T): HitData {
@@ -51,10 +51,10 @@ class Sphere(
 }
 
 class Triangle(
-    private val p1: Vector3,
-    private val p2: Vector3,
-    private val p3: Vector3,
-    override val shader: Shader
+  private val p1: Vector3,
+  private val p2: Vector3,
+  private val p3: Vector3,
+  override val shader: Shader
 ) : Shape {
 
     private val n = (p2 - p1)

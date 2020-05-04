@@ -2,7 +2,7 @@
 
 package raytracer.core
 
-import raytracer.math.Vector3
+import raytracer.math.old.Vector3
 import kotlin.math.pow
 import kotlin.math.sqrt
 

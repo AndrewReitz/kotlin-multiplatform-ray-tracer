@@ -1,7 +1,8 @@
-package raytracer.math
+package raytracer.math.old
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import raytracer.math.old.Vector3
 import kotlin.test.assertEquals
 
 class Vector3Test {
@@ -89,9 +90,9 @@ class Vector3Test {
 
     @Test fun `should normalize the vector`() {
         val expected = Vector3(
-                x = 0.577350269189625709141587549845781707447655068136,
-                y = 0.577350269189625709141587549845781707447655068136,
-                z = 0.577350269189625709141587549845781707447655068136
+          x = 0.577350269189625709141587549845781707447655068136,
+          y = 0.577350269189625709141587549845781707447655068136,
+          z = 0.577350269189625709141587549845781707447655068136
         )
         val a = Vector3(10, 10, 10)
 

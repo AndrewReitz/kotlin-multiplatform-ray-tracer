@@ -19,14 +19,14 @@ fun main() {
     gravity = Vector(-0.01, 0, 0)
   )
 
-  val color = Color(1, 1, 0)
+  val color = Color(1, 0, 0)
   val c = Canvas(900, 550)
 
   var count = 0;
   while (p.position.y >= 0) {
     p = tick(p, e)
     println("tick = ${++count} postion = $p")
-    c[p.position.x.roundToInt(), p.position.y.roundToInt()] = color
+    c[p.position.x.roundToInt(), c.height - p.position.y.roundToInt()] = color
   }
 
   File("image.ppm").writeText(c.toPpm())

@@ -155,7 +155,8 @@ class TupleTest {
 
   @Test fun `Normalizing vector(1, 2, 3) gives (0,26726, 0,53452, 0,80178)`() {
     val v = Vector(1, 2, 3)
-    assertTrue { v.normalize().mostlyEqual(Vector(0.26726, 0.53452, 0.80178)) }
+    assertEquals(actual = v.normalize(), expected = Vector(0.26726, 0.53452, 0.80178))
+    assertEquals(actual = v.normalize().hashCode(), expected = Vector(0.26726, 0.53452, 0.80178).hashCode())
   }
 
   @Test fun `The magnitude of a normalized vector`() {

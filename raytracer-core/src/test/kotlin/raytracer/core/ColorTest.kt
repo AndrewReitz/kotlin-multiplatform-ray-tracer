@@ -1,8 +1,8 @@
 package raytracer.core
 
 import org.junit.jupiter.api.Test
+import raytracer.math.EPSILON
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class ColorTest {
   @Test fun `Colors are (red, green, blue) tuples`() {
@@ -18,9 +18,8 @@ class ColorTest {
     val c2 = Color(0.7, 0.1, 0.25)
 
     val result = c1 + c2
-    assertTrue {
-      result.mostlyEqual(Color(1.6, 0.7, 1.0))
-    }
+    assertEquals(actual = result, expected = Color(1.6, 0.7, 1.0))
+    assertEquals(actual = result.hashCode(), expected = Color(1.6, 0.7, 1.0).hashCode())
   }
 
   @Test fun `Subtracting colors`() {
@@ -28,7 +27,7 @@ class ColorTest {
     val c2 = Color(0.7, 0.1, 0.25)
 
     val result = c1 - c2
-    assertTrue { result.mostlyEqual(Color(0.2, 0.5, 0.5)) }
+    assertEquals(actual = result, expected = Color(0.2, 0.5, 0.5))
   }
 
   @Test fun `Multiplying a color by a scalar`() {
@@ -41,6 +40,19 @@ class ColorTest {
     val c2 = Color(0.9, 1, 0.1)
 
     val result = c1 * c2
-    assertTrue { result.mostlyEqual(Color(0.9, 0.2, 0.04)) }
+    assertEquals(actual = result, expected = Color(0.9, 0.2, 0.04))
+    assertEquals(actual = result.hashCode(), expected = Color(0.9, 0.2, 0.04).hashCode())
+  }
+
+  @Test fun `Make sure equals and hashcode work correctly`() {
+    val c1 = Color(0, 0, 0.5)
+    val c2 = Color(0, 0, 0.4999999)
+    assertEquals(c1, c2)
+    assertEquals(c1.hashCode(), c2.hashCode())
+
+    val c3 = Color(0, 0, 0.5 - EPSILON)
+    val c4 = Color(0, 0, 0.4999999 - EPSILON)
+    assertEquals(c3, c4)
+    assertEquals(c3.hashCode(), c4.hashCode())
   }
 }

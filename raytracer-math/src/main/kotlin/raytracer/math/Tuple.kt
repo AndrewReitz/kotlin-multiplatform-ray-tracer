@@ -4,6 +4,7 @@ package raytracer.math
 
 import kotlin.math.abs
 import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 data class Tuple(
@@ -81,14 +82,26 @@ data class Tuple(
     w = w
   )
 
-  // mostly for test, but fixes issues with float point math
-  fun mostlyEqual(other: Tuple): Boolean {
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (javaClass != other?.javaClass) return false
+
+    other as Tuple
+
     if (abs(x - other.x) > EPSILON) return false
     if (abs(y - other.y) > EPSILON) return false
     if (abs(z - other.z) > EPSILON) return false
     if (abs(w - other.w) > EPSILON) return false
 
     return true
+  }
+
+  override fun hashCode(): Int {
+    var result = ((x + EPSILON) * 10000).roundToInt().hashCode()
+    result = 31 * result + ((y + EPSILON) * 10000).roundToInt().hashCode()
+    result = 31 * result + ((z + EPSILON) * 10000).roundToInt().hashCode()
+    result = 31 * result + ((w + EPSILON) * 10000).roundToInt().hashCode()
+    return result
   }
 }
 

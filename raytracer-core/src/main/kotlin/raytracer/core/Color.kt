@@ -4,6 +4,7 @@ package raytracer.core
 
 import raytracer.math.EPSILON
 import kotlin.math.abs
+import kotlin.math.roundToInt
 
 data class Color(
   val red: Float,
@@ -38,8 +39,7 @@ data class Color(
     green = green * color.green
   )
 
-  // mostly for testing to over come floating point math issues
-  fun mostlyEqual(other: Any?): Boolean {
+  override fun equals(other: Any?): Boolean {
     if (this === other) return true
     if (javaClass != other?.javaClass) return false
 
@@ -52,8 +52,15 @@ data class Color(
     return true
   }
 
+  override fun hashCode(): Int {
+    var result = ((red + EPSILON) * 10000).roundToInt().hashCode()
+    result = 31 * result + ((green + EPSILON) * 10000).roundToInt().hashCode()
+    result = 31 * result + ((blue + EPSILON) * 10000).roundToInt().hashCode()
+    return result
+  }
+
   companion object {
-    val EMPTY = Color(0, 0, 0)
+    val EMPTY: Color = Color(0f, 0f, 0f)
   }
 }
 

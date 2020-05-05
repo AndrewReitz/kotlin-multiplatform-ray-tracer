@@ -3,32 +3,32 @@
 package raytracer.math
 
 data class Matrix(
-  val columns: List<List<Float>>
+  val data: List<List<Float>>
 ) {
 
-  val size = columns.size
+  val size = data.size
 
-  inline operator fun get(x: Int, y: Int): Float = columns[x][y]
+  inline operator fun get(m: Int, n: Int): Float = data[m][n]
 
   inline operator fun times(other: Matrix): Matrix {
     if (other.size != size) throw Exception("Matrix $other is not the same size as $this")
 
     val self = this
 
-    val newMatrix = MutableList(size) {
-      MutableList(size) {
+    val newMatrix = MutableList(size) { m ->
+      MutableList(size) { n ->
         0f
       }
     }
 
     // this can be optomized if done in specific
-    for (c in columns.indices) {
-      for (r in columns.indices) {
+    for (m in data.indices) {
+      for (n in data.indices) {
         var result = 0f
-        for (i in columns.indices) {
-          result += self[r, i] * other[i, c]
+        for (i in data.indices) {
+          result += self[n, i] * other[i, m]
         }
-        newMatrix[r][c] = result
+        newMatrix[n][m] = result
       }
     }
 
@@ -37,21 +37,29 @@ data class Matrix(
 
   inline operator fun times(tuple: Tuple): Tuple {
     val newTuple = Array(4) { 0f }
-    columns.forEachIndexed { index, c ->
-      newTuple[index] = c.toTuple() dot tuple
+    data.forEachIndexed { index, m ->
+      newTuple[index] = m.toTuple() dot tuple
     }
 
     return newTuple.toTuple()
   }
 
-  override fun toString(): String {
-    return columns.map { row ->
-      row.joinToString(postfix = "]", prefix = "[")
-    }.joinToString(separator = "\n", postfix = "]", prefix = "[")
+  fun transpose(): Matrix {
+    if (this == IDENTITY_MATRIX) return IDENTITY_MATRIX
+
+    val newMatrix = MutableList(size) { m ->
+      MutableList(size) { n ->
+        data[n][m]
+      }
+    }
+
+    return Matrix(newMatrix)
   }
 
-  fun List<Float>.toTuple(): Tuple = Tuple(get(0), get(1), get(2), get(3))
-  fun Array<Float>.toTuple(): Tuple = Tuple(get(0), get(1), get(2), get(3))
+  override fun toString(): String =
+    data.joinToString(separator = "\n", postfix = "\n", prefix = "\n") { row ->
+      row.joinToString(separator = " ", postfix = "|", prefix = "|")
+    }
 }
 
 class MatrixBuilder {

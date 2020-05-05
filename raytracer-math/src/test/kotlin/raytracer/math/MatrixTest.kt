@@ -3,7 +3,6 @@ package raytracer.math
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
-import kotlin.test.assertTrue
 
 class MatrixTest {
   @Test
@@ -114,5 +113,41 @@ class MatrixTest {
 
     val result = A * b
     assertEquals(actual = result, expected = Tuple(18, 24, 33, 1))
+  }
+
+  @Test
+  fun `Multiplying a matrix by the identity matrix`() {
+    val A = Matrix {
+      row(0, 1, 2, 4)
+      row(1, 2, 4, 8)
+      row(2, 4, 8, 16)
+      row(4, 8, 16, 32)
+    }
+
+    assertEquals(actual = A * IDENTITY_MATRIX, expected = A)
+  }
+
+  @Test
+  fun `Transposing a matrix`() {
+    val A = Matrix {
+      row(0, 9, 3, 0)
+      row(9, 8, 0, 8)
+      row(1, 8, 5, 3)
+      row(0, 0, 5, 8)
+    }
+
+    val expected = Matrix {
+      row(0, 9, 1, 0)
+      row(9, 8, 8, 0)
+      row(3, 0, 5, 5)
+      row(0, 8, 3, 8)
+    }
+
+    assertEquals(actual = A.transpose(), expected = expected)
+  }
+
+  @Test
+  fun `Transposing the identiy matrix`() {
+    assertEquals(actual = IDENTITY_MATRIX.transpose(), expected = IDENTITY_MATRIX)
   }
 }

@@ -113,3 +113,6 @@ inline fun Point(x: Number, y: Number, z: Number) = Tuple(x, y, z, 1)
 
 @Suppress("FunctionName")
 inline fun Vector(x: Number, y: Number, z: Number) = Tuple(x, y, z, 0)
+
+fun List<Float>.toTuple(): Tuple = Tuple(get(0), get(1), get(2), get(3))
+fun Array<Float>.toTuple(): Tuple = Tuple(get(0), get(1), get(2), get(3))

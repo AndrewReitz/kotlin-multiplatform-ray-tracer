@@ -1,37 +1,23 @@
-rootProject.name = "mn-trail-info-app"
+include(
+  ":trail-conditions-app",
+  ":trail-conditions-networking",
+  ":trail-conditions-firebase"
+)
 
-pluginManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-    }
+rootProject.name = "mn-trail-conditions"
 
-    resolutionStrategy {
-        eachPlugin {
-
-            val artifact = when(requested.id.id) {
-                "com.android.application" -> "com.android.tools.build:gradle:"
-                "com.google.firebase.crashlytics" -> "com.google.firebase:firebase-crashlytics-gradle:"
-                "androidx.navigation.safeargs" -> "android.arch.navigation:navigation-safe-args-gradle-plugin:"
-                "com.github.triplet.play" -> "com.github.triplet.gradle:play-publisher:"
-                "com.google.gms.google-services" -> "com.google.gms:google-services:"
-                in arrayOf("kotlin-android", "kotlin-kapt", "kotlin-android-extensions") -> "org.jetbrains.kotlin:kotlin-gradle-plugin:"
-                else -> return@eachPlugin
-            } + requested.version
-
-            useModule(artifact)
-        }
-    }
+rootProject.children.forEach {
+  it.buildFileName = "${it.name.replace("trail-conditions-", "")}.gradle.kts"
 }
 
 plugins {
-    id("com.gradle.enterprise").version("3.1.1")
+  id("com.gradle.enterprise") version "3.2.1"
 }
 
 gradleEnterprise {
-    buildScan {
-        termsOfServiceUrl = "https://gradle.com/terms-of-service"
-        termsOfServiceAgree = "yes"
-        publishAlways()
-    }
+  buildScan {
+    termsOfServiceUrl = "https://gradle.com/terms-of-service"
+    termsOfServiceAgree = "yes"
+    publishAlways()
+  }
 }

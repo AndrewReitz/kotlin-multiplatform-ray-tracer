@@ -28,7 +28,7 @@ before_script:
   - export PATH=$PATH:$PWD/android-sdk-linux/platform-tools/
   - chmod +x ./gradlew
 
-  - echo $PUBLISH_KEY > keys/publish-key.json
+  - echo $PUBLISH_KEY > trail-conditions-app/keys/publish-key.json
 
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - export MN_TRAIL_INFO_BUILD_NUMBER=$((CI_JOB_ID - 99347792))

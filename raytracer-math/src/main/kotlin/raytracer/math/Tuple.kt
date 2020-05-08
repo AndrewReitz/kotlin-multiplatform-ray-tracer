@@ -58,7 +58,7 @@ data class Tuple(
     )
   }
 
-  val magnitude: Float by lazy {
+  val magnitude: Float by lazy(LazyThreadSafetyMode.NONE) {
     sqrt(x.pow(2) + y.pow(2) + z.pow(2) + w.pow(2))
   }
 

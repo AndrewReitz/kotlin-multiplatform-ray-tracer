@@ -71,10 +71,6 @@ inline fun Color(
   green: Number = 0,
   blue: Number = 0
 ): Color {
-  if (red == 0 && green == 0 && blue == 0) {
-    return Color.EMPTY
-  }
-
   return Color(
     red = red.toFloat(),
     green = green.toFloat(),

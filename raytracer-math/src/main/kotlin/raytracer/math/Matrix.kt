@@ -2,6 +2,8 @@
 
 package raytracer.math
 
+import kotlin.math.abs
+
 data class Matrix(
   val data: List<List<Float>>
 ) {
@@ -17,18 +19,11 @@ data class Matrix(
 
     val newMatrix = MutableList(size) { m ->
       MutableList(size) { n ->
-        0f
-      }
-    }
-
-    // this can be optomized if done in specific
-    for (m in data.indices) {
-      for (n in data.indices) {
         var result = 0f
         for (i in data.indices) {
-          result += self[n, i] * other[i, m]
+          result += self[m, i] * other[i, n]
         }
-        newMatrix[n][m] = result
+        result
       }
     }
 
@@ -44,7 +39,7 @@ data class Matrix(
     return newTuple.toTuple()
   }
 
-  fun transpose(): Matrix {
+  inline fun transpose(): Matrix {
     if (this == IDENTITY_MATRIX) return IDENTITY_MATRIX
 
     val newMatrix = MutableList(size) { m ->
@@ -54,6 +49,77 @@ data class Matrix(
     }
 
     return Matrix(newMatrix)
+  }
+
+  val determinant: Float by lazy(LazyThreadSafetyMode.NONE) {
+    if (size == 2) {
+      val a = data[0][0]
+      val b = data[0][1]
+      val c = data[1][0]
+      val d = data[1][1]
+
+      a * d - b * c
+    } else {
+      var determinant = 0f
+      for (m in data.indices) {
+        determinant += data[0][m] * cofactor(0, m)
+      }
+      determinant
+    }
+  }
+
+  val isInvertible get() = determinant != 0f
+
+  inline fun subMatrixOf(mToDrop: Int, nToDrop: Int): Matrix {
+    val newMatrix = mutableListOf<MutableList<Float>>()
+
+    var newMatrixIndex = 0
+
+    data.forEachIndexed m@{ m, row ->
+      if (m == mToDrop) return@m
+      newMatrix.add(mutableListOf())
+      row.forEachIndexed n@{ n, data ->
+        if (n == nToDrop) return@n
+        newMatrix[newMatrixIndex].add(data)
+      }
+      newMatrixIndex++
+    }
+
+    return Matrix(newMatrix)
+  }
+
+  inline fun minor(mToDrop: Int, nToDrop: Int): Float {
+    val subMatrix = subMatrixOf(mToDrop, nToDrop)
+    return subMatrix.determinant
+  }
+
+  inline fun cofactor(mToDrop: Int, nToDrop: Int): Float {
+    val minor = minor(mToDrop, nToDrop)
+    val isEven = (mToDrop + nToDrop) and 1 == 0
+    return if (isEven) minor else -1 * minor
+  }
+
+  fun inverse(): Matrix {
+    if (!isInvertible) throw Exception("Matrix is not invertible and can not be inverted")
+
+    val M2 = List(size) { m ->
+      List(size) { n ->
+        val c = cofactor(n, m)
+        c / determinant
+      }
+    }
+
+    return Matrix(M2)
+  }
+
+  fun fuzzyEquals(other: Matrix): Boolean {
+    for (m in data.indices) {
+      for (n in data.indices) {
+        if (abs(data[m][n] - other[m, n]) > EPSILON) return false
+      }
+    }
+
+    return true
   }
 
   override fun toString(): String =
@@ -82,6 +148,7 @@ class MatrixBuilder {
   }
 }
 
+@Suppress("FunctionName")
 fun Matrix(create: MatrixBuilder.() -> Unit): Matrix {
   val builder = MatrixBuilder()
   builder.create()

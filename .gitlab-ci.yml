@@ -3,7 +3,7 @@ image: openjdk:11-jdk
 before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - apt-get --quiet update --yes
-  - apt-get --quiet install --yes build-essential clangd-9
+  - apt-get --quiet install --yes build-essential libtinfo5
 
 cache:
   paths:

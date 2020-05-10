@@ -1,7 +1,11 @@
 plugins {
-    `java-library`
+  id("multiplatform-common")
 }
 
-dependencies {
-    api(project(":raytracer-math"))
+kotlin.sourceSets {
+  val commonMain by getting {
+    dependencies {
+      implementation(project(":raytracer-math"))
+    }
+  }
 }

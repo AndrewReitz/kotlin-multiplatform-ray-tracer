@@ -1,11 +1,14 @@
 plugins {
-    application
+  kotlin("jvm")
+  application
 }
 
 application {
-    mainClassName = "raytracer.console.MainKt"
+  mainClassName = "raytracer.console.MainKt"
 }
 
 dependencies {
-    implementation(project(":raytracer-core"))
+  implementation(kotlin("stdlib"))
+  implementation(project(":raytracer-core"))
+  implementation(project(":raytracer-math"))
 }

@@ -40,7 +40,7 @@ data class Matrix(
   }
 
   inline fun transpose(): Matrix {
-    if (this == IDENTITY_MATRIX) return IDENTITY_MATRIX
+    if (this == IDENTITY) return IDENTITY
 
     val newMatrix = MutableList(size) { m ->
       MutableList(size) { n ->
@@ -126,6 +126,29 @@ data class Matrix(
     data.joinToString(separator = "\n", postfix = "\n", prefix = "\n") { row ->
       row.joinToString(separator = " ", postfix = "|", prefix = "|")
     }
+
+  companion object {
+    val IDENTITY = Matrix {
+      row(1, 0, 0, 0)
+      row(0, 1, 0, 0)
+      row(0, 0, 1, 0)
+      row(0, 0, 0, 1)
+    }
+
+    fun translation(x: Number, y: Number, z: Number) = Matrix {
+      row(1, 0, 0, x.toFloat())
+      row(0, 1, 0, y.toFloat())
+      row(0, 0, 1, z.toFloat())
+      row(0, 0, 0, 1)
+    }
+
+    fun scaling(x: Number, y: Number, z: Number) = Matrix {
+      row(x.toFloat(), 0, 0, 0)
+      row(0, y.toFloat(), 0, 0)
+      row(0, 0, z.toFloat(), 0)
+      row(0, 0, 0, 1)
+    }
+  }
 }
 
 class MatrixBuilder {

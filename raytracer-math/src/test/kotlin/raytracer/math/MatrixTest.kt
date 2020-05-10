@@ -1,6 +1,7 @@
 package raytracer.math
 
 import org.junit.jupiter.api.Test
+import raytracer.math.Matrix.Companion.IDENTITY
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
@@ -125,7 +126,7 @@ class MatrixTest {
       row(4, 8, 16, 32)
     }
 
-    assertEquals(actual = A * IDENTITY_MATRIX, expected = A)
+    assertEquals(actual = A * IDENTITY, expected = A)
   }
 
   @Test
@@ -149,7 +150,7 @@ class MatrixTest {
 
   @Test
   fun `Transposing the identity matrix`() {
-    assertEquals(actual = IDENTITY_MATRIX.transpose(), expected = IDENTITY_MATRIX)
+    assertEquals(actual = IDENTITY.transpose(), expected = IDENTITY)
   }
 
   @Test
@@ -381,6 +382,57 @@ class MatrixTest {
 
     val C = A * B
     assertMatrixEquals(actual = C * B.inverse(), expected = A)
+  }
+
+  @Test
+  fun `Multiplying by a translation matrix`() {
+    val transform = Matrix.translation(5, -3, 2)
+    val p = Point(-3, 4, 5)
+    assertEquals(actual = transform * p, expected = Point(2, 1, 7))
+  }
+
+  @Test
+  fun `Multiplying by the inverse of a translation matrix`() {
+    val transform = Matrix.translation(5, -3, 2)
+    val inv = transform.inverse()
+    val p = Point(-3, 4, 5)
+    assertEquals(actual = inv * p, expected = Point(-8, 7, 3))
+  }
+
+  @Test
+  fun `Translation does not affect vectors`() {
+    val transform = Matrix.translation(5, -3, 2)
+    val v = Vector(-3, 4, 5)
+    assertEquals(actual = transform * v, expected = v)
+  }
+
+  @Test
+  fun `A scaling matrix applied to a point`() {
+    val transform = Matrix.scaling(2, 3, 4)
+    val p = Point(-4, 6, 8)
+    assertEquals(actual = transform * p, expected = Point(-8, 18, 32))
+  }
+
+  @Test
+  fun `A scaling matrix applied to a vector`() {
+    val transform = Matrix.scaling(2, 3, 4)
+    val v = Vector(-4, 6, 8)
+    assertEquals(actual = transform * v, expected = Vector(-8, 18, 32))
+  }
+
+  @Test
+  fun `Multiplying by the inverse of a scaling matrix`() {
+    val transform = Matrix.scaling(2, 3, 4)
+    val inv = transform.inverse()
+    val v = Vector(-4, 6, 8)
+    assertEquals(actual = inv * v, expected = Vector(-2, 2, 2))
+  }
+
+  @Test
+  fun `Reflection is scaling by a negative value`() {
+    val transform = Matrix.scaling(-1, 1, 1)
+    val p = Point(2, 3, 4)
+    assertEquals(actual = transform * p, expected = Point(-2, 3, 4))
   }
 
   /** For fuzzy assertions around floating points */

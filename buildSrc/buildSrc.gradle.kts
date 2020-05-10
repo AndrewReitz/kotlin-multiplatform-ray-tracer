@@ -1,6 +1,5 @@
 plugins {
     `kotlin-dsl`
-    kotlin("plugin.serialization") version "1.3.70"
 }
 
 repositories {
@@ -13,7 +12,6 @@ kotlinDslPluginOptions {
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(kotlin("gradle-plugin"))
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0")
     implementation("com.android.tools.build:gradle:3.6.3")

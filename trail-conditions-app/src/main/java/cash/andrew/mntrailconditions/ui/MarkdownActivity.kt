@@ -35,10 +35,7 @@ class MarkdownActivity : AppCompatActivity(), ComponentContainer<ActivityCompone
         binding = ActivityMarkdownBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.colorOnPrimary, typedValue, true)
         val arrow = resources.getDrawable(R.drawable.ic_arrow_back_white_24dp, theme)
-        arrow.setTint(typedValue.data)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

@@ -30,7 +30,8 @@
         android:layout_height="0dp"
         android:elevation="8dp"
         app:srcCompat="@drawable/ic_more_vert_white_24dp"
-        android:background="?attr/colorPrimary"
+        android:background="?attr/colorSurface"
+        android:tint="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/bottom_nav_view"
@@ -47,7 +48,7 @@
         />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
+        style="@style/Widget.MaterialComponents.BottomNavigationView"
         android:id="@+id/bottom_nav_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

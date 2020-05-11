@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title="@string/about"
-        app:titleTextColor="?attr/colorOnPrimary" />
+        app:titleTextColor="@color/cream" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"

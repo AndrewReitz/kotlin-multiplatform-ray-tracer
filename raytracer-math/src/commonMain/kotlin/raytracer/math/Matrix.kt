@@ -3,6 +3,8 @@
 package raytracer.math
 
 import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.sin
 
 data class Matrix(
   val data: List<List<Float>>
@@ -75,12 +77,17 @@ data class Matrix(
 
     var newMatrixIndex = 0
 
-    data.forEachIndexed m@{ m, row ->
-      if (m == mToDrop) return@m
+
+    for((m, row) in data.withIndex()) {
+      if (m == mToDrop){
+        continue
+      }
       newMatrix.add(mutableListOf())
-      row.forEachIndexed n@{ n, data ->
-        if (n == nToDrop) return@n
-        newMatrix[newMatrixIndex].add(data)
+      for((n, d) in row.withIndex()) {
+        if (n == nToDrop) {
+          continue
+        }
+        newMatrix[newMatrixIndex].add(d)
       }
       newMatrixIndex++
     }
@@ -136,16 +143,53 @@ data class Matrix(
     }
 
     fun translation(x: Number, y: Number, z: Number) = Matrix {
-      row(1, 0, 0, x.toFloat())
-      row(0, 1, 0, y.toFloat())
-      row(0, 0, 1, z.toFloat())
+      row(1, 0, 0, x)
+      row(0, 1, 0, y)
+      row(0, 0, 1, z)
       row(0, 0, 0, 1)
     }
 
     fun scaling(x: Number, y: Number, z: Number) = Matrix {
-      row(x.toFloat(), 0, 0, 0)
-      row(0, y.toFloat(), 0, 0)
-      row(0, 0, z.toFloat(), 0)
+      row(x, 0, 0, 0)
+      row(0, y, 0, 0)
+      row(0, 0, z, 0)
+      row(0, 0, 0, 1)
+    }
+
+    fun rotationX(radians: Number): Matrix {
+      val r = radians.toFloat()
+      return Matrix {
+        row(1, 0, 0, 0)
+        row(0, cos(r), -sin(r), 0)
+        row(0, sin(r), cos(r), 0)
+        row(0, 0, 0, 1)
+      }
+    }
+
+    fun rotationY(radians: Number): Matrix {
+      val r = radians.toFloat()
+      return Matrix {
+        row(cos(r), 0, sin(r), 0)
+        row(0, 1, 0, 0)
+        row(-sin(r), 0, cos(r), 0)
+        row(0, 0, 0, 1)
+      }
+    }
+
+    fun rotationZ(radians: Number): Matrix {
+      val r = radians.toFloat()
+      return Matrix {
+        row(cos(r), -sin(r), 0, 0)
+        row(sin(r), cos(r), 0, 0)
+        row(0, 0, 1, 0)
+        row(0, 0, 0, 1)
+      }
+    }
+
+    fun shearing(xToY: Number, xtoZ: Number, yToX: Number, yToZ: Number, zToX: Number, zToY: Number) = Matrix {
+      row(1, xToY, xtoZ, 0)
+      row(yToX, 1, yToZ, 0)
+      row(zToX, zToY, 1, 0)
       row(0, 0, 0, 1)
     }
   }

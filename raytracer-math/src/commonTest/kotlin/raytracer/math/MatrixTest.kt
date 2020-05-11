@@ -1,11 +1,14 @@
+@file:Suppress("LocalVariableName")
+
 package raytracer.math
 
 import raytracer.math.Matrix.Companion.IDENTITY
 import kotlin.js.JsName
+import kotlin.math.PI
+import kotlin.math.sqrt
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
-import kotlin.test.assertTrue
 
 class MatrixTest {
   @JsName("Constructing_and_inspecting_a_4x4_matrix")
@@ -465,8 +468,90 @@ class MatrixTest {
     assertEquals(actual = transform * p, expected = Point(-2, 3, 4))
   }
 
-  /** For fuzzy assertions around floating points */
-  private fun assertMatrixEquals(actual: Matrix, expected: Matrix) {
-    assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
+  @JsName("Rotating_a_point_around_the_x_axis")
+  @Test
+  fun `Rotating a point around the x axis`() {
+    val p = Point(0, 1, 0)
+    val halfQuarter = Matrix.rotationX(PI / 4.0)
+    val fullQuarter = Matrix.rotationX(PI / 2.0)
+    assertTupleEquals(actual = halfQuarter * p, expected = Point(0, sqrt(2f) / 2f, sqrt(2f) / 2))
+    assertTupleEquals(actual = fullQuarter * p, expected = Point(0, 0, 1))
+  }
+
+  @JsName("The_inverse_of_an_x_rotation_rotates_in_the_opposite_direction")
+  @Test
+  fun `The inverse of an x-rotation rotates in the opposite direction`() {
+    val p = Point(0, 1, 0)
+    val halfQuarter = Matrix.rotationX(PI / 4.0)
+    val inv = halfQuarter.inverse()
+    assertTupleEquals(actual = inv * p, expected = Point(0, sqrt(2f) / 2f, -sqrt(2f) / 2f))
+  }
+
+  @JsName("Rotating_a_point_around_the_y_axis")
+  @Test
+  fun `Rotating a point around the y axis`() {
+    val p = Point(0, 0, 1)
+    val halfQuarter = Matrix.rotationY(PI / 4.0)
+    val fullQuarter = Matrix.rotationY(PI / 2.0)
+    assertTupleEquals(actual = halfQuarter * p, expected = Point(sqrt(2f) / 2f, 0, sqrt(2f) / 2f))
+    assertTupleEquals(actual = fullQuarter * p, expected = Point(1, 0, 0))
+  }
+
+  @JsName("Rotating_a_point_around_the_z_axis")
+  @Test
+  fun `Rotating a point around the z axis`() {
+    val p = Point(0, 1, 0)
+    val halfQuarter = Matrix.rotationZ(PI / 4.0)
+    val fullQuarter = Matrix.rotationZ(PI / 2.0)
+    assertTupleEquals(actual = halfQuarter * p, expected = Point(-sqrt(2f) / 2, sqrt(2f) / 2, 0))
+    assertTupleEquals(actual = fullQuarter * p, expected = Point(-1, 0, 0))
+  }
+
+  @JsName("A_shearing_transformation_moves_x_in_proportion_to_y")
+  @Test
+  fun `A shearing transformation moves x in proportion to y`() {
+    val transform = Matrix.shearing(1, 0, 0, 0, 0, 0)
+    val p = Point(2, 3, 4)
+    assertTupleEquals(actual = transform * p, expected = Point(5, 3, 4))
+  }
+
+  @JsName("A_shearing_transformation_moves_x_in_proportion_to_z")
+  @Test
+  fun `A shearing transformation moves x in proportion to z`() {
+    val transform = Matrix.shearing(0, 1, 0, 0, 0, 0)
+    val p = Point(2, 3, 4)
+    assertTupleEquals(actual = transform * p, expected = Point(6, 3, 4))
+  }
+
+  @JsName("A_shearing_transformation_moves_y_in_proportion_to_x")
+  @Test
+  fun `A shearing transformation moves y in proportion to x`() {
+    val transform = Matrix.shearing(0, 0, 1, 0, 0, 0)
+    val p = Point(2, 3, 4)
+    assertTupleEquals(actual = transform * p, expected = Point(2, 5, 4))
+  }
+
+  @JsName("A_shearing_transformation_moves_y_in_proportion_to_z")
+  @Test
+  fun `A shearing transformation moves y in proportion to z`() {
+    val transform = Matrix.shearing(0, 0, 0, 1, 0, 0)
+    val p = Point(2, 3, 4)
+    assertTupleEquals(actual = transform * p, expected = Point(2, 7, 4))
+  }
+
+  @JsName("A_shearing_transformation_moves_z_in_proportion_to_x")
+  @Test
+  fun `A shearing transformation moves z in proportion to x`() {
+    val transform = Matrix.shearing(0, 0, 0, 0, 1, 0)
+    val p = Point(2, 3, 4)
+    assertTupleEquals(actual = transform * p, expected = Point(2, 3, 6))
+  }
+
+  @JsName("A_shearing_transformation_moves_z_in_proportion_to_y")
+  @Test
+  fun `A shearing transformation moves z in proportion to y`() {
+    val transform = Matrix.shearing(0, 0, 0, 0, 0, 1)
+    val p = Point(2, 3, 4)
+    assertTupleEquals(actual = transform * p, expected = Point(2, 3, 7))
   }
 }

@@ -210,9 +210,4 @@ class TupleTest {
     assertEquals(actual = a cross b, expected = Vector(-1, 2, -1))
     assertEquals(actual = b cross a, expected = Vector(1, -2, 1))
   }
-
-  /** For fuzzy assertions around floating points */
-  private fun assertTupleEquals(actual: Tuple, expected: Tuple) {
-    assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
-  }
 }

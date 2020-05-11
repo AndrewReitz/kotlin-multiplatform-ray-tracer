@@ -1,9 +1,11 @@
 package raytracer.core
 
+import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class CanvasTest {
+  @JsName("Creating_a_canvas")
   @Test
   fun `Creating a canvas`() {
     val c = Canvas(10, 20)
@@ -17,6 +19,7 @@ class CanvasTest {
     }
   }
 
+  @JsName("Writing_pixels_to_canvas")
   @Test fun `Writing pixels to canvas`()  {
     val c = Canvas(10, 20)
     val red = Color(1, 0, 0)
@@ -25,6 +28,7 @@ class CanvasTest {
     assertEquals(actual = c[2, 3], expected = red)
   }
 
+  @JsName("Constructing_the_PPM_header")
   @Test fun `Constructing the PPM header`() {
     val c = Canvas(5, 3)
     val ppm = c.toPpm()
@@ -37,6 +41,7 @@ class CanvasTest {
     """.trimIndent())
   }
 
+  @JsName("Constructing_the_PPM_pixel_data")
   @Test fun `Constructing the PPM pixel data`() {
     val canvas = Canvas(5, 3)
     canvas[0, 0] = Color(1.5, 0, 0)
@@ -52,6 +57,7 @@ class CanvasTest {
     """.trimIndent())
   }
 
+  @JsName("Splitting_long_lines_in_PPM_files")
   @Test fun `Splitting long lines in PPM files`() {
     val c = Canvas(10, 2)
     (1..c.width).forEach { x ->
@@ -70,6 +76,7 @@ class CanvasTest {
     """.trimIndent())
   }
 
+  @JsName("PPM_files_are_terminated_by_a_newline_character")
   @Test fun `PPM files are terminated by a newline character`() {
     val c = Canvas(5, 3)
     val ppm = c.toPpm()

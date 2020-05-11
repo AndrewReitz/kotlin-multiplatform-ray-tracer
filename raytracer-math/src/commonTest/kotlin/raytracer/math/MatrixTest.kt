@@ -1,12 +1,14 @@
 package raytracer.math
 
 import raytracer.math.Matrix.Companion.IDENTITY
+import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 class MatrixTest {
+  @JsName("Constructing_and_inspecting_a_4x4_matrix")
   @Test
   fun `Constructing and inspecting a 4x4 matrix`() {
     val m = Matrix {
@@ -25,6 +27,7 @@ class MatrixTest {
     assertEquals(actual = m[3, 2], expected = 15.5f)
   }
 
+  @JsName("A_2x2_matrix_ought_to_be_representable")
   @Test
   fun `A 2x2 matrix ought to be representable`() {
     val m = Matrix {
@@ -38,6 +41,7 @@ class MatrixTest {
     assertEquals(actual = m[1, 1], expected = -2f)
   }
 
+  @JsName("Matrix_equality_with_identical_matrices")
   @Test
   fun `Matrix equality with identical matrices`() {
     val a = Matrix {
@@ -57,6 +61,7 @@ class MatrixTest {
     assertEquals(a, b)
   }
 
+  @JsName("Matrix_equality_with_different_matrices")
   @Test
   fun `Matrix equality with different matrices`() {
     val a = Matrix {
@@ -76,6 +81,7 @@ class MatrixTest {
     assertNotEquals(a, b)
   }
 
+  @JsName("Multiplying_two_matrices")
   @Test
   fun `Multiplying two matrices`() {
     val a = Matrix {
@@ -102,6 +108,7 @@ class MatrixTest {
     })
   }
 
+  @JsName("A_matrix_multiplied_by_a_tuple")
   @Test
   fun `A matrix multiplied by a tuple`() {
     val A = Matrix {
@@ -117,6 +124,7 @@ class MatrixTest {
     assertEquals(actual = result, expected = Tuple(18, 24, 33, 1))
   }
 
+  @JsName("Multiplying_a_matrix_by_the_identity_matrix")
   @Test
   fun `Multiplying a matrix by the identity matrix`() {
     val A = Matrix {
@@ -129,6 +137,7 @@ class MatrixTest {
     assertEquals(actual = A * IDENTITY, expected = A)
   }
 
+  @JsName("Transposing_a_matrix")
   @Test
   fun `Transposing a matrix`() {
     val A = Matrix {
@@ -148,11 +157,13 @@ class MatrixTest {
     assertEquals(actual = A.transpose(), expected = expected)
   }
 
+  @JsName("Transposing_the_identity_matrix")
   @Test
   fun `Transposing the identity matrix`() {
     assertEquals(actual = IDENTITY.transpose(), expected = IDENTITY)
   }
 
+  @JsName("Calculating_the_determinant_of_a_2x2_matrix")
   @Test
   fun `Calculating the determinant of a 2x2 matrix`() {
     val A = Matrix {
@@ -163,6 +174,7 @@ class MatrixTest {
     assertEquals(actual = A.determinant, expected = 17f)
   }
 
+  @JsName("A_submatrix_of_a_3x3_matrix_is_a_2x2_matrix")
   @Test
   fun `A submatrix of a 3x3 matrix is a 2x2 matrix`() {
     val A = Matrix {
@@ -177,6 +189,7 @@ class MatrixTest {
     })
   }
 
+  @JsName("A_submatrix_of_a_4x4_matrix_is_a_3x3_matrix")
   @Test
   fun `A submatrix of a 4x4 matrix is a 3x3 matrix`() {
     val A = Matrix {
@@ -193,6 +206,7 @@ class MatrixTest {
     })
   }
 
+  @JsName("Calculating_a_minor_of_a_3x3_matrix")
   @Test
   fun `Calculating a minor of a 3x3 matrix`() {
     val A = Matrix {
@@ -207,6 +221,7 @@ class MatrixTest {
     assertEquals(actual = A.minor(1, 0), expected = detB)
   }
 
+  @JsName("Calculating_a_cofactor_of_a_3x3_matrix")
   @Test
   fun `Calculating a cofactor of a 3x3 matrix`() {
     val A = Matrix {
@@ -221,6 +236,7 @@ class MatrixTest {
     assertEquals(actual = A.cofactor(1, 0), expected = -25f)
   }
 
+  @JsName("Calculating_the_determinant_of_a_3x3_matrix")
   @Test
   fun `Calculating the determinant of a 3x3 matrix`() {
     val A = Matrix {
@@ -235,6 +251,7 @@ class MatrixTest {
     assertEquals(actual = A.determinant, expected = -196f)
   }
 
+  @JsName("Calculating_the_determinant_of_a_4x4_matrix")
   @Test
   fun `Calculating the determinant of a 4x4 matrix`() {
     val A = Matrix {
@@ -251,6 +268,7 @@ class MatrixTest {
     assertEquals(actual = A.determinant, expected = -4071f)
   }
 
+  @JsName("Testing_an_invertible_matrix_for_invertibility")
   @Test
   fun `Testing an invertible matrix for invertibility`() {
     val A = Matrix {
@@ -264,6 +282,7 @@ class MatrixTest {
     assertEquals(actual = A.isInvertible, expected = true)
   }
 
+  @JsName("Testing_a_non_invertible_matrix_for_invertibility")
   @Test
   fun `Testing a non-invertible matrix for invertibility`() {
     val A = Matrix {
@@ -277,6 +296,7 @@ class MatrixTest {
     assertEquals(A.isInvertible, false)
   }
 
+  @JsName("Calculating_the_inverse_of_a_matrix")
   @Test
   fun `Calculating the inverse of a matrix`() {
     val A = Matrix {
@@ -319,9 +339,10 @@ class MatrixTest {
       row(-0.52256, -0.81391, -0.30075, 0.30639)
     }
 
-    assertTrue("Expected <$expected>, actual <$B>.") { B.fuzzyEquals(expected) }
+    assertMatrixEquals(actual = B, expected = expected)
   }
 
+  @JsName("Calculating_the_inverse_of_another_matrix")
   @Test
   fun `Calculating the inverse of another matrix`() {
     val A = Matrix {
@@ -343,6 +364,7 @@ class MatrixTest {
     assertMatrixEquals(actual = B, expected = expected)
   }
 
+  @JsName("Calculating_the_inverse_of_a_third_matrix")
   @Test
   fun `Calculating the inverse of a third matrix`() {
     val A = Matrix {
@@ -364,6 +386,7 @@ class MatrixTest {
     assertMatrixEquals(actual = B, expected = expected)
   }
 
+  @JsName("Multiplying_a_product_by_its_inverse")
   @Test
   fun `Multiplying a product by its inverse`() {
     val A = Matrix {
@@ -384,6 +407,7 @@ class MatrixTest {
     assertMatrixEquals(actual = C * B.inverse(), expected = A)
   }
 
+  @JsName("Multiplying_by_a_translation_matrix")
   @Test
   fun `Multiplying by a translation matrix`() {
     val transform = Matrix.translation(5, -3, 2)
@@ -391,6 +415,7 @@ class MatrixTest {
     assertEquals(actual = transform * p, expected = Point(2, 1, 7))
   }
 
+  @JsName("Multiplying_by_the_inverse_of_a_translation_matrix")
   @Test
   fun `Multiplying by the inverse of a translation matrix`() {
     val transform = Matrix.translation(5, -3, 2)
@@ -399,6 +424,7 @@ class MatrixTest {
     assertEquals(actual = inv * p, expected = Point(-8, 7, 3))
   }
 
+  @JsName("Translation_does_not_affect_vectors")
   @Test
   fun `Translation does not affect vectors`() {
     val transform = Matrix.translation(5, -3, 2)
@@ -406,6 +432,7 @@ class MatrixTest {
     assertEquals(actual = transform * v, expected = v)
   }
 
+  @JsName("A_scaling_matrix_applied_to_a_point")
   @Test
   fun `A scaling matrix applied to a point`() {
     val transform = Matrix.scaling(2, 3, 4)
@@ -413,6 +440,7 @@ class MatrixTest {
     assertEquals(actual = transform * p, expected = Point(-8, 18, 32))
   }
 
+  @JsName("A_scaling_matrix_applied_to_a_vector")
   @Test
   fun `A scaling matrix applied to a vector`() {
     val transform = Matrix.scaling(2, 3, 4)
@@ -420,6 +448,7 @@ class MatrixTest {
     assertEquals(actual = transform * v, expected = Vector(-8, 18, 32))
   }
 
+  @JsName("Multiplying_by_the_inverse_of_a_scaling_matrix")
   @Test
   fun `Multiplying by the inverse of a scaling matrix`() {
     val transform = Matrix.scaling(2, 3, 4)
@@ -428,6 +457,7 @@ class MatrixTest {
     assertEquals(actual = inv * v, expected = Vector(-2, 2, 2))
   }
 
+  @JsName("Reflection_is_scaling_by_a_negative_value")
   @Test
   fun `Reflection is scaling by a negative value`() {
     val transform = Matrix.scaling(-1, 1, 1)

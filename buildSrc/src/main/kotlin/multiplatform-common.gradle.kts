@@ -6,7 +6,7 @@ plugins {
 
 kotlin {
   jvm()
-  js()
+  js { nodejs() }
   linuxX64()
   macosX64()
 

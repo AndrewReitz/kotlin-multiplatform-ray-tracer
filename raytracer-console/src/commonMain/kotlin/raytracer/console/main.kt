@@ -5,7 +5,6 @@ import raytracer.core.Color
 import raytracer.math.Point
 import raytracer.math.Tuple
 import raytracer.math.Vector
-import java.io.File
 import kotlin.math.roundToInt
 
 fun main() {
@@ -29,7 +28,7 @@ fun main() {
     c[p.position.x.roundToInt(), c.height - p.position.y.roundToInt()] = color
   }
 
-  File("image.ppm").writeText(c.toPpm())
+  writeToFile(c.toPpm(), "image.ppm")
 }
 
 fun tick(proj: Projectile, env: Environment): Projectile {

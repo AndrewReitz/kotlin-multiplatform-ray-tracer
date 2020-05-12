@@ -554,4 +554,36 @@ class MatrixTest {
     val p = Point(2, 3, 4)
     assertTupleEquals(actual = transform * p, expected = Point(2, 3, 7))
   }
+
+  @JsName("Individual_transformations_are_applied_in_sequence")
+  @Test
+  fun `Individual transformations are applied in sequence`() {
+    val p = Point(1, 0, 1)
+    val A = Matrix.rotationX(PI / 2)
+    val B = Matrix.scaling(5, 5, 5)
+    val C = Matrix.translation(10, 5, 7)
+
+    // apply rotation first​
+    val p2 = A * p
+    assertTupleEquals(actual = p2, expected = Point(1, -1, 0))
+
+    // then apply scaling​
+    val p3 = B * p2
+    assertTupleEquals(actual = p3, expected = Point(5, -5, 0))
+
+    // then apply translaction
+    val p4 = C * p3
+    assertTupleEquals(actual = p4, expected = Point(15, 0, 7))
+  }
+
+  @JsName("Chained_transformations_must_be_applied_in_reverse_order")
+  @Test
+  fun `Chained transformations must be applied in reverse order`() {
+    val p = Point(1, 0, 1)
+    val A = Matrix.rotationX(PI / 2)
+    val B = Matrix.scaling(5, 5, 5)
+    val C = Matrix.translation(10, 5, 7)
+    val T = C * B * A
+    assertTupleEquals(actual = T * p, expected = Point(15, 0, 7))
+  }
 }

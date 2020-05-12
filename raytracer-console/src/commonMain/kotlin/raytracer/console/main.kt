@@ -2,48 +2,29 @@ package raytracer.console
 
 import raytracer.core.Canvas
 import raytracer.core.Color
+import raytracer.math.Matrix
 import raytracer.math.Point
-import raytracer.math.Tuple
-import raytracer.math.Vector
+import kotlin.math.PI
 import kotlin.math.roundToInt
 
 fun main() {
-  var p = Projectile(
-    position = Point(0, 1, 0),
-    velocity = Vector(1, 1.8, 0).normalize() * 11.25
-  )
+  val color = Color(1, 1, 1)
+  val c = Canvas(500, 500)
+  val canvasCenter = Point(250, 250, 0)
+  val clockRadius = (250 * 0.75).roundToInt()
+  val centerPoint = Point(0, 0, 0)
 
-  val e = Environment(
-    wind = Vector(0, -0.1, 0),
-    gravity = Vector(-0.01, 0, 0)
-  )
+  val translation = Matrix.translation(0, 1, 0)
+  val rotation = Matrix.rotationZ(PI / 6)
+  var p = translation * centerPoint
 
-  val color = Color(1, 0, 0)
-  val c = Canvas(900, 550)
+  for(i in 0 until 12) {
+    p = rotation * p
+    val x = p.x * clockRadius + canvasCenter.x
+    val y = p.y * clockRadius + canvasCenter.y
 
-  var count = 0;
-  while (p.position.y >= 0) {
-    p = tick(p, e)
-    println("tick = ${++count} postion = $p")
-    c[p.position.x.roundToInt(), c.height - p.position.y.roundToInt()] = color
+    c[x.roundToInt(), y.roundToInt()] = color
   }
 
   writeToFile(c.toPpm(), "image.ppm")
 }
-
-fun tick(proj: Projectile, env: Environment): Projectile {
-  val position = proj.position + proj.velocity
-  val velocity = proj.velocity + env.gravity + env.wind
-
-  return Projectile(position, velocity)
-}
-
-data class Environment(
-  val wind: Tuple,
-  val gravity: Tuple
-)
-
-data class Projectile(
-  val position: Tuple,
-  val velocity: Tuple
-)

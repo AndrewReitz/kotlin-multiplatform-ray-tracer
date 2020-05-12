@@ -8,6 +8,8 @@ dependencies {
 
   implementation(kotlin("stdlib-js"))
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${versions.coroutines}")
+
+  implementation(npm("twitter"))
 }
 
 kotlin {
@@ -18,10 +20,10 @@ kotlin {
 }
 
 gcp {
-  targets += trails.gradle.GcpTarget(
+  targets += listOf(trails.gradle.GcpTarget(
     name = "morcTrails",
     trigger = "http",
     runtime = "nodejs10",
     flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
-  )
+  ))
 }

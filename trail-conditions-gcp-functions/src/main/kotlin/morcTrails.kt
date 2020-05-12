@@ -18,13 +18,13 @@ val morcTrails = { _: dynamic, res: dynamic ->
   morcTrailsIncomplete(res)
 }
 
-fun morcTrailsIncomplete(res: dynamic) {
+private fun morcTrailsIncomplete(res: dynamic) {
   res.setHeader("Cache-Control", "max-age=3600")
   res.status(501)
   res.send("Not implemented yet")
 }
 
-fun morcTrailsComplete(res: dynamic) {
+private fun morcTrailsComplete(res: dynamic) {
   GlobalScope.promise {
     when(val result = repository.getTrails()) {
       is Success -> {

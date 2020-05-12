@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.util.TypedValue
 import androidx.annotation.StringRes
 import cash.andrew.mntrailconditions.R
-import cash.andrew.mntrailconditions.databinding.ActivityMarkdownBinding
+import cash.andrew.mntrailconditions.databinding.MarkdownActivityBinding
 import cash.andrew.mntrailconditions.util.ComponentContainer
 import cash.andrew.mntrailconditions.util.makeComponent
 import io.noties.markwon.Markwon
@@ -22,7 +22,7 @@ class MarkdownActivity : AppCompatActivity(), ComponentContainer<ActivityCompone
 
     override val component by lazy { makeComponent() }
 
-    private lateinit var binding: ActivityMarkdownBinding
+    private lateinit var binding: MarkdownActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,10 +32,13 @@ class MarkdownActivity : AppCompatActivity(), ComponentContainer<ActivityCompone
         val markDownFile = requireNotNull(intent.getStringExtra(MARKDOWN_FILE_KEY))
         val title = getString(intent.getIntExtra(TITLE_RES_KEY, 0))
 
-        binding = ActivityMarkdownBinding.inflate(layoutInflater)
+        binding = MarkdownActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.colorOnPrimarySurface, typedValue, true)
         val arrow = resources.getDrawable(R.drawable.ic_arrow_back_white_24dp, theme)
+        arrow.setTint(typedValue.data)
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

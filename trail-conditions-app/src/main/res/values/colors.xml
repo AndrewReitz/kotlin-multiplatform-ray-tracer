@@ -5,4 +5,7 @@
     <color name="blue_dark">#004ba0</color>
     <color name="white">#ffffff</color>
     <color name="grey">#2D2D2D</color>
+    <color name="turquoise_primary">#00bcd4</color>
+    <color name="turquoise_light">#62efff</color>
+    <color name="turquoise_dark">#008ba3</color>
 </resources>

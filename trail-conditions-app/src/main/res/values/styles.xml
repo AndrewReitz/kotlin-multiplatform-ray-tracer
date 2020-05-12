@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/blue_primary</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorPrimaryVariant">@color/blue_light</item>
+        <item name="colorSecondary">@color/turquoise_primary</item>
+        <item name="colorSecondaryVariant">@color/turquoise_light</item>
 
         <item name="android:statusBarColor" tools:ignore="NewApi">@color/blue_dark</item>
         <item name="android:navigationBarColor">@color/blue_dark</item>

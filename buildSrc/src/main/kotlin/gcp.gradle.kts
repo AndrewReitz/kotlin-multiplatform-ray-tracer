@@ -34,7 +34,7 @@ afterEvaluate {
       description = "Deploys $target to GCP Functions"
       dependsOn(setupTask)
       workingDir("${rootProject.buildDir}/js")
-      commandLine(*target.toArgumentList())
+      commandLine(target.toArgumentList())
     }
   }
 }

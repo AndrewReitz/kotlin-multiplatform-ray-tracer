@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailListItemViewBinding
+import cash.andrew.mntrailconditions.util.statusToColor
 import cash.andrew.mntrailconditions.util.statusToResource
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
@@ -56,6 +57,7 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
 
             title.text = name
             conditionsText.text = status
+            conditionsText.setTextColor(statusToColor(context, status))
             detailsText.text = description
             lastUpdatedText.text = lastUpdated
             conditionsImage.setImageDrawable(context.getDrawable(statusToResource(status)))

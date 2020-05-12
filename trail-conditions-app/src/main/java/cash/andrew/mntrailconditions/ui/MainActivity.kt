@@ -1,6 +1,8 @@
 package cash.andrew.mntrailconditions.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -28,6 +30,16 @@ class MainActivity : AppCompatActivity(), ComponentContainer<ActivityComponent> 
 
         component.inject(this)
         deviceWakeUp.riseAndShine()
+
+        val backgroundColor = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> resources.getColor(R.color.grey, theme)
+            else -> {
+                val typedValue = TypedValue()
+                theme.resolveAttribute(R.attr.colorSurface, typedValue, true)
+                typedValue.data
+            }
+        }
+        binding.overflowMenuButton.setBackgroundColor(backgroundColor)
 
         val navHostFragment = supportFragmentManager
                 .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

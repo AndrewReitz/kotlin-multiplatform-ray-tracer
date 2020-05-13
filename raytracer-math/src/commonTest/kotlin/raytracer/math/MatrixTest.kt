@@ -3,6 +3,8 @@
 package raytracer.math
 
 import raytracer.math.Matrix.Companion.IDENTITY
+import raytracer.test.assertMatrixEquals
+import raytracer.test.assertTupleEquals
 import kotlin.js.JsName
 import kotlin.math.PI
 import kotlin.math.sqrt

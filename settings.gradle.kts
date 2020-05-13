@@ -1,6 +1,7 @@
 include(
   "raytracer-core",
   "raytracer-math",
+  "raytracer-math-test",
   "raytracer-console-jvm",
   "raytracer-console"
 )

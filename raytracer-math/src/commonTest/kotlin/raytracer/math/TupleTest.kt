@@ -1,5 +1,6 @@
 package raytracer.math
 
+import raytracer.test.assertTupleEquals
 import kotlin.js.JsName
 import kotlin.math.sqrt
 import kotlin.test.Test

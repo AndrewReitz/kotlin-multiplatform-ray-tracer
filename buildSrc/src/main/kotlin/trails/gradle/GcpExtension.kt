@@ -6,7 +6,7 @@ data class GcpTarget(
     val runtime: String = "nodejs8",
     val flags: List<String> = emptyList()
 ) {
-    fun toArgumentList(): Array<String> {
+    fun toArgumentList(): List<String> {
         val args = mutableListOf(
             "gcloud", "functions", "deploy", name, "--runtime", runtime, "--trigger-${trigger}"
         )
@@ -14,7 +14,7 @@ data class GcpTarget(
             args += it
         }
 
-        return args.toTypedArray()
+        return args
     }
 }
 

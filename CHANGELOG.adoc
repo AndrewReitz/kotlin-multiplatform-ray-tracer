@@ -4,6 +4,7 @@
 
 - setup for next api, app pointed at gcp function that will become live when new api is out.
 - Added overflow menu with "about" and "why are trails closed" items.
+- Changed color theme to better support dark mode.
 
 == 一
 

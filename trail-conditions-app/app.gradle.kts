@@ -65,7 +65,7 @@ android {
 
         val buildNumber: String by project
         versionCode = buildNumber.toInt()
-        versionName = "一"
+        versionName = "二"
     }
 
     buildTypes {

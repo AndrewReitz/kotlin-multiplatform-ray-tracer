@@ -12,7 +12,7 @@ data class Ray(
 ) {
   inline fun position(time: Number): Tuple = origin + direction * time.toFloat()
 
-  inline fun intersects(sphere: Sphere): List<Float> {
+  inline fun intersects(sphere: Sphere): Intersections {
     val sphereToRay = origin - sphere.center
 
     val a = direction dot direction
@@ -21,11 +21,11 @@ data class Ray(
 
     val discriminant = b.pow(2) - 4f * a * c
 
-    if (discriminant < 0f) return emptyList()
+    if (discriminant < 0f) return Intersections.EMPTY
 
     val t1 = (-b - sqrt(discriminant)) / (2f * a)
     val t2 = (-b + sqrt(discriminant)) / (2f * a)
 
-    return listOf(t1, t2)
+    return Intersections(Intersection(t1, sphere), Intersection(t2, sphere))
   }
 }

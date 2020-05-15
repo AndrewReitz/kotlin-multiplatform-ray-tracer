@@ -36,8 +36,8 @@ class RayTest {
     val s = Sphere()
     val xs = r.intersects(s)
     assertEquals(actual = xs.size, expected = 2)
-    assertEquals(actual = xs[0], expected = 4f)
-    assertEquals(actual = xs[1], expected = 6f)
+    assertEquals(actual = xs[0].time, expected = 4f)
+    assertEquals(actual = xs[1].time, expected = 6f)
   }
 
   @JsName("A_ray_intersects_a_sphere_at_a_tangent")
@@ -47,8 +47,8 @@ class RayTest {
     val s = Sphere()
     val xs = r.intersects(s)
     assertEquals(actual = xs.size, expected = 2)
-    assertEquals(actual = xs[0], expected = 5f)
-    assertEquals(actual = xs[1], expected = 5f)
+    assertEquals(actual = xs[0].time, expected = 5f)
+    assertEquals(actual = xs[1].time, expected = 5f)
   }
 
   @JsName("A_ray_misses_a_sphere")
@@ -67,8 +67,8 @@ class RayTest {
     val s = Sphere()
     val xs = r.intersects(s)
     assertEquals(actual = xs.size, expected = 2)
-    assertEquals(actual = xs[0], expected = -1f)
-    assertEquals(actual = xs[1], expected = 1f)
+    assertEquals(actual = xs[0].time, expected = -1f)
+    assertEquals(actual = xs[1].time, expected = 1f)
   }
 
   @JsName("A_sphere_is_behind_a_ray")
@@ -78,7 +78,18 @@ class RayTest {
     val s = Sphere()
     val xs = r.intersects(s)
     assertEquals(actual = xs.size, expected = 2)
-    assertEquals(actual = xs[0], expected = -6f)
-    assertEquals(actual = xs[1], expected = -4f)
+    assertEquals(actual = xs[0].time, expected = -6f)
+    assertEquals(actual = xs[1].time, expected = -4f)
+  }
+
+  @JsName("Intersect_sets_the_object_on_the_intersection")
+  @Test
+  fun `Intersect sets the object on the intersection`() {
+    val r = Ray(origin = Point(0, 0, -5), direction = Vector(0, 0, 1))
+    val s = Sphere()
+    val xs = r.intersects(s)
+    assertEquals(actual = xs.size, expected = 2)
+    assertEquals(actual = xs[0].obj, expected = s)
+    assertEquals(actual = xs[1].obj, expected = s)
   }
 }

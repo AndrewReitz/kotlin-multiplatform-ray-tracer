@@ -11,10 +11,15 @@ import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.data.preference.stringSetPreference
 import com.jakewharton.byteunits.DecimalByteUnit.MEGABYTES
 import com.readystatesoftware.chuck.ChuckInterceptor
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
+import dagger.multibindings.ElementsIntoSet
+import dagger.multibindings.IntoSet
 import okhttp3.Cache
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import java.io.File
 import javax.inject.Qualifier
@@ -29,41 +34,55 @@ object DataModule {
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     fun provideSharedPreferences(app: Application): SharedPreferences =
-            app.getSharedPreferences(SHARED_PREF_FILE_NAME, MODE_PRIVATE)
+        app.getSharedPreferences(SHARED_PREF_FILE_NAME, MODE_PRIVATE)
+
+    @JvmStatic
+    @Provides
+    @Reusable
+    fun provideMoshi(factories: Set<@JvmSuppressWildcards JsonAdapter.Factory>): Moshi = Moshi.Builder()
+        .add(InstantJsonAdapter())
+        .add(LocalDateTimeJsonAdapter())
+        .apply { factories.forEach { add(it) } }
+        .build()
+
+    @JvmStatic
+    @Provides
+    @Reusable
+    fun provideJsonAdapterFactorySet(): Set<@JvmSuppressWildcards JsonAdapter.Factory> = mutableSetOf()
 
     @JvmStatic
     @Provides
     @Singleton
-    fun provideMoshiBuilder(): Moshi.Builder = Moshi.Builder()
-                .add(InstantJsonAdapter())
-                .add(LocalDateTimeJsonAdapter())
+    fun provideOkHttpClient(app: Application, interceptors: Set<@JvmSuppressWildcards Interceptor>): OkHttpClient =
+        OkHttpClient.Builder()
+            .cache(Cache(File(app.cacheDir, "http"), DISK_CACHE_SIZE.toLong()))
+            .apply { interceptors.forEach { addInterceptor(it) } }
+            .build()
 
     @JvmStatic
     @Provides
-    @Singleton
-    fun provideOkHttpClient(app: Application): OkHttpClient = createOkHttpClient(app).build()
+    @Reusable
+    @ElementsIntoSet
+    fun provideMainInterceptors(app: Application): Set<@JvmSuppressWildcards Interceptor> = setOf(
+        UserAgentInterceptor(),
+        ChuckInterceptor(app).showNotification(true)
+    )
 
     @JvmStatic
     @SavedTrails
     @Provides
-    @Singleton
+    @Reusable
     fun provideTrailFavorites(prefs: SharedPreferences): Preference<Set<String>> =
-            prefs.stringSetPreference( "trail-favorites")
+        prefs.stringSetPreference("trail-favorites")
 
     @JvmStatic
     @Provides
     @NotificationTrails
-    @Singleton
+    @Reusable
     fun provideNotificationList(prefs: SharedPreferences): Preference<Set<String>> =
-            prefs.stringSetPreference( "trail-notifications")
-
-    private fun createOkHttpClient(app: Application): OkHttpClient.Builder =
-            OkHttpClient.Builder()
-                .cache(Cache(File(app.cacheDir, "http"), DISK_CACHE_SIZE.toLong()))
-                .addInterceptor(UserAgentInterceptor())
-                .addInterceptor(ChuckInterceptor(app).showNotification(false))
+        prefs.stringSetPreference("trail-notifications")
 }
 
 @Qualifier annotation class SavedTrails

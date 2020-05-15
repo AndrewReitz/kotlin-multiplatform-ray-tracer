@@ -8,15 +8,13 @@ import cash.andrew.mntrailconditions.data.preference.Preference
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
+import dagger.multibindings.IntoSet
 import io.ktor.client.HttpClient
-import io.ktor.client.features.logging.ANDROID
-import io.ktor.client.features.logging.LogLevel
-import io.ktor.client.features.logging.Logger
-import io.ktor.client.features.logging.Logging
-import io.ktor.util.KtorExperimentalAPI
+import io.ktor.client.engine.okhttp.OkHttp
 import javax.inject.Singleton
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
@@ -25,15 +23,16 @@ import trail.networking.MorcTrailRepository
 @Module
 object DebugApiModule {
 
-  @KtorExperimentalAPI
   @JvmStatic
   @Provides
   @Singleton
-  fun provideMorcTrailsRepository(@ApiEndpoint apiEndpoint: Preference<String>): MorcTrailRepository {
-    val client = HttpClient {
-      install(Logging) {
-        logger = Logger.ANDROID
-        level = LogLevel.ALL
+  fun provideMorcTrailsRepository(
+    okHttpClient: OkHttpClient,
+    @ApiEndpoint apiEndpoint: Preference<String>
+  ): MorcTrailRepository {
+    val client = HttpClient(OkHttp) {
+      engine {
+        preconfigured = okHttpClient
       }
     }
 
@@ -51,8 +50,8 @@ object DebugApiModule {
 
   @JvmStatic
   @Provides
-  @Singleton
-  fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+  @IntoSet
+  fun provideLoggingInterceptor(): Interceptor {
     val logger = object : HttpLoggingInterceptor.Logger {
       override fun log(message: String) {
         Timber.tag("OkHttp").v(message)
@@ -65,13 +64,6 @@ object DebugApiModule {
 
   @JvmStatic
   @Provides
-  @Singleton
-  @ApiClient
-  fun provideApiClient(
-    client: OkHttpClient,
-    loggingInterceptor: HttpLoggingInterceptor
-  ): OkHttpClient = ApiModule.createApiClient(client)
-    .addInterceptor(loggingInterceptor)
-    .addNetworkInterceptor(StethoInterceptor())
-    .build()
+  @IntoSet
+  fun provideStethoInterceptor(): Interceptor = StethoInterceptor()
 }

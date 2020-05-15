@@ -9,10 +9,6 @@ import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Qualifier
-
-@Qualifier
-annotation class ApiClient
 
 @Module
 object ApiModule {
@@ -24,7 +20,7 @@ object ApiModule {
   @Singleton
   fun provideRetrofit(
     baseUrl: HttpUrl,
-    @ApiClient client: OkHttpClient,
+    client: OkHttpClient,
     moshi: Moshi
   ): Retrofit = Retrofit.Builder()
     .client(client)
@@ -37,6 +33,4 @@ object ApiModule {
   @Singleton
   fun provideTrailConditionsService(retrofit: Retrofit): TrailConditionsService =
     retrofit.create(TrailConditionsService::class.java)
-
-  fun createApiClient(client: OkHttpClient): OkHttpClient.Builder = client.newBuilder()
 }

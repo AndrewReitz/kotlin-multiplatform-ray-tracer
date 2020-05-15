@@ -106,7 +106,6 @@ dependencies {
 
     implementation(project(":trail-conditions-networking"))
     implementation("io.ktor:ktor-client-core:${versions.ktor}")
-    implementation("io.ktor:ktor-client-logging:${versions.ktor}")
     implementation("io.ktor:ktor-client-okhttp:${versions.ktor}")
 
     implementation(kotlin("stdlib"))
@@ -114,7 +113,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
 
     implementation("androidx.core:core-ktx:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta4")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta5")
     implementation("androidx.annotation:annotation:1.1.0")
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
@@ -128,9 +127,9 @@ dependencies {
     implementation("android.arch.navigation:navigation-ui-ktx:1.0.0")
     implementation("com.google.android.material:material:1.1.0")
 
-    implementation("com.google.firebase:firebase-core:17.4.0")
-    implementation("com.google.firebase:firebase-messaging:20.1.6")
-    implementation("com.google.firebase:firebase-analytics:17.4.0")
+    implementation("com.google.firebase:firebase-core:17.4.1")
+    implementation("com.google.firebase:firebase-messaging:20.1.7")
+    implementation("com.google.firebase:firebase-analytics:17.4.1")
     implementation("com.google.firebase:firebase-crashlytics:17.0.0")
 
     debugImplementation("com.jakewharton.dagger:dagger-reflect:0.2.0")
@@ -163,7 +162,7 @@ dependencies {
     val stethoVersion = "1.5.1"
     debugImplementation("com.facebook.stetho:stetho:$stethoVersion")
     debugImplementation("com.facebook.stetho:stetho-okhttp3:$stethoVersion")
-    debugImplementation("com.facebook.stetho:stetho-timber:$stethoVersion@aar")
+    debugImplementation("com.facebook.stetho:stetho-timber:$stethoVersion")
 
     testImplementation("org.amshove.kluent:kluent-android:1.61")
     testImplementation("junit:junit:4.13")

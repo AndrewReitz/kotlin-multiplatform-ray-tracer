@@ -13,7 +13,6 @@ kotlin {
         implementation(kotlin("stdlib-common"))
 
         api("io.ktor:ktor-client-core:${versions.ktor}")
-        api("io.ktor:ktor-client-logging:${versions.ktor}")
         api("io.ktor:ktor-client-json:${versions.ktor}")
         api("io.ktor:ktor-client-serialization:${versions.ktor}")
 
@@ -38,7 +37,6 @@ kotlin {
         implementation(kotlin("stdlib"))
 
         api("io.ktor:ktor-client-okhttp:${versions.ktor}")
-        api("io.ktor:ktor-client-logging-jvm:${versions.ktor}")
         api("io.ktor:ktor-client-json-jvm:${versions.ktor}")
         api("io.ktor:ktor-client-serialization-jvm:${versions.ktor}")
 
@@ -57,7 +55,6 @@ kotlin {
         implementation(kotlin("stdlib-js"))
 
         api("io.ktor:ktor-client-js:${versions.ktor}")
-        api("io.ktor:ktor-client-logging-js:${versions.ktor}")
         api("io.ktor:ktor-client-serialization-js:${versions.ktor}")
         implementation(npm("abort-controller", "3.0.0")) // required by ktor but not pulled in
         implementation(npm("node-fetch", "2.6.0")) // required by ktor but not pulled in

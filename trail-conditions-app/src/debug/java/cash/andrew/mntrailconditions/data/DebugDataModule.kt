@@ -3,11 +3,14 @@ package cash.andrew.mntrailconditions.data
 import android.content.SharedPreferences
 import cash.andrew.mntrailconditions.data.api.DebugApiModule
 import cash.andrew.mntrailconditions.data.preference.*
+import com.squareup.moshi.JsonAdapter
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
+import dagger.multibindings.IntoSet
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -26,50 +29,49 @@ object DebugDataModule {
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
+    @IntoSet
+    fun providesKotlinJsonAdapterFactory(): JsonAdapter.Factory = KotlinJsonAdapterFactory()
+
+    @JvmStatic
+    @Provides
+    @Reusable
     @ApiEndpoint
     fun provideEndpointPreference(preferences: SharedPreferences): Preference<String> =
             preferences.stringPreference("debug_endpoint", requireNotNull(ApiEndpoints.PRODUCTION.url))
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     @NetworkDelay
     fun provideNetworkDelay(preferences: SharedPreferences): Preference<Long> =
             preferences.longPreference("debug_network_delay", 2000L)
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     @NetworkFailurePercent
     fun provideNetworkFailurePercent(preferences: SharedPreferences): Preference<Int> =
             preferences.intPreference("debug_network_failure_percent", 3)
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     @NetworkVariancePercent
     fun provideNetworkVariancePercent(preferences: SharedPreferences): Preference<Int> =
             preferences.intPreference("debug_network_variance_percent", 40)
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     @CaptureIntents
     fun provideCaptureIntentsPreference(preferences: SharedPreferences): Preference<Boolean> =
             preferences.booleanPreference("debug_capture_intents", DEFAULT_CAPTURE_INTENTS)
 
     @JvmStatic
     @Provides
-    @Singleton
+    @Reusable
     @AnimationSpeed
     fun provideAnimationSpeed(preferences: SharedPreferences): Preference<Int> =
             preferences.intPreference("debug_animation_speed", DEFAULT_ANIMATION_SPEED)
-
-    @JvmStatic
-    @Provides
-    @Singleton
-    fun provideMoshiBuilder(builder: Moshi.Builder): Moshi = builder
-            .add(KotlinJsonAdapterFactory())
-            .build()
 }

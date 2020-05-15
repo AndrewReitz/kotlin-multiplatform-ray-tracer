@@ -7,10 +7,4 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module(includes = [ProdApiModule::class])
-object ProdDataModule {
-    @JvmStatic
-    @Provides
-    @Singleton
-    fun provideMoshiBuilder(builder: Moshi.Builder): Moshi = builder
-            .build()
-}
+object ProdDataModule

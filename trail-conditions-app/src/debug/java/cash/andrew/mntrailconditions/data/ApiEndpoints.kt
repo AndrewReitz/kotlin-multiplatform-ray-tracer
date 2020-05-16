@@ -1,9 +1,7 @@
 package cash.andrew.mntrailconditions.data
 
-import cash.andrew.mntrailconditions.data.api.ApiModule
-
 enum class ApiEndpoints constructor(private val displayName: String, val url: String?) {
-    PRODUCTION("Production", ApiModule.PRODUCTION_API_URL.toString()),
+    PRODUCTION("Production", HEROKU_PRODUCTION_API_URL.toString()),
     CUSTOM("Custom", null);
 
     override fun toString(): String {

@@ -8,16 +8,13 @@ import cash.andrew.kotlin.common.doOnFailure
 import cash.andrew.kotlin.common.doOnSuccess
 import cash.andrew.kotlin.common.flatMapFailure
 import cash.andrew.kotlin.common.map
-import cash.andrew.kotlin.common.resultFrom
-import cash.andrew.kotlin.common.retry
 import cash.andrew.mntrailconditions.R
-import cash.andrew.mntrailconditions.data.api.TrailConditionsService
-import cash.andrew.mntrailconditions.data.model.TrailData
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailListViewBinding
 import cash.andrew.mntrailconditions.util.component
 import kotlinx.coroutines.*
 import timber.log.Timber
+import trail.networking.HtmlMorcTrailRepository
 import trail.networking.MorcTrailRepository
 import javax.inject.Inject
 
@@ -26,7 +23,7 @@ class TrailListView(
   attrs: AttributeSet
 ) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
 
-  @Inject lateinit var trailConditionsService: TrailConditionsService
+  @Inject lateinit var htmlMorcTrailRepository: HtmlMorcTrailRepository
   @Inject lateinit var trailListAdapter: TrailListAdapter
   @Inject lateinit var morcTrailRepository: MorcTrailRepository
 
@@ -75,19 +72,13 @@ class TrailListView(
       morcTrailRepository.getTrails().map { trails ->
         val filtered = if (favoriteTrailsPref == null) trails
         else trails.filter { trail -> trail.trailName in requireNotNull(favoriteTrailsPref).get() }
-
         filtered.map { it.toViewModel() }.sortedBy { it.name }
-      }.flatMapFailure {
-        Timber.e(it, "Error loading trails from morc trails")
+      }.flatMapFailure { error ->
+        Timber.e(error, "Error loading trails from morc trails")
 
-        resultFrom {
-          val trails: List<TrailData> = retry {
-            withTimeout(5000) { trailConditionsService.trailRegions() }
-          }
-
+        htmlMorcTrailRepository.getTrails().map { trails ->
           val filtered = if (favoriteTrailsPref == null) trails
           else trails.filter { trail -> trail.name in requireNotNull(favoriteTrailsPref).get() }
-
           filtered.map { it.toViewModel() }.sortedBy { it.name }
         }.doOnFailure {
           Timber.e(it, "Error loading trails from heroku")

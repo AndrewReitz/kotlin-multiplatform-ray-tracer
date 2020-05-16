@@ -1,9 +1,10 @@
 package cash.andrew.mntrailconditions.ui.trails
 
-import cash.andrew.mntrailconditions.data.model.TrailData
 import org.threeten.bp.Instant
+import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import trail.networking.model.MorcTrail
+import trail.networking.model.TrailData
 
 data class TrailViewModel(
   val name: String,
@@ -15,8 +16,8 @@ data class TrailViewModel(
 fun TrailData.toViewModel() = TrailViewModel(
   name = name,
   status = status,
-  description = description.trim(),
-  updatedAt = lastUpdated.atZone(ZoneId.systemDefault()).toInstant()
+  description = fullDescription.trim(),
+  updatedAt = LocalDateTime.parse(lastUpdated).atZone(ZoneId.systemDefault()).toInstant()
 )
 
 fun MorcTrail.toViewModel() = TrailViewModel(

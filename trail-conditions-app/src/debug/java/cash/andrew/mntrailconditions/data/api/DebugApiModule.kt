@@ -2,7 +2,8 @@ package cash.andrew.mntrailconditions.data.api
 
 import cash.andrew.mntrailconditions.data.ApiEndpoint
 import cash.andrew.mntrailconditions.data.ApiEndpoints
-import cash.andrew.mntrailconditions.data.api.ApiModule.MORC_PRODUCTION_URL
+import cash.andrew.mntrailconditions.data.MORC_PRODUCTION_URL
+import cash.andrew.mntrailconditions.data.HEROKU_PRODUCTION_API_URL
 import cash.andrew.mntrailconditions.data.preference.Preference
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
@@ -18,6 +19,7 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
+import trail.networking.HtmlMorcTrailRepository
 import trail.networking.MorcTrailRepository
 
 @Module
@@ -40,6 +42,25 @@ object DebugApiModule {
     }
 
     return MorcTrailRepository(client, MORC_PRODUCTION_URL.toString())
+  }
+
+  @Provides
+  @Singleton
+  fun provideStuff(
+    okHttpClient: OkHttpClient,
+    @ApiEndpoint apiEndpoint: Preference<String>
+  ): HtmlMorcTrailRepository {
+    val client = HttpClient(OkHttp) {
+      engine {
+        preconfigured = okHttpClient
+      }
+    }
+
+    if (ApiEndpoints.from(apiEndpoint.get()) == ApiEndpoints.CUSTOM) {
+      return HtmlMorcTrailRepository(client, apiEndpoint.get())
+    }
+
+    return HtmlMorcTrailRepository(client, HEROKU_PRODUCTION_API_URL.toString())
   }
 
   @Provides

@@ -26,6 +26,6 @@ data class Ray(
     val t1 = (-b - sqrt(discriminant)) / (2f * a)
     val t2 = (-b + sqrt(discriminant)) / (2f * a)
 
-    return Intersections(Intersection(t1, sphere), Intersection(t2, sphere))
+    return intersectionsOf(Intersection(t1, sphere), Intersection(t2, sphere))
   }
 }

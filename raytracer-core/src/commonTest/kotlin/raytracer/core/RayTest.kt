@@ -67,8 +67,8 @@ class RayTest {
     val s = Sphere()
     val xs = r.intersects(s)
     assertEquals(actual = xs.size, expected = 2)
-    assertEquals(actual = xs[0].time, expected = -1f)
-    assertEquals(actual = xs[1].time, expected = 1f)
+    assertEquals(actual = xs[0].time, expected = 1f)
+    assertEquals(actual = xs[1].time, expected = -1f)
   }
 
   @JsName("A_sphere_is_behind_a_ray")

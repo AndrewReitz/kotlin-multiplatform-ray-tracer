@@ -1,4 +1,4 @@
-@file:Suppress("FunctionName")
+@file:Suppress("FunctionName", "NOTHING_TO_INLINE")
 
 package raytracer.core
 
@@ -6,9 +6,10 @@ data class Intersection(val time: Float, val obj: Sphere)
 
 fun Intersection(time: Number, obj: Sphere) = Intersection(time.toFloat(), obj)
 
-data class Intersections(
-  private val intersections: Array<Intersection>
+data class Intersections @PublishedApi internal constructor(
+  @PublishedApi internal val intersections: Array<out Intersection>
 ) {
+
   val size: Int = intersections.size
   operator fun get(index: Int): Intersection = intersections[index]
   operator fun iterator(): Iterator<Intersection> = intersections.iterator()
@@ -27,9 +28,23 @@ data class Intersections(
     return intersections.contentHashCode()
   }
 
+  inline fun hit(): Intersection? {
+    if (intersections.isEmpty()) return null
+
+    val first = intersections[0]
+    if (first.time <= 0) return null
+    return intersections[0]
+  }
+
   companion object {
     val EMPTY = Intersections(emptyArray())
   }
 }
 
-fun Intersections(i1: Intersection, i2: Intersection) = Intersections(arrayOf(i1, i2))
+inline fun intersectionsOf(vararg intersections: Intersection) =
+  Intersections(
+    intersections.apply {
+      // sort by lowest value closest to 0 but not under
+      sortBy { if (it.time >= 0f) it.time else Float.MAX_VALUE }
+    }
+  )

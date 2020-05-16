@@ -20,7 +20,7 @@ class IntersectionTest {
     val s = Sphere()
     val i1 = Intersection(1, s)
     val i2 = Intersection(2, s)
-    val xs = Intersections(i1, i2)
+    val xs = intersectionsOf(i1, i2)
     assertEquals(actual = xs.size, expected = 2)
     assertEquals(actual = xs[0].time, expected = 1f)
     assertEquals(actual = xs[1].time, expected = 2f)

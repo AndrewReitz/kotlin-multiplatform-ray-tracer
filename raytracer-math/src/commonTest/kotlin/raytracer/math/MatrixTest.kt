@@ -3,8 +3,8 @@
 package raytracer.math
 
 import raytracer.math.Matrix.Companion.IDENTITY
+import raytracer.test.assertFloat3Equals
 import raytracer.test.assertMatrixEquals
-import raytracer.test.assertTupleEquals
 import kotlin.js.JsName
 import kotlin.math.PI
 import kotlin.math.sqrt
@@ -123,10 +123,10 @@ class MatrixTest {
       r4(0, 0, 0, 1)
     }
 
-    val b = Tuple(1, 2, 3, 1)
+    val b = Vector4(1, 2, 3, 1)
 
     val result = A * b
-    assertEquals(actual = result, expected = Tuple(18, 24, 33, 1))
+    assertEquals(actual = result, expected = Vector4(18, 24, 33, 1))
   }
 
   @JsName("Multiplying_a_matrix_by_the_identity_matrix")
@@ -476,8 +476,8 @@ class MatrixTest {
     val p = Point(0, 1, 0)
     val halfQuarter = Matrix.rotationX(PI / 4.0)
     val fullQuarter = Matrix.rotationX(PI / 2.0)
-    assertTupleEquals(actual = halfQuarter * p, expected = Point(0, sqrt(2f) / 2f, sqrt(2f) / 2))
-    assertTupleEquals(actual = fullQuarter * p, expected = Point(0, 0, 1))
+    assertFloat3Equals(actual = halfQuarter * p, expected = Point(0, sqrt(2f) / 2f, sqrt(2f) / 2))
+    assertFloat3Equals(actual = fullQuarter * p, expected = Point(0, 0, 1))
   }
 
   @JsName("The_inverse_of_an_x_rotation_rotates_in_the_opposite_direction")
@@ -486,7 +486,7 @@ class MatrixTest {
     val p = Point(0, 1, 0)
     val halfQuarter = Matrix.rotationX(PI / 4.0)
     val inv = halfQuarter.inverse()
-    assertTupleEquals(actual = inv * p, expected = Point(0, sqrt(2f) / 2f, -sqrt(2f) / 2f))
+    assertFloat3Equals(actual = inv * p, expected = Point(0, sqrt(2f) / 2f, -sqrt(2f) / 2f))
   }
 
   @JsName("Rotating_a_point_around_the_y_axis")
@@ -495,8 +495,8 @@ class MatrixTest {
     val p = Point(0, 0, 1)
     val halfQuarter = Matrix.rotationY(PI / 4.0)
     val fullQuarter = Matrix.rotationY(PI / 2.0)
-    assertTupleEquals(actual = halfQuarter * p, expected = Point(sqrt(2f) / 2f, 0, sqrt(2f) / 2f))
-    assertTupleEquals(actual = fullQuarter * p, expected = Point(1, 0, 0))
+    assertFloat3Equals(actual = halfQuarter * p, expected = Point(sqrt(2f) / 2f, 0, sqrt(2f) / 2f))
+    assertFloat3Equals(actual = fullQuarter * p, expected = Point(1, 0, 0))
   }
 
   @JsName("Rotating_a_point_around_the_z_axis")
@@ -505,8 +505,8 @@ class MatrixTest {
     val p = Point(0, 1, 0)
     val halfQuarter = Matrix.rotationZ(PI / 4.0)
     val fullQuarter = Matrix.rotationZ(PI / 2.0)
-    assertTupleEquals(actual = halfQuarter * p, expected = Point(-sqrt(2f) / 2, sqrt(2f) / 2, 0))
-    assertTupleEquals(actual = fullQuarter * p, expected = Point(-1, 0, 0))
+    assertFloat3Equals(actual = halfQuarter * p, expected = Point(-sqrt(2f) / 2, sqrt(2f) / 2, 0))
+    assertFloat3Equals(actual = fullQuarter * p, expected = Point(-1, 0, 0))
   }
 
   @JsName("A_shearing_transformation_moves_x_in_proportion_to_y")
@@ -514,7 +514,7 @@ class MatrixTest {
   fun `A shearing transformation moves x in proportion to y`() {
     val transform = Matrix.shearing(1, 0, 0, 0, 0, 0)
     val p = Point(2, 3, 4)
-    assertTupleEquals(actual = transform * p, expected = Point(5, 3, 4))
+    assertFloat3Equals(actual = transform * p, expected = Point(5, 3, 4))
   }
 
   @JsName("A_shearing_transformation_moves_x_in_proportion_to_z")
@@ -522,7 +522,7 @@ class MatrixTest {
   fun `A shearing transformation moves x in proportion to z`() {
     val transform = Matrix.shearing(0, 1, 0, 0, 0, 0)
     val p = Point(2, 3, 4)
-    assertTupleEquals(actual = transform * p, expected = Point(6, 3, 4))
+    assertFloat3Equals(actual = transform * p, expected = Point(6, 3, 4))
   }
 
   @JsName("A_shearing_transformation_moves_y_in_proportion_to_x")
@@ -530,7 +530,7 @@ class MatrixTest {
   fun `A shearing transformation moves y in proportion to x`() {
     val transform = Matrix.shearing(0, 0, 1, 0, 0, 0)
     val p = Point(2, 3, 4)
-    assertTupleEquals(actual = transform * p, expected = Point(2, 5, 4))
+    assertFloat3Equals(actual = transform * p, expected = Point(2, 5, 4))
   }
 
   @JsName("A_shearing_transformation_moves_y_in_proportion_to_z")
@@ -538,7 +538,7 @@ class MatrixTest {
   fun `A shearing transformation moves y in proportion to z`() {
     val transform = Matrix.shearing(0, 0, 0, 1, 0, 0)
     val p = Point(2, 3, 4)
-    assertTupleEquals(actual = transform * p, expected = Point(2, 7, 4))
+    assertFloat3Equals(actual = transform * p, expected = Point(2, 7, 4))
   }
 
   @JsName("A_shearing_transformation_moves_z_in_proportion_to_x")
@@ -546,7 +546,7 @@ class MatrixTest {
   fun `A shearing transformation moves z in proportion to x`() {
     val transform = Matrix.shearing(0, 0, 0, 0, 1, 0)
     val p = Point(2, 3, 4)
-    assertTupleEquals(actual = transform * p, expected = Point(2, 3, 6))
+    assertFloat3Equals(actual = transform * p, expected = Point(2, 3, 6))
   }
 
   @JsName("A_shearing_transformation_moves_z_in_proportion_to_y")
@@ -554,7 +554,7 @@ class MatrixTest {
   fun `A shearing transformation moves z in proportion to y`() {
     val transform = Matrix.shearing(0, 0, 0, 0, 0, 1)
     val p = Point(2, 3, 4)
-    assertTupleEquals(actual = transform * p, expected = Point(2, 3, 7))
+    assertFloat3Equals(actual = transform * p, expected = Point(2, 3, 7))
   }
 
   @JsName("Individual_transformations_are_applied_in_sequence")
@@ -567,15 +567,15 @@ class MatrixTest {
 
     // apply rotation first​
     val p2 = A * p
-    assertTupleEquals(actual = p2, expected = Point(1, -1, 0))
+    assertFloat3Equals(actual = p2, expected = Point(1, -1, 0))
 
     // then apply scaling​
     val p3 = B * p2
-    assertTupleEquals(actual = p3, expected = Point(5, -5, 0))
+    assertFloat3Equals(actual = p3, expected = Point(5, -5, 0))
 
-    // then apply translaction
+    // then apply translation
     val p4 = C * p3
-    assertTupleEquals(actual = p4, expected = Point(15, 0, 7))
+    assertFloat3Equals(actual = p4, expected = Point(15, 0, 7))
   }
 
   @JsName("Chained_transformations_must_be_applied_in_reverse_order")
@@ -586,6 +586,6 @@ class MatrixTest {
     val B = Matrix.scaling(5, 5, 5)
     val C = Matrix.translation(10, 5, 7)
     val T = C * B * A
-    assertTupleEquals(actual = T * p, expected = Point(15, 0, 7))
+    assertFloat3Equals(actual = T * p, expected = Point(15, 0, 7))
   }
 }

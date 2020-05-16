@@ -1,8 +1,8 @@
 package raytracer.core
 
 import raytracer.math.Point
-import raytracer.math.Tuple
+import raytracer.math.Vector4
 
 data class Sphere(
-  val center: Tuple = Point(0, 0, 0)
+  val center: Point = Point(0, 0, 0)
 )

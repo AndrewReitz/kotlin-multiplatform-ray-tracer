@@ -2,6 +2,7 @@ package raytracer.core
 
 import raytracer.math.Point
 import raytracer.math.Vector
+import raytracer.test.assertFloat3Equals
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,10 +24,10 @@ class RayTest {
   @Test
   fun `Computing a point from a distance`() {
     val r = Ray(origin = Point(2, 3, 4), direction = Vector(1, 0, 0))
-    assertTupleEquals(actual = r.position(0), expected = Point(2, 3, 4))
-    assertTupleEquals(actual = r.position(1), expected = Point(3, 3, 4))
-    assertTupleEquals(actual = r.position(-1), expected = Point(1, 3, 4))
-    assertTupleEquals(actual = r.position(2.5), expected = Point(4.5, 3, 4))
+    assertFloat3Equals(actual = r.position(0), expected = Point(2, 3, 4))
+    assertFloat3Equals(actual = r.position(1), expected = Point(3, 3, 4))
+    assertFloat3Equals(actual = r.position(-1), expected = Point(1, 3, 4))
+    assertFloat3Equals(actual = r.position(2.5), expected = Point(4.5, 3, 4))
   }
 
   @JsName("A_ray_intersects_a_sphere_at_two_points")

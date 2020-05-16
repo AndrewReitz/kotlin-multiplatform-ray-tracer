@@ -2,15 +2,17 @@
 
 package raytracer.core
 
-import raytracer.math.Tuple
+import raytracer.math.Point
+import raytracer.math.Vector3
+import raytracer.math.Vector4
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 data class Ray(
-  val origin: Tuple,
-  val direction: Tuple
+  val origin: Point,
+  val direction: Vector3
 ) {
-  inline fun position(time: Number): Tuple = origin + direction * time.toFloat()
+  inline fun position(time: Number): Point = origin + direction * time.toFloat()
 
   inline fun intersects(sphere: Sphere): Intersections {
     val sphereToRay = origin - sphere.center

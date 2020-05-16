@@ -3,7 +3,6 @@
 package raytracer.core
 
 import raytracer.math.EPSILON
-import raytracer.math.ONE_OVER_EPSILON
 import kotlin.math.abs
 
 data class Color(
@@ -57,10 +56,8 @@ inline fun Color(
   red: Number = 0,
   green: Number = 0,
   blue: Number = 0
-): Color {
-  return Color(
-    red = red.toFloat(),
-    green = green.toFloat(),
-    blue = blue.toFloat()
-  )
-}
+) = Color(
+  red = red.toFloat(),
+  green = green.toFloat(),
+  blue = blue.toFloat()
+)

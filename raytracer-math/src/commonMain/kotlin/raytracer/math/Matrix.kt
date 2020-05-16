@@ -32,13 +32,31 @@ data class Matrix(
     return Matrix(newMatrix)
   }
 
-  inline operator fun times(tuple: Tuple): Tuple {
+  inline operator fun times(point: Point): Point {
     val newTuple = Array(4) { 0f }
     data.forEachIndexed { index, m ->
-      newTuple[index] = m.toTuple() dot tuple
+      newTuple[index] = m.toVector4() dot point
     }
 
-    return newTuple.toTuple()
+    return newTuple.toPoint()
+  }
+
+  inline operator fun times(vector3: Vector3): Vector3 {
+    val newTuple = Array(4) { 0f }
+    data.forEachIndexed { index, m ->
+      newTuple[index] = m.toVector4() dot vector3
+    }
+
+    return newTuple.toVector3()
+  }
+
+  inline operator fun times(vector4: Vector4): Vector4 {
+    val newTuple = Array(4) { 0f }
+    data.forEachIndexed { index, m ->
+      newTuple[index] = m.toVector4() dot vector4
+    }
+
+    return newTuple.toVector4()
   }
 
   inline fun transpose(): Matrix {

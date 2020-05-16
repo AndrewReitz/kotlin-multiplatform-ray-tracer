@@ -7,7 +7,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 data class Matrix(
-  val data: List<List<Float>>
+  val data: Array<Array<Float>>
 ) {
 
   val size = data.size
@@ -19,8 +19,8 @@ data class Matrix(
 
     val self = this
 
-    val newMatrix = MutableList(size) { m ->
-      MutableList(size) { n ->
+    val newMatrix = Array(size) { m ->
+      Array(size) { n ->
         var result = 0f
         for (i in data.indices) {
           result += self[m, i] * other[i, n]
@@ -44,8 +44,8 @@ data class Matrix(
   inline fun transpose(): Matrix {
     if (this == IDENTITY) return IDENTITY
 
-    val newMatrix = MutableList(size) { m ->
-      MutableList(size) { n ->
+    val newMatrix = Array(size) { m ->
+      Array(size) { n ->
         data[n][m]
       }
     }
@@ -73,23 +73,22 @@ data class Matrix(
   val isInvertible get() = determinant != 0f
 
   inline fun subMatrixOf(mToDrop: Int, nToDrop: Int): Matrix {
-    val newMatrix = mutableListOf<MutableList<Float>>()
 
-    var newMatrixIndex = 0
-
-
-    for((m, row) in data.withIndex()) {
-      if (m == mToDrop){
-        continue
+    var currentM = 0
+    val newMatrix = Array(size - 1) { m ->
+      if (m == mToDrop) {
+        ++currentM
       }
-      newMatrix.add(mutableListOf())
-      for((n, d) in row.withIndex()) {
+
+      var currentN = 0
+      val row = Array(size - 1) { n ->
         if (n == nToDrop) {
-          continue
+          ++currentN
         }
-        newMatrix[newMatrixIndex].add(d)
+        data[currentM][currentN++]
       }
-      newMatrixIndex++
+      currentM++
+      row
     }
 
     return Matrix(newMatrix)
@@ -109,8 +108,8 @@ data class Matrix(
   fun inverse(): Matrix {
     if (!isInvertible) throw Exception("Matrix is not invertible and can not be inverted")
 
-    val M2 = List(size) { m ->
-      List(size) { n ->
+    val M2 = Array(size) { m ->
+      Array(size) { n ->
         val c = cofactor(n, m)
         c / determinant
       }
@@ -134,90 +133,166 @@ data class Matrix(
       row.joinToString(separator = " ", postfix = "|", prefix = "|")
     }
 
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other == null || this::class != other::class) return false
+
+    other as Matrix
+
+    if (!data.contentDeepEquals(other.data)) return false
+
+    return true
+  }
+
+  override fun hashCode(): Int {
+    return data.contentDeepHashCode()
+  }
+
   companion object {
-    val IDENTITY = Matrix {
-      row(1, 0, 0, 0)
-      row(0, 1, 0, 0)
-      row(0, 0, 1, 0)
-      row(0, 0, 0, 1)
+    val IDENTITY = Matrix4 {
+      r1(1, 0, 0, 0)
+      r2(0, 1, 0, 0)
+      r3(0, 0, 1, 0)
+      r4(0, 0, 0, 1)
     }
 
-    fun translation(x: Number, y: Number, z: Number) = Matrix {
-      row(1, 0, 0, x)
-      row(0, 1, 0, y)
-      row(0, 0, 1, z)
-      row(0, 0, 0, 1)
+    fun translation(x: Number, y: Number, z: Number) = Matrix4 {
+      r1(1, 0, 0, x)
+      r2(0, 1, 0, y)
+      r3(0, 0, 1, z)
+      r4(0, 0, 0, 1)
     }
 
-    fun scaling(x: Number, y: Number, z: Number) = Matrix {
-      row(x, 0, 0, 0)
-      row(0, y, 0, 0)
-      row(0, 0, z, 0)
-      row(0, 0, 0, 1)
+    fun scaling(x: Number, y: Number, z: Number) = Matrix4 {
+      r1(x, 0, 0, 0)
+      r2(0, y, 0, 0)
+      r3(0, 0, z, 0)
+      r4(0, 0, 0, 1)
     }
 
     fun rotationX(radians: Number): Matrix {
       val r = radians.toFloat()
-      return Matrix {
-        row(1, 0, 0, 0)
-        row(0, cos(r), -sin(r), 0)
-        row(0, sin(r), cos(r), 0)
-        row(0, 0, 0, 1)
+      return Matrix4 {
+        r1(1, 0, 0, 0)
+        r2(0, cos(r), -sin(r), 0)
+        r3(0, sin(r), cos(r), 0)
+        r4(0, 0, 0, 1)
       }
     }
 
     fun rotationY(radians: Number): Matrix {
       val r = radians.toFloat()
-      return Matrix {
-        row(cos(r), 0, sin(r), 0)
-        row(0, 1, 0, 0)
-        row(-sin(r), 0, cos(r), 0)
-        row(0, 0, 0, 1)
+      return Matrix4 {
+        r1(cos(r), 0, sin(r), 0)
+        r2(0, 1, 0, 0)
+        r3(-sin(r), 0, cos(r), 0)
+        r4(0, 0, 0, 1)
       }
     }
 
     fun rotationZ(radians: Number): Matrix {
       val r = radians.toFloat()
-      return Matrix {
-        row(cos(r), -sin(r), 0, 0)
-        row(sin(r), cos(r), 0, 0)
-        row(0, 0, 1, 0)
-        row(0, 0, 0, 1)
+      return Matrix4 {
+        r1(cos(r), -sin(r), 0, 0)
+        r2(sin(r), cos(r), 0, 0)
+        r3(0, 0, 1, 0)
+        r4(0, 0, 0, 1)
       }
     }
 
-    fun shearing(xToY: Number, xtoZ: Number, yToX: Number, yToZ: Number, zToX: Number, zToY: Number) = Matrix {
-      row(1, xToY, xtoZ, 0)
-      row(yToX, 1, yToZ, 0)
-      row(zToX, zToY, 1, 0)
-      row(0, 0, 0, 1)
+    fun shearing(xToY: Number, xtoZ: Number, yToX: Number, yToZ: Number, zToX: Number, zToY: Number): Matrix = Matrix4 {
+      r1(1, xToY, xtoZ, 0)
+      r2(yToX, 1, yToZ, 0)
+      r3(zToX, zToY, 1, 0)
+      r4(0, 0, 0, 1)
     }
   }
 }
 
-class MatrixBuilder {
-  private val columns = mutableListOf<List<Float>>()
+class MatrixBuilder4 {
+  private lateinit var row1: Array<Float>
+  private lateinit var row2: Array<Float>
+  private lateinit var row3: Array<Float>
+  private lateinit var row4: Array<Float>
 
-  fun row(a1: Number, a2: Number) {
-    columns.add(listOf(a1.toFloat(), a2.toFloat()))
+  fun r1(a11: Number, a12: Number, a13: Number, a14: Number) {
+    row1 = arrayOf(a11.toFloat(), a12.toFloat(), a13.toFloat(), a14.toFloat())
   }
 
-  fun row(a1: Number, a2: Number, a3: Number) {
-    columns.add(listOf(a1.toFloat(), a2.toFloat(), a3.toFloat()))
+  fun r2(a21: Number, a22: Number, a23: Number, a24: Number) {
+    row2 = arrayOf(a21.toFloat(), a22.toFloat(), a23.toFloat(), a24.toFloat())
   }
 
-  fun row(a1: Number, a2: Number, a3: Number, a4: Number) {
-    columns.add(listOf(a1.toFloat(), a2.toFloat(), a3.toFloat(), a4.toFloat()))
+  fun r3(a31: Number, a32: Number, a33: Number, a34: Number) {
+    row3 = arrayOf(a31.toFloat(), a32.toFloat(), a33.toFloat(), a34.toFloat())
+  }
+
+  fun r4(a41: Number, a42: Number, a43: Number, a44: Number) {
+    row4 = arrayOf(a41.toFloat(), a42.toFloat(), a43.toFloat(), a44.toFloat())
   }
 
   fun toMatrix(): Matrix {
-    return Matrix(columns)
+    return Matrix(arrayOf(row1, row2, row3, row4))
   }
 }
 
 @Suppress("FunctionName")
-fun Matrix(create: MatrixBuilder.() -> Unit): Matrix {
-  val builder = MatrixBuilder()
+fun Matrix4(create: MatrixBuilder4.() -> Unit): Matrix {
+  val builder = MatrixBuilder4()
+  builder.create()
+  return builder.toMatrix()
+}
+
+
+class MatrixBuilder3 {
+  private lateinit var row1: Array<Float>
+  private lateinit var row2: Array<Float>
+  private lateinit var row3: Array<Float>
+
+  fun r1(a11: Number, a12: Number, a13: Number) {
+    row1 = arrayOf(a11.toFloat(), a12.toFloat(), a13.toFloat())
+  }
+
+  fun r2(a21: Number, a22: Number, a23: Number) {
+    row2 = arrayOf(a21.toFloat(), a22.toFloat(), a23.toFloat())
+  }
+
+  fun r3(a31: Number, a32: Number, a33: Number) {
+    row3 = arrayOf(a31.toFloat(), a32.toFloat(), a33.toFloat())
+  }
+
+  fun toMatrix(): Matrix {
+    return Matrix(arrayOf(row1, row2, row3))
+  }
+}
+
+@Suppress("FunctionName")
+fun Matrix2(create: MatrixBuilder2.() -> Unit): Matrix {
+  val builder = MatrixBuilder2()
+  builder.create()
+  return builder.toMatrix()
+}
+
+class MatrixBuilder2 {
+  private lateinit var row1: Array<Float>
+  private lateinit var row2: Array<Float>
+
+  fun r1(a11: Number, a12: Number) {
+    row1 = arrayOf(a11.toFloat(), a12.toFloat())
+  }
+
+  fun r2(a21: Number, a22: Number) {
+    row2 = arrayOf(a21.toFloat(), a22.toFloat())
+  }
+
+  fun toMatrix(): Matrix {
+    return Matrix(arrayOf(row1, row2))
+  }
+}
+
+@Suppress("FunctionName")
+fun Matrix3(create: MatrixBuilder3.() -> Unit): Matrix {
+  val builder = MatrixBuilder3()
   builder.create()
   return builder.toMatrix()
 }

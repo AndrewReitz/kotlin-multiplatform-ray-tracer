@@ -11,6 +11,8 @@ inline fun Point(x: Number, y: Number, z: Number): Point = Point(x.toFloat(), y.
 
 inline fun Array<Float>.toPoint(): Point = Point(get(0), get(1), get(2))
 
+inline fun Point.toVector() = Vector3(x, y, z)
+
 data class Point(
   override val x: Float,
   override val y: Float,

@@ -32,6 +32,5 @@ interface ActivityComponent {
 object ActivityModule {
     @ActivityScope
     @Provides
-    @JvmStatic
     fun provideMarkwon(activity: Activity): Markwon = Markwon.create(activity)
 }

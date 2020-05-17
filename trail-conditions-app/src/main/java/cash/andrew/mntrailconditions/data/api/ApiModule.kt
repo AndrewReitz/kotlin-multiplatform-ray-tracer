@@ -15,7 +15,6 @@ object ApiModule {
   val MORC_PRODUCTION_URL = "https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails".toHttpUrl()
   val PRODUCTION_API_URL = "https://mn-trail-info-service.herokuapp.com".toHttpUrl()
 
-  @JvmStatic
   @Provides
   @Singleton
   fun provideRetrofit(
@@ -28,7 +27,6 @@ object ApiModule {
     .addConverterFactory(MoshiConverterFactory.create(moshi))
     .build()
 
-  @JvmStatic
   @Provides
   @Singleton
   fun provideTrailConditionsService(retrofit: Retrofit): TrailConditionsService =

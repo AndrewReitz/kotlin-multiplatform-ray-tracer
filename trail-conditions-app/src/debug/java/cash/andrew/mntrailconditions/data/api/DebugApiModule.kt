@@ -23,7 +23,6 @@ import trail.networking.MorcTrailRepository
 @Module
 object DebugApiModule {
 
-  @JvmStatic
   @Provides
   @Singleton
   fun provideMorcTrailsRepository(
@@ -43,12 +42,10 @@ object DebugApiModule {
     return MorcTrailRepository(client, MORC_PRODUCTION_URL.toString())
   }
 
-  @JvmStatic
   @Provides
   @Singleton
   fun provideHttpUrl(@ApiEndpoint apiEndpoint: Preference<String>): HttpUrl = apiEndpoint.get().toHttpUrl()
 
-  @JvmStatic
   @Provides
   @IntoSet
   fun provideLoggingInterceptor(): Interceptor {
@@ -62,7 +59,6 @@ object DebugApiModule {
     return loggingInterceptor
   }
 
-  @JvmStatic
   @Provides
   @IntoSet
   fun provideStethoInterceptor(): Interceptor = StethoInterceptor()

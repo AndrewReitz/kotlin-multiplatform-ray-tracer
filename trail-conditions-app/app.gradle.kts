@@ -81,7 +81,7 @@ android {
             signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.txt")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.txt")
         }
     }
 
@@ -113,7 +113,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
 
     implementation("androidx.core:core-ktx:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta5")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta6")
     implementation("androidx.annotation:annotation:1.1.0")
     implementation("androidx.appcompat:appcompat:1.1.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
@@ -123,8 +123,8 @@ dependencies {
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 
 
-    implementation("android.arch.navigation:navigation-fragment-ktx:1.0.0")
-    implementation("android.arch.navigation:navigation-ui-ktx:1.0.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.2.2")
+    implementation("androidx.navigation:navigation-ui-ktx:2.2.2")
     implementation("com.google.android.material:material:1.1.0")
 
     implementation("com.google.firebase:firebase-core:17.4.1")
@@ -132,9 +132,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics:17.4.1")
     implementation("com.google.firebase:firebase-crashlytics:17.0.0")
 
-    debugImplementation("com.jakewharton.dagger:dagger-reflect:0.2.0")
-
-    kaptRelease("com.google.dagger:dagger-compiler:2.27")
+    kapt("com.google.dagger:dagger-compiler:2.27")
     implementation("com.google.dagger:dagger:2.27")
 
     implementation("com.squareup.okhttp3:okhttp:4.5.0")

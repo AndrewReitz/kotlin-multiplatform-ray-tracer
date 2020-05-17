@@ -3,3 +3,5 @@
 -assumevalues class android.os.Build$VERSION {
     int SDK_INT return 23..1000;
 }
+
+-keep public class androidx.navigation.fragment.NavHostFragment

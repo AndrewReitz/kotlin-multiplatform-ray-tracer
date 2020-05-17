@@ -2,7 +2,6 @@ package cash.andrew.mntrailconditions
 
 import android.app.Application
 import cash.andrew.mntrailconditions.data.ProdDataModule
-import cash.andrew.mntrailconditions.ui.ActivityHierarchyServer
 import cash.andrew.mntrailconditions.util.CrashlyticsTree
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.BindsInstance

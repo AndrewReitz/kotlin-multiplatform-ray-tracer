@@ -5,3 +5,7 @@
 }
 
 -keep public class androidx.navigation.fragment.NavHostFragment
+
+-keepclassmembers public class trail.networking.model.* {
+  *;
+}

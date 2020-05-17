@@ -5,6 +5,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.http.*
+import kotlin.js.JsName
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertTrue
@@ -14,11 +15,9 @@ private const val JSON =
 
 class MorcTrailRepositoryTest {
 
-  private val Url.hostWithPortIfRequired: String get() = if (port == protocol.defaultPort) host else hostWithPort
-  private val Url.fullUrl: String get() = "${protocol.name}://$hostWithPortIfRequired$fullPath"
-
+  @JsName("should_get_morc_trails")
   @Test
-  fun should_get_morc_trails() = runTest {
+  fun `should get morc trails`() = runTest {
     val client = HttpClient(MockEngine) {
       engine {
         addHandler { request ->
@@ -41,8 +40,9 @@ class MorcTrailRepositoryTest {
   }
 
   @Ignore
+  @JsName("should_get_morc_trails_functional_test")
   @Test
-  fun should_get_more_trails_functional_test() = runTest {
+  fun `should get morc trails functional test`() = runTest {
     val a = MorcTrailRepository(
       HttpClient(),
       "http://localhost:8080/"

@@ -3,30 +3,29 @@ package cash.andrew.mntrailconditions.data
 import android.app.Application
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import cash.andrew.mntrailconditions.data.api.ApiModule
-import cash.andrew.mntrailconditions.data.moshi.adapters.InstantJsonAdapter
-import cash.andrew.mntrailconditions.data.moshi.adapters.LocalDateTimeJsonAdapter
 import cash.andrew.mntrailconditions.data.okhttp.UserAgentInterceptor
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.data.preference.stringSetPreference
 import com.jakewharton.byteunits.DecimalByteUnit.MEGABYTES
 import com.readystatesoftware.chuck.ChuckInterceptor
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.multibindings.ElementsIntoSet
 import okhttp3.Cache
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
+val MORC_PRODUCTION_URL = "https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails".toHttpUrl()
+val HEROKU_PRODUCTION_API_URL = "https://mn-trail-info-service.herokuapp.com".toHttpUrl()
+
 const val SHARED_PREF_FILE_NAME = "cash.andrew.mntrailconditions"
 
-@Module(includes = [ApiModule::class])
+@Module
 object DataModule {
 
     private val DISK_CACHE_SIZE = MEGABYTES.toBytes(50).toInt()
@@ -35,19 +34,6 @@ object DataModule {
     @Reusable
     fun provideSharedPreferences(app: Application): SharedPreferences =
         app.getSharedPreferences(SHARED_PREF_FILE_NAME, MODE_PRIVATE)
-
-    @Provides
-    @Reusable
-    fun provideMoshi(factories: Set<@JvmSuppressWildcards JsonAdapter.Factory>): Moshi = Moshi.Builder()
-        .add(InstantJsonAdapter())
-        .add(LocalDateTimeJsonAdapter())
-        .apply { factories.forEach { add(it) } }
-        .build()
-
-    @Provides
-    @Reusable
-    @ElementsIntoSet
-    fun provideJsonAdapterFactorySet(): Set<@JvmSuppressWildcards JsonAdapter.Factory> = mutableSetOf()
 
     @Provides
     @Singleton

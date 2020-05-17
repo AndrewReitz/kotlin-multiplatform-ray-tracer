@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity(), ComponentContainer<ActivityComponent> 
         component.inject(this)
         deviceWakeUp.riseAndShine()
 
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
+        binding.bottomNavView.setupWithNavController(navHostFragment.navController)
+
         val backgroundColor = when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
             Configuration.UI_MODE_NIGHT_YES -> resources.getColor(R.color.grey, theme)
             else -> {
@@ -39,13 +44,8 @@ class MainActivity : AppCompatActivity(), ComponentContainer<ActivityComponent> 
                 typedValue.data
             }
         }
+
         binding.overflowMenuButton.setBackgroundColor(backgroundColor)
-
-        val navHostFragment = supportFragmentManager
-                .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-
-        binding.bottomNavView.setupWithNavController(navHostFragment.navController)
-
         binding.overflowMenuButton.setOnClickListener { view ->
             PopupMenu(this, view).apply {
                 menuInflater.inflate(R.menu.overflow_menu, menu)

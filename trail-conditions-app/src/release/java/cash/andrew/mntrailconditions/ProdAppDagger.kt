@@ -29,7 +29,6 @@ interface AppComponent: BaseComponent {
 
 @Module(includes = [ProdDataModule::class])
 object ProdMnTrailConditionsModule {
-    @JvmStatic
     @Provides
     fun provideMnTrailConditionsInitializer(crashlytics: FirebaseCrashlytics): MnTrailConditionsInitializer = {
         Timber.plant(CrashlyticsTree(crashlytics))

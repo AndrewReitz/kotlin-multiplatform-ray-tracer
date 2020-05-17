@@ -11,17 +11,14 @@ import dagger.Reusable
 
 @Module(includes = [DataModule::class])
 object MnTrailConditionsModule {
-    @JvmStatic
     @Provides
     @Reusable
     fun provideFirebaseMessaging(): FirebaseMessaging = FirebaseMessaging.getInstance()
 
-    @JvmStatic
     @Provides
     @Reusable
     fun provideFirebaseAnalytics(context: Application) = FirebaseAnalytics.getInstance(context)
 
-    @JvmStatic
     @Provides
     @Reusable
     fun provideFirebaseCrashlytics() = FirebaseCrashlytics.getInstance()

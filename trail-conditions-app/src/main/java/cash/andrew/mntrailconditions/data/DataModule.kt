@@ -17,7 +17,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.Reusable
 import dagger.multibindings.ElementsIntoSet
-import dagger.multibindings.IntoSet
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -32,13 +31,11 @@ object DataModule {
 
     private val DISK_CACHE_SIZE = MEGABYTES.toBytes(50).toInt()
 
-    @JvmStatic
     @Provides
     @Reusable
     fun provideSharedPreferences(app: Application): SharedPreferences =
         app.getSharedPreferences(SHARED_PREF_FILE_NAME, MODE_PRIVATE)
 
-    @JvmStatic
     @Provides
     @Reusable
     fun provideMoshi(factories: Set<@JvmSuppressWildcards JsonAdapter.Factory>): Moshi = Moshi.Builder()
@@ -47,12 +44,11 @@ object DataModule {
         .apply { factories.forEach { add(it) } }
         .build()
 
-    @JvmStatic
     @Provides
     @Reusable
+    @ElementsIntoSet
     fun provideJsonAdapterFactorySet(): Set<@JvmSuppressWildcards JsonAdapter.Factory> = mutableSetOf()
 
-    @JvmStatic
     @Provides
     @Singleton
     fun provideOkHttpClient(app: Application, interceptors: Set<@JvmSuppressWildcards Interceptor>): OkHttpClient =
@@ -61,7 +57,6 @@ object DataModule {
             .apply { interceptors.forEach { addInterceptor(it) } }
             .build()
 
-    @JvmStatic
     @Provides
     @Reusable
     @ElementsIntoSet
@@ -70,14 +65,12 @@ object DataModule {
         ChuckInterceptor(app).showNotification(true)
     )
 
-    @JvmStatic
     @SavedTrails
     @Provides
     @Reusable
     fun provideTrailFavorites(prefs: SharedPreferences): Preference<Set<String>> =
         prefs.stringSetPreference("trail-favorites")
 
-    @JvmStatic
     @Provides
     @NotificationTrails
     @Reusable

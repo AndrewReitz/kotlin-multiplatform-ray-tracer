@@ -11,7 +11,7 @@ import android.os.StrictMode
 
 @Module(includes = [DebugDataModule::class])
 object DebugMnTrailConditionsModule {
-    @JvmStatic
+
     @Provides
     fun provideMnTrailConditionsInitializer(
             firebaseMessaging: FirebaseMessaging

@@ -4,7 +4,6 @@ import android.app.Application
 import cash.andrew.mntrailconditions.ui.debug.DebugView
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Dagger
 import javax.inject.Singleton
 
 @Singleton
@@ -20,6 +19,6 @@ interface AppComponent: BaseComponent {
     }
 
     companion object {
-        fun builder(): Builder =  Dagger.builder(Builder::class.java)
+        fun builder(): Builder =  DaggerAppComponent.builder()
     }
 }

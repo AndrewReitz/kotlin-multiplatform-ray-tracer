@@ -12,12 +12,10 @@ import javax.inject.Singleton
 @Module
 object ProdApiModule {
 
-    @JvmStatic
     @Provides
     @Singleton
     fun provideBaseUrl(): HttpUrl = PRODUCTION_API_URL
 
-    @JvmStatic
     @Provides
     @Singleton
     fun provideMorcTrailsRepository() = MorcTrailRepository(HttpClient(), MORC_PRODUCTION_URL.toString())

@@ -19,7 +19,6 @@ import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.DebugDrawerNetworkEndpointBinding
 import cash.andrew.mntrailconditions.databinding.DebugViewContentBinding
 import cash.andrew.mntrailconditions.ui.misc.EnumAdapter
-import cash.andrew.mntrailconditions.util.IntentManager
 import com.jakewharton.processphoenix.ProcessPhoenix
 import com.readystatesoftware.chuck.Chuck
 import okhttp3.OkHttpClient
@@ -51,7 +50,6 @@ class DebugView
     @Inject lateinit var client: OkHttpClient
     @Inject @field:ApiEndpoint lateinit var networkEndpoint: Preference<String>
     @Inject lateinit var app: Application
-    @Inject lateinit var intentManager: IntentManager
 
     private val binding: DebugViewContentBinding
 

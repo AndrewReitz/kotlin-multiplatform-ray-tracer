@@ -1,5 +1,6 @@
 package raytracer.core
 
+import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.Vector
 import raytracer.test.assertFloat3Equals
@@ -92,5 +93,25 @@ class RayTest {
     assertEquals(actual = xs.size, expected = 2)
     assertEquals(actual = xs[0].obj, expected = s)
     assertEquals(actual = xs[1].obj, expected = s)
+  }
+
+  @JsName("Translating_a_ray")
+  @Test
+  fun `Translating a ray`() {
+    val r = Ray(Point(1, 2, 3), Vector(0, 1, 0))
+    val m = Matrix.translation(3, 4, 5)
+    val r2 = r.transform(m)
+    assertFloat3Equals(actual = r2.origin, expected = Point(4, 6, 8))
+    assertFloat3Equals(actual = r2.direction, expected = Vector(0, 1, 0))
+  }
+
+  @JsName("Scaling_a_ray")
+  @Test
+  fun `Scaling a ray`() {
+    val r = Ray(Point(1, 2, 3), Vector(0, 1, 0))
+    val m = Matrix.scaling(2, 3, 4)
+    val r2 = r.transform(m)
+    assertFloat3Equals(actual = r2.origin, expected = Point(2, 6, 12))
+    assertFloat3Equals(actual = r2.direction, expected = Vector(0, 3, 0))
   }
 }

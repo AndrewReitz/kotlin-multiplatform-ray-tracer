@@ -174,21 +174,21 @@ data class Matrix(
       r4(0, 0, 0, 1)
     }
 
-    fun translation(x: Number, y: Number, z: Number) = Matrix4 {
+    inline fun translation(x: Number, y: Number, z: Number) = Matrix4 {
       r1(1, 0, 0, x)
       r2(0, 1, 0, y)
       r3(0, 0, 1, z)
       r4(0, 0, 0, 1)
     }
 
-    fun scaling(x: Number, y: Number, z: Number) = Matrix4 {
+    inline fun scaling(x: Number, y: Number, z: Number) = Matrix4 {
       r1(x, 0, 0, 0)
       r2(0, y, 0, 0)
       r3(0, 0, z, 0)
       r4(0, 0, 0, 1)
     }
 
-    fun rotationX(radians: Number): Matrix {
+    inline fun rotationX(radians: Number): Matrix {
       val r = radians.toFloat()
       return Matrix4 {
         r1(1, 0, 0, 0)
@@ -198,7 +198,7 @@ data class Matrix(
       }
     }
 
-    fun rotationY(radians: Number): Matrix {
+    inline fun rotationY(radians: Number): Matrix {
       val r = radians.toFloat()
       return Matrix4 {
         r1(cos(r), 0, sin(r), 0)
@@ -208,7 +208,7 @@ data class Matrix(
       }
     }
 
-    fun rotationZ(radians: Number): Matrix {
+    inline fun rotationZ(radians: Number): Matrix {
       val r = radians.toFloat()
       return Matrix4 {
         r1(cos(r), -sin(r), 0, 0)
@@ -218,7 +218,9 @@ data class Matrix(
       }
     }
 
-    fun shearing(xToY: Number, xtoZ: Number, yToX: Number, yToZ: Number, zToX: Number, zToY: Number): Matrix = Matrix4 {
+    inline fun shearing(
+      xToY: Number, xtoZ: Number, yToX: Number, yToZ: Number, zToX: Number, zToY: Number
+    ): Matrix = Matrix4 {
       r1(1, xToY, xtoZ, 0)
       r2(yToX, 1, yToZ, 0)
       r3(zToX, zToY, 1, 0)

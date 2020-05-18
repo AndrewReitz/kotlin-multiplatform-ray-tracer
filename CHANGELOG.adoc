@@ -2,6 +2,9 @@
 
 == 三
 
+- Removed Retrofit and move all networking to shared networking module
+- Updated Navigation components to androidx
+
 == 二
 
 - setup for next api, app pointed at gcp function that will become live when new api is out.

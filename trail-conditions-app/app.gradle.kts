@@ -11,23 +11,6 @@ plugins {
     id("android-signing-config")
 }
 
-repositories {
-    mavenCentral()
-    google()
-    jcenter {
-        content {
-            includeGroup("org.amshove.kluent")
-            includeGroup("org.jetbrains.trove4j")
-        }
-    }
-    maven {
-        url = uri("https://jitpack.io")
-        content {
-            includeGroup("com.github.AndrewReitz.andrew-kotlin-commons")
-        }
-    }
-}
-
 play {
     serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
     track = "internal"
@@ -65,7 +48,7 @@ android {
 
         val buildNumber: String by project
         versionCode = buildNumber.toInt()
-        versionName = "三"
+        versionName = "四"
     }
 
     buildTypes {

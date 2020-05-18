@@ -71,7 +71,7 @@ data class Matrix(
     return Matrix(newMatrix)
   }
 
-  val determinant: Float by lazy(LazyThreadSafetyMode.NONE) {
+  val determinant: Float by lazy {
     if (size == 2) {
       val a = data[0][0]
       val b = data[0][1]
@@ -88,7 +88,7 @@ data class Matrix(
     }
   }
 
-  val isInvertible get() = determinant != 0f
+  val isInvertible: Boolean by lazy { determinant != 0f }
 
   inline fun subMatrixOf(mToDrop: Int, nToDrop: Int): Matrix {
 

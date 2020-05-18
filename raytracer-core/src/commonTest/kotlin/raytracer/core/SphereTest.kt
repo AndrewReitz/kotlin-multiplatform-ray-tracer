@@ -8,14 +8,14 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SphereTest {
-  @JsName("A_sphere's_default_transformation")
+  @JsName("A_spheres_default_transformation")
   @Test
   fun `A sphere's default transformation`() {
     val s = Sphere()
     assertEquals(actual = s.transform, expected = Matrix.IDENTITY)
   }
 
-  @JsName("Changing_a_sphere's_transformation")
+  @JsName("Changing_a_spheres_transformation")
   @Test
   fun `Changing a sphere's transformation`() {
     val t = Matrix.translation(2, 3, 4)

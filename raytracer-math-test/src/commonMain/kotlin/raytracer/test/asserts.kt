@@ -1,25 +1,27 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package raytracer.test
 
 import raytracer.math.Float3
+import raytracer.math.Float4
 import raytracer.math.Matrix
-import raytracer.math.Vector4
 import raytracer.math.fuzzyEquals
 import kotlin.test.assertTrue
 
-/** For fuzzy assertions around floating points */
-fun assertTupleEquals(actual: Vector4, expected: Vector4) {
+class UseNamedArguments private constructor()
+
+fun assertFloat4Equals(vararg nothing: UseNamedArguments, actual: Float4, expected: Float4) {
   assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }
 
-/** For fuzzy assertions around floating points */
-fun assertMatrixEquals(actual: Matrix, expected: Matrix) {
+fun assertMatrixEquals(vararg nothing: UseNamedArguments, actual: Matrix, expected: Matrix) {
   assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }
 
-fun assertFloatsEquals(actual: Float, expected: Float) {
+fun assertFloatsEquals(vararg nothing: UseNamedArguments, actual: Float, expected: Float) {
   assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }
 
-fun assertFloat3Equals(actual: Float3, expected: Float3) {
+fun assertFloat3Equals(vararg nothing: UseNamedArguments, actual: Float3, expected: Float3) {
   assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }

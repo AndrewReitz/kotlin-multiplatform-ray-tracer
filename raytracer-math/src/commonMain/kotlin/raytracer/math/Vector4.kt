@@ -90,11 +90,11 @@ data class Vector4(
     w = w
   )
 
-  fun fuzzyEquals(other: Vector4): Boolean {
-    if (abs(x - other.x) > EPSILON) return false
-    if (abs(y - other.y) > EPSILON) return false
-    if (abs(z - other.z) > EPSILON) return false
-    if (abs(w - other.w) > EPSILON) return false
+  override fun fuzzyEquals(float4: Float4): Boolean {
+    if (abs(x - float4.x) > EPSILON) return false
+    if (abs(y - float4.y) > EPSILON) return false
+    if (abs(z - float4.z) > EPSILON) return false
+    if (abs(w - float4.w) > EPSILON) return false
 
     return true
   }

@@ -28,4 +28,7 @@ interface HasW {
 interface Float3 : HasX, HasY, HasZ {
   fun fuzzyEquals(float3: Float3): Boolean
 }
-interface Float4 : HasX, HasY, HasZ, HasW
+
+interface Float4 : HasX, HasY, HasZ, HasW {
+  fun fuzzyEquals(float4: Float4): Boolean
+}

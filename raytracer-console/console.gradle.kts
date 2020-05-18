@@ -20,9 +20,7 @@ kotlin {
   js {
     nodejs()
   }
-  jvm {
-    this.withJavaEnabled
-  }
+  jvm()
 
   sourceSets {
     val commonMain by getting {

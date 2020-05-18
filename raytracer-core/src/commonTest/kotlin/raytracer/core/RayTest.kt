@@ -7,7 +7,6 @@ import raytracer.test.assertFloat3Equals
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import raytracer.test.assertTupleEquals
 
 class RayTest {
   @JsName("Creating_and_querying_a_ray")

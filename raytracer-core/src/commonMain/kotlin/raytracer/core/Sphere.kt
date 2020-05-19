@@ -9,7 +9,8 @@ import raytracer.math.toVector
 
 data class Sphere(
   val center: Point = Point(0, 0, 0),
-  val transform: Matrix = Matrix.IDENTITY
+  val transform: Matrix = Matrix.IDENTITY,
+  val material: Material = Material()
 ) {
 
   inline fun normalAt(worldPoint: Point): Vector3 {

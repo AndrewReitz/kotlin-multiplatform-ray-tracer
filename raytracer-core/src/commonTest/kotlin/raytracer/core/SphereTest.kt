@@ -102,4 +102,19 @@ class SphereTest {
     val n = s.normalAt(Point(0, sqrt(2f) / 2, -sqrt(2f) / 2))
     assertFloat3Equals(actual = n, expected = Vector(0, 0.97014, -0.24254))
   }
+
+  @JsName("A_sphere_has_a_default_material")
+  @Test
+  fun `A sphere has a default material`() {
+    val s = Sphere()
+    assertEquals(actual = s.material, expected = Material())
+  }
+
+  @JsName("A_sphere_may_be_assigned_a_material")
+  @Test
+  fun `A sphere may be assigned a material`() {
+    val m = Material(ambient = 1f)
+    val s = Sphere(material = m)
+    assertEquals(actual = s.material, expected = m)
+  }
 }

@@ -197,4 +197,22 @@ class TupleTest {
     assertEquals(actual = a cross b, expected = Vector(-1, 2, -1))
     assertEquals(actual = b cross a, expected = Vector(1, -2, 1))
   }
+
+  @JsName("Reflecting_a_vector_approaching_at_45_degrees")
+  @Test
+  fun `Reflecting a vector approaching at 45 Degrees`() {
+    val v = Vector(1, -1, 0)
+    val n = Vector(0, 1, 0)
+    val r = v.reflect(n)
+    assertFloat3Equals(actual = r, expected = Vector(1, 1, 0))
+  }
+
+  @JsName("Reflecting_a_vector_off_a_slanted_surface")
+  @Test
+  fun `Reflecting a vector off a slanted surface`() {
+    val v = Vector(0, -1, 0)
+    val n = Vector(sqrt(2f) / 2, sqrt(2f) / 2, 0)
+    val r = v.reflect(n)
+    assertFloat3Equals(actual = r, expected = Vector(1, 0, 0))
+  }
 }

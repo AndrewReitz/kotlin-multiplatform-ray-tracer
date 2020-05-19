@@ -75,6 +75,8 @@ data class Vector3(
     z = x * other.y - y * other.x
   )
 
+  inline infix fun reflect(normal: Vector3): Vector3 = this - normal * 2 * (this dot normal)
+
   override fun fuzzyEquals(float3: Float3): Boolean {
     if (abs(x - float3.x) > EPSILON) return false
     if (abs(y - float3.y) > EPSILON) return false

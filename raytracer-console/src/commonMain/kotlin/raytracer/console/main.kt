@@ -1,9 +1,12 @@
 package raytracer.console
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import raytracer.core.Canvas
 import raytracer.core.Color
+import raytracer.core.Material
+import raytracer.core.PointLight
 import raytracer.core.Ray
 import raytracer.core.Sphere
 import raytracer.math.Point
@@ -12,9 +15,10 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
 @ExperimentalTime
-fun main() = run {
+fun main(): Unit = run {
+  println("starting...")
+
   val canvasSize = 1000
-  val wallColor = Color(1, 0, 0)
   val c = Canvas(canvasSize, canvasSize)
 
   val rayOrigin = Point(0, 0, -5)
@@ -23,7 +27,14 @@ fun main() = run {
   val pixelSize = wallSize / canvasSize
   val half = wallSize / 2f
 
-  val shape = Sphere()
+  val shape = Sphere(material = Material(
+    color = Color(1, 0.2, 1)
+  ))
+
+  val light = PointLight(
+    position = Point(-10, 10, -10),
+    intensity = Color(1, 1, 1)
+  )
 
   val time = measureTime {
     val jobs = mutableListOf<Job>()
@@ -31,15 +42,21 @@ fun main() = run {
     for (y in 0 until c.width) {
       val worldY = half - pixelSize * y
       for (x in 0 until c.height) {
-        jobs += launch {
+        println("calculating pixel [$x, $y]")
+        jobs += launch(Dispatchers.Default) {
           val worldX = -half + pixelSize * x
           val position = Point(worldX, worldY, wallZ)
           val r = Ray(rayOrigin, (position - rayOrigin).normalize().toVector())
           val xs = r.intersects(shape)
 
-          if (xs.hit() != null) {
-            c[x, y] = wallColor
+          xs.hit()?.let {hit ->
+            val point = r.position(hit.time)
+            val normal = hit.obj.normalAt(point)
+            val eye = -r.direction
+            val color = hit.obj.material.lighting(light, point, eye, normal)
+            c[x, y] = color
           }
+          println("finished calculating pixel [$x, $y]")
         }
       }
     }

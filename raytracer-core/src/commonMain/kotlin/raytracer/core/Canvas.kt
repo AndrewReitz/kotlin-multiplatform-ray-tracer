@@ -11,7 +11,7 @@ data class Canvas(
 
   val pixels: Array<Array<Color>> = Array(height) {
     Array(width) {
-      Color.EMPTY
+      Color.Black
     }
   }
 

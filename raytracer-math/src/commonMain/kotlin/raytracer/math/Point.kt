@@ -74,12 +74,4 @@ data class Point(
     y = z * other.x - x * other.z,
     z = x * other.y - y * other.x
   )
-
-  override fun fuzzyEquals(float3: Float3): Boolean {
-    if (abs(x - float3.x) > EPSILON) return false
-    if (abs(y - float3.y) > EPSILON) return false
-    if (abs(z - float3.z) > EPSILON) return false
-
-    return true
-  }
 }

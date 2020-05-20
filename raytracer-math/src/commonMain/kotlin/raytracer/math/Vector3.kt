@@ -31,7 +31,7 @@ data class Vector3(
       z = z - vector.z
     )
 
-  inline operator fun not() = Vector3(
+  inline operator fun unaryMinus(): Vector3 = Vector3(
     x = -x,
     y = -y,
     z = -z
@@ -76,12 +76,4 @@ data class Vector3(
   )
 
   inline infix fun reflect(normal: Vector3): Vector3 = this - normal * 2 * (this dot normal)
-
-  override fun fuzzyEquals(float3: Float3): Boolean {
-    if (abs(x - float3.x) > EPSILON) return false
-    if (abs(y - float3.y) > EPSILON) return false
-    if (abs(z - float3.z) > EPSILON) return false
-
-    return true
-  }
 }

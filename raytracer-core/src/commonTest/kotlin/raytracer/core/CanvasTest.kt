@@ -14,7 +14,7 @@ class CanvasTest {
 
     (1..c.width).forEach { x ->
       (1..c.height).forEach { y ->
-        assertEquals(actual = c[x - 1, y - 1], expected = Color.EMPTY)
+        assertEquals(actual = c[x - 1, y - 1], expected = Color.Black)
       }
     }
   }

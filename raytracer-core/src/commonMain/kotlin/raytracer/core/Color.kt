@@ -2,14 +2,16 @@
 
 package raytracer.core
 
-import raytracer.math.EPSILON
-import kotlin.math.abs
+import raytracer.math.Float3
 
 data class Color(
   val red: Float,
   val green: Float,
   val blue: Float
-) {
+): Float3 {
+  override val x = red
+  override val y = green
+  override val z = blue
 
   inline operator fun plus(color: Color) = Color(
     red = red + color.red,
@@ -38,16 +40,9 @@ data class Color(
     green = green * color.green
   )
 
-  fun fuzzyEquals(other: Color): Boolean {
-    if (abs(red - other.red) > EPSILON) return false
-    if (abs(green - other.green) > EPSILON) return false
-    if (abs(blue - other.blue) > EPSILON) return false
-
-    return true
-  }
-
   companion object {
-    val EMPTY: Color = Color(0f, 0f, 0f)
+    val Black: Color = Color(0f, 0f, 0f)
+    val White: Color = Color(1f, 1f, 1f)
   }
 }
 

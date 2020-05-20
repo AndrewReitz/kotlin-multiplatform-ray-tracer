@@ -12,7 +12,8 @@ import trail.networking.model.MorcTrail
 
 class MorcTrailRepository(
     client: HttpClient,
-    private val url: String = "https://api.morcmtb.org/v1/trails"
+    private val url: String = "https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails"
+    // "https://api.morcmtb.org/v1/trails" should be released here when it's published
 ) {
 
     private val client = client.config {

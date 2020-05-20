@@ -2,6 +2,7 @@ package aggregator.twitter
 
 import kotlinx.coroutines.withTimeout
 import cash.andrew.kotlin.common.retry
+import trail.networking.twitter.TwitterAccount
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -25,7 +26,6 @@ data class TwitterParams(
 
 
 @JsModule("twitter")
-@JsNonModule
 external class Twitter(config: TwitterConfig) {
   fun get(path: String, params: TwitterParams, callback: (error: dynamic, tweets: dynamic, response: dynamic) -> Unit)
 }

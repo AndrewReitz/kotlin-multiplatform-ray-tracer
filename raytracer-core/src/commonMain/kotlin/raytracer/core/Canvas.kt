@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package raytracer.core
 
 import kotlin.math.roundToInt
@@ -15,13 +13,13 @@ data class Canvas(
     }
   }
 
-  inline operator fun set(x: Int, y: Int, color: Color) {
+  operator fun set(x: Int, y: Int, color: Color) {
     if (x < 0 || x > width) return
     if (y < 0 || y > height) return
     pixels[y][x] = color
   }
 
-  inline operator fun get(x: Int, y: Int) = pixels[y][x]
+  operator fun get(x: Int, y: Int) = pixels[y][x]
 
   fun toPpm(): String {
     val sb = StringBuilder()
@@ -57,5 +55,5 @@ data class Canvas(
     return sb.toString()
   }
 
-  private inline fun StringBuilder.newLine(): StringBuilder = append("\n")
+  private fun StringBuilder.newLine(): StringBuilder = append("\n")
 }

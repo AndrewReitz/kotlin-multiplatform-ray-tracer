@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package raytracer.core
 
 import raytracer.math.Matrix
@@ -13,7 +11,7 @@ data class Sphere(
   val material: Material = Material()
 ) {
 
-  inline fun normalAt(worldPoint: Point): Vector3 {
+  fun normalAt(worldPoint: Point): Vector3 {
     val objectPoint = transform.inverse() * worldPoint
     val objectNormal = objectPoint - Point(0, 0, 0)
     val worldNormal = (transform.inverse().transpose() * objectNormal).toVector()

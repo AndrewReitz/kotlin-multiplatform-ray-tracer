@@ -28,7 +28,7 @@ data class Intersections @PublishedApi internal constructor(
     return intersections.contentHashCode()
   }
 
-  inline fun hit(): Intersection? {
+  fun hit(): Intersection? {
     if (intersections.isEmpty()) return null
 
     val first = intersections[0]
@@ -41,7 +41,7 @@ data class Intersections @PublishedApi internal constructor(
   }
 }
 
-inline fun intersectionsOf(vararg intersections: Intersection) =
+fun intersectionsOf(vararg intersections: Intersection) =
   Intersections(
     intersections.apply {
       // sort by lowest value closest to 0 but not under

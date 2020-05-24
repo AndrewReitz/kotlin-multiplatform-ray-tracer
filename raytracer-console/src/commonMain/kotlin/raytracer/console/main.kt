@@ -27,9 +27,11 @@ fun main(): Unit = run {
   val pixelSize = wallSize / canvasSize
   val half = wallSize / 2f
 
-  val shape = Sphere(material = Material(
-    color = Color(1, 0.2, 1)
-  ))
+  val shape = Sphere(
+    material = Material(
+      color = Color(1, 0.2, 1)
+    )
+  )
 
   val light = PointLight(
     position = Point(-10, 10, -10),
@@ -42,21 +44,21 @@ fun main(): Unit = run {
     for (y in 0 until c.width) {
       val worldY = half - pixelSize * y
       for (x in 0 until c.height) {
-        println("calculating pixel [$x, $y]")
+        log { "calculating pixel [$x, $y]" }
         jobs += launch(Dispatchers.Default) {
           val worldX = -half + pixelSize * x
           val position = Point(worldX, worldY, wallZ)
           val r = Ray(rayOrigin, (position - rayOrigin).normalize().toVector())
           val xs = r.intersects(shape)
 
-          xs.hit()?.let {hit ->
+          xs.hit()?.let { hit ->
             val point = r.position(hit.time)
             val normal = hit.obj.normalAt(point)
             val eye = -r.direction
             val color = hit.obj.material.lighting(light, point, eye, normal)
             c[x, y] = color
           }
-          println("finished calculating pixel [$x, $y]")
+          log { "finished calculating pixel [$x, $y]" }
         }
       }
     }
@@ -71,4 +73,8 @@ fun main(): Unit = run {
   }
 
   println("PPM Took ${ppm.inSeconds} seconds")
+}
+
+fun log(message: () -> String) {
+//  println(message())
 }

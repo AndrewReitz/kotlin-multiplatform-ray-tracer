@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package raytracer.core
 
 import raytracer.math.Float3
@@ -13,19 +11,19 @@ data class Color(
   override val y = green
   override val z = blue
 
-  inline operator fun plus(color: Color) = Color(
+  operator fun plus(color: Color) = Color(
     red = red + color.red,
     blue = blue + color.blue,
     green = green + color.green
   )
 
-  inline operator fun minus(color: Color) = Color(
+  operator fun minus(color: Color) = Color(
     red = red - color.red,
     blue = blue - color.blue,
     green = green - color.green
   )
 
-  inline operator fun times(scalar: Number): Color {
+  operator fun times(scalar: Number): Color {
     val value = scalar.toFloat()
     return Color(
       red = red * value,
@@ -34,7 +32,7 @@ data class Color(
     )
   }
 
-  inline operator fun times(color: Color) = Color(
+  operator fun times(color: Color) = Color(
     red = red * color.red,
     blue = blue * color.blue,
     green = green * color.green
@@ -47,7 +45,7 @@ data class Color(
 }
 
 @Suppress("FunctionName")
-inline fun Color(
+fun Color(
   red: Number = 0,
   green: Number = 0,
   blue: Number = 0

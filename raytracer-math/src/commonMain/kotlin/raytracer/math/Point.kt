@@ -1,17 +1,12 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package raytracer.math
 
-import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 @Suppress("FunctionName")
-inline fun Point(x: Number, y: Number, z: Number): Point = Point(x.toFloat(), y.toFloat(), z.toFloat())
+fun Point(x: Number, y: Number, z: Number): Point = Point(x.toFloat(), y.toFloat(), z.toFloat())
 
-inline fun Array<Float>.toPoint(): Point = Point(get(0), get(1), get(2))
-
-inline fun Point.toVector() = Vector3(x, y, z)
+fun Array<Float>.toPoint(): Point = Point(get(0), get(1), get(2))
 
 data class Point(
   override val x: Float,
@@ -19,25 +14,25 @@ data class Point(
   override val z: Float
 ): Float3 {
 
-  inline operator fun plus(tuple: Float3) = Point(
+  operator fun plus(tuple: Float3) = Point(
     x = x + tuple.x,
     y = y + tuple.y,
     z = z + tuple.z
   )
 
-  inline operator fun minus(tuple: Float3) = Point(
+  operator fun minus(tuple: Float3) = Point(
     x = x - tuple.x,
     y = y - tuple.y,
     z = z - tuple.z
   )
 
-  inline operator fun not() = Point(
+  operator fun not() = Point(
     x = -x,
     y = -y,
     z = -z
   )
 
-  inline operator fun times(scalar: Number): Point {
+  operator fun times(scalar: Number): Point {
     val value = scalar.toFloat()
     return Point(
       x = value * x,
@@ -46,7 +41,7 @@ data class Point(
     )
   }
 
-  inline operator fun div(scalar: Number): Point {
+  operator fun div(scalar: Number): Point {
     val value = scalar.toFloat()
     return Point(
       x = x / value,
@@ -65,11 +60,11 @@ data class Point(
     z / magnitude
   )
 
-  inline infix fun dot(other: Point): Float = x * other.x +
+  infix fun dot(other: Point): Float = x * other.x +
       y * other.y +
       z * other.z
 
-  inline infix fun cross(other: Point) = Point(
+  infix fun cross(other: Point) = Point(
     x = y * other.z - z * other.y,
     y = z * other.x - x * other.z,
     z = x * other.y - y * other.x

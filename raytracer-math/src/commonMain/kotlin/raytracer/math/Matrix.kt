@@ -1,5 +1,3 @@
-@file:Suppress("NOTHING_TO_INLINE")
-
 package raytracer.math
 
 import kotlin.math.abs
@@ -12,9 +10,9 @@ data class Matrix(
 
   val size = data.size
 
-  inline operator fun get(m: Int, n: Int): Float = data[m][n]
+  operator fun get(m: Int, n: Int): Float = data[m][n]
 
-  inline operator fun times(other: Matrix): Matrix {
+  operator fun times(other: Matrix): Matrix {
     if (other.size != size) throw Exception("Matrix $other is not the same size as $this")
 
     val self = this
@@ -32,7 +30,7 @@ data class Matrix(
     return Matrix(newMatrix)
   }
 
-  inline operator fun times(point: Point): Point {
+  operator fun times(point: Point): Point {
     val newTuple = Array(4) { 0f }
     data.forEachIndexed { index, m ->
       newTuple[index] = m.toVector4() dot point
@@ -41,7 +39,7 @@ data class Matrix(
     return newTuple.toPoint()
   }
 
-  inline operator fun times(vector3: Vector3): Vector3 {
+  operator fun times(vector3: Vector3): Vector3 {
     val newTuple = Array(4) { 0f }
     data.forEachIndexed { index, m ->
       newTuple[index] = m.toVector4() dot vector3
@@ -50,7 +48,7 @@ data class Matrix(
     return newTuple.toVector3()
   }
 
-  inline operator fun times(vector4: Vector4): Vector4 {
+  operator fun times(vector4: Vector4): Vector4 {
     val newTuple = Array(4) { 0f }
     data.forEachIndexed { index, m ->
       newTuple[index] = m.toVector4() dot vector4
@@ -59,7 +57,7 @@ data class Matrix(
     return newTuple.toVector4()
   }
 
-  inline fun transpose(): Matrix {
+  fun transpose(): Matrix {
     if (this == IDENTITY) return IDENTITY
 
     val newMatrix = Array(size) { m ->
@@ -90,7 +88,7 @@ data class Matrix(
 
   val isInvertible: Boolean by lazy { determinant != 0f }
 
-  inline fun subMatrixOf(mToDrop: Int, nToDrop: Int): Matrix {
+  fun subMatrixOf(mToDrop: Int, nToDrop: Int): Matrix {
 
     var currentM = 0
     val newMatrix = Array(size - 1) { m ->
@@ -112,12 +110,12 @@ data class Matrix(
     return Matrix(newMatrix)
   }
 
-  inline fun minor(mToDrop: Int, nToDrop: Int): Float {
+  fun minor(mToDrop: Int, nToDrop: Int): Float {
     val subMatrix = subMatrixOf(mToDrop, nToDrop)
     return subMatrix.determinant
   }
 
-  inline fun cofactor(mToDrop: Int, nToDrop: Int): Float {
+  fun cofactor(mToDrop: Int, nToDrop: Int): Float {
     val minor = minor(mToDrop, nToDrop)
     val isEven = (mToDrop + nToDrop) and 1 == 0
     return if (isEven) minor else -1 * minor
@@ -174,21 +172,21 @@ data class Matrix(
       r4(0, 0, 0, 1)
     }
 
-    inline fun translation(x: Number, y: Number, z: Number) = Matrix4 {
+    fun translation(x: Number, y: Number, z: Number) = Matrix4 {
       r1(1, 0, 0, x)
       r2(0, 1, 0, y)
       r3(0, 0, 1, z)
       r4(0, 0, 0, 1)
     }
 
-    inline fun scaling(x: Number, y: Number, z: Number) = Matrix4 {
+    fun scaling(x: Number, y: Number, z: Number) = Matrix4 {
       r1(x, 0, 0, 0)
       r2(0, y, 0, 0)
       r3(0, 0, z, 0)
       r4(0, 0, 0, 1)
     }
 
-    inline fun rotationX(radians: Number): Matrix {
+    fun rotationX(radians: Number): Matrix {
       val r = radians.toFloat()
       return Matrix4 {
         r1(1, 0, 0, 0)
@@ -198,7 +196,7 @@ data class Matrix(
       }
     }
 
-    inline fun rotationY(radians: Number): Matrix {
+    fun rotationY(radians: Number): Matrix {
       val r = radians.toFloat()
       return Matrix4 {
         r1(cos(r), 0, sin(r), 0)
@@ -208,7 +206,7 @@ data class Matrix(
       }
     }
 
-    inline fun rotationZ(radians: Number): Matrix {
+    fun rotationZ(radians: Number): Matrix {
       val r = radians.toFloat()
       return Matrix4 {
         r1(cos(r), -sin(r), 0, 0)
@@ -218,7 +216,7 @@ data class Matrix(
       }
     }
 
-    inline fun shearing(
+    fun shearing(
       xToY: Number, xtoZ: Number, yToX: Number, yToZ: Number, zToX: Number, zToY: Number
     ): Matrix = Matrix4 {
       r1(1, xToY, xtoZ, 0)

@@ -27,7 +27,7 @@ data class Ray(
     val t1 = (-b - sqrt(discriminant)) / (2f * a)
     val t2 = (-b + sqrt(discriminant)) / (2f * a)
 
-    return intersectionsOf(Intersection(t1, sphere), Intersection(t2, sphere))
+    return Intersections(Intersection(t1, sphere), Intersection(t2, sphere))
   }
 
   fun transform(transform: Matrix): Ray = Ray(

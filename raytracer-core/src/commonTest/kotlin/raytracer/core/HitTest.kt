@@ -12,7 +12,7 @@ class HitTest {
     val s = Sphere()
     val i1 = Intersection(1, s)
     val i2 = Intersection(2, s)
-    val xs = intersectionsOf(i2, i1)
+    val xs = Intersections(i2, i1)
     val i = xs.hit()
     assertEquals(actual = i, expected = i1)
   }
@@ -23,7 +23,7 @@ class HitTest {
     val s = Sphere()
     val i1 = Intersection(-1, s)
     val i2 = Intersection(1, s)
-    val xs = intersectionsOf(i2, i1)
+    val xs = Intersections(i2, i1)
     val i = xs.hit()
     assertEquals(actual = i, expected = i2)
   }
@@ -34,7 +34,7 @@ class HitTest {
     val s = Sphere()
     val i1 = Intersection(-2, s)
     val i2 = Intersection(-1, s)
-    val xs = intersectionsOf(i2, i1)
+    val xs = Intersections(i2, i1)
     val i = xs.hit()
     assertNull(i)
   }
@@ -48,7 +48,7 @@ class HitTest {
     val i3 = Intersection(-3, s)
     val i4 = Intersection(2, s)
 
-    val xs = intersectionsOf(i1, i2, i3, i4)
+    val xs = Intersections(i1, i2, i3, i4)
     val i = xs.hit()
     assertEquals(actual = i, expected = i4)
   }

@@ -26,7 +26,7 @@ afterEvaluate {
       description = "Runs $target firebase function for local testing"
       dependsOn(setupTask)
       workingDir("${rootProject.buildDir}/js")
-      commandLine("node_modules/.bin/functions-framework", "--target=morcTrails")
+      commandLine("node_modules/.bin/functions-framework", "--target=${target.name}")
     }
 
     tasks.register<Exec>("deploy$targetTaskName") {

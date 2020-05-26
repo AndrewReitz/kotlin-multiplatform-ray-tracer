@@ -1,24 +1,27 @@
-This app was created by [Andrew Reitz](http://andrewreitz.com). It works by
-using the information from the
-[MORC Trails Conditions Page](http://www.morcmtb.org/forums/trailconditions.php) which is
-updated and maintained by volunteers.
+## Where's the data come from?
 
-**Please please please** don't ride on wet/muddy trails. If you see someone on them when
-they aren't open please speak up, it's a community effort.
+This app uses the [MORC Trails Conditions Page](http://www.morcmtb.org/forums/trailconditions.php),
+[CLMTBT Conditions](https://www.cuyunalakesmtb.com/currentconditions), and 
+[Coggs Trails Status Feed](https://www.coggs.com/trail-feed-twitter) to populate the trail status. If you 
+know of some MN trails that have a status page and would like to have it included in this app shoot me an email!
 
-## Volunteers!
-
-**Thanks so much** to all the people who keep the trails maintained, who help keep the websites and
-anyone else who let us enjoy this great sport!
-
-If you'd like to get involved please consider going to one of the trail maintenance nights,
-or email to figure out another way to help out! Info about work nights and
-contact information can all be found in the individual [trail pages](http://www.morcmtb.org/trail/)
+Due to how this app works, status are posted by people, they might not always be 100% accurate and up to date. 
+Sorry but that's just how it goes. If trails are wet, please use don't ride them.
 
 ## This App
 
 If you find any issues/bugs, have any comments, ideas, or what to get involved. Feel free to
-contact me at [andrewreitz@protonmail.com](mail://andrewreitz@protonmail.com).
+contact me at [andrewreitz@protonmail.com](mail://andrewreitz@protonmail.com), or make a ticket 
+[here](https://gitlab.com/andrew.reitz/mn-trail-conditions-app/-/issues).
 
-I do this in my free time but still want to make the best app I can, so I'll try my best to
-implement feature requests.
+The app is open source, and is hosted on [gitlab](https://gitlab.com/andrew.reitz/mn-trail-conditions-app/).
+
+## Volunteers!
+
+**Thanks so much** to all the people who keep the trails maintained, keep the websites online and
+anyone else who help keep our trails open and operating.
+
+If you'd like to get involved please consider going to one of the trail maintenance nights,
+or get in contact someone to figure out another way to help out! Info about work nights and
+contact information can all be found in the individual trail pages. [MORC](http://www.morcmtb.org/trail/), 
+[COGGS](https://www.coggs.com/volunteer), [Cuyuna](https://www.cuyunalakesmtb.com/) 

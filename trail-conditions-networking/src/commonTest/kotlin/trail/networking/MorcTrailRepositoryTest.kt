@@ -32,7 +32,7 @@ class MorcTrailRepositoryTest {
       }
     }
 
-    val repo = MorcTrailRepository(client)
+    val repo = MorcTrailRepository(client, "https://api.morcmtb.org/v1/trails")
 
     val a = repo.getTrails()
 

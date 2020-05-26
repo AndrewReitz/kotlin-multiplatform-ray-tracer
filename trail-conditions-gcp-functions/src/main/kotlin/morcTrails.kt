@@ -16,6 +16,7 @@ private val http = HttpClient()
 private val repository = MorcTrailRepository(http)
 private val json = Json(JsonConfiguration.Stable)
 
+// https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails
 @ExperimentalTime
 @JsName("morcTrails")
 val morcTrails = { _: dynamic, res: dynamic ->

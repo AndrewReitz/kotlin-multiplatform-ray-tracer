@@ -26,8 +26,8 @@ kotlin {
         implementation(kotlin("test-common"))
         implementation(kotlin("test-annotations-common"))
 
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.5")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}")
 
         implementation("io.ktor:ktor-client-mock:${versions.ktor}")
       }
@@ -61,7 +61,6 @@ kotlin {
         implementation(npm("text-encoding", "0.7.0")) // required by ktor but not pulled in
 
         api("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:${versions.serialization}")
-
       }
     }
     val jsTest by getting {

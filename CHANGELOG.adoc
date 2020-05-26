@@ -2,6 +2,9 @@
 
 == 四
 
+- Adding more trail info! App now includes Cuyuna and Coggs trails on top of the morc trails.
+- Updated about.md to include more info about the change.
+
 == 三
 
 - Removed Retrofit and move all networking to shared networking module

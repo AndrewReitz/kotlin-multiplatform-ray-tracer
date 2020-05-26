@@ -1,6 +1,8 @@
 plugins {
   kotlin("js")
   id("gcp")
+  id("twitter-api-keys")
+  id("kotlin-config-writer")
 }
 
 dependencies {
@@ -20,10 +22,30 @@ kotlin {
 }
 
 gcp {
-  targets += listOf(trails.gradle.GcpTarget(
-    name = "morcTrails",
-    trigger = "http",
-    runtime = "nodejs10",
-    flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
-  ))
+  targets += listOf(
+    trails.gradle.GcpTarget(
+      name = "morcTrails",
+      trigger = "http",
+      runtime = "nodejs10",
+      flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
+    ),
+    trails.gradle.GcpTarget(
+      name = "trailAggregator",
+      trigger = "http",
+      runtime = "nodejs10",
+      flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
+    )
+  )
+}
+
+kotlinConfigWriter {
+  val consumerKey: String by project
+  val consumerSecret: String by project
+  val accessTokenKey: String by project
+  val accessTokenSecret: String by project
+
+  put("consumer_key" to consumerKey)
+  put("consumer_secret" to consumerSecret)
+  put("access_token_key" to accessTokenKey)
+  put("access_token_secret" to accessTokenSecret)
 }

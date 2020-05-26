@@ -1,4 +1,4 @@
-package aggregator.twitter
+package trail.networking.twitter
 
 enum class TwitterAccount(val accountName: String) {
 

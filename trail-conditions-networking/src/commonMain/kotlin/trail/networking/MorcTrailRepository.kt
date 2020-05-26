@@ -16,18 +16,18 @@ class MorcTrailRepository(
     // "https://api.morcmtb.org/v1/trails" should be released here when it's published
 ) {
 
-    private val client = client.config {
-        install(JsonFeature) {
-            serializer = KotlinxSerializer()
-        }
+  private val client = client.config {
+    install(JsonFeature) {
+      serializer = KotlinxSerializer()
     }
+  }
 
-    suspend fun getTrails(timeout: Long = 3000): Result<List<MorcTrail>, Exception> = resultFrom {
-        retry {
-            withTimeout(timeout) {
-                client.get<List<MorcTrail>>(url)
-            }
-        }
+  suspend fun getTrails(timeout: Long = 3000): Result<List<MorcTrail>, Exception> = resultFrom {
+    retry {
+      withTimeout(timeout) {
+        client.get<List<MorcTrail>>(url)
+      }
     }
+  }
 }
 

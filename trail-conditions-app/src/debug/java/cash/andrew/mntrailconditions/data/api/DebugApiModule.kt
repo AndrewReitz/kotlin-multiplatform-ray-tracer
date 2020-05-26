@@ -11,12 +11,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
 import javax.inject.Singleton
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
 import trail.networking.HtmlMorcTrailRepository
@@ -28,15 +26,9 @@ object DebugApiModule {
   @Provides
   @Singleton
   fun provideMorcTrailsRepository(
-    okHttpClient: OkHttpClient,
+    client: HttpClient,
     @ApiEndpoint apiEndpoint: Preference<String>
   ): MorcTrailRepository {
-    val client = HttpClient(OkHttp) {
-      engine {
-        preconfigured = okHttpClient
-      }
-    }
-
     if (ApiEndpoints.from(apiEndpoint.get()) == ApiEndpoints.CUSTOM) {
       return MorcTrailRepository(client, apiEndpoint.get())
     }
@@ -47,15 +39,9 @@ object DebugApiModule {
   @Provides
   @Singleton
   fun provideStuff(
-    okHttpClient: OkHttpClient,
+    client: HttpClient,
     @ApiEndpoint apiEndpoint: Preference<String>
   ): HtmlMorcTrailRepository {
-    val client = HttpClient(OkHttp) {
-      engine {
-        preconfigured = okHttpClient
-      }
-    }
-
     if (ApiEndpoints.from(apiEndpoint.get()) == ApiEndpoints.CUSTOM) {
       return HtmlMorcTrailRepository(client, apiEndpoint.get())
     }

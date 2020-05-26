@@ -1,6 +1,7 @@
 package cash.andrew.mntrailconditions.data
 
 import android.content.SharedPreferences
+import cash.andrew.mntrailconditions.data.api.ApiModule
 import cash.andrew.mntrailconditions.data.api.DebugApiModule
 import cash.andrew.mntrailconditions.data.preference.*
 import dagger.Module
@@ -15,7 +16,7 @@ import javax.inject.Qualifier
 @Qualifier annotation class NetworkFailurePercent
 @Qualifier annotation class NetworkVariancePercent
 
-@Module(includes = [DebugApiModule::class])
+@Module(includes = [ApiModule::class, DebugApiModule::class])
 object DebugDataModule {
 
     private const val DEFAULT_ANIMATION_SPEED = 1 // 1x (normal) speed.

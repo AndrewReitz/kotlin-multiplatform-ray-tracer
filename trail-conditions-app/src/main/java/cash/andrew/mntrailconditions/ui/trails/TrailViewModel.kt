@@ -5,6 +5,7 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import trail.networking.model.MorcTrail
 import trail.networking.model.TrailData
+import trail.networking.model.TrailInfo
 
 data class TrailViewModel(
   val name: String,
@@ -25,4 +26,11 @@ fun MorcTrail.toViewModel() = TrailViewModel(
   status = trailStatus ?: "Unknown", // todo should not happen once launched
   description = description.orEmpty().trim(),
   updatedAt = Instant.ofEpochMilli(updatedAt).atZone(ZoneId.systemDefault()).toInstant()
+)
+
+fun TrailInfo.toViewModel() = TrailViewModel(
+  name = name,
+  status = status,
+  description = description,
+  updatedAt = Instant.ofEpochMilli(lastUpdated).atZone(ZoneId.systemDefault()).toInstant()
 )

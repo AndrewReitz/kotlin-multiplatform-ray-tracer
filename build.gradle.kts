@@ -9,12 +9,7 @@ allprojects {
         mavenCentral()
         google()
         jcenter()
-        maven {
-            url = uri("https://jitpack.io")
-            content {
-                includeGroup("com.github.AndrewReitz.andrew-kotlin-commons")
-            }
-        }
+        maven("https://jitpack.io")
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {

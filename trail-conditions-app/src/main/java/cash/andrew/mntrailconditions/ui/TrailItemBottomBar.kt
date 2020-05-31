@@ -10,7 +10,9 @@ import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailItemBottomBarBinding
 import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
 import cash.andrew.mntrailconditions.util.setToolTipTextCompat
+import cash.andrew.mntrailconditions.util.subscribeToTopicV2
 import cash.andrew.mntrailconditions.util.toTopicName
+import cash.andrew.mntrailconditions.util.unsubscribeFromTopicV2
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import timber.log.Timber
@@ -117,13 +119,13 @@ class TrailItemBottomBar(
         val subscribe = updated - notifications
 
         unSubscribe.forEach { trailName ->
-            firebaseMessaging.unsubscribeFromTopic(trailName.toTopicName())
+            firebaseMessaging.unsubscribeFromTopicV2(trailName.toTopicName())
                     .addOnSuccessListener { Timber.i("Success un-subscribing to ${trailName.toTopicName()}") }
                     .addOnFailureListener { Timber.e(it, "Error removing notifications for ${trailName.toTopicName()}") }
         }
 
         subscribe.forEach { trailName ->
-            firebaseMessaging.subscribeToTopic(trailName.toTopicName())
+            firebaseMessaging.subscribeToTopicV2(trailName)
                     .addOnSuccessListener { Timber.i("Success subscribing to ${trailName.toTopicName()}") }
                     .addOnFailureListener { Timber.e(it, "Error subscribing to notifications for ${trailName.toTopicName()}") }
         }

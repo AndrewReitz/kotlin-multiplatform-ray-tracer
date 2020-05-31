@@ -6,12 +6,12 @@ import kotlinx.coroutines.promise
 import kotlinx.serialization.builtins.list
 import trail.networking.MorcTrailRepository
 import trail.networking.model.MorcTrail
+import util.Response
+import util.json
+import util.morcTrailRepository
 import kotlin.time.ExperimentalTime
 import kotlin.time.days
 import kotlin.time.minutes
-
-private val http = HttpClient()
-private val repository = MorcTrailRepository(http)
 
 // https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails
 @ExperimentalTime
@@ -30,7 +30,7 @@ private fun morcTrailsIncomplete(res: Response) {
 @ExperimentalTime
 private fun morcTrailsComplete(res: Response) {
   GlobalScope.promise {
-    when(val result = repository.getTrails()) {
+    when(val result = morcTrailRepository.getTrails()) {
       is Success -> {
         res.json(
           data = result.value,

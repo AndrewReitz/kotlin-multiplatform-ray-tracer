@@ -26,7 +26,13 @@ afterEvaluate {
       description = "Runs $target firebase function for local testing"
       dependsOn(setupTask)
       workingDir("${rootProject.buildDir}/js")
-      commandLine("node_modules/.bin/functions-framework", "--target=${target.name}")
+      commandLine(
+        listOf(
+          "node_modules/.bin/functions-framework",
+          "--target=${target.name}",
+          if (target.trigger=="topic") "--signature-type=event" else ""
+        )
+      )
     }
 
     tasks.register<Exec>("deploy$targetTaskName") {

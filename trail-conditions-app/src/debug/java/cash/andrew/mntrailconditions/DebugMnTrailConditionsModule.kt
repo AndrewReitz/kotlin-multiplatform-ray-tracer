@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import timber.log.Timber
 import android.os.StrictMode
+import cash.andrew.mntrailconditions.util.subscribeToTopicV2
 
 @Module(includes = [DebugDataModule::class])
 object DebugMnTrailConditionsModule {
@@ -33,6 +34,6 @@ object DebugMnTrailConditionsModule {
 
         // allows updating test in firestore to get push notifications
         // and ensure everything is working smoothly.
-        firebaseMessaging.subscribeToTopic("test")
+        firebaseMessaging.subscribeToTopicV2("test")
     }
 }

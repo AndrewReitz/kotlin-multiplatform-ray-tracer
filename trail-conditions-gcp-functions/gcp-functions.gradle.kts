@@ -38,6 +38,12 @@ gcp {
       trigger = "http",
       runtime = "nodejs10",
       flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
+    ),
+    trails.gradle.GcpTarget(
+      name = "trailNotifications",
+      trigger = "topic",
+      runtime = "nodejs8",
+      flags = listOf("trailNotifications")
     )
   )
 }

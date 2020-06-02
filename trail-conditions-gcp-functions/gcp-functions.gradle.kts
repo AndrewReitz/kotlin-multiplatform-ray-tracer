@@ -42,8 +42,8 @@ gcp {
     trails.gradle.GcpTarget(
       name = "trailNotifications",
       trigger = "topic",
-      runtime = "nodejs8",
-      flags = listOf("trailNotifications")
+      runtime = "nodejs10",
+      flags = listOf("trailNotifications", "--project", "mn-trail-functions")
     )
   )
 }

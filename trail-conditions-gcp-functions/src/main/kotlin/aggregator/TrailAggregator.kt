@@ -18,10 +18,10 @@ class TrailAggregator(
   private val htmlMorcTrailRepository: HtmlMorcTrailRepository,
   private val twitter: Twitter = Twitter(
     config = TwitterConfig(
-      consumer_key = Keys.CONSUMER_KEY,
-      consumer_secret = Keys.CONSUMER_SECRET,
-      access_token_key = Keys.ACCESS_TOKEN_KEY,
-      access_token_secret = Keys.ACCESS_TOKEN_SECRET
+      consumer_key = Keys.consumer_key,
+      consumer_secret = Keys.consumer_secret,
+      access_token_key = Keys.access_token_key,
+      access_token_secret = Keys.access_token_secret
     )
   )
 ) {

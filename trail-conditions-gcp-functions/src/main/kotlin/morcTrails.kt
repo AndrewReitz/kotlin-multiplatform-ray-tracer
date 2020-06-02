@@ -4,40 +4,39 @@ import io.ktor.client.HttpClient
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import kotlinx.serialization.builtins.list
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import trail.networking.MorcTrailRepository
 import trail.networking.model.MorcTrail
+import util.Response
+import util.json
+import util.morcTrailRepository
 import kotlin.time.ExperimentalTime
 import kotlin.time.days
 import kotlin.time.minutes
 
-private val http = HttpClient()
-private val repository = MorcTrailRepository(http)
-private val json = Json(JsonConfiguration.Stable)
-
 // https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails
 @ExperimentalTime
 @JsName("morcTrails")
-val morcTrails = { _: dynamic, res: dynamic ->
+val morcTrails = { _: dynamic, res: Response ->
   morcTrailsIncomplete(res)
 }
 
 @ExperimentalTime
-private fun morcTrailsIncomplete(res: dynamic) {
+private fun morcTrailsIncomplete(res: Response) {
   res.setHeader("Cache-Control", "max-age=${1.days.inSeconds}")
   res.status(501)
   res.send("Not implemented yet")
 }
 
 @ExperimentalTime
-private fun morcTrailsComplete(res: dynamic) {
+private fun morcTrailsComplete(res: Response) {
   GlobalScope.promise {
-    when(val result = repository.getTrails()) {
+    when(val result = morcTrailRepository.getTrails()) {
       is Success -> {
-        res.setHeader("Cache-Control", "max-age=${5.minutes.inSeconds}")
-        res.setHeader("Content-Type", "application/json; charset=utf-8")
-        res.send(json.stringify(MorcTrail.serializer().list, result.value))
+        res.json(
+          data = result.value,
+          serializer = MorcTrail.serializer().list,
+          maxCacheAge = 5.minutes
+        )
       }
       is Failure -> {
         console.log("Error getting data from backend ${result.reason}")

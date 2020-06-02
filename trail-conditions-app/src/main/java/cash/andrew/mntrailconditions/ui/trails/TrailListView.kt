@@ -6,10 +6,9 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import cash.andrew.kotlin.common.doOnFailure
 import cash.andrew.kotlin.common.doOnSuccess
-import cash.andrew.kotlin.common.flatMapFailure
 import cash.andrew.kotlin.common.map
 import cash.andrew.mntrailconditions.R
-import cash.andrew.mntrailconditions.data.api.AggregatedTrailsRepository
+import trail.networking.AggregatedTrailsRepository
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailListViewBinding
 import cash.andrew.mntrailconditions.util.component

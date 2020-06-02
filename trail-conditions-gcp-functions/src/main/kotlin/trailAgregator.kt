@@ -1,34 +1,67 @@
 import aggregator.TrailAggregator
-import io.ktor.client.HttpClient
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.list
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import trail.networking.HtmlMorcTrailRepository
 import trail.networking.MorcTrailRepository
 import trail.networking.model.TrailInfo
+import util.Response
+import util.fs
+import util.htmlMorcTrailRepository
+import util.json
+import util.morcTrailRepository
+import kotlin.js.Date
 import kotlin.time.ExperimentalTime
 import kotlin.time.minutes
 
-private val http = HttpClient()
-private val newRepository = MorcTrailRepository(http)
-private val oldRepository = HtmlMorcTrailRepository(http)
-private val json = Json(JsonConfiguration.Stable)
+private val newRepository = morcTrailRepository
+private val oldRepository = htmlMorcTrailRepository
+
+@Serializable
+private data class CachData(
+  val cachedAt: Long,
+  val data: List<TrailInfo> = emptyList()
+)
+
+@ExperimentalTime
+private fun Response.send(data: List<TrailInfo>) = this.json(
+  data = data,
+  serializer = TrailInfo.serializer().list,
+  maxCacheAge = 5.minutes
+)
+
+private const val CACHE_DIR = "/tmp/cache.json"
 
 // https://us-central1-mn-trail-functions.cloudfunctions.net/trailAggregator
 @ExperimentalTime
 @JsName("trailAggregator")
-val trailAggregator = { _: dynamic, res: dynamic ->
+val trailAggregator = { _: dynamic, res: Response ->
   GlobalScope.promise {
+    // /tmp is an in memory data storage on gcp
+    val cache = if (fs.existsSync(CACHE_DIR)) {
+      val data = fs.readFileSync(CACHE_DIR, "utf-8")
+      json.parse(CachData.serializer(), data)
+    } else CachData(0)
+
+    val timeSince = Date.now().toLong() - cache.cachedAt
+    if (timeSince <= 5.minutes.inMilliseconds) {
+      res.send(cache.data)
+      return@promise
+    }
+
     val aggregator = TrailAggregator(
       morcTrailRepository = newRepository,
       htmlMorcTrailRepository = oldRepository
     )
-
     val trails = aggregator.aggregatedTrails()
-    res.setHeader("Cache-Control", "max-age=${5.minutes.inSeconds}")
-    res.setHeader("Content-Type", "application/json; charset=utf-8")
-    res.send(json.stringify(TrailInfo.serializer().list, trails))
+
+    val newCache = CachData(
+      cachedAt = Date.now().toLong(),
+      data = trails
+    )
+
+    fs.writeFileSync(CACHE_DIR, json.stringify(CachData.serializer(), newCache))
+    res.send(trails)
   }
 }

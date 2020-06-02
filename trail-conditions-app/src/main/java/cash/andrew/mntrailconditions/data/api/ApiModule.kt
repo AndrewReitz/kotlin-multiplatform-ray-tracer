@@ -5,6 +5,7 @@ import dagger.Provides
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import okhttp3.OkHttpClient
+import trail.networking.AggregatedTrailsRepository
 import javax.inject.Singleton
 
 @Module
@@ -16,4 +17,8 @@ object ApiModule {
       preconfigured = okHttpClient
     }
   }
+
+  @Provides
+  @Singleton
+  fun provideTrailAggregator(httpClient: HttpClient) = AggregatedTrailsRepository(httpClient)
 }

@@ -26,7 +26,7 @@ abstract class KotlinConfigWriterTask : DefaultTask() {
           .apply {
             keyValuePairs.forEach { (key, value) ->
               addProperty(
-                PropertySpec.builder(key.toUpperCase(Locale.ROOT), String::class, KModifier.CONST).initializer("%S", value) .build()
+                PropertySpec.builder(key, String::class, KModifier.CONST).initializer("%S", value) .build()
               )
             }
           }

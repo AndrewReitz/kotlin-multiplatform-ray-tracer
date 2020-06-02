@@ -1,4 +1,4 @@
-package cash.andrew.mntrailconditions.data.api
+package trail.networking
 
 import cash.andrew.kotlin.common.Result
 import cash.andrew.kotlin.common.resultFrom
@@ -9,19 +9,11 @@ import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.get
 import kotlinx.coroutines.withTimeout
 import trail.networking.model.TrailInfo
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class AggregatedTrailsRepository(
   client: HttpClient,
   private val url: String = "https://us-central1-mn-trail-functions.cloudfunctions.net/trailAggregator"
 ) {
-
-  @Inject constructor(client: HttpClient): this(
-    client = client,
-    url = "https://us-central1-mn-trail-functions.cloudfunctions.net/trailAggregator"
-  )
 
   private val client = client.config {
     install(JsonFeature) {

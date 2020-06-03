@@ -17,7 +17,7 @@ fun statusToColor(context: Context, status: String): Int {
                 "not" in currentStatus -> R.attr.colorError
         "damp" in currentStatus || "tacky" in currentStatus ||
                 "fat tires" in currentStatus || "needs packing" in currentStatus ||
-                "open" in status || "dry" in currentStatus ||
+                "open" in currentStatus || "dry" in currentStatus ||
                 "packed" in currentStatus -> R.attr.colorPrimary
         else -> R.attr.colorError
     }
@@ -36,7 +36,7 @@ fun statusToResource(status: String): Int {
         "damp" in currentStatus -> R.drawable.damp
         "tacky" in currentStatus -> R.drawable.tacky
         "fat tires" in currentStatus || "needs packing" in currentStatus -> R.drawable.fat_tires
-        "open" in status || "dry" in currentStatus || "packed" in currentStatus -> R.drawable.dry
+        "open" in currentStatus || "dry" in currentStatus || "packed" in currentStatus -> R.drawable.dry
         else -> R.drawable.closed
     }
 }

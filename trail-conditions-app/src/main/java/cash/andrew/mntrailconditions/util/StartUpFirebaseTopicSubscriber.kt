@@ -17,7 +17,7 @@ class StartUpFirebaseTopicSubscriber @Inject constructor(
     fun subscribe() {
         notificationsPref.get()
                 .forEach {
-                  firebaseMessaging.subscribeToTopic(it.toTopicName())
+                  firebaseMessaging.unsubscribeFromTopic(it.toTopicName())
                   firebaseMessaging.subscribeToTopicV2(it)
                 }
     }

@@ -36,6 +36,7 @@ suspend fun AggregatedTrailsRepository.notificationData() = getTrails().map { tr
 }
 
 fun List<NotificationTrailData>.cache() {
+  println("Writing to cache")
   val dataString = json.stringify(NotificationTrailData.serializer().list, this)
   fs.writeFileSync(CACHE_FILE, dataString)
 }
@@ -49,19 +50,21 @@ fun List<NotificationTrailData>.cache() {
 val trailNotifications = { _: dynamic, _: dynamic ->
   GlobalScope.promise {
     val cache = if (fs.existsSync(CACHE_FILE)) {
+      println("Reading from cache")
       val data = fs.readFileSync(CACHE_FILE, "utf-8")
       json.parse(NotificationTrailData.serializer().list, data)
     } else {
+      println("No cahce pulling from network")
       aggregatedTrailsRepository.notificationData().onFailure {
         println("Failed to retrieve trails $it")
         return@promise
       }.also { it.cache() }
-    } + NotificationTrailData("test", "Open", 0, "testing")
+    }
 
     val data = aggregatedTrailsRepository.notificationData().onFailure {
       println("Failed to retrieve trails $it")
       return@promise
-    } + NotificationTrailData("test", "Open", Date.now().toLong(), "testing")
+    }
 
     val notifications: List<NotificationTrailData> = data.map { trail ->
         cache.find { trail.name == it.name && trail.updatedAt != it.updatedAt }

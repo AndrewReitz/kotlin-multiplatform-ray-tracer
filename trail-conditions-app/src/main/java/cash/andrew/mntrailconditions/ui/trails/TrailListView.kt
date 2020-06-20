@@ -76,7 +76,7 @@ class TrailListView(
   private fun loadData() {
     Timber.d("loadData() called")
     launch(Dispatchers.IO) {
-      trailsRepository.getTrails().map { trails ->
+      trailsRepository.getTrails(timeout = 5000).map { trails ->
           val filtered = if (favoriteTrailsPref == null) trails
           else trails.filter { trail -> trail.name in requireNotNull(favoriteTrailsPref).get() }
           filtered.map { it.toViewModel() }.sortedBy { it.name }

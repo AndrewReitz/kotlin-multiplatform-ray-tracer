@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.tasks.factory.dependsOn
 import trails.gradle.GcpExtension
 import trails.gradle.GcpSetupTask
 
@@ -12,6 +13,12 @@ dependencies {
 val extension = extensions.create<GcpExtension>("gcp")
 
 afterEvaluate {
+
+  val deployAll = tasks.register("deployAll") {
+    group = "Deploy"
+    description = "Deploys all gcp function targets"
+  }
+
   extension.targets.forEach { target ->
     val targetTaskName = target.name.capitalize()
 
@@ -35,12 +42,13 @@ afterEvaluate {
       )
     }
 
-    tasks.register<Exec>("deploy$targetTaskName") {
+    val deploy = tasks.register<Exec>("deploy$targetTaskName") {
       group = "Deploy"
       description = "Deploys $target to GCP Functions"
       dependsOn(setupTask)
       workingDir("${rootProject.buildDir}/js")
       commandLine(target.toArgumentList())
     }
+    deployAll.dependsOn(deploy)
   }
 }

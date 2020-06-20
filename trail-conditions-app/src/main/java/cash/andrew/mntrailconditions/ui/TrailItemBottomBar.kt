@@ -89,7 +89,7 @@ class TrailItemBottomBar(
   private fun TrailViewModel.toTwitterSocialMediaViewModel() =
     if (twitterUrl == null) SocialMediaButtonViewModel()
     else SocialMediaButtonViewModel(
-      url = Uri.parse(twitterAccount),
+      url = Uri.parse(twitterUrl),
       contentDescription = "$name twitter page"
     )
 
@@ -104,7 +104,7 @@ class TrailItemBottomBar(
       return
     }
     visibility = View.VISIBLE
-    contentDescription = buttonViewModel.contentDescription // "${trail.name} mountain project website"
+    contentDescription = buttonViewModel.contentDescription
     setOnClickListener {
       val browserIntent = Intent(Intent.ACTION_VIEW, buttonViewModel.url)
       startActivity(context, browserIntent, null)

@@ -15,9 +15,6 @@ import kotlin.js.Date
 import kotlin.time.ExperimentalTime
 import kotlin.time.minutes
 
-private val newRepository = morcTrailRepository
-private val oldRepository = htmlMorcTrailRepository
-
 @Serializable
 private data class CachData(
   val cachedAt: Long,
@@ -51,8 +48,8 @@ val trailAggregator = { _: dynamic, res: Response ->
     }
 
     val aggregator = TrailAggregator(
-      morcTrailRepository = newRepository,
-      htmlMorcTrailRepository = oldRepository
+      morcTrailRepository = morcTrailRepository,
+      htmlMorcTrailRepository = htmlMorcTrailRepository
     )
     val trails = aggregator.aggregatedTrails()
 

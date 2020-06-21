@@ -43,7 +43,7 @@ class TrailAggregator(
       KnownTrail.morcTrails.map { TrailInfo.createUnknownStatus(it) }
     }
 
-  private suspend fun newMorcApi() = morcTrailRepository.getTrails().map { trails ->
+  private suspend fun newMorcApi() = morcTrailRepository.getTrails(timeout = 10000).map { trails ->
     val trailInfos = trails.map trailMap@{ trail ->
       val knownTrail = KnownTrail.morcTrails.find {
         it.trailName == trail.trailName || it.otherNames.contains(trail.trailName)
@@ -65,7 +65,7 @@ class TrailAggregator(
     trailInfos.filterNotNull()
   }
 
-  private suspend fun oldMorcApi() = htmlMorcTrailRepository.getTrails().map { trails ->
+  private suspend fun oldMorcApi() = htmlMorcTrailRepository.getTrails(timeout = 10000).map { trails ->
     val trailInfos = trails.map trailsMap@{ trail ->
       val knownTrail = KnownTrail.morcTrails.find {
         it.trailName == trail.name || it.otherNames.contains(trail.name)

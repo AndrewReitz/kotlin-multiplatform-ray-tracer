@@ -8,11 +8,11 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.startActivity
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailItemBottomBarBinding
 import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
+import cash.andrew.mntrailconditions.util.IntentManager
 import cash.andrew.mntrailconditions.util.setToolTipTextCompat
 import cash.andrew.mntrailconditions.util.subscribeToTopicV2
 import cash.andrew.mntrailconditions.util.toTopicName
@@ -44,7 +44,8 @@ class TrailItemBottomBar(
     favoriteTrailsPref: Preference<Set<String>>,
     notificationsPref: Preference<Set<String>>,
     firebaseMessaging: FirebaseMessaging,
-    firebaseAnalytics: FirebaseAnalytics
+    firebaseAnalytics: FirebaseAnalytics,
+    intentManager: IntentManager
   ) {
     binding.trailFavorite.apply {
       setOnCheckedChangeListener(null)
@@ -66,9 +67,9 @@ class TrailItemBottomBar(
       isEnabled = true
     }
 
-    binding.mountainProject.bindSocialMediaButton(trail.toMountainProjectSocialMediaViewModel())
-    binding.facebook.bindSocialMediaButton(trail.toFacebookSocialMediaViewModel())
-    binding.twitter.bindSocialMediaButton(trail.toTwitterSocialMediaViewModel())
+    binding.mountainProject.bindSocialMediaButton(trail.toMountainProjectSocialMediaViewModel(), intentManager)
+    binding.facebook.bindSocialMediaButton(trail.toFacebookSocialMediaViewModel(), intentManager)
+    binding.twitter.bindSocialMediaButton(trail.toTwitterSocialMediaViewModel(), intentManager)
   }
 
   private fun TrailViewModel.toMountainProjectSocialMediaViewModel() =
@@ -98,7 +99,10 @@ class TrailItemBottomBar(
     val contentDescription: String = ""
   )
 
-  private fun ImageButton.bindSocialMediaButton(buttonViewModel: SocialMediaButtonViewModel) {
+  private fun ImageButton.bindSocialMediaButton(
+    buttonViewModel: SocialMediaButtonViewModel,
+    intentManager: IntentManager
+  ) {
     if (buttonViewModel.url == null) {
       visibility = View.GONE
       return
@@ -107,7 +111,9 @@ class TrailItemBottomBar(
     contentDescription = buttonViewModel.contentDescription
     setOnClickListener {
       val browserIntent = Intent(Intent.ACTION_VIEW, buttonViewModel.url)
-      startActivity(context, browserIntent, null)
+      if (!intentManager.maybeStartChooser(browserIntent)) {
+        Timber.w("maybeStartChooser: Unable to open url=${buttonViewModel.url}")
+      }
     }
   }
 

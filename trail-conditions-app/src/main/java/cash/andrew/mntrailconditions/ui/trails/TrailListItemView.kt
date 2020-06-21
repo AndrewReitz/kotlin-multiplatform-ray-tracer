@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailListItemViewBinding
+import cash.andrew.mntrailconditions.util.IntentManager
 import cash.andrew.mntrailconditions.util.statusToColor
 import cash.andrew.mntrailconditions.util.statusToResource
 import com.google.firebase.analytics.FirebaseAnalytics
@@ -28,7 +29,8 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
     favoriteTrailsPref: Preference<Set<String>>,
     notificationPref: Preference<Set<String>>,
     firebaseMessaging: FirebaseMessaging,
-    firebaseAnalytics: FirebaseAnalytics
+    firebaseAnalytics: FirebaseAnalytics,
+    intentManager: IntentManager
   ) {
     with(trail) {
       val now = LocalDateTime.now()
@@ -65,7 +67,8 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
       favoriteTrailsPref,
       notificationPref,
       firebaseMessaging,
-      firebaseAnalytics
+      firebaseAnalytics,
+      intentManager
     )
   }
 }

@@ -10,7 +10,7 @@ import dagger.Reusable
 import javax.inject.Inject
 
 @Reusable
-class IntentManager @Inject constructor(val context: Application) {
+class IntentManager @Inject constructor(private val context: Application) {
 
     /**
      * Attempt to launch the supplied [Intent]. Queries on-device packages before launching and

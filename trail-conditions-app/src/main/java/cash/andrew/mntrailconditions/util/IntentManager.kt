@@ -34,6 +34,7 @@ class IntentManager @Inject constructor(private val context: Application) {
             if (chooser) {
                 target = Intent.createChooser(target, null)
             }
+            target.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(target)
             true
         } else {

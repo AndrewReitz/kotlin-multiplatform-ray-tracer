@@ -1,9 +1,10 @@
 package raytracer.core
 
+import raytracer.math.Float3
 import raytracer.math.Matrix
 import raytracer.math.Point
 
-class World(
+data class World(
   val lights: List<PointLight> = emptyList(),
   val objects: List<Sphere> = emptyList()
 ) {
@@ -15,6 +16,23 @@ class World(
       .sortedBy { if (it.time >= 0f) it.time else Float.MAX_VALUE }
       .toList()
   )
+
+  fun shadeHit(comps: Computation): Color = lights.map {
+    comps.obj.material.lighting(
+      light = it,
+      position = comps.point,
+      eyev = comps.eyev,
+      normalv = comps.normalv
+    )
+  }.reduce { sum, color ->
+    sum + color
+  }
+
+  fun colorAt(ray: Ray): Color {
+    val hit = intersect(ray).firstOrNull() ?: return Color.Black
+    val comps = hit.prepareComputations(ray)
+    return shadeHit(comps)
+  }
 
   companion object {
     val default

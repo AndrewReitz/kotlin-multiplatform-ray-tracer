@@ -66,10 +66,9 @@ val trailNotifications = { _: dynamic, _: dynamic ->
       return@promise
     }
 
-    val notifications: List<NotificationTrailData> = data.map { trail ->
-        cache.find { trail.name == it.name && trail.updatedAt != it.updatedAt }
-      }
-      .filterNotNull()
+    val notifications: List<NotificationTrailData> = data.filter { trail ->
+        cache.any { trail.name == it.name && trail.updatedAt != it.updatedAt }
+    }
 
     if (notifications.isEmpty()) {
       println("No changes in data")

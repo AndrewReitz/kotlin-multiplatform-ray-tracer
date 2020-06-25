@@ -10,14 +10,12 @@
 
     <ImageButton
         android:id="@+id/mountain_project"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/ic_mtb_project"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
         android:contentDescription="@string/mountain_project"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -25,14 +23,12 @@
 
     <ImageButton
         android:id="@+id/facebook"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/ic_facebook"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
         android:contentDescription="@string/facebook"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="center"
         app:layout_constraintStart_toEndOf="@id/mountain_project"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -40,55 +36,62 @@
 
     <ImageButton
         android:id="@+id/twitter"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/ic_twitter"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="8dp"
         android:contentDescription="@string/twitter"
         android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="center"
         app:layout_constraintStart_toEndOf="@id/facebook"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
     />
 
-    <ToggleButton
-        android:id="@+id/trail_favorite"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_favorite_background"
-        android:checked="false"
-        android:contentDescription="@string/favorite"
-        android:stateListAnimator="@animator/toggle_button_animation"
-        android:text=""
-        android:textOff=""
-        android:textOn=""
+    <!--    to give a larger click area for the favorite button-->
+    <FrameLayout
+        android:id="@+id/trail_favorite_container"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/trail_notification"
+        app:layout_constraintEnd_toStartOf="@+id/trail_notification_container"
         app:layout_constraintTop_toTopOf="parent"
-    />
+    >
+        <ToggleButton
+            android:id="@+id/trail_favorite"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/button_favorite_background"
+            android:checked="false"
+            android:contentDescription="@string/favorite"
+            android:stateListAnimator="@animator/toggle_button_animation"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+            android:layout_gravity="center"
+        />
+    </FrameLayout>
 
-    <ToggleButton
-        android:id="@+id/trail_notification"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_notification_background"
-        android:checked="false"
-        android:contentDescription="@string/notification"
-        android:stateListAnimator="@animator/toggle_button_animation"
-        android:text=""
-        android:textOff=""
-        android:textOn=""
+    <FrameLayout
+        android:id="@+id/trail_notification_container"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-    />
+    >
+        <ToggleButton
+            android:id="@+id/trail_notification"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/button_notification_background"
+            android:checked="false"
+            android:contentDescription="@string/notification"
+            android:stateListAnimator="@animator/toggle_button_animation"
+            android:text=""
+            android:textOff=""
+            android:textOn=""
+            android:layout_gravity="center"
+        />
 
+    </FrameLayout>
 </merge>

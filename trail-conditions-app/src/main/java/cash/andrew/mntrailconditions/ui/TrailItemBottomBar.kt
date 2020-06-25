@@ -2,9 +2,11 @@ package cash.andrew.mntrailconditions.ui
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
+import android.view.TouchDelegate
 import android.view.View
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +34,6 @@ class TrailItemBottomBar(
 
   init {
     inflate(context, R.layout.trail_item_bottom_bar, this)
-
     binding = TrailItemBottomBarBinding.bind(this)
 
     binding.trailFavorite.setToolTipTextCompat(R.string.favorite)
@@ -47,6 +48,11 @@ class TrailItemBottomBar(
     firebaseAnalytics: FirebaseAnalytics,
     intentManager: IntentManager
   ) {
+
+    binding.trailFavoriteContainer.setOnClickListener {
+      binding.trailFavorite.isChecked = !binding.trailFavorite.isChecked
+    }
+
     binding.trailFavorite.apply {
       setOnCheckedChangeListener(null)
       isEnabled = false
@@ -55,6 +61,10 @@ class TrailItemBottomBar(
         favoriteClickListener(trail, favoriteTrailsPref, firebaseAnalytics)
       )
       isEnabled = true
+    }
+
+    binding.trailNotificationContainer.setOnClickListener {
+      binding.trailNotification.isChecked = !binding.trailNotification.isChecked
     }
 
     binding.trailNotification.apply {

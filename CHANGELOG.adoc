@@ -4,6 +4,7 @@
 
 - Adding more trail info! App now includes Cuyuna and Coggs trails on top of the morc trails.
 - Updated about.md to include more info about the change.
+- Made icons accessible their touch targets were too small. They have been enlarged to meet material design guidelines.
 
 == 三
 

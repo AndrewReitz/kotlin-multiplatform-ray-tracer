@@ -68,7 +68,7 @@ val trailNotifications = { _: dynamic, _: dynamic ->
 
     val notifications: List<NotificationTrailData> = data.filter { trail ->
         cache.any { trail.name == it.name && trail.updatedAt != it.updatedAt }
-    }
+    }.filter { it.status == "Unknown" }
 
     if (notifications.isEmpty()) {
       println("No changes in data")

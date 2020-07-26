@@ -1,5 +1,10 @@
 = Change Log
 
+== 五
+
+- Fixed timezone issue where times from the server were in UTC but treated as Central time so everything was off
+by 6 hours.
+
 == 四
 
 - Adding more trail info! App now includes Cuyuna and Coggs trails on top of the morc trails.

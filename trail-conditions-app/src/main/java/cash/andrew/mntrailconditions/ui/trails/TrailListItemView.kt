@@ -12,7 +12,8 @@ import cash.andrew.mntrailconditions.util.statusToResource
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
+import org.threeten.bp.ZoneOffset
+import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.temporal.ChronoUnit
 
 class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
@@ -34,11 +35,10 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
   ) {
     with(trail) {
       val now = LocalDateTime.now()
-      val updated = LocalDateTime.ofInstant(updatedAt, ZoneId.systemDefault())
-      val months = ChronoUnit.MONTHS.between(updated, now).toInt()
-      val days = ChronoUnit.DAYS.between(updated, now).toInt()
-      val hours = ChronoUnit.HOURS.between(updated, now).toInt()
-      val minutes = ChronoUnit.MINUTES.between(updated, now).toInt()
+      val months = ChronoUnit.MONTHS.between(updatedAt, now).toInt()
+      val days = ChronoUnit.DAYS.between(updatedAt, now).toInt()
+      val hours = ChronoUnit.HOURS.between(updatedAt, now).toInt()
+      val minutes = ChronoUnit.MINUTES.between(updatedAt, now).toInt()
       val lastUpdated = when (months) {
         0 -> when (days) {
           0 -> when (hours) {

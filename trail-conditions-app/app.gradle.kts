@@ -48,7 +48,7 @@ android {
 
         val buildNumber: String by project
         versionCode = buildNumber.toInt()
-        versionName = "四"
+        versionName = "五"
     }
 
     buildTypes {
@@ -120,7 +120,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.5.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")
 
-    implementation("com.jakewharton.threetenabp:threetenabp:1.2.3")
+    implementation("com.jakewharton.threetenabp:threetenabp:1.2.4")
     implementation("com.jakewharton:process-phoenix:2.0.0")
     implementation("com.jakewharton.timber:timber:4.7.1")
     implementation("com.jakewharton.byteunits:byteunits:0.9.1")

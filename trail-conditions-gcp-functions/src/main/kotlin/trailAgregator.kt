@@ -3,8 +3,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.builtins.list
-import trail.networking.HtmlMorcTrailRepository
-import trail.networking.MorcTrailRepository
 import trail.networking.model.TrailInfo
 import util.Response
 import util.fs

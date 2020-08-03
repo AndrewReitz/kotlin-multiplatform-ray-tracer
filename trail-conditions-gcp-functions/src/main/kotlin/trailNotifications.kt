@@ -24,7 +24,7 @@ data class NotificationTrailData(
 
 private const val CACHE_FILE = "/tmp/notificationCache.json"
 
-suspend fun AggregatedTrailsRepository.notificationData() = getTrails().map { trails ->
+suspend fun AggregatedTrailsRepository.notificationData() = getTrails(10000).map { trails ->
   trails.map { trail ->
     NotificationTrailData(
       name = trail.name,
@@ -54,7 +54,7 @@ val trailNotifications = { _: dynamic, _: dynamic ->
       val data = fs.readFileSync(CACHE_FILE, "utf-8")
       json.parse(NotificationTrailData.serializer().list, data)
     } else {
-      println("No cahce pulling from network")
+      println("No cache pulling from network")
       aggregatedTrailsRepository.notificationData().onFailure {
         println("Failed to retrieve trails $it")
         return@promise

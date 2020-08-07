@@ -1,6 +1,8 @@
 = Change Log
 
-== 五
+== 六
+
+== 五 (2020-08-06)
 
 - Fixed timezone issue where times from the server were in UTC but treated as Central time so everything was off
 by 6 hours.

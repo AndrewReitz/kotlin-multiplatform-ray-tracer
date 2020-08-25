@@ -3,51 +3,30 @@ package cash.andrew.mntrailconditions.data.api
 import cash.andrew.mntrailconditions.data.ApiEndpoint
 import cash.andrew.mntrailconditions.data.ApiEndpoints
 import cash.andrew.mntrailconditions.data.MORC_PRODUCTION_URL
-import cash.andrew.mntrailconditions.data.HEROKU_PRODUCTION_API_URL
 import cash.andrew.mntrailconditions.data.preference.Preference
 
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import javax.inject.Singleton
 import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Interceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import timber.log.Timber
-import trail.networking.HtmlMorcTrailRepository
-import trail.networking.MorcTrailRepository
+import trail.networking.AggregatedTrailsRepository
 
 @Module
 object DebugApiModule {
 
   @Provides
   @Singleton
-  fun provideMorcTrailsRepository(
-    client: HttpClient,
-    @ApiEndpoint apiEndpoint: Preference<String>
-  ): MorcTrailRepository {
-    if (ApiEndpoints.from(apiEndpoint.get()) == ApiEndpoints.CUSTOM) {
-      return MorcTrailRepository(client, apiEndpoint.get())
-    }
-
-    return MorcTrailRepository(client, MORC_PRODUCTION_URL.toString())
-  }
-
-  @Provides
-  @Singleton
-  fun provideStuff(
-    client: HttpClient,
-    @ApiEndpoint apiEndpoint: Preference<String>
-  ): HtmlMorcTrailRepository {
-    if (ApiEndpoints.from(apiEndpoint.get()) == ApiEndpoints.CUSTOM) {
-      return HtmlMorcTrailRepository(client, apiEndpoint.get())
-    }
-
-    return HtmlMorcTrailRepository(client, HEROKU_PRODUCTION_API_URL.toString())
-  }
+  fun provideTrailAggregator(
+    @ApiEndpoint apiEndpoint: Preference<String>,
+    httpClient: HttpClient
+  ) = AggregatedTrailsRepository(httpClient, apiEndpoint.get())
 
   @Provides
   @Singleton

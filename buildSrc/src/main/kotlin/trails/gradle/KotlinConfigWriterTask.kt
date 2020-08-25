@@ -22,7 +22,7 @@ abstract class KotlinConfigWriterTask : DefaultTask() {
   fun generate() {
     val file = FileSpec.builder("trails.config", className)
       .addType(
-        TypeSpec.objectBuilder("Keys")
+        TypeSpec.objectBuilder(className)
           .apply {
             keyValuePairs.forEach { (key, value) ->
               addProperty(

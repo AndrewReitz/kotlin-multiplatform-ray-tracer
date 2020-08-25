@@ -1,6 +1,7 @@
 package util
 
 import kotlinx.serialization.SerializationStrategy
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import kotlin.time.Duration
@@ -13,8 +14,8 @@ external class Response {
 }
 
 @ExperimentalTime
-fun <T> Response.json(data: T, serializer: SerializationStrategy<T>, maxCacheAge: Duration) {
+inline fun <reified T> Response.json(data: T, maxCacheAge: Duration) {
   setHeader("Cache-Control", "max-age=${maxCacheAge.inSeconds}")
   setHeader("Content-Type", "application/json; charset=utf-8")
-  send(Json(JsonConfiguration.Stable).stringify(serializer, data))
+  send(Json.encodeToString(data))
 }

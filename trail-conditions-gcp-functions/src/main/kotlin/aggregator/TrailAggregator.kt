@@ -5,17 +5,14 @@ import aggregator.twitter.TwitterConfig
 import aggregator.twitter.getTrailStatus
 import cash.andrew.kotlin.common.*
 import kotlinx.coroutines.*
-import trail.networking.HtmlMorcTrailRepository
 import trail.networking.MorcTrailRepository
 import trail.networking.model.KnownTrail
 import trail.networking.model.TrailInfo
 import trails.config.Keys
-import kotlin.js.Date
 
 class TrailAggregator(
   private val scope: CoroutineScope = MainScope(),
   private val morcTrailRepository: MorcTrailRepository,
-  private val htmlMorcTrailRepository: HtmlMorcTrailRepository,
   private val twitter: Twitter = Twitter(
     config = TwitterConfig(
       consumer_key = Keys.consumer_key,
@@ -37,8 +34,6 @@ class TrailAggregator(
 
   private suspend fun morcTrails(): List<TrailInfo> = newMorcApi()
     .doOnFailure { println(it.message) }
-    .flatMapFailure { oldMorcApi() }
-    .doOnFailure { println(it.message) }
     .recover {
       KnownTrail.morcTrails.map { TrailInfo.createUnknownStatus(it) }
     }
@@ -58,28 +53,6 @@ class TrailAggregator(
         description = trail.description.orEmpty(),
         lastUpdated = trail.updatedAt,
         status = trail.trailStatus.orEmpty(),
-        twitterAccount = knownTrail.twitterAccount?.accountName
-      )
-    }
-
-    trailInfos.filterNotNull()
-  }
-
-  private suspend fun oldMorcApi() = htmlMorcTrailRepository.getTrails(timeout = 10000).map { trails ->
-    val trailInfos = trails.map trailsMap@{ trail ->
-      val knownTrail = KnownTrail.morcTrails.find {
-        it.trailName == trail.name || it.otherNames.contains(trail.name)
-      }
-
-      if (knownTrail == null) return@trailsMap null
-
-      TrailInfo(
-        name = knownTrail.trailName,
-        mtbProjectUrl = knownTrail.mtbProjectUrl,
-        facebookUrl = knownTrail.facebookUrl,
-        description = trail.fullDescription,
-        lastUpdated = Date.parse(trail.lastUpdated).toLong(),
-        status = trail.status,
         twitterAccount = knownTrail.twitterAccount?.accountName
       )
     }

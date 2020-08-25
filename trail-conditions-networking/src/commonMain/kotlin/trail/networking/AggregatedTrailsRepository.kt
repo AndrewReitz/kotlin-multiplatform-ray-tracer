@@ -24,7 +24,7 @@ class AggregatedTrailsRepository(
   suspend fun getTrails(timeout: Long = 3000): Result<List<TrailInfo>, Exception> = resultFrom {
     retry {
       withTimeout(timeout) {
-        client.get<List<TrailInfo>>(url)
+        client.get(url)
       }
     }
   }

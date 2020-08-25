@@ -5,7 +5,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 
-    id("com.github.triplet.play") version "2.7.5"
+    id("com.github.triplet.play") version "2.8.0"
 
     id("build-number")
     id("android-signing-config")
@@ -80,8 +80,8 @@ android {
         exclude("META-INF/ktor*")
     }
 
-    viewBinding {
-        isEnabled = true
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -91,34 +91,34 @@ dependencies {
     implementation("io.ktor:ktor-client-core:${versions.ktor}")
     implementation("io.ktor:ktor-client-okhttp:${versions.ktor}")
 
-    implementation(kotlin("stdlib"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5")
+    implementation(kotlin("stdlib", versions.kotlin))
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}")
 
-    implementation("androidx.core:core-ktx:1.2.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta6")
+    implementation("androidx.core:core-ktx:1.3.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.0")
     implementation("androidx.annotation:annotation:1.1.0")
-    implementation("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.2.2")
-    implementation("androidx.navigation:navigation-ui-ktx:2.2.2")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
 
-    implementation("com.google.android.material:material:1.1.0")
+    implementation("com.google.android.material:material:1.2.0")
 
-    implementation("com.google.firebase:firebase-core:17.4.1")
-    implementation("com.google.firebase:firebase-messaging:20.1.7")
-    implementation("com.google.firebase:firebase-analytics:17.4.1")
-    implementation("com.google.firebase:firebase-crashlytics:17.0.0")
+    implementation("com.google.firebase:firebase-core:17.5.0")
+    implementation("com.google.firebase:firebase-messaging:20.2.4")
+    implementation("com.google.firebase:firebase-analytics:17.5.0")
+    implementation("com.google.firebase:firebase-crashlytics:17.2.1")
 
-    kapt("com.google.dagger:dagger-compiler:2.27")
-    implementation("com.google.dagger:dagger:2.27")
+    kapt("com.google.dagger:dagger-compiler:2.28.3")
+    implementation("com.google.dagger:dagger:2.28.3")
 
-    implementation("com.squareup.okhttp3:okhttp:4.5.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.5.0")
+    implementation("com.squareup.okhttp3:okhttp:4.8.1")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.8.1")
 
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.4")
     implementation("com.jakewharton:process-phoenix:2.0.0")
@@ -129,7 +129,7 @@ dependencies {
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
     implementation("com.github.AndrewReitz.andrew-kotlin-commons:andrew-kotlin-commons:master-SNAPSHOT")
-    implementation("io.noties.markwon:core:4.3.1")
+    implementation("io.noties.markwon:core:4.5.1")
 
     val stethoVersion = "1.5.1"
     debugImplementation("com.facebook.stetho:stetho:$stethoVersion")

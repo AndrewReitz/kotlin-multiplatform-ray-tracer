@@ -19,21 +19,14 @@ data class TrailViewModel(
   val twitterUrl get() = twitterAccount?.let { "https://twitter.com/$it" }
 }
 
+private val ZONE_ID = ZoneId.of("America/Chicago")
+
 fun TrailInfo.toViewModel() = TrailViewModel(
   name = name,
   status = status,
   description = description,
-  updatedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(lastUpdated), timezone),
+  updatedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(lastUpdated), ZONE_ID),
   twitterAccount = twitterAccount,
   facebookUrl = facebookUrl,
   mountainProjectUrl = mtbProjectUrl
 )
-
-/**
- * Hack to get around issue on the backend were we don't have timezones setup for Morc trails
- * so Javascript treats them as UTC. This should be removed once the morc api is published.
- * TODO
- */
-val TrailInfo.timezone: ZoneId get() =
-  if (KnownTrail.morcTrails.find { it.name == name } == null) ZoneOffset.UTC
-  else ZoneId.of("America/Chicago")

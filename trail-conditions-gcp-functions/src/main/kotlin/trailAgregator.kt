@@ -2,11 +2,11 @@ import aggregator.TrailAggregator
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import trail.networking.model.TrailInfo
 import util.Response
 import util.fs
-import util.htmlMorcTrailRepository
 import util.json
 import util.morcTrailRepository
 import kotlin.js.Date
@@ -14,7 +14,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.minutes
 
 @Serializable
-private data class CachData(
+data class CachData(
   val cachedAt: Long,
   val data: List<TrailInfo> = emptyList()
 )
@@ -22,7 +22,6 @@ private data class CachData(
 @ExperimentalTime
 private fun Response.send(data: List<TrailInfo>) = this.json(
   data = data,
-  serializer = TrailInfo.serializer().list,
   maxCacheAge = 5.minutes
 )
 
@@ -36,7 +35,7 @@ val trailAggregator = { _: dynamic, res: Response ->
     // /tmp is an in memory data storage on gcp
     val cache = if (fs.existsSync(CACHE_DIR)) {
       val data = fs.readFileSync(CACHE_DIR, "utf-8")
-      json.parse(CachData.serializer(), data)
+      json.decodeFromString(data)
     } else CachData(0)
 
     val timeSince = Date.now().toLong() - cache.cachedAt
@@ -46,8 +45,7 @@ val trailAggregator = { _: dynamic, res: Response ->
     }
 
     val aggregator = TrailAggregator(
-      morcTrailRepository = morcTrailRepository,
-      htmlMorcTrailRepository = htmlMorcTrailRepository
+      morcTrailRepository = morcTrailRepository
     )
     val trails = aggregator.aggregatedTrails()
 
@@ -56,7 +54,7 @@ val trailAggregator = { _: dynamic, res: Response ->
       data = trails
     )
 
-    fs.writeFileSync(CACHE_DIR, json.stringify(CachData.serializer(), newCache))
+    fs.writeFileSync(CACHE_DIR, json.encodeToString(newCache))
     res.send(trails)
   }
 }

@@ -19,7 +19,7 @@ dependencies {
 }
 
 kotlin {
-  target {
+  js {
     nodejs()
     useCommonJs()
   }
@@ -27,12 +27,6 @@ kotlin {
 
 gcp {
   targets += listOf(
-    trails.gradle.GcpTarget(
-      name = "morcTrails",
-      trigger = "http",
-      runtime = "nodejs10",
-      flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
-    ),
     trails.gradle.GcpTarget(
       name = "trailAggregator",
       trigger = "http",

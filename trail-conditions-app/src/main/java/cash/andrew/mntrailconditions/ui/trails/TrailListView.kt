@@ -14,8 +14,6 @@ import cash.andrew.mntrailconditions.databinding.TrailListViewBinding
 import cash.andrew.mntrailconditions.util.component
 import kotlinx.coroutines.*
 import timber.log.Timber
-import trail.networking.HtmlMorcTrailRepository
-import trail.networking.MorcTrailRepository
 import javax.inject.Inject
 
 class TrailListView(
@@ -24,13 +22,7 @@ class TrailListView(
 ) : LinearLayout(context, attrs), CoroutineScope by MainScope() {
 
   @Inject
-  lateinit var htmlMorcTrailRepository: HtmlMorcTrailRepository
-
-  @Inject
   lateinit var trailListAdapter: TrailListAdapter
-
-  @Inject
-  lateinit var morcTrailRepository: MorcTrailRepository
 
   @Inject
   lateinit var trailsRepository: AggregatedTrailsRepository

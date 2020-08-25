@@ -5,7 +5,10 @@ import cash.andrew.kotlin.common.get
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.promise
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.list
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import trails.config.Keys
 import util.*
 import kotlin.js.Date
@@ -37,7 +40,7 @@ suspend fun AggregatedTrailsRepository.notificationData() = getTrails(10000).map
 
 fun List<NotificationTrailData>.cache() {
   println("Writing to cache")
-  val dataString = json.stringify(NotificationTrailData.serializer().list, this)
+  val dataString = json.encodeToString(ListSerializer(NotificationTrailData.serializer()), this)
   fs.writeFileSync(CACHE_FILE, dataString)
 }
 
@@ -52,7 +55,7 @@ val trailNotifications = { _: dynamic, _: dynamic ->
     val cache = if (fs.existsSync(CACHE_FILE)) {
       println("Reading from cache")
       val data = fs.readFileSync(CACHE_FILE, "utf-8")
-      json.parse(NotificationTrailData.serializer().list, data)
+      json.decodeFromString(data)
     } else {
       println("No cache pulling from network")
       aggregatedTrailsRepository.notificationData().onFailure {

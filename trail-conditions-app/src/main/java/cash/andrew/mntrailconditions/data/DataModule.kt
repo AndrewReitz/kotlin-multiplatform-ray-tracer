@@ -21,7 +21,6 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 val MORC_PRODUCTION_URL = "https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails".toHttpUrl()
-val HEROKU_PRODUCTION_API_URL = "https://mn-trail-info-service.herokuapp.com".toHttpUrl()
 
 const val SHARED_PREF_FILE_NAME = "cash.andrew.mntrailconditions"
 

@@ -22,8 +22,10 @@ val generateConfigTask = tasks.create<KotlinConfigWriterTask>("generateKotlinCon
   }
 }
 
-tasks.withType<KotlinJsCompile>().named("compileKotlinJs").configure {
-  dependsOn(generateConfigTask)
+afterEvaluate {
+  tasks.withType<KotlinJsCompile>().named("compileKotlinJs").configure {
+    dependsOn(generateConfigTask)
+  }
 }
 
 plugins.findPlugin(IdeaPlugin::class)?.apply {

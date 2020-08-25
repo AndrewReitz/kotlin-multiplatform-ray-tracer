@@ -2,6 +2,8 @@ plugins {
     kotlin("multiplatform") apply false
     kotlin("plugin.serialization") apply false version versions.kotlin
     kotlin("js") apply false
+
+    id("com.github.ben-manes.versions") version "0.29.0"
 }
 
 allprojects {

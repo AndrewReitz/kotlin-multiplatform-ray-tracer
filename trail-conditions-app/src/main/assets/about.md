@@ -1,6 +1,6 @@
 ## Where's the data come from?
 
-This app uses the [MORC Trails Conditions Page](http://www.morcmtb.org/forums/trailconditions.php),
+This app uses the [MORC Trails Conditions Page](https://trails.morcmtb.org/),
 [CLMTBT Conditions](https://www.cuyunalakesmtb.com/currentconditions), and 
 [Coggs Trails Status Feed](https://www.coggs.com/trail-feed-twitter) to populate the trail status. If you 
 know of some MN trails that have a status page and would like to have it included please contact me,

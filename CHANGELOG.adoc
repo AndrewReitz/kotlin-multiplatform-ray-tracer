@@ -1,6 +1,10 @@
 = Change Log
 
-== 六
+== 六 (2020-08-26)
+
+- Update to Kotlin 1.4.0
+- Removed old html parsing system. Using new morc api.
+- Removed hack from 五 for timezones (no longer needed w/ new api)
 
 == 五 (2020-08-06)
 

@@ -21,15 +21,6 @@ being the ability to change what url is hit for the api endpoints.
 
 These are cloud functions hosted on GCP.
 
-#### morcTrail: https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails
-
-This function will hit the new endpoint from morc when it becomes available. Currently, it's just returning 
-a not implemented so that the app can hit this and then fall back to the old html parsing way of 
-getting the trail data. This will allow for immediate switch over by updating the cloud function rather than
-publishing a new app version.
-
-`./gradlew runMorcTrails` can be used to test this function locally.
-
 #### trailAggregator: https://us-central1-mn-trail-functions.cloudfunctions.net/trailAggregator
 
 This endpoint is the latest in MN trail technology. It combines the [MORC trails](http://www.morcmtb.org/trail/),
@@ -47,19 +38,11 @@ This is the shared code that is used by both the Android app and the Cloud Funct
 to target both js and the jvm. If it's going to be used in Trail-Conditions-GCP-Functions and 
 Trail-Conditions-App it belongs in Trail-Conditions-Networking.
 
-### Old Backend
+## Questions, Issues, Ideas?
 
-The "old" backend code is hosted [here](https://github.com/AndrewReitz/mn-trail-info) and the api can be accessed
-[here](https://mn-trail-info-service.herokuapp.com/). This is considered old because it parses the morc trail page and 
-is according to everything I've been told being replaced at some point. In general, I'd like to move off of 
-this and have everything hosted in this repository.
+Join the telegram room https://t.me/morcmtb
 
-### What Else
-
-There are a few other pieces that are currently missing from this repo, but I'm working to move them all here as
-fast as possible. Off the top of my head the two things that are missing is the cloud function that populates
-the Firebase Firestore, and the cloud function that triggers if anything changes in Firestore sending notifications
-to subscribers.
+or submit a ticket https://gitlab.com/andrew.reitz/mn-trail-conditions-app/-/issues
 
 ## License
 

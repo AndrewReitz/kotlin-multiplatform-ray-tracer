@@ -15,7 +15,7 @@ dependencies {
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${versions.coroutines}")
 
   implementation(npm("twitter", "1.7.1"))
-  implementation(npm("firebase-admin", "8.12.1"))
+  implementation(npm("firebase-admin", "9.1.1"))
 }
 
 kotlin {
@@ -30,13 +30,13 @@ gcp {
     trails.gradle.GcpTarget(
       name = "trailAggregator",
       trigger = "http",
-      runtime = "nodejs10",
+      runtime = "nodejs12",
       flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
     ),
     trails.gradle.GcpTarget(
       name = "trailNotifications",
       trigger = "topic",
-      runtime = "nodejs10",
+      runtime = "nodejs12",
       flags = listOf("trailNotifications", "--project", "mn-trail-functions")
     )
   )

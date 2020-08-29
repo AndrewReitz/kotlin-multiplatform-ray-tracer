@@ -29,7 +29,7 @@ enum class KnownTrail(
     facebookUrl = "https://www.facebook.com/BertramSingletrack",
     mtbProjectUrl = "https://www.mtbproject.com/trail/3505586/bertram-chain-of-lakes",
     website = "http://www.morcmtb.org/bertram",
-    otherNames = setOf("Monticello")
+    otherNames = setOf("Monticello", "Bertram Chain of Lakes")
   ),
 
   CarverLakePark(
@@ -76,11 +76,11 @@ enum class KnownTrail(
   ),
 
   MNRiverBottoms(
-    trailName = "MN River Bottoms",
+    trailName = "Minnesota River Trail",
     facebookUrl = null,
     mtbProjectUrl = "https://www.mtbproject.com/trail/7016269/minnesota-river-bottoms",
     website = "http://www.morcmtb.org/minnesota-river-trail/",
-    otherNames = setOf("Minnesota River Trail")
+    otherNames = setOf("MN River Bottoms")
   ),
 
   MurphyHanrehan(
@@ -95,6 +95,13 @@ enum class KnownTrail(
     facebookUrl = "https://www.facebook.com/Salem-Hills-Single-Track-1580089522261838/",
     mtbProjectUrl = "https://www.mtbproject.com/directory/8016604/salem-hills-park",
     website = "http://www.morcmtb.org/salem-hills"
+  ),
+
+  SunfishLakePark(
+    trailName = "Sunfish Lake Park",
+    facebookUrl = "https://www.facebook.com/SunfishMTB",
+    mtbProjectUrl = "https://www.mtbproject.com/trail/6114344/lake-elmo-park-preserve",
+    website = "https://sminc-lake-elmo.org/trail-info/", // TODO update when morc has more info
   ),
 
   TerraceOaks(
@@ -180,6 +187,7 @@ enum class KnownTrail(
       MNRiverBottoms,
       MurphyHanrehan,
       SalemHills,
+      SunfishLakePark,
       TerraceOaks,
       TheodoreWirth
     )

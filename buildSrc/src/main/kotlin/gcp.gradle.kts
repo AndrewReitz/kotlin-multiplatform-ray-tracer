@@ -7,12 +7,15 @@ plugins {
 }
 
 dependencies {
-  implementation(npm("@google-cloud/functions-framework", "1.5.1"))
+  implementation(npm("@google-cloud/functions-framework", "1.7.1"))
 }
 
 val extension = extensions.create<GcpExtension>("gcp")
 
 afterEvaluate {
+
+  // todo figure out a way to remove absolute paths to package json
+  // or just update to jvm runtime which GCP Cloud functions now support.
 
   val deployAll = tasks.register("deployAll") {
     group = "Deploy"

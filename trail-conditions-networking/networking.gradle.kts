@@ -55,9 +55,6 @@ kotlin {
 
         api("io.ktor:ktor-client-js:${versions.ktor}")
         api("io.ktor:ktor-client-serialization-js:${versions.ktor}")
-        implementation(npm("abort-controller", "3.0.0")) // required by ktor but not pulled in
-        implementation(npm("node-fetch", "2.6.0")) // required by ktor but not pulled in
-        implementation(npm("text-encoding", "0.7.0")) // required by ktor but not pulled in
       }
     }
     val jsTest by getting {

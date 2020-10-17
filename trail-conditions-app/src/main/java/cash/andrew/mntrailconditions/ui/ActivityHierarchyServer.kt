@@ -19,7 +19,7 @@ interface ActivityHierarchyServer : Application.ActivityLifecycleCallbacks {
 
             override fun onActivityStopped(activity: Activity) {}
 
-            override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle?) {}
+            override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
 
             override fun onActivityDestroyed(activity: Activity) {}
         }

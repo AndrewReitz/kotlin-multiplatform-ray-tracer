@@ -1,5 +1,9 @@
 = Change Log
 
+== 7
+
+- changing versions numbers back to numbers to avoid breaking firebase.
+
 == 六 (2020-08-26)
 
 - Update to Kotlin 1.4.0

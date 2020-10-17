@@ -5,20 +5,20 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 
-    id("com.github.triplet.play") version "2.8.0"
+    id("com.github.triplet.play") version "3.0.0"
 
     id("build-number")
     id("android-signing-config")
 }
 
 play {
-    serviceAccountCredentials = file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json")
-    track = "internal"
-    defaultToAppBundles = true
+    serviceAccountCredentials.set(file(properties["cash.andrew.mntrail.publishKey"] ?: "keys/publish-key.json"))
+    track.set("internal")
+    defaultToAppBundles.set(true)
 }
 
 android {
-    compileSdkVersion(29)
+    compileSdkVersion(30)
     buildToolsVersion("29.0.3")
 
     signingConfigs {
@@ -44,11 +44,11 @@ android {
     defaultConfig {
         applicationId = "com.andrewreitz.cash.andrew.mntrailconditions"
         minSdkVersion(23)
-        targetSdkVersion(29)
+        targetSdkVersion(30)
 
         val buildNumber: String by project
         versionCode = buildNumber.toInt()
-        versionName = "六"
+        versionName = "7"
     }
 
     buildTypes {
@@ -95,8 +95,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}")
 
-    implementation("androidx.core:core-ktx:1.3.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0")
+    implementation("androidx.core:core-ktx:1.3.2")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
     implementation("androidx.annotation:annotation:1.1.0")
     implementation("androidx.appcompat:appcompat:1.2.0")
     implementation("androidx.recyclerview:recyclerview:1.1.0")
@@ -104,21 +104,21 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.3.1")
+    implementation("androidx.navigation:navigation-ui-ktx:2.3.1")
 
-    implementation("com.google.android.material:material:1.2.0")
+    implementation("com.google.android.material:material:1.2.1")
 
-    implementation("com.google.firebase:firebase-core:17.5.0")
-    implementation("com.google.firebase:firebase-messaging:20.2.4")
-    implementation("com.google.firebase:firebase-analytics:17.5.0")
-    implementation("com.google.firebase:firebase-crashlytics:17.2.1")
+    implementation("com.google.firebase:firebase-core:17.5.1")
+    implementation("com.google.firebase:firebase-messaging:20.3.0")
+    implementation("com.google.firebase:firebase-analytics:17.6.0")
+    implementation("com.google.firebase:firebase-crashlytics:17.2.2")
 
-    kapt("com.google.dagger:dagger-compiler:2.28.3")
-    implementation("com.google.dagger:dagger:2.28.3")
+    kapt("com.google.dagger:dagger-compiler:2.29.1")
+    implementation("com.google.dagger:dagger:2.29.1")
 
-    implementation("com.squareup.okhttp3:okhttp:4.8.1")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.8.1")
+    implementation("com.squareup.okhttp3:okhttp:4.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     implementation("com.jakewharton.threetenabp:threetenabp:1.2.4")
     implementation("com.jakewharton:process-phoenix:2.0.0")
@@ -129,7 +129,7 @@ dependencies {
     releaseImplementation("com.readystatesoftware.chuck:library-no-op:1.1.0")
 
     implementation("com.github.AndrewReitz.andrew-kotlin-commons:andrew-kotlin-commons:master-SNAPSHOT")
-    implementation("io.noties.markwon:core:4.5.1")
+    implementation("io.noties.markwon:core:4.6.0")
 
     val stethoVersion = "1.5.1"
     debugImplementation("com.facebook.stetho:stetho:$stethoVersion")
@@ -137,7 +137,7 @@ dependencies {
     debugImplementation("com.facebook.stetho:stetho-timber:$stethoVersion")
 
     testImplementation("org.amshove.kluent:kluent-android:1.61")
-    testImplementation("junit:junit:4.13")
+    testImplementation("junit:junit:4.13.1")
 }
 
 val installAll = tasks.register("installAll") {

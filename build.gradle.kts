@@ -7,6 +7,9 @@ plugins {
 }
 
 allprojects {
+    group = "cash.andrew.mntrailconditions"
+    version = "7.0"
+
     repositories {
         mavenCentral()
         google()

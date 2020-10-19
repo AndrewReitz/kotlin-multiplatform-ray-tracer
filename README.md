@@ -21,7 +21,7 @@ being the ability to change what url is hit for the api endpoints.
 
 These are cloud functions hosted on GCP.
 
-#### trailAggregator: https://us-central1-mn-trail-functions.cloudfunctions.net/trailAggregator
+#### trailAggregator: https://us-central1-mn-trail-functions.cloudfunctions.net/trail-aggregator
 
 This endpoint is the latest in MN trail technology. It combines the [MORC trails](http://www.morcmtb.org/trail/),
 [COGGS Trails](https://www.coggs.com/trail-feed-twitter), and the 

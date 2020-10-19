@@ -20,7 +20,7 @@ import java.io.File
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-val MORC_PRODUCTION_URL = "https://us-central1-mn-trail-functions.cloudfunctions.net/morcTrails".toHttpUrl()
+val MORC_PRODUCTION_URL = "https://us-central1-mn-trail-functions.cloudfunctions.net/trail-aggregator".toHttpUrl()
 
 const val SHARED_PREF_FILE_NAME = "cash.andrew.mntrailconditions"
 

@@ -1,0 +1,31 @@
+// Register a tasks to run the functions locally
+// not sure why but this does not work when I convert it to kotlin
+tasks.register("runTrailAggregator", JavaExec) {
+    group = "run"
+    description = "run trail aggregator cloud function"
+    main = 'com.google.cloud.functions.invoker.runner.Invoker'
+    classpath(configurations.invoker)
+    inputs.files(configurations.runtimeClasspath, sourceSets.main.output)
+    args(
+            '--target', "trail.gcp.TrailAggregatorFunction",
+            '--port', 8080
+    )
+    doFirst {
+        args('--classpath', files(configurations.runtimeClasspath, sourceSets.main.output).asPath)
+    }
+}
+
+tasks.register("runTrailNotification", JavaExec) {
+    group = "run"
+    description = "run trail notification cloud function"
+    main = 'com.google.cloud.functions.invoker.runner.Invoker'
+    classpath(configurations.invoker)
+    inputs.files(configurations.runtimeClasspath, sourceSets.main.output)
+    args(
+            '--target', "trail.gcp.TrailNotificationsFunction",
+            '--port', 8080
+    )
+    doFirst {
+        args('--classpath', files(configurations.runtimeClasspath, sourceSets.main.output).asPath)
+    }
+}

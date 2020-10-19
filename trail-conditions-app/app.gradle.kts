@@ -48,7 +48,7 @@ android {
 
         val buildNumber: String by project
         versionCode = buildNumber.toInt()
-        versionName = "7"
+        versionName = project.version.toString()
     }
 
     buildTypes {

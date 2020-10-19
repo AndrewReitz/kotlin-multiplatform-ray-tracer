@@ -2,11 +2,9 @@ package cash.andrew.mntrailconditions.ui
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Rect
 import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
-import android.view.TouchDelegate
 import android.view.View
 import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +15,6 @@ import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
 import cash.andrew.mntrailconditions.util.IntentManager
 import cash.andrew.mntrailconditions.util.setToolTipTextCompat
 import cash.andrew.mntrailconditions.util.subscribeToTopicV2
-import cash.andrew.mntrailconditions.util.toTopicName
 import cash.andrew.mntrailconditions.util.unsubscribeFromTopicV2
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
@@ -183,15 +180,15 @@ class TrailItemBottomBar(
     val subscribe = updated - notifications
 
     unSubscribe.forEach { trailName ->
-      firebaseMessaging.unsubscribeFromTopicV2(trailName.toTopicName())
-        .addOnSuccessListener { Timber.i("Success un-subscribing to ${trailName.toTopicName()}") }
-        .addOnFailureListener { Timber.e(it, "Error removing notifications for ${trailName.toTopicName()}") }
+      firebaseMessaging.unsubscribeFromTopicV2(trailName)
+        .addOnSuccessListener { Timber.i("Success un-subscribing to $trailName") }
+        .addOnFailureListener { Timber.e(it, "Error removing notifications for $trailName") }
     }
 
     subscribe.forEach { trailName ->
       firebaseMessaging.subscribeToTopicV2(trailName)
-        .addOnSuccessListener { Timber.i("Success subscribing to ${trailName.toTopicName()}") }
-        .addOnFailureListener { Timber.e(it, "Error subscribing to notifications for ${trailName.toTopicName()}") }
+        .addOnSuccessListener { Timber.i("Success subscribing to $trailName") }
+        .addOnFailureListener { Timber.e(it, "Error subscribing to notifications for $trailName") }
     }
   }
 }

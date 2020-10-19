@@ -1,45 +1,43 @@
 plugins {
-  kotlin("js")
+  kotlin("jvm")
+  kotlin("kapt")
   kotlin("plugin.serialization")
 
-  id("gcp")
+  id("com.github.johnrengelman.shadow") version "6.1.0"
+
   id("twitter-api-keys")
   id("firebase-credentials")
   id("kotlin-config-writer")
 }
 
+configurations.create("invoker")
+
 dependencies {
   implementation(project(":trail-conditions-networking"))
 
-  implementation(kotlin("stdlib-js"))
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${versions.coroutines}")
+  implementation(kotlin("stdlib"))
+  implementation(kotlin("reflect"))
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}")
 
-  implementation(npm("twitter", "1.7.1"))
-  implementation(npm("firebase-admin", "9.1.1"))
-}
+  implementation("com.google.firebase:firebase-admin:7.0.1")
+  implementation("org.twitter4j:twitter4j-core:4.0.7")
 
-kotlin {
-  js {
-    nodejs()
-    useCommonJs()
-  }
-}
+  kapt("com.google.dagger:dagger-compiler:2.29.1")
+  implementation("com.google.dagger:dagger:2.29.1")
 
-gcp {
-  targets += listOf(
-    trails.gradle.GcpTarget(
-      name = "trailAggregator",
-      trigger = "http",
-      runtime = "nodejs12",
-      flags = listOf("--allow-unauthenticated", "--project", "mn-trail-functions")
-    ),
-    trails.gradle.GcpTarget(
-      name = "trailNotifications",
-      trigger = "topic",
-      runtime = "nodejs12",
-      flags = listOf("trailNotifications", "--project", "mn-trail-functions")
-    )
-  )
+  // Every function needs this dependency to get the Functions Framework API.
+  compileOnly("com.google.cloud.functions:functions-framework-api:1.0.1")
+
+  // To run function locally using Functions Framework's local invoker
+  "invoker"("com.google.cloud.functions.invoker:java-function-invoker:1.0.0-alpha-2-rc5")
+
+  testImplementation(kotlin("test-annotations-common", versions.kotlin))
+  testImplementation(kotlin("test-junit", versions.kotlin))
+  testImplementation("com.google.cloud.functions:functions-framework-api:1.0.1")
+  testImplementation("io.ktor:ktor-client-mock-jvm:${versions.ktor}")
+  testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutines}")
+  testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+
 }
 
 kotlinConfigWriter {
@@ -60,3 +58,115 @@ kotlinConfigWriter {
   put("firebase_client_email" to firebaseClientEmail)
   put("firebase_private_key" to firebasePrivateKey)
 }
+
+apply(from = "runFunction.gradle")
+
+tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+  destinationDirectory.set(file("$buildDir/gcp"))
+  mergeServiceFiles()
+}
+
+val deployAggregatorStaging = tasks.register<Exec>("deployAggregatorStaging") {
+  dependsOn(tasks.named("shadowJar"))
+
+  workingDir = project.buildDir
+  commandLine = listOf(
+    "gcloud",
+    "functions",
+    "deploy",
+    "trail-aggregator-staging",
+    "--entry-point",
+    "trail.gcp.TrailAggregatorFunction",
+    "--runtime",
+    "java11",
+    "--trigger-http",
+    "--memory",
+    "256MB",
+    "--allow-unauthenticated",
+    "--project",
+    "mn-trail-functions",
+    "--source=gcp"
+  )
+}
+
+val deployNotificationStaging = tasks.register<Exec>("deployNotificationStaging") {
+  dependsOn(tasks.named("shadowJar"))
+
+  workingDir = project.buildDir
+  commandLine = listOf(
+    "gcloud",
+    "functions",
+    "deploy",
+    "trail-notification-staging",
+    "--entry-point",
+    "trail.gcp.TrailNotificationsFunction",
+    "--runtime",
+    "java11",
+    "--trigger-topic",
+    "trailNotifications",
+    "--memory",
+    "256MB",
+    "--project",
+    "mn-trail-functions",
+    "--source=gcp"
+  )
+}
+
+tasks.register("deployStaging") {
+  description = "publish gcp functions to staging"
+  group = "deploy"
+  dependsOn(deployAggregatorStaging, deployNotificationStaging)
+}
+
+val deployAggregatorRelease = tasks.register<Exec>("deployAggregatorRelease") {
+  dependsOn(tasks.named("shadowJar"))
+
+  workingDir = project.buildDir
+  commandLine = listOf(
+    "gcloud",
+    "functions",
+    "deploy",
+    "trail-aggregator",
+    "--entry-point",
+    "trail.gcp.TrailAggregatorFunction",
+    "--runtime",
+    "java11",
+    "--trigger-http",
+    "--memory",
+    "256MB",
+    "--allow-unauthenticated",
+    "--project",
+    "mn-trail-functions",
+    "--source=gcp"
+  )
+}
+
+val deployNotificationRelease = tasks.register<Exec>("deployNotificationRelease") {
+  dependsOn(tasks.named("shadowJar"))
+
+  workingDir = project.buildDir
+  commandLine = listOf(
+    "gcloud",
+    "functions",
+    "deploy",
+    "trail-notification",
+    "--entry-point",
+    "trail.gcp.TrailNotificationsFunction",
+    "--runtime",
+    "java11",
+    "--trigger-topic",
+    "trailNotifications",
+    "--memory",
+    "256MB",
+    "--project",
+    "mn-trail-functions",
+    "--source=gcp"
+  )
+}
+
+tasks.register("deployRelease") {
+  description = "publish gcp functions to staging"
+  group = "deploy"
+  dependsOn(deployAggregatorRelease, deployNotificationRelease)
+}
+

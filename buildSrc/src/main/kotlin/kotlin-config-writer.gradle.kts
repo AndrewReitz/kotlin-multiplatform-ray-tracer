@@ -1,9 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import trails.gradle.KotlinConfigWriterExtension
 import trails.gradle.KotlinConfigWriterTask
 
 plugins {
-  kotlin("js")
+  kotlin("jvm")
 }
 
 val extension = extensions.create<KotlinConfigWriterExtension>("kotlinConfigWriter")
@@ -23,7 +23,7 @@ val generateConfigTask = tasks.create<KotlinConfigWriterTask>("generateKotlinCon
 }
 
 afterEvaluate {
-  tasks.withType<KotlinJsCompile>().named("compileKotlinJs").configure {
+  tasks.named<KotlinJvmCompile>("compileKotlin").configure {
     dependsOn(generateConfigTask)
   }
 }

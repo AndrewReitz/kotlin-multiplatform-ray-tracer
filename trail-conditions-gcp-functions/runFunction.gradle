@@ -3,6 +3,8 @@
 tasks.register("runTrailAggregator", JavaExec) {
     group = "run"
     description = "run trail aggregator cloud function"
+    dependsOn "compileKotlin"
+
     main = 'com.google.cloud.functions.invoker.runner.Invoker'
     classpath(configurations.invoker)
     inputs.files(configurations.runtimeClasspath, sourceSets.main.output)
@@ -18,6 +20,8 @@ tasks.register("runTrailAggregator", JavaExec) {
 tasks.register("runTrailNotification", JavaExec) {
     group = "run"
     description = "run trail notification cloud function"
+    dependsOn "compileKotlin"
+
     main = 'com.google.cloud.functions.invoker.runner.Invoker'
     classpath(configurations.invoker)
     inputs.files(configurations.runtimeClasspath, sourceSets.main.output)

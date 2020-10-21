@@ -11,7 +11,7 @@ import trail.networking.twitter.TwitterAccount.PokegamaTrailTwitter
 enum class KnownTrail(
   val trailName: String,
   val facebookUrl: String?,
-  val mtbProjectUrl: String,
+  val mtbProjectUrl: String?,
   val website: String,
   val otherNames: Set<String> = emptySet(),
   val twitterAccount: TwitterAccount? = null
@@ -81,6 +81,13 @@ enum class KnownTrail(
     mtbProjectUrl = "https://www.mtbproject.com/trail/7016269/minnesota-river-bottoms",
     website = "http://www.morcmtb.org/minnesota-river-trail/",
     otherNames = setOf("MN River Bottoms")
+  ),
+
+  Monarch(
+    trailName = "Monarch Singletrack",
+    facebookUrl = "https://www.facebook.com/trpdsingletrack/",
+    website = "https://www.threeriversparks.org/location/monarch-singletrack-trail",
+    mtbProjectUrl = null
   ),
 
   MurphyHanrehan(
@@ -185,6 +192,7 @@ enum class KnownTrail(
       LakeRebecca,
       LebanonHills,
       MNRiverBottoms,
+      Monarch,
       MurphyHanrehan,
       SalemHills,
       SunfishLakePark,

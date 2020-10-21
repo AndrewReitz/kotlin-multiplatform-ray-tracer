@@ -61,7 +61,8 @@ class TrailAggregator(
         description = trail.description.orEmpty(),
         lastUpdated = trail.updatedAt,
         status = trail.trailStatus.orEmpty(),
-        twitterAccount = knownTrail.twitterAccount?.accountName
+        twitterAccount = knownTrail.twitterAccount?.accountName,
+        website = knownTrail.website
       )
     }
 
@@ -93,7 +94,8 @@ class TrailAggregator(
       description = status.description,
       facebookUrl = trail.facebookUrl,
       mtbProjectUrl = trail.mtbProjectUrl,
-      twitterAccount = trail.twitterAccount?.accountName
+      twitterAccount = trail.twitterAccount?.accountName,
+      website = trail.website
     )
   }.doOnFailure { println(it.message) }
     .recover { TrailInfo.createUnknownStatus(trail) }

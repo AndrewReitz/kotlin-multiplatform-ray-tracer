@@ -14,7 +14,8 @@ data class TrailViewModel(
   val updatedAt: LocalDateTime,
   val twitterAccount: String?,
   val mountainProjectUrl: String?,
-  val facebookUrl: String?
+  val facebookUrl: String?,
+  val website: String
 ) {
   val twitterUrl get() = twitterAccount?.let { "https://twitter.com/$it" }
 }
@@ -28,5 +29,6 @@ fun TrailInfo.toViewModel() = TrailViewModel(
   updatedAt = LocalDateTime.ofInstant(Instant.ofEpochMilli(lastUpdated), ZONE_ID),
   twitterAccount = twitterAccount,
   facebookUrl = facebookUrl,
-  mountainProjectUrl = mtbProjectUrl
+  mountainProjectUrl = mtbProjectUrl,
+  website = website
 )

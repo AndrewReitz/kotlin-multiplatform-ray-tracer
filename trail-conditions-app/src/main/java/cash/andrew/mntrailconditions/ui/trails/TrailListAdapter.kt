@@ -8,7 +8,6 @@ import cash.andrew.mntrailconditions.data.NotificationTrails
 import cash.andrew.mntrailconditions.data.SavedTrails
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.ui.misc.BindableRecyclerAdapter
-import cash.andrew.mntrailconditions.util.IntentManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import javax.inject.Inject
@@ -17,8 +16,7 @@ class TrailListAdapter @Inject constructor(
   @SavedTrails private val favoriteTrailsPref: Preference<Set<String>>,
   @NotificationTrails private val notificationPref: Preference<Set<String>>,
   private val firebaseMessaging: FirebaseMessaging,
-  private val firebaseAnalytics: FirebaseAnalytics,
-  private val intentManager: IntentManager
+  private val firebaseAnalytics: FirebaseAnalytics
 ) : BindableRecyclerAdapter<TrailViewModel>() {
   var trails: List<TrailViewModel> = listOf()
     set(value) {
@@ -37,8 +35,7 @@ class TrailListAdapter @Inject constructor(
       favoriteTrailsPref,
       notificationPref,
       firebaseMessaging,
-      firebaseAnalytics,
-      intentManager
+      firebaseAnalytics
     )
   }
 

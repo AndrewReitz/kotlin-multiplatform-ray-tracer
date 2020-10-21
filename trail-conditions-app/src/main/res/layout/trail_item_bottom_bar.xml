@@ -47,6 +47,20 @@
         app:layout_constraintTop_toTopOf="parent"
     />
 
+    <ImageButton
+        android:id="@+id/website"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_www_24dp"
+        android:contentDescription="@string/website"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:scaleType="center"
+        android:tint="?attr/colorOnBackground"
+        app:layout_constraintStart_toEndOf="@id/twitter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
     <!--    to give a larger click area for the favorite button-->
     <FrameLayout
         android:id="@+id/trail_favorite_container"

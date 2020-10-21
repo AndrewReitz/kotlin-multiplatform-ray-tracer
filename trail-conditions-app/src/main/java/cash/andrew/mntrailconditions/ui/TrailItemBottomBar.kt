@@ -1,7 +1,6 @@
 package cash.andrew.mntrailconditions.ui
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.AttributeSet
@@ -12,7 +11,7 @@ import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailItemBottomBarBinding
 import cash.andrew.mntrailconditions.ui.trails.TrailViewModel
-import cash.andrew.mntrailconditions.util.IntentManager
+import cash.andrew.mntrailconditions.util.openUri
 import cash.andrew.mntrailconditions.util.setToolTipTextCompat
 import cash.andrew.mntrailconditions.util.subscribeToTopicV2
 import cash.andrew.mntrailconditions.util.unsubscribeFromTopicV2
@@ -42,8 +41,7 @@ class TrailItemBottomBar(
     favoriteTrailsPref: Preference<Set<String>>,
     notificationsPref: Preference<Set<String>>,
     firebaseMessaging: FirebaseMessaging,
-    firebaseAnalytics: FirebaseAnalytics,
-    intentManager: IntentManager
+    firebaseAnalytics: FirebaseAnalytics
   ) {
 
     binding.trailFavoriteContainer.setOnClickListener {
@@ -74,9 +72,10 @@ class TrailItemBottomBar(
       isEnabled = true
     }
 
-    binding.mountainProject.bindSocialMediaButton(trail.toMountainProjectSocialMediaViewModel(), intentManager)
-    binding.facebook.bindSocialMediaButton(trail.toFacebookSocialMediaViewModel(), intentManager)
-    binding.twitter.bindSocialMediaButton(trail.toTwitterSocialMediaViewModel(), intentManager)
+    binding.mountainProject.bindSocialMediaButton(trail.toMountainProjectSocialMediaViewModel())
+    binding.facebook.bindSocialMediaButton(trail.toFacebookSocialMediaViewModel())
+    binding.twitter.bindSocialMediaButton(trail.toTwitterSocialMediaViewModel())
+    binding.website.bindSocialMediaButton(trail.toWebsiteViewModel())
   }
 
   private fun TrailViewModel.toMountainProjectSocialMediaViewModel() =
@@ -101,14 +100,18 @@ class TrailItemBottomBar(
       contentDescription = "$name twitter page"
     )
 
+  private fun TrailViewModel.toWebsiteViewModel() = SocialMediaButtonViewModel(
+    Uri.parse(website),
+    contentDescription = "$name website"
+  )
+
   private data class SocialMediaButtonViewModel(
     val url: Uri? = null,
     val contentDescription: String = ""
   )
 
   private fun ImageButton.bindSocialMediaButton(
-    buttonViewModel: SocialMediaButtonViewModel,
-    intentManager: IntentManager
+    buttonViewModel: SocialMediaButtonViewModel
   ) {
     if (buttonViewModel.url == null) {
       visibility = View.GONE
@@ -117,8 +120,9 @@ class TrailItemBottomBar(
     visibility = View.VISIBLE
     contentDescription = buttonViewModel.contentDescription
     setOnClickListener {
-      val browserIntent = Intent(Intent.ACTION_VIEW, buttonViewModel.url)
-      if (!intentManager.maybeStartChooser(browserIntent)) {
+      runCatching {
+        context.openUri(buttonViewModel.url)
+      }.onFailure {
         Timber.w("maybeStartChooser: Unable to open url=${buttonViewModel.url}")
       }
     }

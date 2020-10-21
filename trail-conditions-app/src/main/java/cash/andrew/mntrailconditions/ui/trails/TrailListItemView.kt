@@ -3,17 +3,15 @@ package cash.andrew.mntrailconditions.ui.trails
 import android.content.Context
 import android.util.AttributeSet
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import cash.andrew.mntrailconditions.R
 import cash.andrew.mntrailconditions.data.preference.Preference
 import cash.andrew.mntrailconditions.databinding.TrailListItemViewBinding
-import cash.andrew.mntrailconditions.util.IntentManager
 import cash.andrew.mntrailconditions.util.statusToColor
 import cash.andrew.mntrailconditions.util.statusToResource
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.messaging.FirebaseMessaging
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.temporal.ChronoUnit
 
 class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
@@ -30,8 +28,7 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
     favoriteTrailsPref: Preference<Set<String>>,
     notificationPref: Preference<Set<String>>,
     firebaseMessaging: FirebaseMessaging,
-    firebaseAnalytics: FirebaseAnalytics,
-    intentManager: IntentManager
+    firebaseAnalytics: FirebaseAnalytics
   ) {
     with(trail) {
       val now = LocalDateTime.now()
@@ -58,7 +55,7 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
         status.setTextColor(statusToColor(context, trailStatus))
         details.text = description
         lastUpdatedTime.text = lastUpdated
-        statusImage.setImageDrawable(context.getDrawable(statusToResource(trailStatus)))
+        statusImage.setImageDrawable(ContextCompat.getDrawable(context, statusToResource(trailStatus)))
       }
     }
 
@@ -67,8 +64,7 @@ class TrailListItemView(context: Context, attrs: AttributeSet) : CardView(contex
       favoriteTrailsPref,
       notificationPref,
       firebaseMessaging,
-      firebaseAnalytics,
-      intentManager
+      firebaseAnalytics
     )
   }
 }

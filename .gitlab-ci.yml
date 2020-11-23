@@ -4,6 +4,7 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - apt-get --quiet update --yes
   - apt-get --quiet install --yes build-essential libtinfo5
+  - chmod +x ./gradlew
 
 cache:
   paths:

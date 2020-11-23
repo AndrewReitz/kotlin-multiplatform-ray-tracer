@@ -75,6 +75,7 @@ fun main(): Unit = run {
   println("PPM Took ${ppm.inSeconds} seconds")
 }
 
+@Suppress("UNUSED_PARAMETER")
 fun log(message: () -> String) {
 //  println(message())
 }

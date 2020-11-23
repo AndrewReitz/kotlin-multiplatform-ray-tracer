@@ -12,6 +12,6 @@ kotlinDslPluginOptions {
 }
 
 dependencies {
-  implementation(kotlin("stdlib", "1.4.20"))
-  implementation(kotlin("gradle-plugin", "1.4.20"))
+  implementation(kotlin("stdlib", "1.4.10"))
+  implementation(kotlin("gradle-plugin", "1.4.10"))
 }

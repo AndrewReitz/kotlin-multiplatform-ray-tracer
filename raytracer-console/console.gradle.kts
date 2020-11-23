@@ -3,6 +3,13 @@ plugins {
 }
 
 kotlin {
+  mingwX64 {
+    binaries {
+      executable {
+        entryPoint = "raytracer.console.main"
+      }
+    }
+  }
   linuxX64 {
     binaries {
       executable {
@@ -17,6 +24,7 @@ kotlin {
       }
     }
   }
+
   js {
     nodejs()
   }
@@ -27,28 +35,31 @@ kotlin {
       dependencies {
         implementation(project(":raytracer-math"))
         implementation(project(":raytracer-core"))
-
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines")
-      }
-    }
-
-    val jvmMain by getting {
-      dependencies {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
       }
     }
+//
+//    val jvmMain by getting {
+//      dependencies {
+//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
+//      }
+//    }
 
-    val jsMain by getting {
-      dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines")
-      }
-    }
+//    val jsMain by getting {
+//      dependencies {
+//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutines")
+//      }
+//    }
 
     val nativeMain = create("nativeMain") {
       dependsOn(commonMain)
       dependencies {
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines")
+//        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines")
       }
+    }
+
+    val mingwX64Main by getting {
+      dependsOn(nativeMain)
     }
 
     val linuxX64Main by getting {

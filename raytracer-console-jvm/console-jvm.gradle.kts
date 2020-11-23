@@ -4,7 +4,7 @@ plugins {
 }
 
 application {
-  mainClassName = "raytracer.console.jvm.MainKt"
+  mainClass.set("raytracer.console.jvm.MainKt")
 }
 
 dependencies {

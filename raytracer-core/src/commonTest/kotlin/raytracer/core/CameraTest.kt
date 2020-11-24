@@ -74,7 +74,7 @@ class CameraTest {
 
     @JsName("Rendering_a_world_with_a_camera")
     @Test
-    fun `Rendering a world with a camera`() {
+    fun `Rendering a world with a camera`() = raytracer.core.run {
         val w = World.default
         val from = Point(0, 0, -5)
         val to = Point(0, 0, 0)

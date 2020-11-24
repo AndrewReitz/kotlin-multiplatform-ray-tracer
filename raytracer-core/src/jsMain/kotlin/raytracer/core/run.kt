@@ -1,4 +1,4 @@
-package raytracer.console
+package raytracer.core
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.GlobalScope

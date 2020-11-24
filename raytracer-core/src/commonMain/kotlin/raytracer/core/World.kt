@@ -1,6 +1,5 @@
 package raytracer.core
 
-import raytracer.math.Float3
 import raytracer.math.Matrix
 import raytracer.math.Point
 

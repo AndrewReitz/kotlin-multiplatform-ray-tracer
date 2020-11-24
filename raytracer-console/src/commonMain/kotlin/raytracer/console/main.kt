@@ -1,78 +1,100 @@
 package raytracer.console
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import raytracer.core.Canvas
-import raytracer.core.Color
-import raytracer.core.Material
-import raytracer.core.PointLight
-import raytracer.core.Ray
-import raytracer.core.Sphere
+import raytracer.core.*
+import raytracer.math.Matrix
 import raytracer.math.Point
-import raytracer.math.toVector
+import raytracer.math.Vector
+import kotlin.math.PI
 import kotlin.time.ExperimentalTime
 import kotlin.time.measureTime
 
 @ExperimentalTime
 fun main(): Unit = run {
-  println("starting...")
+    println("starting...")
 
-  val canvasSize = 1000
-  val c = Canvas(canvasSize, canvasSize)
-
-  val rayOrigin = Point(0, 0, -5)
-  val wallZ = 10f
-  val wallSize = 7f
-  val pixelSize = wallSize / canvasSize
-  val half = wallSize / 2f
-
-  val shape = Sphere(
-    material = Material(
-      color = Color(1, 0.2, 1)
+    val floor = Sphere(
+      material = Material(
+        color = Color(1, 0.9, 0.9),
+        specular = 0F
+      ),
+      transform = Matrix.scaling(10, 0.01, 10)
     )
-  )
 
-  val light = PointLight(
-    position = Point(-10, 10, -10),
-    intensity = Color(1, 1, 1)
-  )
+    val leftWall = Sphere(
+      transform = Matrix.translation(0, 0, 5) * Matrix.rotationY(-PI / 4) *
+              Matrix.rotationX(PI / 2) * Matrix.scaling(10, 0.01, 10),
+      material = floor.material
+    )
 
-  val time = measureTime {
-    val jobs = mutableListOf<Job>()
+    val rightWall = Sphere(
+      transform = Matrix.translation(0, 0, 5) * Matrix.rotationY(PI / 4)
+              * Matrix.rotationX(PI / 2) * Matrix.scaling(10, 0.01, 10),
+      material = floor.material
+    )
 
-    for (y in 0 until c.width) {
-      val worldY = half - pixelSize * y
-      for (x in 0 until c.height) {
-        log { "calculating pixel [$x, $y]" }
-        jobs += launch(Dispatchers.Default) {
-          val worldX = -half + pixelSize * x
-          val position = Point(worldX, worldY, wallZ)
-          val r = Ray(rayOrigin, (position - rayOrigin).normalize().toVector())
-          val xs = r.intersects(shape)
+    val middle = Sphere(
+      transform = Matrix.translation(-0.5, 1, 0.5),
+      material = Material(
+        color = Color(0.1, 1, 0.5),
+        diffuse = 0.7F,
+        specular = 0.3F
+      )
+    )
 
-          xs.hit()?.let { hit ->
-            val point = r.position(hit.time)
-            val normal = hit.obj.normalAt(point)
-            val eye = -r.direction
-            val color = hit.obj.material.lighting(light, point, eye, normal)
-            c[x, y] = color
-          }
-          log { "finished calculating pixel [$x, $y]" }
-        }
-      }
+    val right = Sphere(
+      transform = Matrix.translation(1.5, 0.5, -0.5) * Matrix.scaling(0.5, 0.5, 0.5),
+      material = Material(
+        color = Color(0.5, 1, 0.1),
+        diffuse = 0.7,
+        specular = 0.3
+      )
+    )
+
+    val left = Sphere(
+      transform = Matrix.translation(-1.5, 0.33, -0.75) * Matrix.scaling(0.33, 0.33, 0.33),
+      material = Material(
+        color = Color(1, 0.8, 0.1),
+        diffuse = 0.7,
+        specular = 0.3
+      )
+    )
+
+    val world = World(
+      lights = listOf(
+        PointLight(
+          Point(-10, 10, -10),
+          Color(1, 1, 1)
+        )
+      ),
+      objects = listOf(
+        left, right, middle, rightWall, leftWall, floor
+      )
+    )
+
+    val camera = Camera(
+      hsize = 100 * 10,
+      vsize = 50 * 10,
+      fieldOfView = PI / 3,
+      transform = viewTransform(
+        from = Point(0, 1.5, -5),
+        to = Point(0, 1, 0),
+        up = Vector(0, 1, 0)
+      )
+    )
+
+    val canvas: Canvas
+
+    val time = measureTime {
+        canvas = camera.render(world)
     }
 
-    jobs.forEach { it.join() }
-  }
+    println("Took ${time.inSeconds} seconds")
 
-  println("Took ${time.inSeconds} seconds")
+    val ppm = measureTime {
+        writeToFile(canvas.toPpm(), "image.ppm")
+    }
 
-  val ppm = measureTime {
-    writeToFile(c.toPpm(), "image.ppm")
-  }
-
-  println("PPM Took ${ppm.inSeconds} seconds")
+    println("PPM Took ${ppm.inSeconds} seconds")
 }
 
 @Suppress("UNUSED_PARAMETER")

@@ -1,5 +1,6 @@
 package raytracer.core
 
+import kotlinx.coroutines.*
 import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.toVector
@@ -57,17 +58,22 @@ class Camera(
         return Ray(origin, direction)
     }
 
-    fun render(world: World): Canvas {
+    suspend fun render(world: World): Canvas = coroutineScope {
+        val jobs = mutableListOf<Job>()
         val image = Canvas(hsize, vsize)
         for (y in 0 until vsize) {
             for (x in 0 until hsize) {
-                val ray = rayForPixel(x, y)
-                val color = world.colorAt(ray)
-                image[x, y] = color
+                jobs += launch(Dispatchers.Default) {
+                    val ray = rayForPixel(x, y)
+                    val color = world.colorAt(ray)
+                    image[x, y] = color
+                }
             }
         }
 
-        return image
+        jobs.joinAll()
+
+        image
     }
 
     override fun toString(): String {

@@ -2,6 +2,7 @@ package raytracer.core
 
 import raytracer.math.Matrix
 import raytracer.math.Point
+import raytracer.math.toVector
 
 data class World(
   val lights: List<PointLight> = emptyList(),
@@ -19,9 +20,10 @@ data class World(
   fun shadeHit(comps: Computation): Color = lights.map {
     comps.obj.material.lighting(
       light = it,
-      position = comps.point,
+      position = comps.overPoint,
       eyev = comps.eyev,
-      normalv = comps.normalv
+      normalv = comps.normalv,
+      inShadow = isShadowed(comps.overPoint, it)
     )
   }.reduce { sum, color ->
     sum + color
@@ -33,12 +35,25 @@ data class World(
     return shadeHit(comps)
   }
 
+
+  fun isShadowed(point: Point, light: PointLight): Boolean {
+    val v = (light.position - point).toVector()
+    val distance = v.magnitude
+    val direction = v.normalize()
+
+    val r = Ray(origin = point, direction = direction)
+    val intersections = intersect(r)
+
+    val h = intersections.hit()
+    return h != null && h.time < distance
+  }
+
   companion object {
     val default
       get() = World(
         lights = listOf(
           PointLight(
-            position = Point(-10, -10, -10),
+            position = Point(-10, 10, -10),
             intensity = Color(1, 1, 1)
           )
         ),

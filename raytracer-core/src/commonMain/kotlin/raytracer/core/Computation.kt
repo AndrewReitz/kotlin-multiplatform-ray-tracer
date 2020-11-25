@@ -1,5 +1,6 @@
 package raytracer.core
 
+import raytracer.math.EPSILON
 import raytracer.math.Point
 import raytracer.math.Vector3
 
@@ -10,4 +11,6 @@ data class Computation(
   val eyev: Vector3,
   val normalv: Vector3,
   val inside: Boolean
-)
+) {
+  val overPoint by lazy { point + normalv * EPSILON }
+}

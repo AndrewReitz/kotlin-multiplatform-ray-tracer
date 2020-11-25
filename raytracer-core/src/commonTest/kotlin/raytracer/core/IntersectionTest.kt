@@ -1,5 +1,7 @@
 package raytracer.core
 
+import raytracer.math.EPSILON
+import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.Vector
 import raytracer.test.assertFloat3Equals
@@ -66,5 +68,21 @@ class IntersectionTest {
     assertFloat3Equals(actual = computation.eyev, expected = Vector(0, 0, -1))
     assertFloat3Equals(actual = computation.normalv, expected = Vector(0, 0, -1))
     assertTrue(computation.inside)
+  }
+
+  @JsName("The_hit_should_offset_the_point")
+  @Test
+  fun `The hit should offset the point`() {
+    val r = Ray(
+      origin = Point(0, 0, -5),
+      direction = Vector(0, 0, 1)
+    )
+
+    val shape = Sphere(transform = Matrix.translation(0, 0, 1))
+
+    val i = Intersection(5, shape)
+    val comps = i.prepareComputations(r)
+    assertTrue(comps.overPoint.z < -EPSILON / 2)
+    assertTrue(comps.point.z > comps.overPoint.z)
   }
 }

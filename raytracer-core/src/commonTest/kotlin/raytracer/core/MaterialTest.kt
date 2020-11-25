@@ -75,4 +75,18 @@ class MaterialTest {
     val result = m.lighting(light, position, eyev, normalv)
     assertFloat3Equals(actual = result, expected = Color(0.1, 0.1, 0.1))
   }
+
+  @JsName("Lighting_with_the_surface_in_shadow")
+  @Test
+  fun `Lighting with the surface in shadow`() {
+    val eyev = Vector(0, 0, -1)
+    val normalv = Vector(0, 0, -1)
+    val light = PointLight(
+      position = Point(0, 0, -10),
+      intensity = Color(1, 1, 1)
+    )
+    val inShadow = true
+    val result = m.lighting(light, position, eyev, normalv, inShadow)
+    assertFloat3Equals(actual = result, expected = Color(0.1, 0.1, 0.1))
+  }
 }

@@ -45,6 +45,22 @@ kotlin {
         implementation(kotlin("test-js"))
       }
     }
+
+    val nativeMain = create("nativeMain") {
+      dependsOn(commonMain)
+    }
+
+    val mingwX64Main by getting {
+      dependsOn(nativeMain)
+    }
+
+    val linuxX64Main by getting {
+      dependsOn(nativeMain)
+    }
+
+    val macosX64Main by getting {
+      dependsOn(nativeMain)
+    }
   }
 }
 

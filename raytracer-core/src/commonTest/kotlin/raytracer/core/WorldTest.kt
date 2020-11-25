@@ -8,6 +8,8 @@ import raytracer.test.assertFloat3Equals
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class WorldTest {
 
@@ -23,7 +25,7 @@ class WorldTest {
   @Test
   fun `The default world`() {
     val light = PointLight(
-      position = Point(-10, -10, -10),
+      position = Point(-10, 10, -10),
       intensity = Color(1, 1, 1)
     )
 
@@ -123,5 +125,63 @@ class WorldTest {
     val r = Ray(Point(0, 0, 0.75), Vector(0, 0, -1))
     val c = w.colorAt(r)
     assertFloat3Equals(actual = c, expected = inner.material.color)
+  }
+
+  @JsName("There_is_no_shadow_when_nothing_is_collinear_with_point_and_light")
+  @Test
+  fun `There is no shadow when nothing is collinear with point and light`() {
+    val w = World.default
+    val p = Point(0, 10, 0)
+    assertFalse(w.isShadowed(p, w.lights[0]))
+  }
+
+  @JsName("The_shadow_when_an_object_is_between_the_point_and_the_light")
+  @Test
+  fun `The shadow when an object is between the point and the light`() {
+    val w = World.default
+    val p = Point(10, -10, 10)
+    assertTrue(w.isShadowed(p, w.lights[0]))
+  }
+
+  @JsName("There_is_no_shadow_when_an_object_is_behind_the_light")
+  @Test
+  fun `There is no shadow when an object is behind the light`() {
+    val w = World.default
+    val p = Point(-20, 20, -20)
+    assertFalse(w.isShadowed(p, w.lights[0]))
+  }
+
+  @JsName("There_is_no_shadow_when_an_object_is_behind_the_point")
+  @Test
+  fun `There is no shadow when an object is behind the point`() {
+    val w = World.default
+    val p = Point(-2, 2, -2)
+    assertFalse(w.isShadowed(p, w.lights[0]))
+  }
+
+  @JsName("shadeHit_is_given_an_intersection_in_shadow")
+  @Test
+  fun `shadeHit is given an intersection in shadow`() {
+    val s1 = Sphere()
+    val s2 = Sphere(
+      transform = Matrix.translation(0, 0, 10)
+    )
+
+    val w = World.default
+      .copy(
+        objects = listOf(s1, s2),
+        lights = listOf(
+          PointLight(
+            Point(0, 0, -10), Color(1, 1,1)
+          )
+        )
+      )
+
+    val r = Ray(Point(0, 0, 5), Vector(0, 0, 1))
+    val i = Intersection(4, s2)
+
+    val comps = i.prepareComputations(r)
+    val c = w.shadeHit(comps)
+    assertFloat3Equals(actual = c, expected = Color(0.1, 0.1, 0.1))
   }
 }

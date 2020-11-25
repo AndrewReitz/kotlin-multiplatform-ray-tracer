@@ -29,7 +29,7 @@ data class Material(
         require(shininess >= 0) { "shininess: 0 or larger was $shininess" }
     }
 
-    fun lighting(light: PointLight, position: Point, eyev: Vector3, normalv: Vector3): Color {
+    fun lighting(light: PointLight, position: Point, eyev: Vector3, normalv: Vector3, inShadow: Boolean = false): Color {
         // combine the surface color with the light's color/intensity
         val effectiveColor = color * light.intensity
 
@@ -49,7 +49,7 @@ data class Material(
         }
 
         // compute the diffuse contribution
-        val diffuse = effectiveColor * diffuse * lightDotNormal
+        val diffuse = if (inShadow) Color() else effectiveColor * diffuse * lightDotNormal
 
         // represents the cosine of the angle between the reflection vector
         // and the eye vector. A negative number means the light reflects away
@@ -65,7 +65,7 @@ data class Material(
 
         // compute the specular contribution
         val factor = reflectDotEye.pow(shininess)
-        val specular = light.intensity * specular * factor
+        val specular = if (inShadow) Color() else light.intensity * specular * factor
         return ambient + diffuse + specular
     }
 }

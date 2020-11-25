@@ -1,0 +1,21 @@
+= Kotlin MultiPlatform RayTracer
+
+A Ray Tracer written in Kotlin based on the book "The Ray Tracer Challenge"
+
+The goal of this is to learn how to use Kotlin multiplatform, see the performance difference between the platforms
+and learn more about performance optimizations for all platforms
+(specifically around dividing work up using coroutines).
+
+To run
+```
+gradlew run // jvm
+gradlew jsNodeRun // node
+gradlew runReleaseExecutableLinuxX64 // linux
+gradlew runReleaseExecutableMacosX64 // mac
+gradlew.bat runReleaseExecutableMingwX64 // windows
+```
+
+There is no reason other platforms couldn't be supported, I just haven't chosen to support / try them out. Should
+be as simple as updating the `multiplatform-common.gradle.kts` file to include other platforms.
+
+Outputs are in ppm which can be opened in GIMP or Preview (MacOS).

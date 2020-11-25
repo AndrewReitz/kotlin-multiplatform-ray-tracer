@@ -20,7 +20,7 @@ data class Ray(
     val b = 2 * (direction dot sphereToRay)
     val c = (sphereToRay dot sphereToRay) - 1f
 
-    val discriminant = b.pow(2) - 4f * a * c
+    val discriminant = b * b - 4f * a * c
 
     if (discriminant < 0f) return Intersections.EMPTY
 

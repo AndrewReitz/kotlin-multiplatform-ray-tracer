@@ -11,7 +11,7 @@ data class World(
 
   fun intersect(ray: Ray): Intersections = Intersections(
     objects.asSequence()
-      .map { ray.intersects(it) }
+      .map { it.intersect(ray) }
       .flatten()
       .sortedBy { if (it.time >= 0f) it.time else Float.MAX_VALUE }
       .toList()

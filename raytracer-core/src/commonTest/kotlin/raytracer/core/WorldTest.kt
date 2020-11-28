@@ -108,10 +108,10 @@ class WorldTest {
     @Test
     fun `The color with an intersection behind the ray`() {
         val default = World.default
-        val outer = default.objects.first()
-        val inner = default.objects.last()
+        val outer = default.objects.first() as Sphere
+        val inner = default.objects.last() as Sphere
 
-        val w = World.default.copy(
+        val w = default.copy(
             objects = listOf(
                 outer.copy(
                     material = outer.material.copy(ambient = 1f)

@@ -3,54 +3,54 @@ package raytracer.core
 import raytracer.math.Float3
 
 data class Color(
-  val red: Float,
-  val green: Float,
-  val blue: Float
-): Float3 {
-  override val x = red
-  override val y = green
-  override val z = blue
+    val red: Float,
+    val green: Float,
+    val blue: Float
+) : Float3 {
+    override val x = red
+    override val y = green
+    override val z = blue
 
-  operator fun plus(color: Color) = Color(
-    red = red + color.red,
-    blue = blue + color.blue,
-    green = green + color.green
-  )
-
-  operator fun minus(color: Color) = Color(
-    red = red - color.red,
-    blue = blue - color.blue,
-    green = green - color.green
-  )
-
-  operator fun times(scalar: Number): Color {
-    val value = scalar.toFloat()
-    return Color(
-      red = red * value,
-      blue = blue * value,
-      green = green * value
+    operator fun plus(color: Color) = Color(
+        red = red + color.red,
+        blue = blue + color.blue,
+        green = green + color.green
     )
-  }
 
-  operator fun times(color: Color) = Color(
-    red = red * color.red,
-    blue = blue * color.blue,
-    green = green * color.green
-  )
+    operator fun minus(color: Color) = Color(
+        red = red - color.red,
+        blue = blue - color.blue,
+        green = green - color.green
+    )
 
-  companion object {
-    val Black: Color = Color(0f, 0f, 0f)
-    val White: Color = Color(1f, 1f, 1f)
-  }
+    operator fun times(scalar: Number): Color {
+        val value = scalar.toFloat()
+        return Color(
+            red = red * value,
+            blue = blue * value,
+            green = green * value
+        )
+    }
+
+    operator fun times(color: Color) = Color(
+        red = red * color.red,
+        blue = blue * color.blue,
+        green = green * color.green
+    )
+
+    companion object {
+        val Black: Color = Color(0f, 0f, 0f)
+        val White: Color = Color(1f, 1f, 1f)
+    }
 }
 
 @Suppress("FunctionName")
 fun Color(
-  red: Number = 0,
-  green: Number = 0,
-  blue: Number = 0
+    red: Number = 0,
+    green: Number = 0,
+    blue: Number = 0
 ) = Color(
-  red = red.toFloat(),
-  green = green.toFloat(),
-  blue = blue.toFloat()
+    red = red.toFloat(),
+    green = green.toFloat(),
+    blue = blue.toFloat()
 )

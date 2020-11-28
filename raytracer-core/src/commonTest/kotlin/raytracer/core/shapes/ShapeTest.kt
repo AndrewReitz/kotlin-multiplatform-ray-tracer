@@ -1,6 +1,13 @@
-package raytracer.core
+package raytracer.core.shapes
 
-import raytracer.math.*
+import raytracer.core.Intersections
+import raytracer.core.Material
+import raytracer.core.Ray
+import raytracer.math.Matrix
+import raytracer.math.Point
+import raytracer.math.Vector
+import raytracer.math.Vector3
+import raytracer.math.toVector
 import raytracer.test.assertFloat3Equals
 import raytracer.test.assertMatrixEquals
 import kotlin.js.JsName
@@ -14,7 +21,7 @@ class ShapeTest {
     class TestShape(
         override val material: Material = Material(),
         override val transform: Matrix = Matrix.IDENTITY
-    ): Shape {
+    ) : Shape {
 
         private var _savedRay: Ray? = null
 
@@ -93,6 +100,6 @@ class ShapeTest {
             transform = Matrix.scaling(1, 0.5, 1) * Matrix.rotationZ(PI / 5)
         )
         val n = s.normalAt(Point(0, sqrt(2f) / 2, -sqrt(2f) / 2))
-        assertFloat3Equals(actual = n , expected = Vector(0, 0.97014, -0.24254))
+        assertFloat3Equals(actual = n, expected = Vector(0, 0.97014, -0.24254))
     }
 }

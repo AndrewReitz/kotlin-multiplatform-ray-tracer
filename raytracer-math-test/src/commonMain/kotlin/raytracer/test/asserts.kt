@@ -11,17 +11,17 @@ import kotlin.test.assertTrue
 class UseNamedArguments private constructor()
 
 fun assertFloat4Equals(vararg nothing: UseNamedArguments, actual: Float4, expected: Float4) {
-  assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
+    assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }
 
 fun assertMatrixEquals(vararg nothing: UseNamedArguments, actual: Matrix, expected: Matrix) {
-  assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
+    assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }
 
 fun assertFloatsEquals(vararg nothing: UseNamedArguments, actual: Float, expected: Number) {
-  assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected.toFloat()) }
+    assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected.toFloat()) }
 }
 
 fun assertFloat3Equals(vararg nothing: UseNamedArguments, actual: Float3, expected: Float3) {
-  assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
+    assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }

@@ -46,7 +46,7 @@ class CameraTest {
         val c = Camera(201, 101, PI / 2)
         val r = c.rayForPixel(100, 50)
         assertFloat3Equals(actual = r.origin, expected = Point(0, 0, 0))
-        assertFloat3Equals(actual = r.direction , expected = Point(0, 0, -1))
+        assertFloat3Equals(actual = r.direction, expected = Point(0, 0, -1))
     }
 
     @JsName("Constructing_a_ray_through_a_corner_of_the_canvas")
@@ -69,12 +69,12 @@ class CameraTest {
         )
         val r = c.rayForPixel(100, 50)
         assertFloat3Equals(actual = r.origin, expected = Point(0, 2, -5))
-        assertFloat3Equals(actual = r.direction, expected = Vector(sqrt(2.0)/ 2, 0, -sqrt(2.0) / 2))
+        assertFloat3Equals(actual = r.direction, expected = Vector(sqrt(2.0) / 2, 0, -sqrt(2.0) / 2))
     }
 
     @JsName("Rendering_a_world_with_a_camera")
     @Test
-    fun `Rendering a world with a camera`() = raytracer.core.run {
+    fun `Rendering a world with a camera`() = raytracer.core.runBlocking {
         val w = World.default
         val from = Point(0, 0, -5)
         val to = Point(0, 0, 0)

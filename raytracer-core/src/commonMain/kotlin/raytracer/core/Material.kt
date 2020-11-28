@@ -62,7 +62,6 @@ data class Material(
             return ambient + diffuse + specular
         }
 
-
         // compute the specular contribution
         val factor = reflectDotEye.pow(shininess)
         val specular = if (inShadow) Color() else light.intensity * specular * factor

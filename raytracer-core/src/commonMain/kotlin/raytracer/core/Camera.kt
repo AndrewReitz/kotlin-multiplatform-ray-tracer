@@ -1,6 +1,10 @@
 package raytracer.core
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
 import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.toVector
@@ -34,7 +38,6 @@ class Camera(
         pixelSize = ((tempHalfWidth * 2.0) / hsize).toFloat()
         halfWidth = tempHalfWidth.toFloat()
         halfHeight = tempHalfHeight.toFloat()
-
     }
 
     fun rayForPixel(px: Int, py: Int): Ray {
@@ -78,11 +81,11 @@ class Camera(
 
     override fun toString(): String {
         return "Camera(hsize=$hsize, " +
-                "vsize=$vsize, " +
-                "fieldOfView=$fieldOfView, " +
-                "transform=$transform, " +
-                "halfWidth=$halfWidth, " +
-                "halfHeight=$halfHeight, " +
-                "pixelSize=$pixelSize)"
+            "vsize=$vsize, " +
+            "fieldOfView=$fieldOfView, " +
+            "transform=$transform, " +
+            "halfWidth=$halfWidth, " +
+            "halfHeight=$halfHeight, " +
+            "pixelSize=$pixelSize)"
     }
 }

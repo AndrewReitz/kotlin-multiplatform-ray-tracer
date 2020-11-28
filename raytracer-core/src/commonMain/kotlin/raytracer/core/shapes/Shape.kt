@@ -1,5 +1,8 @@
-package raytracer.core
+package raytracer.core.shapes
 
+import raytracer.core.Intersections
+import raytracer.core.Material
+import raytracer.core.Ray
 import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.Vector3
@@ -9,7 +12,7 @@ interface Shape {
     val material: Material
 
     fun normalAt(point: Point): Vector3 {
-        val localPoint  = transform.inverse() * point
+        val localPoint = transform.inverse() * point
         val localNormal = localNormalAt(localPoint)
         val worldNormal = transform.inverse().transpose() * localNormal
         return worldNormal.normalize()
@@ -24,7 +27,7 @@ interface Shape {
     fun localNormalAt(localPoint: Point): Vector3
 
     fun intersect(ray: Ray): Intersections {
-        val localRay =  ray.transform(transform.inverse())
+        val localRay = ray.transform(transform.inverse())
         return localIntersect(localRay)
     }
 }

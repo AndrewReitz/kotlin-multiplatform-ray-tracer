@@ -2,4 +2,4 @@ package raytracer.core
 
 import kotlinx.coroutines.CoroutineScope
 
-expect fun run(body: suspend CoroutineScope.() -> Unit)
+expect fun runBlocking(body: suspend CoroutineScope.() -> Unit)

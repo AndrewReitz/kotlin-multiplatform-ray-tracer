@@ -6,6 +6,7 @@ import raytracer.core.Color
 import raytracer.core.Material
 import raytracer.core.PointLight
 import raytracer.core.World
+import raytracer.core.patterns.CheckerPattern
 import raytracer.core.runBlocking
 import raytracer.core.shapes.Plane
 import raytracer.core.shapes.Sphere
@@ -23,10 +24,10 @@ fun main(): Unit = runBlocking {
 
     val floor = Plane(
         material = Material(
-            color = Color(1, 0.9, 0.9),
-            specular = 0F
-        ),
-        transform = Matrix.scaling(10, 0.01, 10)
+            specular = 1,
+            color = Color.Red,
+            pattern = CheckerPattern(Color.Black, Color.White)
+        )
     )
 
     val middle = Sphere(
@@ -34,7 +35,8 @@ fun main(): Unit = runBlocking {
         material = Material(
             color = Color(0.1, 1, 0.5),
             diffuse = 0.7F,
-            specular = 0.3F
+            specular = 0.3F,
+            pattern = CheckerPattern(Color(0.1, 1, 0.5), Color.White, Matrix.scaling(0.1, 0.1, 1))
         )
     )
 
@@ -49,11 +51,6 @@ fun main(): Unit = runBlocking {
 
     val left = Sphere(
         transform = Matrix.translation(-1.5, 0.33, -0.75) * Matrix.scaling(0.33, 0.33, 0.33),
-        material = Material(
-            color = Color(1, 0.8, 0.1),
-            diffuse = 0.7,
-            specular = 0.3
-        )
     )
 
     val world = World(
@@ -63,14 +60,12 @@ fun main(): Unit = runBlocking {
                 Color(1, 1, 1)
             )
         ),
-        objects = listOf(
-            left, right, middle, floor
-        )
+        objects = listOf(floor, middle, right, left)
     )
 
     val camera = Camera(
-        hsize = 100 * 10,
-        vsize = 50 * 10,
+        hsize = 4 * 500,
+        vsize = 4 * 250,
         fieldOfView = PI / 3,
         transform = viewTransform(
             from = Point(0, 1.5, -5),

@@ -1,25 +1,36 @@
 package raytracer.core
 
+import raytracer.core.patterns.Pattern
+import raytracer.core.shapes.Shape
+import raytracer.core.shapes.Sphere
 import raytracer.math.Point
 import raytracer.math.Vector3
 import raytracer.math.toVector
 import kotlin.math.pow
 
-@Suppress("FunctionName")
 fun Material(
     ambient: Number = 0.1f,
     diffuse: Number = 0.9f,
     specular: Number = 0.9f,
     shininess: Number = 200f,
-    color: Color = Color(1f, 1f, 1f)
-) = Material(ambient.toFloat(), diffuse.toFloat(), specular.toFloat(), shininess.toFloat(), color)
+    color: Color = Color.White,
+    pattern: Pattern? = null
+) = Material(
+    ambient = ambient.toFloat(),
+    diffuse = diffuse.toFloat(),
+    specular = specular.toFloat(),
+    shininess = shininess.toFloat(),
+    color = color,
+    pattern = pattern
+)
 
 data class Material(
     val ambient: Float,
     val diffuse: Float,
     val specular: Float,
     val shininess: Float,
-    val color: Color
+    val color: Color,
+    val pattern: Pattern?
 ) {
 
     init {
@@ -29,9 +40,17 @@ data class Material(
         require(shininess >= 0) { "shininess: 0 or larger was $shininess" }
     }
 
-    fun lighting(light: PointLight, position: Point, eyev: Vector3, normalv: Vector3, inShadow: Boolean = false): Color {
+    fun lighting(
+        light: PointLight,
+        position: Point,
+        eyev: Vector3,
+        normalv: Vector3,
+        inShadow: Boolean = false,
+        obj: Shape = Sphere(),
+    ): Color {
         // combine the surface color with the light's color/intensity
-        val effectiveColor = color * light.intensity
+        val actualColor = pattern?.patternAtShape(obj, position) ?: color
+        val effectiveColor = actualColor * light.intensity
 
         // find the direction to the light source
         val lightv = (light.position - position).toVector().normalize()
@@ -49,7 +68,7 @@ data class Material(
         }
 
         // compute the diffuse contribution
-        val diffuse = if (inShadow) Color() else effectiveColor * diffuse * lightDotNormal
+        val diffuse = if (inShadow) Color.Black else effectiveColor * diffuse * lightDotNormal
 
         // represents the cosine of the angle between the reflection vector
         // and the eye vector. A negative number means the light reflects away
@@ -64,7 +83,7 @@ data class Material(
 
         // compute the specular contribution
         val factor = reflectDotEye.pow(shininess)
-        val specular = if (inShadow) Color() else light.intensity * specular * factor
+        val specular = if (inShadow) Color.Black else light.intensity * specular * factor
         return ambient + diffuse + specular
     }
 }

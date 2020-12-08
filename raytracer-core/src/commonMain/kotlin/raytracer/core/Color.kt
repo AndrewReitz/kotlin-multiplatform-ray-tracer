@@ -41,10 +41,10 @@ data class Color(
     companion object {
         val Black: Color = Color(0f, 0f, 0f)
         val White: Color = Color(1f, 1f, 1f)
+        val Red: Color = Color(1f, 0f, 0f)
     }
 }
 
-@Suppress("FunctionName")
 fun Color(
     red: Number = 0,
     green: Number = 0,

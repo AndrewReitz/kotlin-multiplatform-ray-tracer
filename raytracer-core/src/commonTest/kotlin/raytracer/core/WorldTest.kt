@@ -1,5 +1,6 @@
 package raytracer.core
 
+import raytracer.core.shapes.Plane
 import raytracer.core.shapes.Sphere
 import raytracer.math.Matrix
 import raytracer.math.Point
@@ -61,6 +62,22 @@ class WorldTest {
         assertEquals(actual = xs[1].time, expected = 4.5f)
         assertEquals(actual = xs[2].time, expected = 5.5f)
         assertEquals(actual = xs[3].time, expected = 6f)
+    }
+
+    @JsName("no_negative_intersects")
+    @Test
+    fun `no negative intersects`() {
+        // test created because planes where causing there to be intersects behind the camera.
+        val plane = Plane(
+            material = Material(
+                specular = 1,
+                color = Color.Red
+            )
+        )
+        val world = World.default.copy(objects = listOf(plane))
+        val ray = Ray(Point(0, 1.5, -5.0000005), Vector(-0.47258344, 0.1591841, 0.86679024))
+        val xs = world.intersect(ray)
+        assertTrue(xs.isEmpty())
     }
 
     @JsName("Shading_an_intersection")

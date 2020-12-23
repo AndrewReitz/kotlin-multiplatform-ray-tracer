@@ -73,6 +73,7 @@ class ShapeTest {
         val s = TestShape(transform = Matrix.scaling(2, 2, 2))
         s.intersect(r)
         assertFloat3Equals(actual = s.savedRay.origin, expected = Point(0, 0, -2.5))
+        assertFloat3Equals(actual = s.savedRay.direction, expected = Point(0, 0, 0.5))
     }
 
     @JsName("Intersecting_a_translated_shape_with_a_ray")

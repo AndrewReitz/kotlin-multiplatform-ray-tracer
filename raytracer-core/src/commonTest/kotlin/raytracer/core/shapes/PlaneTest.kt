@@ -51,7 +51,7 @@ class PlaneTest {
         val xs = p.intersect(r)
         assertEquals(actual = xs.size, expected = 1)
         assertEquals(actual = xs[0].time, expected = 1f)
-        assertEquals<Shape>(actual = xs[0].obj, expected = p)
+        assertEquals(actual = xs[0].obj, expected = p)
     }
 
     @JsName("A_ray_intersecting_a_plane_from_below")

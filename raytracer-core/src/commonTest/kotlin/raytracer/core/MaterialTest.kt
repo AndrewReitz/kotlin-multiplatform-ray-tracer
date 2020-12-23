@@ -1,5 +1,6 @@
 package raytracer.core
 
+import raytracer.core.patterns.StripePattern
 import raytracer.math.Point
 import raytracer.math.Vector
 import raytracer.test.assertFloat3Equals
@@ -88,5 +89,24 @@ class MaterialTest {
         val inShadow = true
         val result = m.lighting(light, position, eyev, normalv, inShadow)
         assertFloat3Equals(actual = result, expected = Color(0.1, 0.1, 0.1))
+    }
+
+    @JsName("Lighting_with_a_pattern_applied")
+    @Test
+    fun `Lighting with a pattern applied`() {
+        val m = Material(
+            ambient = 1,
+            diffuse = 0,
+            specular = 0,
+            pattern = StripePattern(Color.White, Color.Black)
+        )
+
+        val eyev = Vector(0, 0, -1)
+        val normalv = Vector(0, 0, -1)
+        val light = PointLight(Point(0, 0, -10), Color.White)
+        val c1 = m.lighting(light, Point(0.9, 0, 0), eyev, normalv, false)
+        val c2 = m.lighting(light, Point(1.1, 0, 0), eyev, normalv, false)
+        assertEquals(actual = c1, expected = Color.White)
+        assertEquals(actual = c2, expected = Color.Black)
     }
 }

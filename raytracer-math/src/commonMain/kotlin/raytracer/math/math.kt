@@ -5,6 +5,8 @@ import kotlin.math.abs
 const val EPSILON = 0.0001f
 const val ONE_OVER_EPSILON = 1 / EPSILON
 
+val Int.isEven get() = this and 1 == 0
+
 fun Float.fuzzyEquals(other: Float) = abs(this - other) <= EPSILON
 
 fun Float3.toVector() = Vector3(x, y, z)

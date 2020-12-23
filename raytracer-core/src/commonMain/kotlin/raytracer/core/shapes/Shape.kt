@@ -8,7 +8,7 @@ import raytracer.math.Point
 import raytracer.math.Vector3
 
 interface Shape {
-    val transform: Matrix
+    val transform: Matrix get() = Matrix.IDENTITY
     val material: Material
 
     fun normalAt(point: Point): Vector3 {

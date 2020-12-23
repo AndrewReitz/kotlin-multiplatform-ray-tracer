@@ -15,12 +15,14 @@ data class World(
         objects.asSequence()
             .map { it.intersect(ray) }
             .flatten()
-            .sortedBy { if (it.time >= 0f) it.time else Float.MAX_VALUE }
+            .filter { it.time >= 0 }
+            .sortedBy { it.time }
             .toList()
     )
 
     fun shadeHit(comps: Computation): Color = lights.map {
         comps.obj.material.lighting(
+            obj = comps.obj,
             light = it,
             position = comps.overPoint,
             eyev = comps.eyev,

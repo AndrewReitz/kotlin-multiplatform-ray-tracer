@@ -11,7 +11,8 @@ data class Computation(
     val point: Point,
     val eyev: Vector3,
     val normalv: Vector3,
-    val inside: Boolean
+    val inside: Boolean,
+    val reflectv: Vector3
 ) {
     val overPoint by lazy { point + normalv * EPSILON }
 }

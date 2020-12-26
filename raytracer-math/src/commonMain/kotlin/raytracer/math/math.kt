@@ -1,9 +1,16 @@
 package raytracer.math
 
 import kotlin.math.abs
+import kotlin.math.sqrt
 
 const val EPSILON = 0.0001f
 const val ONE_OVER_EPSILON = 1 / EPSILON
+
+/**
+ * Got tired of typing these.
+ */
+val SQUARE_ROOT_OF_2: Float = sqrt(2.0).toFloat()
+val SQUARE_ROOT_OF_2_OVER_2: Float = SQUARE_ROOT_OF_2 / 2f
 
 val Int.isEven get() = this and 1 == 0
 

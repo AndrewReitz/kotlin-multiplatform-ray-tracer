@@ -27,7 +27,8 @@ fun main(): Unit = runBlocking {
         material = Material(
             specular = 1,
             color = Color.Red,
-            pattern = CheckerPattern(Color.Black, Color.White)
+            pattern = CheckerPattern(Color.Black, Color.White),
+            reflective = 1
         )
     )
 
@@ -44,9 +45,10 @@ fun main(): Unit = runBlocking {
     val right = Sphere(
         transform = Matrix.translation(1.5, 0.5, -0.5) * Matrix.scaling(0.5, 0.5, 0.5),
         material = Material(
-            color = Color(0.5, 1, 0.1),
+            color = Color.White,
             diffuse = 0.7,
-            specular = 0.3
+            specular = 0.3,
+            reflective = 0.1
         )
     )
 
@@ -56,7 +58,7 @@ fun main(): Unit = runBlocking {
             pattern = RingPattern(
                 a = Color.Green,
                 b = Color.Blue,
-                transform = Matrix.scaling(0.1, 0.1, 0.1) * Matrix.rotationX(PI/2)
+                transform = Matrix.scaling(0.1, 0.1, 0.1) * Matrix.rotationX(PI / 2)
             )
         )
     )

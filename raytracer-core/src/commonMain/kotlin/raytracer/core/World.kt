@@ -15,12 +15,11 @@ data class World(
         objects.asSequence()
             .map { it.intersect(ray) }
             .flatten()
-            .filter { it.time >= 0 }
             .sortedBy { it.time }
             .toList()
     )
 
-    fun shadeHit(comps: Computation): Color = lights.map {
+    fun shadeHit(comps: Computation, reflectionsLeft: Int): Color = lights.map {
         comps.obj.material.lighting(
             obj = comps.obj,
             light = it,
@@ -28,15 +27,15 @@ data class World(
             eyev = comps.eyev,
             normalv = comps.normalv,
             inShadow = isShadowed(comps.overPoint, it)
-        )
+        ) + reflectedColor(comps, reflectionsLeft)
     }.reduce { sum, color ->
         sum + color
     }
 
-    fun colorAt(ray: Ray): Color {
-        val hit = intersect(ray).firstOrNull() ?: return Color.Black
+    fun colorAt(ray: Ray, reflectionsLeft: Int): Color {
+        val hit = intersect(ray).hit() ?: return Color.Black
         val comps = hit.prepareComputations(ray)
-        return shadeHit(comps)
+        return shadeHit(comps, reflectionsLeft)
     }
 
     fun isShadowed(point: Point, light: PointLight): Boolean {
@@ -49,6 +48,17 @@ data class World(
 
         val h = intersections.hit()
         return h != null && h.time < distance
+    }
+
+    fun reflectedColor(comps: Computation, reflectionsLeft: Int): Color {
+        if (comps.obj.material.reflective == 0f || reflectionsLeft < 1) {
+            return Color.Black
+        }
+
+        val reflectRay = Ray(comps.overPoint, comps.reflectv)
+        val color = colorAt(reflectRay, reflectionsLeft - 1)
+
+        return color * comps.obj.material.reflective
     }
 
     companion object {

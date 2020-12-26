@@ -14,14 +14,16 @@ fun Material(
     specular: Number = 0.9f,
     shininess: Number = 200f,
     color: Color = Color.White,
-    pattern: Pattern? = null
+    pattern: Pattern? = null,
+    reflective: Number = 0
 ) = Material(
     ambient = ambient.toFloat(),
     diffuse = diffuse.toFloat(),
     specular = specular.toFloat(),
     shininess = shininess.toFloat(),
     color = color,
-    pattern = pattern
+    pattern = pattern,
+    reflective = reflective.toFloat()
 )
 
 data class Material(
@@ -30,7 +32,8 @@ data class Material(
     val specular: Float,
     val shininess: Float,
     val color: Color,
-    val pattern: Pattern?
+    val pattern: Pattern?,
+    val reflective: Float
 ) {
 
     init {
@@ -38,6 +41,7 @@ data class Material(
         require(diffuse in 0.0..1.0) { "diffuse: must be between 0 and 1 was $diffuse" }
         require(specular in 0.0..1.0) { "specular: must be between 0 and 1 was $specular" }
         require(shininess >= 0) { "shininess: 0 or larger was $shininess" }
+        require(reflective in 0.0..1.0) { "reflective: must be between 0 and 1 was $reflective" }
     }
 
     fun lighting(

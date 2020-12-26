@@ -4,12 +4,15 @@ import raytracer.core.shapes.Plane
 import raytracer.core.shapes.Sphere
 import raytracer.math.Matrix
 import raytracer.math.Point
+import raytracer.math.SQUARE_ROOT_OF_2
+import raytracer.math.SQUARE_ROOT_OF_2_OVER_2
 import raytracer.math.Vector
 import raytracer.test.assertFloat3Equals
 import kotlin.js.JsName
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 class WorldTest {
@@ -64,22 +67,6 @@ class WorldTest {
         assertEquals(actual = xs[3].time, expected = 6f)
     }
 
-    @JsName("no_negative_intersects")
-    @Test
-    fun `no negative intersects`() {
-        // test created because planes where causing there to be intersects behind the camera.
-        val plane = Plane(
-            material = Material(
-                specular = 1,
-                color = Color.Red
-            )
-        )
-        val world = World.default.copy(objects = listOf(plane))
-        val ray = Ray(Point(0, 1.5, -5.0000005), Vector(-0.47258344, 0.1591841, 0.86679024))
-        val xs = world.intersect(ray)
-        assertTrue(xs.isEmpty())
-    }
-
     @JsName("Shading_an_intersection")
     @Test
     fun `Shading an intersection`() {
@@ -88,7 +75,7 @@ class WorldTest {
         val shape = w.objects.first()
         val i = Intersection(4, shape)
         val comps = i.prepareComputations(r)
-        val c = w.shadeHit(comps)
+        val c = w.shadeHit(comps, 5)
         assertFloat3Equals(actual = c, expected = Color(0.38066, 0.47583, 0.2855))
     }
 
@@ -108,7 +95,7 @@ class WorldTest {
         val shape = w.objects.take(2).last()
         val i = Intersection(0.5, shape)
         val comps = i.prepareComputations(r)
-        val c = w.shadeHit(comps)
+        val c = w.shadeHit(comps, 5)
         assertFloat3Equals(actual = c, expected = Color(0.90498, 0.90498, 0.90498))
     }
 
@@ -117,7 +104,7 @@ class WorldTest {
     fun `The color when a ray misses`() {
         val w = World.default
         val r = Ray(Point(0, 0, -5), Vector(0, 1, 0))
-        val c = w.colorAt(r)
+        val c = w.colorAt(r, 0)
         assertFloat3Equals(actual = c, expected = Color.Black)
     }
 
@@ -140,7 +127,7 @@ class WorldTest {
         )
 
         val r = Ray(Point(0, 0, 0.75), Vector(0, 0, -1))
-        val c = w.colorAt(r)
+        val c = w.colorAt(r, 0)
         assertFloat3Equals(actual = c, expected = inner.material.color)
     }
 
@@ -198,7 +185,100 @@ class WorldTest {
         val i = Intersection(4, s2)
 
         val comps = i.prepareComputations(r)
-        val c = w.shadeHit(comps)
+        val c = w.shadeHit(comps, 5)
         assertFloat3Equals(actual = c, expected = Color(0.1, 0.1, 0.1))
+    }
+
+    @JsName("The_reflected_color_for_a_nonreflective_material")
+    @Test
+    fun `The reflected color for a nonreflective material`() {
+        val shape = (World.default.objects.last() as Sphere).run {
+            copy(material = material.copy(ambient = 1f))
+        }
+
+        val w = World.default.copy(objects = listOf(shape))
+        val r = Ray(Point(0, 0, 0), Vector(0, 0, 1))
+
+        val i = Intersection(1, shape)
+        val comps = i.prepareComputations(r)
+        val color = w.reflectedColor(comps, 0)
+        assertFloat3Equals(actual = color, expected = Color.Black)
+    }
+
+    @JsName("The_reflected_color_for_a_reflective_material")
+    @Test
+    fun `The reflected color for a reflective material`() {
+        val shape = Plane(
+            material = Material(
+                reflective = 0.5f
+            ),
+            transform = Matrix.translation(0, -1, 0)
+        )
+        val w = World.default.copy(
+            objects = World.default.objects + shape
+        )
+        val r = Ray(
+            Point(0, 0, -3),
+            Vector(0, -SQUARE_ROOT_OF_2_OVER_2, SQUARE_ROOT_OF_2_OVER_2)
+        )
+        val i = Intersection(SQUARE_ROOT_OF_2, shape)
+        val comps = i.prepareComputations(r)
+        val color = w.reflectedColor(comps, 5)
+        assertFloat3Equals(actual = color, expected = Color(0.19032, 0.2379, 0.14274))
+    }
+
+    @JsName("shadeHit_with_a_reflective_material")
+    @Test
+    fun `shadeHit with a reflective material`() {
+        val shape = Plane(
+            material = Material(reflective = 0.5),
+            transform = Matrix.translation(0, -1, 0)
+        )
+        val w = World.default.copy(objects = World.default.objects + shape)
+        val r = Ray(Point(0, 0, -3), Vector(0, -SQUARE_ROOT_OF_2_OVER_2, SQUARE_ROOT_OF_2_OVER_2))
+        val i = Intersection(SQUARE_ROOT_OF_2, shape)
+        val comps = i.prepareComputations(r)
+        val color = w.shadeHit(comps, 5)
+        assertFloat3Equals(actual = color, expected = Color(0.87677, 0.92436, 0.82918))
+    }
+
+    @JsName("colorAt_with_mutually_reflective_surfaces")
+    @Test
+    fun `colorAt with mutually reflective surfaces`() {
+        val lower = Plane(
+            material = Material(reflective = 1),
+            transform = Matrix.translation(0, -1, 0)
+        )
+
+        val upper = Plane(
+            material = Material(reflective = 1),
+            transform = Matrix.translation(0, 1, 0)
+        )
+
+        val w = World.default.copy(
+            lights = listOf(
+                PointLight(Point(0, 0, 0), Color.White)
+            ),
+            objects = listOf(upper, lower)
+        )
+
+        val r = Ray(Point(0, 0, 0), Vector(0, 1, 0))
+        // should finish and not stack over flow
+        assertNotNull(w.colorAt(r, 10))
+    }
+
+    @JsName("The_reflected_color_at_the_maximum_recursive_depth")
+    @Test
+    fun `The reflected color at the maximum recursive depth`() {
+        val shape = Plane(
+            material = Material(reflective = 0.5),
+            transform = Matrix.translation(0, -1, 0)
+        )
+        val w = World.default.copy(objects = World.default.objects + shape)
+        val r = Ray(Point(0, 0, -3), Vector(0, -SQUARE_ROOT_OF_2_OVER_2, SQUARE_ROOT_OF_2_OVER_2))
+        val i = Intersection(SQUARE_ROOT_OF_2, shape)
+        val comps = i.prepareComputations(r)
+        val color = w.reflectedColor(comps, 0)
+        assertFloat3Equals(actual = color, expected = Color.Black)
     }
 }

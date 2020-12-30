@@ -42,6 +42,8 @@ data class Color(
         val Black: Color = Color(0f, 0f, 0f)
         val White: Color = Color(1f, 1f, 1f)
         val Red: Color = Color(1f, 0f, 0f)
+        val Blue: Color = Color(0f, 0f, 1f)
+        val Green: Color = Color(0f, 1f, 0f)
     }
 }
 

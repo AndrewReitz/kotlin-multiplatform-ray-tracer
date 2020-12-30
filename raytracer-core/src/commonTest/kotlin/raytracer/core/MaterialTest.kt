@@ -4,6 +4,7 @@ import raytracer.core.patterns.StripePattern
 import raytracer.math.Point
 import raytracer.math.Vector
 import raytracer.test.assertFloat3Equals
+import raytracer.test.assertFloatsEquals
 import kotlin.js.JsName
 import kotlin.math.sqrt
 import kotlin.test.Test
@@ -108,5 +109,11 @@ class MaterialTest {
         val c2 = m.lighting(light, Point(1.1, 0, 0), eyev, normalv, false)
         assertEquals(actual = c1, expected = Color.White)
         assertEquals(actual = c2, expected = Color.Black)
+    }
+
+    @JsName("Reflectivity_for_the_default_material")
+    @Test
+    fun `Reflectivity for the default material`() {
+        assertFloatsEquals(actual = Material().reflective, expected = 0)
     }
 }

@@ -1,5 +1,6 @@
 package raytracer.core
 
+import raytracer.core.shapes.Plane
 import raytracer.core.shapes.Sphere
 import raytracer.math.EPSILON
 import raytracer.math.Matrix
@@ -7,6 +8,7 @@ import raytracer.math.Point
 import raytracer.math.Vector
 import raytracer.test.assertFloat3Equals
 import kotlin.js.JsName
+import kotlin.math.sqrt
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -85,5 +87,18 @@ class IntersectionTest {
         val comps = i.prepareComputations(r)
         assertTrue(comps.overPoint.z < -EPSILON / 2)
         assertTrue(comps.point.z > comps.overPoint.z)
+    }
+
+    @JsName("Precomputing_the_reflection_vector")
+    @Test
+    fun `Precomputing the reflection vector`() {
+        val shape = Plane()
+        val r = Ray(
+            Point(0, 1, -1),
+            Vector(0, -sqrt(2f) / 2, sqrt(2f) / 2)
+        )
+        val i = Intersection(sqrt(2f), shape)
+        val comps = i.prepareComputations(r)
+        assertFloat3Equals(actual = comps.reflectv, expected = Vector(0, sqrt(2f) / 2, sqrt(2f) / 2))
     }
 }

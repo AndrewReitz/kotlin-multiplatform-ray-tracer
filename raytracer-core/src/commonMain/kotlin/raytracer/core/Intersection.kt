@@ -8,14 +8,17 @@ data class Intersection(val time: Float, val obj: Shape) {
         val normal = obj.normalAt(point)
         val eye = -ray.direction
         val inside = normal dot eye < 0
+        val normalv = if (inside) -normal else normal
+        val reflectv = ray.direction reflect normalv
 
         return Computation(
             time = time,
             obj = obj,
             point = point,
             eyev = -ray.direction,
-            normalv = if (inside) -normal else normal,
-            inside = inside
+            normalv = normalv,
+            inside = inside,
+            reflectv = reflectv
         )
     }
 }

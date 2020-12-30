@@ -68,7 +68,8 @@ class Camera(
             for (x in 0 until hsize) {
                 jobs += launch(Dispatchers.Default) {
                     val ray = rayForPixel(x, y)
-                    val color = world.colorAt(ray)
+                    // can allow passing a value for reflections
+                    val color = world.colorAt(ray, 5)
                     image[x, y] = color
                 }
             }

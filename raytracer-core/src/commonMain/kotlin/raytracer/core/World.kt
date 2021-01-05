@@ -5,6 +5,8 @@ import raytracer.core.shapes.Sphere
 import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.toVector
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 data class World(
     val lights: List<PointLight> = emptyList(),
@@ -20,21 +22,35 @@ data class World(
     )
 
     fun shadeHit(comps: Computation, reflectionsLeft: Int): Color = lights.map {
-        comps.obj.material.lighting(
+        val shadowed = isShadowed(comps.overPoint, it)
+        val material = comps.obj.material
+
+        val surface = material.lighting(
             obj = comps.obj,
             light = it,
             position = comps.overPoint,
             eyev = comps.eyev,
             normalv = comps.normalv,
-            inShadow = isShadowed(comps.overPoint, it)
-        ) + reflectedColor(comps, reflectionsLeft)
+            inShadow = shadowed
+        )
+
+        val reflected = reflectedColor(comps, reflectionsLeft)
+        val refracted = refractedColor(comps, reflectionsLeft)
+
+        if (material.reflective > 0 && material.transparency > 0) {
+            val reflectance = comps.schlick
+            surface + reflected * reflectance + refracted * (1 - reflectance)
+        } else {
+            surface + reflected + refracted
+        }
     }.reduce { sum, color ->
         sum + color
     }
 
     fun colorAt(ray: Ray, reflectionsLeft: Int): Color {
-        val hit = intersect(ray).hit() ?: return Color.Black
-        val comps = hit.prepareComputations(ray)
+        val intersections = intersect(ray)
+        val hit = intersections.hit() ?: return Color.Black
+        val comps = hit.prepareComputations(ray, intersections)
         return shadeHit(comps, reflectionsLeft)
     }
 
@@ -59,6 +75,44 @@ data class World(
         val color = colorAt(reflectRay, reflectionsLeft - 1)
 
         return color * comps.obj.material.reflective
+    }
+
+    fun refractedColor(comps: Computation, refractionLevel: Int): Color {
+        if (comps.obj.material.transparency == 0f) {
+            return Color.Black
+        }
+
+        if (refractionLevel == 0) {
+            return Color.Black
+        }
+
+        // Find the ratio of the first index of refraction to the second.
+        // this is inverted definition of Snell's Law.
+        val nRatio = comps.n1 / comps.n2
+
+        // Cos of theta_i is the same as the dot product of the two vectors
+        val cosI = comps.eyev dot comps.normalv
+
+        // find Sin of theta_t squared via trig identity
+        val sin2T = nRatio.pow(2) * (1 - cosI.pow(2))
+
+        // if sin of theta t squared is greater than 1 we have total internal reflection
+        if (sin2T > 1) {
+            return Color.Black
+        }
+
+        // cos theta t via trig identity
+        val cosT = sqrt(1.0 - sin2T)
+
+        // compute the direction of the refracted ray
+        val direction = comps.normalv * (nRatio * cosI - cosT) - comps.eyev * nRatio
+
+        // create the refracted ray
+        val refractRay = Ray(comps.underPoint, direction)
+
+        // find the color of the refracted ray, making sure to multiply by the
+        // transparency value to account for any opacity
+        return colorAt(refractRay, refractionLevel - 1) * comps.obj.material.transparency
     }
 
     companion object {

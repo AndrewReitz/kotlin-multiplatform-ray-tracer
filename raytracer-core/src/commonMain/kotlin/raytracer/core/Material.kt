@@ -8,6 +8,14 @@ import raytracer.math.Vector3
 import raytracer.math.toVector
 import kotlin.math.pow
 
+/**
+ * Common Refractive Index
+ * Vacuum: 1
+ * Air: 1.00029
+ * Water: 1.333
+ * Glass: 1.52
+ * Diamond: 2.417
+ */
 fun Material(
     ambient: Number = 0.1f,
     diffuse: Number = 0.9f,
@@ -15,7 +23,9 @@ fun Material(
     shininess: Number = 200f,
     color: Color = Color.White,
     pattern: Pattern? = null,
-    reflective: Number = 0
+    reflective: Number = 0,
+    transparency: Number = 0,
+    refractiveIndex: Number = 1
 ) = Material(
     ambient = ambient.toFloat(),
     diffuse = diffuse.toFloat(),
@@ -23,7 +33,9 @@ fun Material(
     shininess = shininess.toFloat(),
     color = color,
     pattern = pattern,
-    reflective = reflective.toFloat()
+    reflective = reflective.toFloat(),
+    transparency = transparency.toFloat(),
+    refractiveIndex = refractiveIndex.toFloat()
 )
 
 data class Material(
@@ -33,7 +45,9 @@ data class Material(
     val shininess: Float,
     val color: Color,
     val pattern: Pattern?,
-    val reflective: Float
+    val reflective: Float,
+    val transparency: Float,
+    val refractiveIndex: Float
 ) {
 
     init {
@@ -42,6 +56,7 @@ data class Material(
         require(specular in 0.0..1.0) { "specular: must be between 0 and 1 was $specular" }
         require(shininess >= 0) { "shininess: 0 or larger was $shininess" }
         require(reflective in 0.0..1.0) { "reflective: must be between 0 and 1 was $reflective" }
+        require(transparency in 0.0..1.0) { "transparency: must be between 0 and 1 was $transparency" }
     }
 
     fun lighting(

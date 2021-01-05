@@ -10,6 +10,16 @@ import raytracer.math.Vector3
 import raytracer.math.toVector
 import kotlin.math.sqrt
 
+fun GlassSphere(
+    center: Point = Point(0, 0, 0),
+    transform: Matrix = Matrix.IDENTITY,
+    material: Material = Material(transparency = 1.0, refractiveIndex = 1.5)
+): Sphere = Sphere(
+    center = center,
+    transform = transform,
+    material = material
+)
+
 data class Sphere(
     val center: Point = Point(0, 0, 0),
     override val transform: Matrix = Matrix.IDENTITY,

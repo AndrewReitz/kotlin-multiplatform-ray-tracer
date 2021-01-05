@@ -18,8 +18,8 @@ fun assertMatrixEquals(vararg nothing: UseNamedArguments, actual: Matrix, expect
     assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected) }
 }
 
-fun assertFloatsEquals(vararg nothing: UseNamedArguments, actual: Float, expected: Number) {
-    assertTrue("Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected.toFloat()) }
+fun assertFloatsEquals(vararg nothing: UseNamedArguments, actual: Float, expected: Number, message: String? = null) {
+    assertTrue(message ?: "$message Expected <$expected>, actual <$actual>.") { actual.fuzzyEquals(expected.toFloat()) }
 }
 
 fun assertFloat3Equals(vararg nothing: UseNamedArguments, actual: Float3, expected: Float3) {

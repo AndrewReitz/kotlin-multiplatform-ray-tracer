@@ -1,5 +1,6 @@
 package raytracer.core
 
+import raytracer.core.shapes.GlassSphere
 import raytracer.core.shapes.Plane
 import raytracer.core.shapes.Sphere
 import raytracer.math.EPSILON
@@ -100,5 +101,19 @@ class IntersectionTest {
         val i = Intersection(sqrt(2f), shape)
         val comps = i.prepareComputations(r)
         assertFloat3Equals(actual = comps.reflectv, expected = Vector(0, sqrt(2f) / 2, sqrt(2f) / 2))
+    }
+
+    @JsName("The_under_point_is_offset_below_the_surface")
+    @Test
+    fun `The under point is offset below the surface`() {
+        val r = Ray(Point(0, 0, -5), Vector(0, 0, 1))
+        val shape = GlassSphere(
+            transform = Matrix.translation(0, 0, 1)
+        )
+        val i = Intersection(5, shape)
+        val xs = Intersections(i)
+        val comps = i.prepareComputations(r, xs)
+        assertTrue(comps.underPoint.z > EPSILON / 2)
+        assertTrue(comps.point.z < comps.underPoint.z)
     }
 }

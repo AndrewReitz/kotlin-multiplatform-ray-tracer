@@ -1,10 +1,13 @@
 package raytracer.core
 
 import raytracer.core.patterns.StripePattern
+import raytracer.core.shapes.GlassSphere
+import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.Vector
 import raytracer.test.assertFloat3Equals
 import raytracer.test.assertFloatsEquals
+import raytracer.test.assertMatrixEquals
 import kotlin.js.JsName
 import kotlin.math.sqrt
 import kotlin.test.Test
@@ -115,5 +118,57 @@ class MaterialTest {
     @Test
     fun `Reflectivity for the default material`() {
         assertFloatsEquals(actual = Material().reflective, expected = 0)
+    }
+
+    @JsName("Transparency_and_Refractive_Index_for_the_default_material")
+    @Test
+    fun `Transparency and Refractive Index for the default material`() {
+        val m = Material()
+        assertFloatsEquals(actual = m.transparency, expected = 0)
+        assertFloatsEquals(actual = m.refractiveIndex, expected = 1)
+    }
+
+    @JsName("A_helper_for_producing_a_sphere_with_a_glassy_material")
+    @Test
+    fun `A helper for producing a sphere with a glassy material`() {
+        val s = GlassSphere()
+        assertMatrixEquals(actual = s.transform, expected = Matrix.IDENTITY)
+        assertFloatsEquals(actual = s.material.transparency, expected = 1)
+        assertFloatsEquals(actual = s.material.refractiveIndex, expected = 1.5)
+    }
+
+    @JsName("Finding_n1_and_n2_at_various_intersections")
+    @Test
+    fun `Finding n1 and n2 at various intersections`() {
+        fun check(index: Int, n1: Number, n2: Number) {
+            val A = GlassSphere(transform = Matrix.scaling(2, 2, 2))
+            val B = GlassSphere(
+                transform = Matrix.translation(0, 0, 0.25),
+                material = Material(refractiveIndex = 2.0, transparency = 1.0)
+            )
+            val C = GlassSphere(
+                transform = Matrix.translation(0, 0, 0.25),
+                material = Material(refractiveIndex = 2.5, transparency = 1.0)
+            )
+            val r = Ray(Point(0, 0, -4), Vector(0, 0, 0.25))
+            val xs = Intersections(
+                Intersection(2, A),
+                Intersection(2.75, B),
+                Intersection(3.25, C),
+                Intersection(4.75, B),
+                Intersection(5.25, C),
+                Intersection(6, A)
+            )
+            val comps = xs[index].prepareComputations(r, xs)
+            assertFloatsEquals(actual = comps.n1, expected = n1, message = "Expected n1:<$n1>, actual <${comps.n1}> at index <$index>.")
+            assertFloatsEquals(actual = comps.n2, expected = n2, message = "Expected n2<$n2>, actual <${comps.n1}> at index <$index>.")
+        }
+
+        check(0, 1.0, 1.5)
+        check(1, 1.5, 2.0)
+        check(2, 2.0, 2.5)
+        check(3, 2.5, 2.5)
+        check(4, 2.5, 1.5)
+        check(5, 1.5, 1.0)
     }
 }

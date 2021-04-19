@@ -1,15 +1,17 @@
 package raytracer.core
 
+import kotlinx.serialization.Serializable
 import raytracer.math.Float3
 
+@Serializable
 data class Color(
     val red: Float,
     val green: Float,
     val blue: Float
 ) : Float3 {
-    override val x = red
-    override val y = green
-    override val z = blue
+    override val x get() = red
+    override val y get() = green
+    override val z get() = blue
 
     operator fun plus(color: Color) = Color(
         red = red + color.red,

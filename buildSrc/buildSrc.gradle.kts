@@ -7,11 +7,8 @@ repositories {
   jcenter()
 }
 
-kotlinDslPluginOptions {
-  experimentalWarning.set(false)
-}
-
 dependencies {
-  implementation(kotlin("stdlib", "1.4.10"))
-  implementation(kotlin("gradle-plugin", "1.4.10"))
+  implementation(kotlin("stdlib", libs.versions.kotlin.get()))
+  implementation(kotlin("gradle-plugin", libs.versions.kotlin.get()))
+  implementation(kotlin("serialization", libs.versions.kotlin.get()))
 }

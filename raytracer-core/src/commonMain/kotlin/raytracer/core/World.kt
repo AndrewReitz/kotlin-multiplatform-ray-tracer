@@ -1,5 +1,6 @@
 package raytracer.core
 
+import kotlinx.serialization.Serializable
 import raytracer.core.shapes.Shape
 import raytracer.core.shapes.Sphere
 import raytracer.math.Matrix
@@ -8,6 +9,7 @@ import raytracer.math.toVector
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+@Serializable
 data class World(
     val lights: List<PointLight> = emptyList(),
     val objects: List<Shape> = emptyList()

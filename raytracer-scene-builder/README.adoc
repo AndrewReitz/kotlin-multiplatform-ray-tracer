@@ -1,0 +1,17 @@
+= Scene Builder
+
+Reads in a kotlin dsl that describes a scene and can either render it to an image using the JVM implementation
+or output the scene to yaml that can be read in by the multiplatform projects to generate an image.
+
+This is currently written for JVM only because there doesn't appear to be a way to load kotlin script files on
+other platforms.
+
+To run execute `run-scene-builder`. Use `run-scene-builder --help to see usage`
+
+Check out `scenes` folder to see sample scene files.
+
+== TODOs
+
+- Better documentation
+- More user friendly interface
+- Possibly better name since this dosn't actually build a scene but rather works on a scene file

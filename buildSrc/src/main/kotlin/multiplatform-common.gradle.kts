@@ -8,7 +8,10 @@ plugins {
 
 kotlin {
   jvm()
-  js { nodejs() }
+  js {
+    nodejs()
+    binaries.executable()
+  }
   linuxX64()
   macosX64()
   mingwX64()
@@ -64,6 +67,9 @@ kotlin {
   }
 }
 
-tasks.withType<KotlinCompile>().configureEach {
-  kotlinOptions.freeCompilerArgs += listOf("-Xno-param-assertions", "-Xno-call-assertions")
+tasks.withType<KotlinCompile> {
+  kotlinOptions {
+    freeCompilerArgs = listOf("-Xno-param-assertions", "-Xno-call-assertions")
+    jvmTarget = "11"
+  }
 }

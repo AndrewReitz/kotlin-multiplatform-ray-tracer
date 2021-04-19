@@ -1,5 +1,6 @@
 package raytracer.core.shapes
 
+import kotlinx.serialization.Serializable
 import raytracer.core.Intersection
 import raytracer.core.Intersections
 import raytracer.core.Material
@@ -20,6 +21,7 @@ fun GlassSphere(
     material = material
 )
 
+@Serializable
 data class Sphere(
     val center: Point = Point(0, 0, 0),
     override val transform: Matrix = Matrix.IDENTITY,

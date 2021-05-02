@@ -1,5 +1,6 @@
 package raytracer.core
 
+import kotlinx.serialization.Serializable
 import raytracer.core.patterns.Pattern
 import raytracer.core.shapes.Shape
 import raytracer.core.shapes.Sphere
@@ -38,6 +39,7 @@ fun Material(
     refractiveIndex = refractiveIndex.toFloat()
 )
 
+@Serializable
 data class Material(
     val ambient: Float,
     val diffuse: Float,

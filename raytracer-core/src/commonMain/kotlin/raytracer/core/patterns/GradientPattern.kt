@@ -1,10 +1,12 @@
 package raytracer.core.patterns
 
+import kotlinx.serialization.Serializable
 import raytracer.core.Color
 import raytracer.math.Matrix
 import raytracer.math.Point
 import kotlin.math.floor
 
+@Serializable
 class GradientPattern(
     private val a: Color,
     private val b: Color,

@@ -5,18 +5,22 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 import raytracer.math.Matrix
 import raytracer.math.Point
 import raytracer.math.toVector
 import kotlin.math.tan
 
+@Serializable
 class Camera(
     val hsize: Int,
     val vsize: Int,
     val fieldOfView: Float,
     val transform: Matrix = Matrix.IDENTITY
 ) {
-    val pixelSize: Float
+    private val _pixelSize: Float
+    // attempt to get around issue with kotlinx.serialization on multiplatform
+    val pixelSize: Float get() = _pixelSize
 
     private val halfWidth: Float
     private val halfHeight: Float
@@ -35,7 +39,7 @@ class Camera(
             halfView * aspect to halfView.toDouble()
         }
 
-        pixelSize = ((tempHalfWidth * 2.0) / hsize).toFloat()
+        _pixelSize = ((tempHalfWidth * 2.0) / hsize).toFloat()
         halfWidth = tempHalfWidth.toFloat()
         halfHeight = tempHalfHeight.toFloat()
     }

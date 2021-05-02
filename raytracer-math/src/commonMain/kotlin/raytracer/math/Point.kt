@@ -1,5 +1,6 @@
 package raytracer.math
 
+import kotlinx.serialization.Serializable
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -8,6 +9,7 @@ fun Point(x: Number, y: Number, z: Number): Point = Point(x.toFloat(), y.toFloat
 
 fun Array<Float>.toPoint(): Point = Point(get(0), get(1), get(2))
 
+@Serializable
 data class Point(
     override val x: Float,
     override val y: Float,

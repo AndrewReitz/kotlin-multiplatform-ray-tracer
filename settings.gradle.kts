@@ -1,9 +1,14 @@
+enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(
   "raytracer-core",
   "raytracer-math",
   "raytracer-math-test",
+  "raytracer-console",
   "raytracer-console-jvm",
-  "raytracer-console"
+  "raytracer-scene-builder",
+  "raytracer-serialization"
 )
 
 rootProject.name = "kotlin-raytracer"

@@ -1,14 +1,19 @@
 package raytracer.math
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
 
+@Serializable
 data class Matrix(
-    val data: Array<Array<Float>>
+    // lists instead of array because kotlin serialization on jvm breaks
+    val data: List<List<Float>>
 ) {
-
-    val size = data.size
+    // native projects blow up if not marked as transient
+    @Transient
+    private val size = data.size
 
     operator fun get(m: Int, n: Int): Float = data[m][n]
 
@@ -17,8 +22,8 @@ data class Matrix(
 
         val self = this
 
-        val newMatrix = Array(size) { m ->
-            Array(size) { n ->
+        val newMatrix = List(size) { m ->
+            List(size) { n ->
                 var result = 0f
                 for (i in data.indices) {
                     result += self[m, i] * other[i, n]
@@ -60,8 +65,8 @@ data class Matrix(
     fun transpose(): Matrix {
         if (this == IDENTITY) return IDENTITY
 
-        val newMatrix = Array(size) { m ->
-            Array(size) { n ->
+        val newMatrix = List(size) { m ->
+            List(size) { n ->
                 data[n][m]
             }
         }
@@ -91,13 +96,13 @@ data class Matrix(
     fun subMatrixOf(mToDrop: Int, nToDrop: Int): Matrix {
 
         var currentM = 0
-        val newMatrix = Array(size - 1) { m ->
+        val newMatrix = List(size - 1) { m ->
             if (m == mToDrop) {
                 ++currentM
             }
 
             var currentN = 0
-            val row = Array(size - 1) { n ->
+            val row = List(size - 1) { n ->
                 if (n == nToDrop) {
                     ++currentN
                 }
@@ -124,8 +129,8 @@ data class Matrix(
     fun inverse(): Matrix {
         if (!isInvertible) throw Exception("Matrix is not invertible and can not be inverted")
 
-        val M2 = Array(size) { m ->
-            Array(size) { n ->
+        val M2 = List(size) { m ->
+            List(size) { n ->
                 val c = cofactor(n, m)
                 c / determinant
             }
@@ -155,13 +160,13 @@ data class Matrix(
 
         other as Matrix
 
-        if (!data.contentDeepEquals(other.data)) return false
+        if (data != other.data) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return data.contentDeepHashCode()
+        return data.hashCode()
     }
 
     companion object {
@@ -217,12 +222,12 @@ data class Matrix(
         }
 
         fun shearing(
-            xToY: Number,
-            xtoZ: Number,
-            yToX: Number,
-            yToZ: Number,
-            zToX: Number,
-            zToY: Number
+            xToY: Number = 0,
+            xtoZ: Number = 0,
+            yToX: Number = 0,
+            yToZ: Number = 0,
+            zToX: Number = 0,
+            zToY: Number = 0
         ): Matrix = Matrix4 {
             r1(1, xToY, xtoZ, 0)
             r2(yToX, 1, yToZ, 0)
@@ -233,29 +238,29 @@ data class Matrix(
 }
 
 class MatrixBuilder4 {
-    private lateinit var row1: Array<Float>
-    private lateinit var row2: Array<Float>
-    private lateinit var row3: Array<Float>
-    private lateinit var row4: Array<Float>
+    private lateinit var row1: List<Float>
+    private lateinit var row2: List<Float>
+    private lateinit var row3: List<Float>
+    private lateinit var row4: List<Float>
 
     fun r1(a11: Number, a12: Number, a13: Number, a14: Number) {
-        row1 = arrayOf(a11.toFloat(), a12.toFloat(), a13.toFloat(), a14.toFloat())
+        row1 = listOf(a11.toFloat(), a12.toFloat(), a13.toFloat(), a14.toFloat())
     }
 
     fun r2(a21: Number, a22: Number, a23: Number, a24: Number) {
-        row2 = arrayOf(a21.toFloat(), a22.toFloat(), a23.toFloat(), a24.toFloat())
+        row2 = listOf(a21.toFloat(), a22.toFloat(), a23.toFloat(), a24.toFloat())
     }
 
     fun r3(a31: Number, a32: Number, a33: Number, a34: Number) {
-        row3 = arrayOf(a31.toFloat(), a32.toFloat(), a33.toFloat(), a34.toFloat())
+        row3 = listOf(a31.toFloat(), a32.toFloat(), a33.toFloat(), a34.toFloat())
     }
 
     fun r4(a41: Number, a42: Number, a43: Number, a44: Number) {
-        row4 = arrayOf(a41.toFloat(), a42.toFloat(), a43.toFloat(), a44.toFloat())
+        row4 = listOf(a41.toFloat(), a42.toFloat(), a43.toFloat(), a44.toFloat())
     }
 
     fun toMatrix(): Matrix {
-        return Matrix(arrayOf(row1, row2, row3, row4))
+        return Matrix(listOf(row1, row2, row3, row4))
     }
 }
 
@@ -267,24 +272,24 @@ fun Matrix4(create: MatrixBuilder4.() -> Unit): Matrix {
 }
 
 class MatrixBuilder3 {
-    private lateinit var row1: Array<Float>
-    private lateinit var row2: Array<Float>
-    private lateinit var row3: Array<Float>
+    private lateinit var row1: List<Float>
+    private lateinit var row2: List<Float>
+    private lateinit var row3: List<Float>
 
     fun r1(a11: Number, a12: Number, a13: Number) {
-        row1 = arrayOf(a11.toFloat(), a12.toFloat(), a13.toFloat())
+        row1 = listOf(a11.toFloat(), a12.toFloat(), a13.toFloat())
     }
 
     fun r2(a21: Number, a22: Number, a23: Number) {
-        row2 = arrayOf(a21.toFloat(), a22.toFloat(), a23.toFloat())
+        row2 = listOf(a21.toFloat(), a22.toFloat(), a23.toFloat())
     }
 
     fun r3(a31: Number, a32: Number, a33: Number) {
-        row3 = arrayOf(a31.toFloat(), a32.toFloat(), a33.toFloat())
+        row3 = listOf(a31.toFloat(), a32.toFloat(), a33.toFloat())
     }
 
     fun toMatrix(): Matrix {
-        return Matrix(arrayOf(row1, row2, row3))
+        return Matrix(listOf(row1, row2, row3))
     }
 }
 
@@ -296,19 +301,19 @@ fun Matrix2(create: MatrixBuilder2.() -> Unit): Matrix {
 }
 
 class MatrixBuilder2 {
-    private lateinit var row1: Array<Float>
-    private lateinit var row2: Array<Float>
+    private lateinit var row1: List<Float>
+    private lateinit var row2: List<Float>
 
     fun r1(a11: Number, a12: Number) {
-        row1 = arrayOf(a11.toFloat(), a12.toFloat())
+        row1 = listOf(a11.toFloat(), a12.toFloat())
     }
 
     fun r2(a21: Number, a22: Number) {
-        row2 = arrayOf(a21.toFloat(), a22.toFloat())
+        row2 = listOf(a21.toFloat(), a22.toFloat())
     }
 
     fun toMatrix(): Matrix {
-        return Matrix(arrayOf(row1, row2))
+        return Matrix(listOf(row1, row2))
     }
 }
 

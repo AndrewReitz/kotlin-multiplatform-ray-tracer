@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Easiest way to test application with arguments.
+# Could be done through gradle but argument passing becomes tedious.
+
+cd "$(dirname "$0")"
+
+../gradlew --quiet ":raytracer-console-jvm:installDist" && "./build/install/raytracer-console-jvm/bin/raytracer-console-jvm" "$@"

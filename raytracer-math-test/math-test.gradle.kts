@@ -6,7 +6,7 @@ kotlin {
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation(project(":raytracer-math"))
+        implementation(projects.raytracerMath)
         implementation(kotlin("test-common"))
       }
     }

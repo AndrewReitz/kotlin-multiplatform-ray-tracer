@@ -92,3 +92,4 @@ data class Vector4(
 fun Vector4(x: Number, y: Number, z: Number, w: Number) = Vector4(x.toFloat(), y.toFloat(), z.toFloat(), w.toFloat())
 
 fun Array<Float>.toVector4(): Vector4 = Vector4(get(0), get(1), get(2), get(3))
+fun List<Float>.toVector4(): Vector4 = Vector4(get(0), get(1), get(2), get(3))

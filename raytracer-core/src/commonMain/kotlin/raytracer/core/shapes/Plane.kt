@@ -1,5 +1,6 @@
 package raytracer.core.shapes
 
+import kotlinx.serialization.Serializable
 import raytracer.core.Intersection
 import raytracer.core.Intersections
 import raytracer.core.Material
@@ -11,6 +12,7 @@ import raytracer.math.Vector
 import raytracer.math.Vector3
 import kotlin.math.abs
 
+@Serializable
 data class Plane(
     override val transform: Matrix = Matrix.IDENTITY,
     override val material: Material = Material()

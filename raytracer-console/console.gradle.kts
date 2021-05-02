@@ -1,4 +1,5 @@
 plugins {
+  application
   id("multiplatform-common")
 }
 
@@ -25,17 +26,18 @@ kotlin {
     }
   }
 
-  js {
-    nodejs()
-  }
-  jvm()
-
   sourceSets {
     val commonMain by getting {
       dependencies {
-        implementation(project(":raytracer-core"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
+        implementation(projects.raytracerCore)
+        implementation(projects.raytracerSerialization)
+        implementation(libs.kotlinx.coroutines)
+        api(libs.clikt)
       }
     }
   }
+}
+
+application {
+  mainClass.set("raytracer.console.MainKt")
 }

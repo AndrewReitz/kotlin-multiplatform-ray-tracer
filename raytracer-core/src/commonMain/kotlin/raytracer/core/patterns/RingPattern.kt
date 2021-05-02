@@ -1,5 +1,6 @@
 package raytracer.core.patterns
 
+import kotlinx.serialization.Serializable
 import raytracer.core.Color
 import raytracer.math.Matrix
 import raytracer.math.Point
@@ -7,6 +8,7 @@ import raytracer.math.isEven
 import kotlin.math.floor
 import kotlin.math.sqrt
 
+@Serializable
 class RingPattern(
     private val a: Color,
     private val b: Color,
